@@ -1,1 +1,1 @@
-# Nuxt-CSS-Library-Boilerplate
+# Nuxt-CSS-Library-Boilerplate# Configuration-Starter-Boilerplate
