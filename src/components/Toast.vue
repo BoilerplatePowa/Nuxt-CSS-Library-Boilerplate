@@ -43,16 +43,14 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
-interface Props {
+const props = withDefaults(defineProps<{
   type?: 'success' | 'error' | 'warning' | 'info'
   title?: string
   message: string
   duration?: number
   closable?: boolean
   persistent?: boolean
-}
-
-const props = withDefaults(defineProps<Props>(), {
+}>(), {
   type: 'info',
   duration: 5000,
   closable: true,
