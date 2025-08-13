@@ -19,10 +19,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@boilerplatepowa'
           cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
+        env:
+          PACKAGE_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
 
       - name: Build Storybook
         run: npm run build-storybook
