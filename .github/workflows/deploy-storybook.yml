@@ -28,12 +28,12 @@ jobs:
         env:
           PACKAGE_TOKEN: ${{ secrets.PACKAGE_TOKEN }}
 
-      - name: Build Storybook
-        run: npm run build-storybook
+      # - name: Build Storybook
+      #   run: npm run build-storybook
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.PACKAGE_TOKEN }}
-          publish_dir: ./storybook-static
-          destination_dir: .
+      # - name: Deploy to GitHub Pages
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.PACKAGE_TOKEN }}
+      #     publish_dir: ./storybook-static
+      #     destination_dir: .
