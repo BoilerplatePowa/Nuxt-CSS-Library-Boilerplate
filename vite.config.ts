@@ -8,7 +8,7 @@ export default defineConfig({
     vue(),
     dts({
       insertTypesEntry: true,
-      rollupTypes: true,
+      rollupTypes: false, // Disable API Extractor to avoid config issues
       copyDtsFiles: true,
       include: ['src/**/*'],
       exclude: ['**/*.test.ts', '**/*.stories.ts'],
