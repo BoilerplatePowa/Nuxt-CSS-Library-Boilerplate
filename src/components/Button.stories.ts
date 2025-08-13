@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import Button from './Button.vue'
+import type { Meta, StoryObj } from '@storybook/vue3';
+import Button from './Button.vue';
 
 const meta: Meta<typeof Button> = {
   title: 'Components/Button',
@@ -8,192 +8,192 @@ const meta: Meta<typeof Button> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A flexible button component with multiple variants and sizes.'
-      }
-    }
+        component: 'A flexible button component with multiple variants and sizes.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
     variant: {
       control: { type: 'select' },
       options: ['primary', 'secondary', 'accent', 'ghost', 'outline', 'link'],
-      description: 'Button variant'
+      description: 'Button variant',
     },
     size: {
       control: { type: 'select' },
       options: ['xs', 'sm', 'md', 'lg'],
-      description: 'Button size'
+      description: 'Button size',
     },
     disabled: {
       control: { type: 'boolean' },
-      description: 'Disabled state'
+      description: 'Disabled state',
     },
     loading: {
       control: { type: 'boolean' },
-      description: 'Loading state'
+      description: 'Loading state',
     },
     fullWidth: {
       control: { type: 'boolean' },
-      description: 'Full width'
+      description: 'Full width',
     },
     onClick: {
       action: 'clicked',
-      description: 'Click event'
-    }
-  }
-}
+      description: 'Click event',
+    },
+  },
+};
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
-    variant: 'primary'
+    variant: 'primary',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Button },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Button v-bind="args">Primary Button</Button>'
-  })
-}
+    template: '<Button v-bind="args">Primary Button</Button>',
+  }),
+};
 
 export const Secondary: Story = {
   args: {
-    variant: 'secondary'
+    variant: 'secondary',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Button },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Button v-bind="args">Secondary Button</Button>'
-  })
-}
+    template: '<Button v-bind="args">Secondary Button</Button>',
+  }),
+};
 
 export const Accent: Story = {
   args: {
-    variant: 'accent'
+    variant: 'accent',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Button },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Button v-bind="args">Accent Button</Button>'
-  })
-}
+    template: '<Button v-bind="args">Accent Button</Button>',
+  }),
+};
 
 export const Ghost: Story = {
   args: {
-    variant: 'ghost'
+    variant: 'ghost',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Button },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Button v-bind="args">Ghost Button</Button>'
-  })
-}
+    template: '<Button v-bind="args">Ghost Button</Button>',
+  }),
+};
 
 export const Outline: Story = {
   args: {
-    variant: 'outline'
+    variant: 'outline',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Button },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Button v-bind="args">Outline Button</Button>'
-  })
-}
+    template: '<Button v-bind="args">Outline Button</Button>',
+  }),
+};
 
 export const Link: Story = {
   args: {
-    variant: 'link'
+    variant: 'link',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Button },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Button v-bind="args">Link Button</Button>'
-  })
-}
+    template: '<Button v-bind="args">Link Button</Button>',
+  }),
+};
 
 export const Small: Story = {
   args: {
-    size: 'sm'
+    size: 'sm',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Button },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Button v-bind="args">Small Button</Button>'
-  })
-}
+    template: '<Button v-bind="args">Small Button</Button>',
+  }),
+};
 
 export const Large: Story = {
   args: {
-    size: 'lg'
+    size: 'lg',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Button },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Button v-bind="args">Large Button</Button>'
-  })
-}
+    template: '<Button v-bind="args">Large Button</Button>',
+  }),
+};
 
 export const Disabled: Story = {
   args: {
-    disabled: true
+    disabled: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Button },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Button v-bind="args">Disabled Button</Button>'
-  })
-}
+    template: '<Button v-bind="args">Disabled Button</Button>',
+  }),
+};
 
 export const Loading: Story = {
   args: {
-    loading: true
+    loading: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Button },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Button v-bind="args">Loading...</Button>'
-  })
-}
+    template: '<Button v-bind="args">Loading...</Button>',
+  }),
+};
 
 export const FullWidth: Story = {
   args: {
-    fullWidth: true
+    fullWidth: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Button },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Button v-bind="args">Full Width Button</Button>'
-  })
-}
+    template: '<Button v-bind="args">Full Width Button</Button>',
+  }),
+};
 
 export const WithIcons: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Button },
     setup() {
-      return { args }
+      return { args };
     },
     template: `
       <Button v-bind="args">
@@ -205,9 +205,9 @@ export const WithIcons: Story = {
           <span>→</span>
         </template>
       </Button>
-    `
-  })
-}
+    `,
+  }),
+};
 
 export const AllVariants: Story = {
   render: () => ({
@@ -229,6 +229,6 @@ export const AllVariants: Story = {
           <Button size="lg">LG</Button>
         </div>
       </div>
-    `
-  })
-}
+    `,
+  }),
+};

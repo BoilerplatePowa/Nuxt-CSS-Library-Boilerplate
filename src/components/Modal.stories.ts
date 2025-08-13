@@ -1,7 +1,7 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import { ref } from 'vue'
-import Modal from './Modal.vue'
-import Button from './Button.vue'
+import type { Meta, StoryObj } from '@storybook/vue3';
+import { ref } from 'vue';
+import Modal from './Modal.vue';
+import Button from './Button.vue';
 
 const meta: Meta<typeof Modal> = {
   title: 'Components/Modal',
@@ -10,52 +10,57 @@ const meta: Meta<typeof Modal> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A flexible modal component with accessibility features, keyboard navigation, and customizable sizes.'
-      }
-    }
+        component:
+          'A flexible modal component with accessibility features, keyboard navigation, and customizable sizes.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
     size: {
       control: { type: 'select' },
       options: ['sm', 'md', 'lg', 'xl', 'full'],
-      description: 'Modal size'
+      description: 'Modal size',
     },
     title: {
       control: { type: 'text' },
-      description: 'Modal title'
+      description: 'Modal title',
     },
     closable: {
       control: { type: 'boolean' },
-      description: 'Show close button'
+      description: 'Show close button',
     },
     closeOnOverlay: {
       control: { type: 'boolean' },
-      description: 'Close when clicking overlay'
+      description: 'Close when clicking overlay',
     },
     closeOnEsc: {
       control: { type: 'boolean' },
-      description: 'Close when pressing Escape'
+      description: 'Close when pressing Escape',
     },
     persistent: {
       control: { type: 'boolean' },
-      description: 'Prevent closing'
-    }
-  }
-}
+      description: 'Prevent closing',
+    },
+  },
+};
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Modal, Button },
     setup() {
-      const isOpen = ref(false)
-      const openModal = () => { isOpen.value = true }
-      const closeModal = () => { isOpen.value = false }
-      
-      return { args, isOpen, openModal, closeModal }
+      const isOpen = ref(false);
+      const openModal = () => {
+        isOpen.value = true;
+      };
+      const closeModal = () => {
+        isOpen.value = false;
+      };
+
+      return { args, isOpen, openModal, closeModal };
     },
     template: `
       <div>
@@ -70,19 +75,23 @@ export const Default: Story = {
           <p>This is a basic modal with some content. You can close it by clicking the X button, pressing Escape, or clicking outside the modal.</p>
         </Modal>
       </div>
-    `
-  })
-}
+    `,
+  }),
+};
 
 export const WithFooter: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Modal, Button },
     setup() {
-      const isOpen = ref(false)
-      const openModal = () => { isOpen.value = true }
-      const closeModal = () => { isOpen.value = false }
-      
-      return { args, isOpen, openModal, closeModal }
+      const isOpen = ref(false);
+      const openModal = () => {
+        isOpen.value = true;
+      };
+      const closeModal = () => {
+        isOpen.value = false;
+      };
+
+      return { args, isOpen, openModal, closeModal };
     },
     template: `
       <div>
@@ -102,19 +111,23 @@ export const WithFooter: Story = {
           </template>
         </Modal>
       </div>
-    `
-  })
-}
+    `,
+  }),
+};
 
 export const CustomHeader: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Modal, Button },
     setup() {
-      const isOpen = ref(false)
-      const openModal = () => { isOpen.value = true }
-      const closeModal = () => { isOpen.value = false }
-      
-      return { args, isOpen, openModal, closeModal }
+      const isOpen = ref(false);
+      const openModal = () => {
+        isOpen.value = true;
+      };
+      const closeModal = () => {
+        isOpen.value = false;
+      };
+
+      return { args, isOpen, openModal, closeModal };
     },
     template: `
       <div>
@@ -139,9 +152,9 @@ export const CustomHeader: Story = {
           <p>This modal has a custom header with an icon and styling.</p>
         </Modal>
       </div>
-    `
-  })
-}
+    `,
+  }),
+};
 
 export const Sizes: Story = {
   render: () => ({
@@ -152,18 +165,18 @@ export const Sizes: Story = {
         md: false,
         lg: false,
         xl: false,
-        full: false
-      })
-      
+        full: false,
+      });
+
       const openModal = (size: string) => {
-        modals.value[size as keyof typeof modals.value] = true
-      }
-      
+        modals.value[size as keyof typeof modals.value] = true;
+      };
+
       const closeModal = (size: string) => {
-        modals.value[size as keyof typeof modals.value] = false
-      }
-      
-      return { modals, openModal, closeModal }
+        modals.value[size as keyof typeof modals.value] = false;
+      };
+
+      return { modals, openModal, closeModal };
     },
     template: `
       <div class="space-x-2">
@@ -193,19 +206,23 @@ export const Sizes: Story = {
           <p>This is a full screen modal that takes up the entire viewport. Perfect for complex workflows or detailed forms.</p>
         </Modal>
       </div>
-    `
-  })
-}
+    `,
+  }),
+};
 
 export const Persistent: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Modal, Button },
     setup() {
-      const isOpen = ref(false)
-      const openModal = () => { isOpen.value = true }
-      const closeModal = () => { isOpen.value = false }
-      
-      return { args, isOpen, openModal, closeModal }
+      const isOpen = ref(false);
+      const openModal = () => {
+        isOpen.value = true;
+      };
+      const closeModal = () => {
+        isOpen.value = false;
+      };
+
+      return { args, isOpen, openModal, closeModal };
     },
     template: `
       <div>
@@ -228,6 +245,6 @@ export const Persistent: Story = {
           </template>
         </Modal>
       </div>
-    `
-  })
-}
+    `,
+  }),
+};

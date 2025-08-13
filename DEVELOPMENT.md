@@ -3,11 +3,13 @@
 ## 🚀 Quick Start
 
 ### Installation
+
 ```bash
 npm install
 ```
 
 ### Development
+
 ```bash
 # Launch Storybook (recommended for development)
 npm run dev:storybook
@@ -17,6 +19,7 @@ npm run dev
 ```
 
 ### Testing
+
 ```bash
 # Unit tests
 npm test
@@ -29,6 +32,7 @@ npm run test:coverage
 ```
 
 ### Linting & Formatting
+
 ```bash
 # Linting
 npm run lint
@@ -75,22 +79,18 @@ src/
 
 <script setup lang="ts">
 interface Props {
-  variant?: 'default' | 'primary'
-  size?: 'sm' | 'md' | 'lg'
+  variant?: 'default' | 'primary';
+  size?: 'sm' | 'md' | 'lg';
 }
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'default',
-  size: 'md'
-})
+  size: 'md',
+});
 
 const componentClasses = computed(() => {
-  return [
-    'component-base',
-    `component-${props.variant}`,
-    `component-${props.size}`
-  ].join(' ')
-})
+  return ['component-base', `component-${props.variant}`, `component-${props.size}`].join(' ');
+});
 </script>
 ```
 
@@ -104,6 +104,7 @@ const componentClasses = computed(() => {
 ## 📦 Publishing
 
 ### Prepare a new version
+
 ```bash
 # Increment version
 npm version patch|minor|major
@@ -116,6 +117,7 @@ git push --tags
 ```
 
 ### Manual publishing
+
 ```bash
 npm publish
 ```
@@ -123,16 +125,18 @@ npm publish
 ## 🔧 Configuration
 
 ### Environment variables
+
 ```bash
 # .env.local
-GITHUB_TOKEN=your_github_token
+PACKAGE_TOKEN=your_github_token
 ```
 
 ### Local configuration
+
 ```bash
 # .npmrc
 @boilerplatepowa:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+//npm.pkg.github.com/:_authToken=${PACKAGE_TOKEN}
 ```
 
 ## 🐛 Debugging
@@ -167,4 +171,4 @@ npm run lint
 - [Nuxt 3 Documentation](https://nuxt.com/)
 - [Storybook Documentation](https://storybook.js.org/)
 - [TailwindCSS Documentation](https://tailwindcss.com/)
-- [DaisyUI Documentation](https://daisyui.com/) 
+- [DaisyUI Documentation](https://daisyui.com/)

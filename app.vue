@@ -10,7 +10,7 @@ import { useHead } from 'nuxt/app';
 // Default theme configuration
 useHead({
   htmlAttrs: {
-    'data-theme': 'boilerplate-light'
-  }
-})
-</script> 
+    'data-theme': 'boilerplate-light',
+  },
+});
+</script>

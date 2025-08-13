@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/vue3'
-import Card from './Card.vue'
-import Button from './Button.vue'
+import type { Meta, StoryObj } from '@storybook/vue3';
+import Card from './Card.vue';
+import Button from './Button.vue';
 
 const meta: Meta<typeof Card> = {
   title: 'Components/Card',
@@ -9,65 +9,65 @@ const meta: Meta<typeof Card> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A flexible card component with optional header, body and footer.'
-      }
-    }
+        component: 'A flexible card component with optional header, body and footer.',
+      },
+    },
   },
   tags: ['autodocs'],
   argTypes: {
     title: {
       control: { type: 'text' },
-      description: 'Card title'
+      description: 'Card title',
     },
     variant: {
       control: { type: 'select' },
       options: ['default', 'bordered', 'glass'],
-      description: 'Card variant'
+      description: 'Card variant',
     },
     padding: {
       control: { type: 'select' },
       options: ['none', 'sm', 'md', 'lg'],
-      description: 'Card padding'
+      description: 'Card padding',
     },
     shadow: {
       control: { type: 'select' },
       options: ['none', 'sm', 'md', 'lg', 'xl'],
-      description: 'Card shadow'
-    }
-  }
-}
+      description: 'Card shadow',
+    },
+  },
+};
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Card },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Card v-bind="args">Card content with simple text.</Card>'
-  })
-}
+    template: '<Card v-bind="args">Card content with simple text.</Card>',
+  }),
+};
 
 export const WithTitle: Story = {
   args: {
-    title: 'Card Title'
+    title: 'Card Title',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Card },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Card v-bind="args">This card has a title defined via the title prop.</Card>'
-  })
-}
+    template: '<Card v-bind="args">This card has a title defined via the title prop.</Card>',
+  }),
+};
 
 export const CustomHeader: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Card },
     setup() {
-      return { args }
+      return { args };
     },
     template: `
       <Card v-bind="args">
@@ -79,15 +79,15 @@ export const CustomHeader: Story = {
         </template>
         Card content with custom header.
       </Card>
-    `
-  })
-}
+    `,
+  }),
+};
 
 export const WithFooter: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Card, Button },
     setup() {
-      return { args }
+      return { args };
     },
     template: `
       <Card v-bind="args">
@@ -97,99 +97,101 @@ export const WithFooter: Story = {
           <Button variant="secondary" size="sm">Cancel</Button>
         </template>
       </Card>
-    `
-  })
-}
+    `,
+  }),
+};
 
 export const Bordered: Story = {
   args: {
     variant: 'bordered',
-    title: 'Bordered Card'
+    title: 'Bordered Card',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Card },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Card v-bind="args">This card uses the bordered variant with a visible border.</Card>'
-  })
-}
+    template:
+      '<Card v-bind="args">This card uses the bordered variant with a visible border.</Card>',
+  }),
+};
 
 export const Glass: Story = {
   args: {
     variant: 'glass',
-    title: 'Glass Card'
+    title: 'Glass Card',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Card },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Card v-bind="args">This card uses the glass variant with a transparency effect.</Card>'
-  })
-}
+    template:
+      '<Card v-bind="args">This card uses the glass variant with a transparency effect.</Card>',
+  }),
+};
 
 export const NoShadow: Story = {
   args: {
     shadow: 'none',
-    title: 'No Shadow'
+    title: 'No Shadow',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Card },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Card v-bind="args">This card has no shadow.</Card>'
-  })
-}
+    template: '<Card v-bind="args">This card has no shadow.</Card>',
+  }),
+};
 
 export const LargeShadow: Story = {
   args: {
     shadow: 'xl',
-    title: 'Large Shadow'
+    title: 'Large Shadow',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Card },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Card v-bind="args">This card has a very pronounced shadow.</Card>'
-  })
-}
+    template: '<Card v-bind="args">This card has a very pronounced shadow.</Card>',
+  }),
+};
 
 export const NoPadding: Story = {
   args: {
     padding: 'none',
-    title: 'No Padding'
+    title: 'No Padding',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Card },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Card v-bind="args">This card has no internal padding.</Card>'
-  })
-}
+    template: '<Card v-bind="args">This card has no internal padding.</Card>',
+  }),
+};
 
 export const LargePadding: Story = {
   args: {
     padding: 'lg',
-    title: 'Large Padding'
+    title: 'Large Padding',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Card },
     setup() {
-      return { args }
+      return { args };
     },
-    template: '<Card v-bind="args">This card has significant padding.</Card>'
-  })
-}
+    template: '<Card v-bind="args">This card has significant padding.</Card>',
+  }),
+};
 
 export const ComplexCard: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Card, Button },
     setup() {
-      return { args }
+      return { args };
     },
     template: `
       <Card v-bind="args" title="User Profile" variant="bordered">
@@ -225,9 +227,9 @@ export const ComplexCard: Story = {
           </div>
         </template>
       </Card>
-    `
-  })
-}
+    `,
+  }),
+};
 
 export const AllVariants: Story = {
   render: () => ({
@@ -246,6 +248,6 @@ export const AllVariants: Story = {
           Glass card
         </Card>
       </div>
-    `
-  })
-}
+    `,
+  }),
+};

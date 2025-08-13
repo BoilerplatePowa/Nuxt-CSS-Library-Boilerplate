@@ -1,5 +1,5 @@
-import type { Preview } from '@storybook/vue3'
-import '../src/assets/css/main.css'
+import type { Preview } from '@storybook/vue3';
+import '../src/assets/css/main.css';
 
 const preview: Preview = {
   parameters: {
@@ -7,23 +7,23 @@ const preview: Preview = {
     controls: {
       matchers: {
         color: /(background|color)$/i,
-        date: /Date$/i
-      }
+        date: /Date$/i,
+      },
     },
     backgrounds: {
       default: 'light',
       values: [
         {
           name: 'light',
-          value: '#ffffff'
+          value: '#ffffff',
         },
         {
           name: 'dark',
-          value: '#0f172a'
-        }
-      ]
-    }
-  }
-}
+          value: '#0f172a',
+        },
+      ],
+    },
+  },
+};
 
-export default preview 
+export default preview;

@@ -16,7 +16,7 @@ A complete Design System for Nuxt 3 with TailwindCSS, DaisyUI and Storybook.
 
 ### Prerequisites
 
-- Node.js 22+ 
+- Node.js 22+
 - npm 10+
 
 ### Package Installation
@@ -34,6 +34,7 @@ This package is published on GitHub Packages. You need to authenticate:
    - Create a token with `read:packages` permissions
 
 2. **Configure npm**:
+
    ```bash
    npm login --registry=https://npm.pkg.github.com
    # Use your GitHub username and token as password
@@ -42,7 +43,7 @@ This package is published on GitHub Packages. You need to authenticate:
 3. **Or create a .npmrc**:
    ```
    @boilerplatepowa:registry=https://npm.pkg.github.com
-   //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
+   //npm.pkg.github.com/:_authToken=${PACKAGE_TOKEN}
    ```
 
 ## 🔧 Configuration
@@ -51,15 +52,13 @@ This package is published on GitHub Packages. You need to authenticate:
 
 ```typescript
 export default defineNuxtConfig({
-  modules: [
-    '@boilerplatepowa/nuxt-design-system'
-  ],
+  modules: ['@boilerplatepowa/nuxt-design-system'],
   designSystem: {
     prefix: 'Bp', // Component prefix (optional)
     components: true, // Auto-register components
-    css: true // Include global CSS
-  }
-})
+    css: true, // Include global CSS
+  },
+});
 ```
 
 ### TailwindCSS Configuration
@@ -74,22 +73,20 @@ module.exports = {
     './layouts/**/*.vue',
     './pages/**/*.vue',
     './plugins/**/*.{js,ts}',
-    './app.vue'
+    './app.vue',
   ],
   theme: {
     extend: {
       // Your custom extensions
-    }
+    },
   },
-  plugins: [
-    require('daisyui')
-  ],
+  plugins: [require('daisyui')],
   daisyui: {
     themes: [
       // Design system themes are automatically added
-    ]
-  }
-}
+    ],
+  },
+};
 ```
 
 ## 🎨 Usage
@@ -100,13 +97,12 @@ module.exports = {
 
 ```vue
 <template>
-  <BpButton variant="primary" size="md" @click="handleClick">
-    Click me
-  </BpButton>
+  <BpButton variant="primary" size="md" @click="handleClick"> Click me </BpButton>
 </template>
 ```
 
 **Props:**
+
 - `variant`: `'primary' | 'secondary' | 'accent' | 'ghost' | 'outline' | 'link'`
 - `size`: `'xs' | 'sm' | 'md' | 'lg'`
 - `disabled`: `boolean`
@@ -120,7 +116,7 @@ module.exports = {
 <template>
   <BpCard title="My Title" variant="bordered">
     <p>Card content</p>
-    
+
     <template #footer>
       <BpButton variant="primary">Action</BpButton>
     </template>
@@ -129,12 +125,14 @@ module.exports = {
 ```
 
 **Props:**
+
 - `title`: `string`
 - `variant`: `'default' | 'bordered' | 'glass'`
 - `padding`: `'none' | 'sm' | 'md' | 'lg'`
 - `shadow`: `'none' | 'sm' | 'md' | 'lg' | 'xl'`
 
 **Slots:**
+
 - `default`: Main content
 - `header`: Custom header
 - `footer`: Footer with actions
@@ -159,13 +157,13 @@ To change theme:
 You can import design tokens:
 
 ```typescript
-import { tailwindTokens, daisyuiThemes } from '@boilerplatepowa/nuxt-design-system'
+import { tailwindTokens, daisyuiThemes } from '@boilerplatepowa/nuxt-design-system';
 
 // Use colors
-const primaryColor = tailwindTokens.colors.primary[500]
+const primaryColor = tailwindTokens.colors.primary[500];
 
 // Use themes
-const lightTheme = daisyuiThemes['boilerplate-light']
+const lightTheme = daisyuiThemes['boilerplate-light'];
 ```
 
 ## 📚 Storybook
@@ -247,11 +245,13 @@ Configuration is automatically installed via the `postinstall` script.
 ### Prepare for Publishing
 
 1. **Update version**:
+
    ```bash
    npm version patch|minor|major
    ```
 
 2. **Build package**:
+
    ```bash
    npm run build
    ```
@@ -264,6 +264,7 @@ Configuration is automatically installed via the `postinstall` script.
 ### Publishing Configuration
 
 The `package.json` is configured to:
+
 - Publish to GitHub Packages
 - Include only necessary files (`dist`, configs)
 - Support ESM and CJS
@@ -324,4 +325,4 @@ For any questions or issues:
 
 ---
 
-Developed with ❤️ by BoilerplatePowa 
+Developed with ❤️ by BoilerplatePowa

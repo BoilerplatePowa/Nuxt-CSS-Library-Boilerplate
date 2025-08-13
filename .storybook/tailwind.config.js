@@ -1,9 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    '../src/**/*.{vue,js,ts,jsx,tsx}',
-    './**/*.{js,ts,jsx,tsx}'
-  ],
+  content: ['../src/**/*.{vue,js,ts,jsx,tsx}', './**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
@@ -18,7 +15,7 @@ module.exports = {
           700: '#1d4ed8',
           800: '#1e40af',
           900: '#1e3a8a',
-          950: '#172554'
+          950: '#172554',
         },
         secondary: {
           50: '#f8fafc',
@@ -31,35 +28,33 @@ module.exports = {
           700: '#334155',
           800: '#1e293b',
           900: '#0f172a',
-          950: '#020617'
-        }
-      }
-    }
+          950: '#020617',
+        },
+      },
+    },
   },
-  plugins: [
-    require('daisyui')
-  ],
+  plugins: [require('daisyui')],
   daisyui: {
     themes: [
       {
         'boilerplate-light': {
-          'primary': '#3b82f6',
+          primary: '#3b82f6',
           'primary-focus': '#2563eb',
           'primary-content': '#ffffff',
-          'secondary': '#64748b',
+          secondary: '#64748b',
           'secondary-focus': '#475569',
           'secondary-content': '#ffffff',
           'base-100': '#ffffff',
           'base-200': '#f8fafc',
           'base-300': '#f1f5f9',
-          'base-content': '#1e293b'
-        }
-      }
+          'base-content': '#1e293b',
+        },
+      },
     ],
     base: true,
     styled: true,
     utils: true,
     prefix: '',
-    logs: false
-  }
-} 
+    logs: false,
+  },
+};

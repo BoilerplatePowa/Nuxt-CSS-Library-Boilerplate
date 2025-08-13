@@ -5,11 +5,11 @@
         <h3 v-if="title" class="card-title">{{ title }}</h3>
       </slot>
     </div>
-    
+
     <div class="card-body">
       <slot />
     </div>
-    
+
     <div v-if="$slots.footer" class="card-actions justify-end">
       <slot name="footer" />
     </div>
@@ -17,47 +17,47 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 interface Props {
-  title?: string
-  variant?: 'default' | 'bordered' | 'glass'
-  padding?: 'none' | 'sm' | 'md' | 'lg'
-  shadow?: 'none' | 'sm' | 'md' | 'lg' | 'xl'
+  title?: string;
+  variant?: 'default' | 'bordered' | 'glass';
+  padding?: 'none' | 'sm' | 'md' | 'lg';
+  shadow?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'default',
   padding: 'md',
-  shadow: 'md'
-})
+  shadow: 'md',
+});
 
 const cardClasses = computed(() => {
-  const baseClasses = ['card']
-  
+  const baseClasses = ['card'];
+
   // Variant
   if (props.variant === 'bordered') {
-    baseClasses.push('card-bordered')
+    baseClasses.push('card-bordered');
   } else if (props.variant === 'glass') {
-    baseClasses.push('card-glass')
+    baseClasses.push('card-glass');
   }
-  
+
   // Shadow
   if (props.shadow !== 'none') {
-    baseClasses.push(`shadow-${props.shadow}`)
+    baseClasses.push(`shadow-${props.shadow}`);
   }
-  
+
   // Padding
   if (props.padding === 'none') {
-    baseClasses.push('p-0')
+    baseClasses.push('p-0');
   } else if (props.padding === 'sm') {
-    baseClasses.push('p-2')
+    baseClasses.push('p-2');
   } else if (props.padding === 'lg') {
-    baseClasses.push('p-6')
+    baseClasses.push('p-6');
   }
-  
-  return baseClasses.join(' ')
-})
+
+  return baseClasses.join(' ');
+});
 </script>
 
 <style scoped lang="postcss">
@@ -92,4 +92,4 @@ const cardClasses = computed(() => {
 .card-bordered {
   @apply border border-base-300;
 }
-</style> 
+</style>

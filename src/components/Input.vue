@@ -4,10 +4,10 @@
       {{ label }}
       <span v-if="required" class="text-red-500 ml-1" aria-label="required">*</span>
     </label>
-    
+
     <div :class="inputContainerClasses">
       <slot name="prefix" />
-      
+
       <input
         :id="inputId"
         :value="modelValue"
@@ -25,14 +25,14 @@
         @focus="handleFocus"
         @blur="handleBlur"
       />
-      
+
       <slot name="suffix" />
     </div>
-    
+
     <p v-if="helpText && !errorMessage" :id="`${inputId}-help`" class="mt-1 text-sm text-gray-600">
       {{ helpText }}
     </p>
-    
+
     <p v-if="errorMessage" :id="`${inputId}-error`" class="mt-1 text-sm text-red-600" role="alert">
       {{ errorMessage }}
     </p>
@@ -40,26 +40,26 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 // Simple ID generator for compatibility
-let idCounter = 0
-const generateId = () => `input-${++idCounter}`
+let idCounter = 0;
+const generateId = () => `input-${++idCounter}`;
 
 interface Props {
-  modelValue?: string | number
-  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search'
-  label?: string
-  placeholder?: string
-  helpText?: string
-  errorMessage?: string
-  disabled?: boolean
-  readonly?: boolean
-  required?: boolean
-  invalid?: boolean
-  size?: 'sm' | 'md' | 'lg'
-  variant?: 'default' | 'filled' | 'outline'
-  ariaDescribedby?: string
+  modelValue?: string | number;
+  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search';
+  label?: string;
+  placeholder?: string;
+  helpText?: string;
+  errorMessage?: string;
+  disabled?: boolean;
+  readonly?: boolean;
+  required?: boolean;
+  invalid?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'default' | 'filled' | 'outline';
+  ariaDescribedby?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -69,20 +69,20 @@ const props = withDefaults(defineProps<Props>(), {
   required: false,
   invalid: false,
   size: 'md',
-  variant: 'default'
-})
+  variant: 'default',
+});
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string | number]
-  input: [event: Event]
-  change: [event: Event]
-  focus: [event: FocusEvent]
-  blur: [event: FocusEvent]
-}>()
+  'update:modelValue': [value: string | number];
+  input: [event: Event];
+  change: [event: Event];
+  focus: [event: FocusEvent];
+  blur: [event: FocusEvent];
+}>();
 
-const inputId = generateId()
+const inputId = generateId();
 
-const wrapperClasses = computed(() => ['form-control', 'w-full'])
+const wrapperClasses = computed(() => ['form-control', 'w-full']);
 
 const labelClasses = computed(() => [
   'label',
@@ -90,79 +90,69 @@ const labelClasses = computed(() => [
   'font-medium',
   'text-gray-700',
   'mb-1',
-  'block'
-])
+  'block',
+]);
 
-const inputContainerClasses = computed(() => [
-  'relative',
-  'flex',
-  'items-center'
-])
+const inputContainerClasses = computed(() => ['relative', 'flex', 'items-center']);
 
 const inputClasses = computed(() => {
-  const baseClasses = [
-    'input',
-    'w-full',
-    'transition-colors',
-    'duration-200',
-    'ease-in-out'
-  ]
-  
+  const baseClasses = ['input', 'w-full', 'transition-colors', 'duration-200', 'ease-in-out'];
+
   // Size
   if (props.size === 'sm') {
-    baseClasses.push('input-sm')
+    baseClasses.push('input-sm');
   } else if (props.size === 'lg') {
-    baseClasses.push('input-lg')
+    baseClasses.push('input-lg');
   } else {
-    baseClasses.push('input-md')
+    baseClasses.push('input-md');
   }
-  
+
   // Variant
   if (props.variant === 'filled') {
-    baseClasses.push('input-filled')
+    baseClasses.push('input-filled');
   } else if (props.variant === 'outline') {
-    baseClasses.push('input-bordered')
+    baseClasses.push('input-bordered');
   } else {
-    baseClasses.push('input-bordered')
+    baseClasses.push('input-bordered');
   }
-  
+
   // States
   if (props.invalid || props.errorMessage) {
-    baseClasses.push('input-error')
+    baseClasses.push('input-error');
   }
-  
+
   if (props.disabled) {
-    baseClasses.push('input-disabled')
+    baseClasses.push('input-disabled');
   }
-  
-  return baseClasses.join(' ')
-})
+
+  return baseClasses.join(' ');
+});
 
 const ariaDescribedby = computed(() => {
-  const ids = []
-  if (props.helpText) ids.push(`${inputId}-help`)
-  if (props.errorMessage) ids.push(`${inputId}-error`)
-  if (props.ariaDescribedby) ids.push(props.ariaDescribedby)
-  return ids.length > 0 ? ids.join(' ') : undefined
-})
+  const ids = [];
+  if (props.helpText) ids.push(`${inputId}-help`);
+  if (props.errorMessage) ids.push(`${inputId}-error`);
+  if (props.ariaDescribedby) ids.push(props.ariaDescribedby);
+  return ids.length > 0 ? ids.join(' ') : undefined;
+});
 
 const handleInput = (event: Event) => {
-  const target = event.target as HTMLInputElement
-  emit('update:modelValue', target.value)
-  emit('input', event)
-}
+  const target = event.target as HTMLInputElement;
+  emit('update:modelValue', target.value);
+  emit('input', event);
+};
 
 const handleChange = (event: Event) => {
-  emit('change', event)
-}
+  emit('change', event);
+};
 
 const handleFocus = (event: FocusEvent) => {
-  emit('focus', event)
-}
+  emit('focus', event);
+};
 
 const handleBlur = (event: FocusEvent) => {
-  emit('blur', event)
-}
+  emit('blur', event);
+};
 </script>
 
 <style scoped lang="postcss">

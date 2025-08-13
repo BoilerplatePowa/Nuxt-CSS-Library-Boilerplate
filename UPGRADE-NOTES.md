@@ -7,21 +7,25 @@ This document outlines the major improvements and changes made during the upgrad
 ### ✅ **What Was Upgraded**
 
 #### **Core Framework**
+
 - **Nuxt**: `^3.13.0` → `^3.18.0`
-- **@nuxt/kit**: `^3.13.0` → `^3.18.0` 
+- **@nuxt/kit**: `^3.13.0` → `^3.18.0`
 - **Vue**: `^3.4.0` → `^3.5.0`
 
 #### **Development Tools**
+
 - **@nuxt/devtools**: `^1.4.0` → `^1.7.0`
 - **@nuxt/test-utils**: `^3.14.0` → `^3.18.0`
 - **TypeScript**: `^5.6.0` → `^5.7.0`
 
 #### **Testing Framework**
+
 - **Vitest**: `^1.6.0` → `^2.1.0`
 - **@vitest/ui**: `^1.6.0` → `^2.1.0`
 - **@vitest/coverage-v8**: `^1.6.0` → `^2.1.0`
 
 #### **Storybook**
+
 - **All Storybook packages**: `^8.3.0` → `^8.6.0`
 - Includes accessibility addon updates
 - Enhanced Vue 3 support
@@ -29,33 +33,35 @@ This document outlines the major improvements and changes made during the upgrad
 ### 🔧 **Configuration Updates**
 
 #### **Nuxt Configuration** (`nuxt.config.ts`)
+
 ```typescript
 export default defineNuxtConfig({
   // NEW: Nuxt 3.18 future compatibility
   future: {
-    compatibilityVersion: 4
+    compatibilityVersion: 4,
   },
-  
+
   // NEW: Enhanced experimental features
   experimental: {
     typedPages: true,
-    viewTransition: true,      // NEW in 3.18
-    sharedPrerenderData: true  // NEW in 3.18
+    viewTransition: true, // NEW in 3.18
+    sharedPrerenderData: true, // NEW in 3.18
   },
-  
+
   // NEW: Performance optimizations
   optimization: {
     keyedComposables: [
       {
         name: 'useState',
-        argumentLength: 2
-      }
-    ]
-  }
-})
+        argumentLength: 2,
+      },
+    ],
+  },
+});
 ```
 
 #### **Vitest Configuration** (`vitest.config.ts`)
+
 ```typescript
 export default defineConfig({
   test: {
@@ -63,27 +69,30 @@ export default defineConfig({
     pool: 'forks',
     poolOptions: {
       forks: {
-        singleFork: true
-      }
-    }
-  }
-})
+        singleFork: true,
+      },
+    },
+  },
+});
 ```
 
 ### 🆕 **New Features Available**
 
 #### **Nuxt 3.18 Features**
+
 1. **View Transitions API** - Smooth page transitions
 2. **Shared Prerender Data** - Better SSG performance
 3. **Enhanced TypeScript** - Better type inference
 4. **Improved Dev Tools** - Better debugging experience
 
 #### **Vue 3.5 Features**
+
 1. **Reactivity Improvements** - Better performance
 2. **Enhanced Template Syntax** - New directives
 3. **Better TypeScript Integration**
 
 #### **Vitest 2.x Features**
+
 1. **Improved Performance** - Faster test execution
 2. **Better Coverage Reports** - Enhanced reporting
 3. **Fork Pool** - Better isolation
@@ -91,14 +100,17 @@ export default defineConfig({
 ### ⚠️ **Known Issues & Warnings**
 
 #### **Node Version Warning**
+
 ```
 Unsupported engine: required: '^20.19.0 || >=22.12.0', current: 'v20.11.1'
 ```
+
 - **Impact**: Non-blocking, project still works
 - **Recommendation**: Upgrade to Node.js 20.19+ or 22.12+ for optimal performance
 - **Workaround**: Current setup works with `--legacy-peer-deps`
 
 #### **TypeScript Warnings**
+
 - Some type definition warnings in build (non-critical)
 - All functionality remains intact
 - Future updates will resolve these
@@ -106,14 +118,16 @@ Unsupported engine: required: '^20.19.0 || >=22.12.0', current: 'v20.11.1'
 ### 🧪 **Verified Functionality**
 
 ✅ **All Tests Pass** (38/38)
+
 ```bash
 npm test
 # ✓ test/components/Button.test.ts (11)
-# ✓ test/components/Card.test.ts (11) 
+# ✓ test/components/Card.test.ts (11)
 # ✓ test/components/Input.test.ts (16)
 ```
 
 ✅ **Build Success**
+
 ```bash
 npm run build
 # ✓ dist/style.css   5.44 kB │ gzip: 1.28 kB
@@ -121,6 +135,7 @@ npm run build
 ```
 
 ✅ **Storybook Working**
+
 ```bash
 npm run storybook
 # ✓ Storybook 8.6.0 for vue3-vite started

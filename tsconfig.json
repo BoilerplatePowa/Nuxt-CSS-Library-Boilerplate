@@ -16,30 +16,11 @@
       "~/*": ["./src/*"],
       "@/*": ["./src/*"]
     },
-    "types": [
-      "node",
-      "vitest/globals",
-      "nuxt"
-    ],
-    "lib": [
-      "ES2022",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "types": ["node", "vitest/globals", "nuxt"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "allowImportingTsExtensions": true,
     "noEmit": true
   },
-  "include": [
-    "src/**/*",
-    "test/**/*",
-    ".storybook/**/*",
-    "nuxt.config.ts",
-    "vitest.config.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    ".nuxt",
-    "storybook-static"
-  ]
-} 
+  "include": ["src/**/*", "test/**/*", ".storybook/**/*", "nuxt.config.ts", "vitest.config.ts"],
+  "exclude": ["node_modules", "dist", ".nuxt", "storybook-static"]
+}

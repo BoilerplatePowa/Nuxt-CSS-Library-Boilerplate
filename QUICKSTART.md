@@ -3,22 +3,26 @@
 ## Installation and Launch
 
 ### 1. Clone the repository
+
 ```bash
 git clone https://github.com/boilerplatepowa/nuxt-design-system.git
 cd nuxt-design-system
 ```
 
 ### 2. Automatic startup
+
 ```bash
 npm start
 ```
 
 This command will:
+
 - ✅ Automatically install dependencies
 - ✅ Launch Storybook on http://localhost:6006
 - ✅ Open your browser
 
 ### 3. Or manual startup
+
 ```bash
 # Installation
 npm install
@@ -39,10 +43,8 @@ npm install @boilerplatepowa/nuxt-design-system
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: [
-    '@boilerplatepowa/nuxt-design-system'
-  ]
-})
+  modules: ['@boilerplatepowa/nuxt-design-system'],
+});
 ```
 
 ```vue
@@ -86,6 +88,7 @@ npm run format         # Formatting
 - **boilerplate-dark** : Dark theme
 
 Theme switching:
+
 ```html
 <html data-theme="boilerplate-dark">
   <!-- Your content -->
@@ -100,4 +103,4 @@ Theme switching:
 
 ---
 
-**Ready to start?** Run `npm start`! 🎉 
+**Ready to start?** Run `npm start`! 🎉

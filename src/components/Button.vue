@@ -12,8 +12,19 @@
   >
     <span v-if="loading" class="loading-spinner" aria-hidden="true">
       <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
-        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-        <path class="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        <circle
+          class="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          stroke-width="4"
+        ></circle>
+        <path
+          class="opacity-75"
+          fill="currentColor"
+          d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+        ></path>
       </svg>
     </span>
     <slot name="icon-left" />
@@ -25,19 +36,19 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 interface Props {
-  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'outline' | 'link'
-  size?: 'xs' | 'sm' | 'md' | 'lg'
-  disabled?: boolean
-  loading?: boolean
-  type?: 'button' | 'submit' | 'reset'
-  fullWidth?: boolean
-  ariaLabel?: string
-  ariaPressed?: boolean
-  ariaExpanded?: boolean
-  ariaDescribedby?: string
+  variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'outline' | 'link';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
+  disabled?: boolean;
+  loading?: boolean;
+  type?: 'button' | 'submit' | 'reset';
+  fullWidth?: boolean;
+  ariaLabel?: string;
+  ariaPressed?: boolean;
+  ariaExpanded?: boolean;
+  ariaDescribedby?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -46,62 +57,62 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
   loading: false,
   type: 'button',
-  fullWidth: false
-})
+  fullWidth: false,
+});
 
 const emit = defineEmits<{
-  click: [event: MouseEvent]
-  keydown: [event: KeyboardEvent]
-}>()
+  click: [event: MouseEvent];
+  keydown: [event: KeyboardEvent];
+}>();
 
 const buttonClasses = computed(() => {
-  const baseClasses = ['btn']
-  
+  const baseClasses = ['btn'];
+
   // Variant
   if (props.variant === 'outline') {
-    baseClasses.push('btn-outline')
+    baseClasses.push('btn-outline');
   } else if (props.variant === 'ghost') {
-    baseClasses.push('btn-ghost')
+    baseClasses.push('btn-ghost');
   } else if (props.variant === 'link') {
-    baseClasses.push('btn-link')
+    baseClasses.push('btn-link');
   } else {
-    baseClasses.push(`btn-${props.variant}`)
+    baseClasses.push(`btn-${props.variant}`);
   }
-  
+
   // Size
   if (props.size !== 'md') {
-    baseClasses.push(`btn-${props.size}`)
+    baseClasses.push(`btn-${props.size}`);
   }
-  
+
   // Loading state
   if (props.loading) {
-    baseClasses.push('loading')
+    baseClasses.push('loading');
   }
-  
+
   // Full width
   if (props.fullWidth) {
-    baseClasses.push('btn-block')
+    baseClasses.push('btn-block');
   }
-  
-  return baseClasses.join(' ')
-})
+
+  return baseClasses.join(' ');
+});
 
 const handleClick = (event: MouseEvent) => {
   if (!props.disabled && !props.loading) {
-    emit('click', event)
+    emit('click', event);
   }
-}
+};
 
 const handleKeydown = (event: KeyboardEvent) => {
   if (event.key === 'Enter' || event.key === ' ') {
-    event.preventDefault()
+    event.preventDefault();
     if (!props.disabled && !props.loading) {
-      emit('keydown', event)
+      emit('keydown', event);
       // Trigger click event for keyboard interaction
-      emit('click', event as any)
+      emit('click', event as any);
     }
   }
-}
+};
 </script>
 
 <style scoped lang="postcss">
@@ -131,4 +142,4 @@ const handleKeydown = (event: KeyboardEvent) => {
 .btn:focus-visible {
   @apply outline-2 outline-offset-2 outline-blue-500;
 }
-</style> 
+</style>
