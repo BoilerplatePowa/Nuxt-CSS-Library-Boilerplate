@@ -1,6 +1,6 @@
 {
   "name": "@boilerplatepowa/nuxt-design-system",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Modern Design System for Nuxt 4+ with TailwindCSS, DaisyUI and Storybook",
   "type": "module",
   "main": "./dist/index.js",
