@@ -23,10 +23,10 @@ declare function __VLS_template(): {
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "update:modelValue": (value: string | number) => any;
-    "tab-change": (tab: Tab, index: number) => any;
+    "tab-change": (value: string | number) => any;
 }, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
     "onUpdate:modelValue"?: ((value: string | number) => any) | undefined;
-    "onTab-change"?: ((tab: Tab, index: number) => any) | undefined;
+    "onTab-change"?: ((value: string | number) => any) | undefined;
 }>, {
     variant: "default" | "bordered" | "lifted" | "boxed";
     size: "xs" | "sm" | "md" | "lg";

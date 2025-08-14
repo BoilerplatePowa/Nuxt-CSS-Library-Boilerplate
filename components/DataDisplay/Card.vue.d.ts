@@ -12,6 +12,7 @@ declare function __VLS_template(): {
         header?(_: {}): any;
         default?(_: {}): any;
         actions?(_: {}): any;
+        footer?(_: {}): any;
     };
     refs: {};
     rootEl: HTMLDivElement;

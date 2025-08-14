@@ -10,10 +10,10 @@ interface Props {
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: {
-        start?(_: {}): any;
         'mobile-menu'?(_: {}): any;
-        center?(_: {}): any;
-        end?(_: {}): any;
+        brand?(_: {}): any;
+        menu?(_: {}): any;
+        actions?(_: {}): any;
     };
     refs: {};
     rootEl: HTMLDivElement;

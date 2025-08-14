@@ -11,7 +11,7 @@ declare const InformationCircleIcon: {
     template: string;
 };
 export { CheckCircleIcon, XCircleIcon, ExclamationTriangleIcon, InformationCircleIcon };
-declare const _default: import('vue').DefineComponent<{
+declare const _default: __VLS_WithTemplateSlots<import('vue').DefineComponent<{
     type?: "success" | "error" | "warning" | "info";
     title?: string;
     message: string;
@@ -40,5 +40,13 @@ declare const _default: import('vue').DefineComponent<{
     closable: boolean;
     persistent: boolean;
     duration: number;
-}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>, {
+    default?(_: {}): any;
+    actions?(_: {}): any;
+}>;
 export default _default;
+type __VLS_WithTemplateSlots<T, S> = T & {
+    new (): {
+        $slots: S;
+    };
+};

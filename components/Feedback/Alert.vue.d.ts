@@ -1,8 +1,10 @@
 interface Props {
     variant?: 'info' | 'success' | 'warning' | 'error';
     title?: string;
+    message?: string;
     dismissible?: boolean;
     showDefaultIcon?: boolean;
+    icon?: string;
 }
 declare function __VLS_template(): {
     attrs: Partial<{}>;

@@ -11,6 +11,7 @@ declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: {
         content?(_: {}): any;
+        default?(_: {}): any;
         actions?(_: {}): any;
     };
     refs: {};
