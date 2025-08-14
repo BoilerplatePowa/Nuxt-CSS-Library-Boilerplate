@@ -29,11 +29,7 @@ declare function __VLS_template(): {
     rootEl: HTMLUListElement;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
-declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
-    "step-click": (step: Step, index: number) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
-    "onStep-click"?: ((step: Step, index: number) => any) | undefined;
-}>, {
+declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{}>, {
     variant: "default" | "vertical";
     size: "xs" | "sm" | "md" | "lg";
     color: "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";

@@ -1,5 +1,5 @@
 interface Props {
-    key?: string;
+    keyText?: string;
     size?: 'xs' | 'sm' | 'md' | 'lg';
     variant?: 'default' | 'primary' | 'secondary' | 'accent';
 }
