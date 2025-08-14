@@ -16,7 +16,7 @@ describe('Button', () => {
   });
 
   it('applies variant classes correctly', () => {
-    const variants = ['primary', 'secondary', 'accent', 'ghost', 'outline', 'link'] as const;
+    const variants = ['primary', 'secondary', 'accent', 'neutral', 'ghost', 'outline', 'link', 'info', 'success', 'warning', 'error'] as const;
 
     variants.forEach(variant => {
       const wrapper = mount(Button, {
@@ -24,15 +24,7 @@ describe('Button', () => {
         slots: { default: 'Test' },
       });
 
-      if (variant === 'outline') {
-        expect(wrapper.classes()).toContain('btn-outline');
-      } else if (variant === 'ghost') {
-        expect(wrapper.classes()).toContain('btn-ghost');
-      } else if (variant === 'link') {
-        expect(wrapper.classes()).toContain('btn-link');
-      } else {
-        expect(wrapper.classes()).toContain(`btn-${variant}`);
-      }
+      expect(wrapper.classes()).toContain(`btn-${variant}`);
     });
   });
 
@@ -66,7 +58,8 @@ describe('Button', () => {
       slots: { default: 'Test' },
     });
 
-    expect(wrapper.classes()).toContain('loading');
+    expect(wrapper.find('.loading').exists()).toBe(true);
+    expect(wrapper.find('.loading-spinner').exists()).toBe(true);
   });
 
   it('applies full width correctly', () => {
@@ -119,6 +112,34 @@ describe('Button', () => {
     expect(wrapper.find('.icon-left').exists()).toBe(true);
     expect(wrapper.find('.icon-right').exists()).toBe(true);
     expect(wrapper.text()).toContain('Test');
+  });
+
+  it('applies shape classes correctly', () => {
+    const circleWrapper = mount(Button, {
+      props: { circle: true },
+      slots: { default: 'Test' },
+    });
+    expect(circleWrapper.classes()).toContain('btn-circle');
+
+    const squareWrapper = mount(Button, {
+      props: { square: true },
+      slots: { default: 'Test' },
+    });
+    expect(squareWrapper.classes()).toContain('btn-square');
+  });
+
+  it('applies style modifiers correctly', () => {
+    const glassWrapper = mount(Button, {
+      props: { glass: true },
+      slots: { default: 'Test' },
+    });
+    expect(glassWrapper.classes()).toContain('glass');
+
+    const noAnimationWrapper = mount(Button, {
+      props: { noAnimation: true },
+      slots: { default: 'Test' },
+    });
+    expect(noAnimationWrapper.classes()).toContain('no-animation');
   });
 
   it('sets correct button type', () => {

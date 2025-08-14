@@ -4,7 +4,7 @@ import Modal from './Modal.vue';
 import Button from './Button.vue';
 
 const meta: Meta<typeof Modal> = {
-  title: 'Components/Modal',
+  title: 'Actions/Modal',
   component: Modal,
   parameters: {
     layout: 'centered',

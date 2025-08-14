@@ -1,8 +1,8 @@
 <template>
-  <Transition name="toast" @enter="onEnter" @leave="onLeave">
+  <Transition :name="transitionName" @enter="onEnter" @leave="onLeave">
     <div
       v-if="visible"
-      :class="toastClasses"
+      :class="containerClasses"
       role="alert"
       :aria-live="type === 'error' ? 'assertive' : 'polite'"
       @mouseenter="pauseTimer"
@@ -52,12 +52,16 @@ const props = withDefaults(
     duration?: number;
     closable?: boolean;
     persistent?: boolean;
+    position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center';
+    fixed?: boolean;
   }>(),
   {
     type: 'info',
     duration: 5000,
     closable: true,
     persistent: false,
+    position: 'top-right',
+    fixed: false,
   }
 );
 
@@ -68,9 +72,9 @@ const emit = defineEmits<{
 const visible = ref(true);
 let timer: ReturnType<typeof setTimeout> | null = null;
 
-const toastClasses = computed(() => {
+const containerClasses = computed(() => {
   const baseClasses = [
-    'toast',
+    'toast-container',
     'flex',
     'items-start',
     'p-4',
@@ -82,6 +86,37 @@ const toastClasses = computed(() => {
     'border',
   ];
 
+  // Only add positioning classes when fixed is true
+  if (props.fixed) {
+    baseClasses.push('fixed', 'z-50');
+    
+    // Position classes for fixed positioning
+    switch (props.position) {
+      case 'top-right':
+        baseClasses.push('top-4', 'right-4');
+        break;
+      case 'top-left':
+        baseClasses.push('top-4', 'left-4');
+        break;
+      case 'bottom-right':
+        baseClasses.push('bottom-4', 'right-4');
+        break;
+      case 'bottom-left':
+        baseClasses.push('bottom-4', 'left-4');
+        break;
+      case 'top-center':
+        baseClasses.push('top-4', 'left-1/2', 'transform', '-translate-x-1/2');
+        break;
+      case 'bottom-center':
+        baseClasses.push('bottom-4', 'left-1/2', 'transform', '-translate-x-1/2');
+        break;
+    }
+  } else {
+    // For non-fixed toasts, ensure they can receive pointer events
+    baseClasses.push('pointer-events-auto');
+  }
+
+  // Type-based styling
   switch (props.type) {
     case 'success':
       baseClasses.push('bg-green-50', 'border-green-200', 'text-green-800');
@@ -99,6 +134,21 @@ const toastClasses = computed(() => {
   }
 
   return baseClasses.join(' ');
+});
+
+const transitionName = computed(() => {
+  // Only use position-based transitions when fixed is true
+  if (props.fixed) {
+    if (props.position.includes('right')) {
+      return 'toast-slide-right';
+    } else if (props.position.includes('left')) {
+      return 'toast-slide-left';
+    } else {
+      return 'toast-slide-center';
+    }
+  }
+  // Default fade transition for inline toasts
+  return 'toast-fade';
 });
 
 const iconContainerClasses = computed(() => ['flex-shrink-0', 'mr-3']);
@@ -239,21 +289,73 @@ export { CheckCircleIcon, XCircleIcon, ExclamationTriangleIcon, InformationCircl
 </script>
 
 <style scoped>
-.toast-enter-active {
+/* Right slide animations */
+.toast-slide-right-enter-active,
+.toast-slide-right-leave-active {
   transition: all 0.3s ease-out;
 }
 
-.toast-leave-active {
-  transition: all 0.3s ease-in;
-}
-
-.toast-enter-from {
+.toast-slide-right-enter-from {
   opacity: 0;
   transform: translateX(100%);
 }
 
-.toast-leave-to {
+.toast-slide-right-leave-to {
   opacity: 0;
   transform: translateX(100%);
+}
+
+/* Left slide animations */
+.toast-slide-left-enter-active,
+.toast-slide-left-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.toast-slide-left-enter-from {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+.toast-slide-left-leave-to {
+  opacity: 0;
+  transform: translateX(-100%);
+}
+
+/* Center slide animations */
+.toast-slide-center-enter-active,
+.toast-slide-center-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.toast-slide-center-enter-from {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-20px) scale(0.95);
+}
+
+.toast-slide-center-leave-to {
+  opacity: 0;
+  transform: translateX(-50%) translateY(-20px) scale(0.95);
+}
+
+/* Ensure center toasts maintain their centering during transitions */
+.toast-container.top-center,
+.toast-container.bottom-center {
+  left: 50% !important;
+}
+
+/* Default fade transition for inline toasts */
+.toast-fade-enter-active,
+.toast-fade-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.toast-fade-enter-from {
+  opacity: 0;
+  transform: scale(0.95);
+}
+
+.toast-fade-leave-to {
+  opacity: 0;
+  transform: scale(0.95);
 }
 </style>

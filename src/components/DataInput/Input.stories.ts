@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Input from './Input.vue';
 
 const meta: Meta<typeof Input> = {
-  title: 'Components/Input',
+  title: 'Data Input/Input',
   component: Input,
   parameters: {
     layout: 'centered',

@@ -57,8 +57,8 @@ interface Props {
   readonly?: boolean;
   required?: boolean;
   invalid?: boolean;
-  size?: 'sm' | 'md' | 'lg';
-  variant?: 'default' | 'filled' | 'outline';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
+  variant?: 'bordered' | 'ghost' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
   ariaDescribedby?: string;
 }
 
@@ -69,7 +69,7 @@ const props = withDefaults(defineProps<Props>(), {
   required: false,
   invalid: false,
   size: 'md',
-  variant: 'default',
+  variant: 'bordered',
 });
 
 const emit = defineEmits<{
@@ -86,43 +86,47 @@ const wrapperClasses = computed(() => ['form-control', 'w-full']);
 
 const labelClasses = computed(() => [
   'label',
-  'text-sm',
-  'font-medium',
-  'text-gray-700',
-  'mb-1',
-  'block',
 ]);
 
 const inputContainerClasses = computed(() => ['relative', 'flex', 'items-center']);
 
 const inputClasses = computed(() => {
-  const baseClasses = ['input', 'w-full', 'transition-colors', 'duration-200', 'ease-in-out'];
+  const baseClasses = ['input', 'w-full'];
 
   // Size
-  if (props.size === 'sm') {
+  if (props.size === 'xs') {
+    baseClasses.push('input-xs');
+  } else if (props.size === 'sm') {
     baseClasses.push('input-sm');
   } else if (props.size === 'lg') {
     baseClasses.push('input-lg');
-  } else {
-    baseClasses.push('input-md');
   }
+  // 'md' is default, no class needed
 
   // Variant
-  if (props.variant === 'filled') {
-    baseClasses.push('input-filled');
-  } else if (props.variant === 'outline') {
+  if (props.variant === 'bordered') {
     baseClasses.push('input-bordered');
-  } else {
-    baseClasses.push('input-bordered');
-  }
-
-  // States
-  if (props.invalid || props.errorMessage) {
+  } else if (props.variant === 'ghost') {
+    baseClasses.push('input-ghost');
+  } else if (props.variant === 'primary') {
+    baseClasses.push('input-primary');
+  } else if (props.variant === 'secondary') {
+    baseClasses.push('input-secondary');
+  } else if (props.variant === 'accent') {
+    baseClasses.push('input-accent');
+  } else if (props.variant === 'info') {
+    baseClasses.push('input-info');
+  } else if (props.variant === 'success') {
+    baseClasses.push('input-success');
+  } else if (props.variant === 'warning') {
+    baseClasses.push('input-warning');
+  } else if (props.variant === 'error') {
     baseClasses.push('input-error');
   }
 
-  if (props.disabled) {
-    baseClasses.push('input-disabled');
+  // Error state override
+  if (props.invalid || props.errorMessage) {
+    baseClasses.push('input-error');
   }
 
   return baseClasses.join(' ');
@@ -156,32 +160,8 @@ const handleBlur = (event: FocusEvent) => {
 </script>
 
 <style scoped lang="postcss">
-.input {
-  @apply px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400;
-  @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500;
-}
-
-.input-sm {
-  @apply px-2 py-1 text-sm;
-}
-
-.input-lg {
-  @apply px-4 py-3 text-lg;
-}
-
-.input-filled {
-  @apply bg-gray-100 border-transparent;
-}
-
-.input-error {
-  @apply border-red-300 focus:ring-red-500 focus:border-red-500;
-}
-
-.input-disabled {
-  @apply bg-gray-50 text-gray-500 cursor-not-allowed;
-}
-
-.label {
-  @apply text-gray-700 font-medium;
+/* DaisyUI handles most input styling */
+.form-control {
+  @apply space-y-1;
 }
 </style>

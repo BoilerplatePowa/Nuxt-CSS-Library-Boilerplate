@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Card from './Card.vue';
-import Button from './Button.vue';
+import Button from '../Actions/Button.vue';
 
 const meta: Meta<typeof Card> = {
-  title: 'Components/Card',
+  title: 'Data Display/Card',
   component: Card,
   parameters: {
     layout: 'centered',
@@ -21,18 +21,20 @@ const meta: Meta<typeof Card> = {
     },
     variant: {
       control: { type: 'select' },
-      options: ['default', 'bordered', 'glass'],
+      options: ['normal', 'bordered', 'compact', 'side'],
       description: 'Card variant',
     },
-    padding: {
-      control: { type: 'select' },
-      options: ['none', 'sm', 'md', 'lg'],
-      description: 'Card padding',
-    },
     shadow: {
-      control: { type: 'select' },
-      options: ['none', 'sm', 'md', 'lg', 'xl'],
-      description: 'Card shadow',
+      control: 'boolean',
+      description: 'Show card shadow',
+    },
+    glass: {
+      control: 'boolean',
+      description: 'Glass effect',
+    },
+    imageFull: {
+      control: 'boolean',
+      description: 'Full image layout',
     },
   },
 };
@@ -118,7 +120,7 @@ export const Bordered: Story = {
 
 export const Glass: Story = {
   args: {
-    variant: 'glass',
+    glass: true,
     title: 'Glass Card',
   },
   render: args => ({
@@ -133,7 +135,7 @@ export const Glass: Story = {
 
 export const NoShadow: Story = {
   args: {
-    shadow: 'none',
+    shadow: false,
     title: 'No Shadow',
   },
   render: args => ({
@@ -145,10 +147,10 @@ export const NoShadow: Story = {
   }),
 };
 
-export const LargeShadow: Story = {
+export const WithShadow: Story = {
   args: {
-    shadow: 'xl',
-    title: 'Large Shadow',
+    shadow: true,
+    title: 'With Shadow',
   },
   render: args => ({
     components: { Card },
@@ -159,31 +161,31 @@ export const LargeShadow: Story = {
   }),
 };
 
-export const NoPadding: Story = {
+export const Compact: Story = {
   args: {
-    padding: 'none',
-    title: 'No Padding',
+    variant: 'compact',
+    title: 'Compact Card',
   },
   render: args => ({
     components: { Card },
     setup() {
       return { args };
     },
-    template: '<Card v-bind="args">This card has no internal padding.</Card>',
+    template: '<Card v-bind="args">This card uses compact variant with reduced padding.</Card>',
   }),
 };
 
-export const LargePadding: Story = {
+export const SideCard: Story = {
   args: {
-    padding: 'lg',
-    title: 'Large Padding',
+    variant: 'side',
+    title: 'Side Card',
   },
   render: args => ({
     components: { Card },
     setup() {
       return { args };
     },
-    template: '<Card v-bind="args">This card has significant padding.</Card>',
+    template: '<Card v-bind="args">This card uses side layout variant.</Card>',
   }),
 };
 
@@ -236,15 +238,15 @@ export const AllVariants: Story = {
     components: { Card },
     template: `
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <Card title="Default" variant="default">
-          Default card
+        <Card title="Normal" variant="normal">
+          Normal card
         </Card>
         
         <Card title="Bordered" variant="bordered">
           Bordered card
         </Card>
         
-        <Card title="Glass" variant="glass">
+        <Card title="Glass" :glass="true">
           Glass card
         </Card>
       </div>
