@@ -4,14 +4,22 @@
       <slot name="image" />
     </figure>
 
-    <div class="card-body">
+    <div v-if="title || $slots.header" class="card-header">
       <slot name="header">
         <h2 v-if="title" class="card-title">{{ title }}</h2>
       </slot>
+    </div>
+
+    <div class="card-body">
       <slot />
-      <div v-if="$slots.actions" class="card-actions justify-end">
-        <slot name="actions" />
-      </div>
+    </div>
+
+    <div v-if="$slots.actions || $slots.footer || (title || $slots.header)" class="card-actions justify-end">
+      <slot name="actions" />
+    </div>
+
+    <div v-if="$slots.footer" class="card-footer">
+      <slot name="footer" />
     </div>
   </div>
 </template>

@@ -13,20 +13,28 @@
       </div>
 
       <div class="flex-1 min-w-0">
-        <p v-if="title" :class="titleClasses">
+        <p v-if="title" class="font-semibold">
           {{ title }}
         </p>
-        <p :class="messageClasses">
+        <div v-if="message" :class="messageClasses">
           {{ message }}
-        </p>
+        </div>
+        <div v-if="$slots.default">
+          <slot />
+        </div>
+        <div v-if="$slots.actions">
+          <slot name="actions" />
+        </div>
       </div>
 
       <button
         v-if="closable"
         type="button"
         :class="closeButtonClasses"
-        aria-label="Close notification"
+        aria-label="close"
         @click="close"
+        @keydown.enter="close"
+        @keydown.space="close"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path

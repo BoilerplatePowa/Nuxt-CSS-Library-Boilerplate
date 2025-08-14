@@ -1,7 +1,7 @@
 <template>
-  <span :class="badgeClasses">
+  <component :is="tag" :class="badgeClasses">
     <slot />
-  </span>
+  </component>
 </template>
 
 <script setup lang="ts">
@@ -11,12 +11,14 @@ interface Props {
   variant?: 'neutral' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'info' | 'success' | 'warning' | 'error';
   size?: 'xs' | 'sm' | 'md' | 'lg';
   outline?: boolean;
+  tag?: 'span' | 'div' | 'p' | 'label';
 }
 
 const props = withDefaults(defineProps<Props>(), {
   variant: 'neutral',
   size: 'md',
   outline: false,
+  tag: 'span',
 });
 
 const badgeClasses = computed(() => {

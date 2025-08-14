@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import Card from '../../src/components/Card.vue';
+import Card from '../../../src/components/DataDisplay/Card.vue';
 
 describe('Card', () => {
   it('renders correctly with default props', () => {
@@ -49,7 +49,7 @@ describe('Card', () => {
   });
 
   it('applies variant classes correctly', () => {
-    const variants = ['default', 'bordered', 'glass'] as const;
+    const variants = ['normal', 'bordered', 'compact', 'side'] as const;
 
     variants.forEach(variant => {
       const wrapper = mount(Card, {
@@ -59,44 +59,40 @@ describe('Card', () => {
 
       if (variant === 'bordered') {
         expect(wrapper.classes()).toContain('card-bordered');
-      } else if (variant === 'glass') {
-        expect(wrapper.classes()).toContain('card-glass');
+      } else if (variant === 'compact') {
+        expect(wrapper.classes()).toContain('card-compact');
+      } else if (variant === 'side') {
+        expect(wrapper.classes()).toContain('card-side');
       }
     });
   });
 
   it('applies shadow classes correctly', () => {
-    const shadows = ['none', 'sm', 'md', 'lg', 'xl'] as const;
-
-    shadows.forEach(shadow => {
-      const wrapper = mount(Card, {
-        props: { shadow },
-        slots: { default: 'Test' },
-      });
-
-      if (shadow !== 'none') {
-        expect(wrapper.classes()).toContain(`shadow-${shadow}`);
-      }
+    const wrapper = mount(Card, {
+      props: { shadow: true },
+      slots: { default: 'Test' },
     });
+    expect(wrapper.classes()).toContain('shadow-xl');
+
+    const wrapperNoShadow = mount(Card, {
+      props: { shadow: false },
+      slots: { default: 'Test' },
+    });
+    expect(wrapperNoShadow.classes()).not.toContain('shadow-xl');
   });
 
-  it('applies padding classes correctly', () => {
-    const paddings = ['none', 'sm', 'md', 'lg'] as const;
-
-    paddings.forEach(padding => {
-      const wrapper = mount(Card, {
-        props: { padding },
-        slots: { default: 'Test' },
-      });
-
-      if (padding === 'none') {
-        expect(wrapper.classes()).toContain('p-0');
-      } else if (padding === 'sm') {
-        expect(wrapper.classes()).toContain('p-2');
-      } else if (padding === 'lg') {
-        expect(wrapper.classes()).toContain('p-6');
-      }
+  it('applies glass effect correctly', () => {
+    const wrapper = mount(Card, {
+      props: { glass: true },
+      slots: { default: 'Test' },
     });
+    expect(wrapper.classes()).toContain('glass');
+
+    const wrapperNoGlass = mount(Card, {
+      props: { glass: false },
+      slots: { default: 'Test' },
+    });
+    expect(wrapperNoGlass.classes()).not.toContain('glass');
   });
 
   it('does not render header when no title or header slot', () => {

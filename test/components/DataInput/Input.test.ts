@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { mount } from '@vue/test-utils';
-import Input from '../../src/components/Input.vue';
+import Input from '../../../src/components/DataInput/Input.vue';
 
 describe('Input', () => {
   it('renders correctly with default props', () => {
@@ -50,7 +50,7 @@ describe('Input', () => {
   });
 
   it('applies variant classes correctly', () => {
-    const variants = ['default', 'filled', 'outline'] as const;
+    const variants = ['bordered', 'ghost', 'primary'] as const;
 
     variants.forEach(variant => {
       const wrapper = mount(Input, {
@@ -58,11 +58,7 @@ describe('Input', () => {
       });
 
       const input = wrapper.find('input');
-      if (variant === 'filled') {
-        expect(input.classes()).toContain('input-filled');
-      } else {
-        expect(input.classes()).toContain('input-bordered');
-      }
+      expect(input.classes()).toContain(`input-${variant}`);
     });
   });
 

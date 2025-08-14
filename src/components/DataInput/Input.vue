@@ -129,6 +129,11 @@ const inputClasses = computed(() => {
     baseClasses.push('input-error');
   }
 
+  // Disabled state
+  if (props.disabled) {
+    baseClasses.push('input-disabled');
+  }
+
   return baseClasses.join(' ');
 });
 

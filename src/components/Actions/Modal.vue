@@ -172,12 +172,23 @@ const footerClasses = computed(() => [
   'border-gray-200',
 ]);
 
+const open = () => {
+  emit('update:modelValue', true);
+  emit('open');
+};
+
 const close = () => {
   if (!props.persistent) {
     emit('update:modelValue', false);
     emit('close');
   }
 };
+
+// Expose methods for external access
+defineExpose({
+  open,
+  close,
+});
 
 const handleOverlayClick = () => {
   if (props.closeOnOverlay) {

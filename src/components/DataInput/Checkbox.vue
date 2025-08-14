@@ -115,6 +115,11 @@ const checkboxClasses = computed(() => {
     baseClasses.push('checkbox-error');
   }
 
+  // Disabled state
+  if (props.disabled) {
+    baseClasses.push('checkbox-disabled');
+  }
+
   return baseClasses.join(' ');
 });
 

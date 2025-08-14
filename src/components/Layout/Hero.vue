@@ -1,14 +1,16 @@
 <template>
-  <div :class="heroClasses">
-    <div v-if="backgroundImage" class="hero-overlay" :class="overlayClasses"></div>
+  <div :class="heroClasses" :style="heroStyle">
+    <div v-if="overlay" class="hero-overlay" :class="overlayClasses"></div>
     <div class="hero-content text-center" :class="contentClasses">
       <div class="max-w-md">
         <slot name="content">
-          <h1 v-if="title" class="text-5xl font-bold">{{ title }}</h1>
-          <p v-if="subtitle" class="py-6">{{ subtitle }}</p>
-          <div v-if="$slots.actions" class="flex flex-wrap gap-4 justify-center">
-            <slot name="actions" />
-          </div>
+          <slot>
+            <h1 v-if="title" class="text-5xl font-bold">{{ title }}</h1>
+            <p v-if="subtitle" class="py-6">{{ subtitle }}</p>
+            <div v-if="$slots.actions" class="flex flex-wrap gap-4 justify-center">
+              <slot name="actions" />
+            </div>
+          </slot>
         </slot>
       </div>
     </div>
@@ -40,21 +42,19 @@ const heroClasses = computed(() => {
 
   // Min height classes
   if (props.minHeight === 'sm') {
-    baseClasses.push('min-h-96');
+    baseClasses.push('min-h-sm');
   } else if (props.minHeight === 'md') {
-    baseClasses.push('min-h-[32rem]');
+    baseClasses.push('min-h-md');
   } else if (props.minHeight === 'lg') {
-    baseClasses.push('min-h-[40rem]');
+    baseClasses.push('min-h-lg');
   } else if (props.minHeight === 'xl') {
-    baseClasses.push('min-h-[48rem]');
+    baseClasses.push('min-h-xl');
   } else if (props.minHeight === 'screen') {
     baseClasses.push('min-h-screen');
   }
 
-  // Background image
-  if (props.backgroundImage) {
-    baseClasses.push('hero-content');
-  } else {
+  // Background styling
+  if (!props.backgroundImage) {
     baseClasses.push('bg-base-200');
   }
 
@@ -64,17 +64,25 @@ const heroClasses = computed(() => {
 const overlayClasses = computed(() => {
   if (!props.overlay) return '';
   
-  const classes = ['bg-opacity-60'];
+  const classes = ['bg-black'];
   
   if (props.overlayOpacity === 'light') {
-    classes.push('bg-black', 'bg-opacity-30');
+    classes.push('bg-opacity-30');
   } else if (props.overlayOpacity === 'medium') {
-    classes.push('bg-black', 'bg-opacity-60');
+    classes.push('bg-opacity-50');
   } else if (props.overlayOpacity === 'dark') {
-    classes.push('bg-black', 'bg-opacity-80');
+    classes.push('bg-opacity-70');
   }
   
   return classes.join(' ');
+});
+
+const heroStyle = computed(() => {
+  if (props.backgroundImage) {
+    // Generate style string to avoid browser quote addition
+    return `background-image: url(${props.backgroundImage}); background-size: cover; background-position: center center;`;
+  }
+  return {};
 });
 
 const contentClasses = computed(() => {
@@ -94,9 +102,4 @@ const contentClasses = computed(() => {
 
 <style scoped lang="postcss">
 /* DaisyUI handles most hero styling */
-.hero {
-  background-image: v-bind("props.backgroundImage ? `url(${props.backgroundImage})` : 'none'");
-  background-size: cover;
-  background-position: center;
-}
 </style>

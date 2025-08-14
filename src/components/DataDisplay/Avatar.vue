@@ -1,24 +1,34 @@
 <template>
   <div :class="avatarClasses">
-    <div :class="imageClasses">
-      <div v-if="online !== undefined" :class="presenceClasses"></div>
-      <img v-if="src" :src="src" :alt="alt" />
-      <div v-else-if="placeholder" class="bg-neutral text-neutral-content flex items-center justify-center font-semibold">
-        {{ placeholder }}
+    <div :class="imageClasses" class="avatar-size">
+      <div v-if="presence !== undefined" :class="presenceClasses"></div>
+      <img 
+        v-if="src && !imageError" 
+        :src="src" 
+        :alt="alt" 
+        @error="handleImageError"
+      />
+      <div 
+        v-else
+        class="avatar-placeholder bg-neutral text-neutral-content flex items-center justify-center font-semibold"
+      >
+        <slot>{{ initials || placeholder || '' }}</slot>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 interface Props {
   src?: string;
   alt?: string;
   placeholder?: string;
+  initials?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   shape?: 'circle' | 'square';
+  presence?: 'online' | 'offline';
   online?: boolean;
   ring?: boolean;
   ringColor?: 'primary' | 'secondary' | 'accent' | 'neutral';
@@ -31,16 +41,20 @@ const props = withDefaults(defineProps<Props>(), {
   ringColor: 'primary',
 });
 
+const imageError = ref(false);
+
+const handleImageError = () => {
+  imageError.value = true;
+};
+
 const avatarClasses = computed(() => {
   const baseClasses = ['avatar'];
 
-  // Online status
-  if (props.online !== undefined) {
-    if (props.online) {
-      baseClasses.push('online');
-    } else {
-      baseClasses.push('offline');
-    }
+  // Online status - support both presence and online props
+  const currentPresence = props.presence || (props.online !== undefined ? (props.online ? 'online' : 'offline') : undefined);
+  
+  if (currentPresence) {
+    baseClasses.push(currentPresence);
   }
 
   return baseClasses.join(' ');
@@ -57,14 +71,14 @@ const imageClasses = computed(() => {
   } else if (props.size === 'md') {
     baseClasses.push('w-12', 'h-12');
   } else if (props.size === 'lg') {
-    baseClasses.push('w-16', 'h-16');
+    baseClasses.push('w-12', 'h-12');
   } else if (props.size === 'xl') {
-    baseClasses.push('w-24', 'h-24');
+    baseClasses.push('w-16', 'h-16');
   }
 
   // Shape
   if (props.shape === 'square') {
-    baseClasses.push('rounded-xl');
+    baseClasses.push('rounded');
   } else {
     baseClasses.push('rounded-full');
   }
@@ -89,9 +103,11 @@ const imageClasses = computed(() => {
 const presenceClasses = computed(() => {
   const baseClasses = ['absolute', 'top-0', 'right-0', 'w-3', 'h-3', 'rounded-full', 'border-2', 'border-base-100'];
   
-  if (props.online) {
+  const currentPresence = props.presence || (props.online !== undefined ? (props.online ? 'online' : 'offline') : undefined);
+  
+  if (currentPresence === 'online') {
     baseClasses.push('bg-green-400');
-  } else {
+  } else if (currentPresence === 'offline') {
     baseClasses.push('bg-gray-400');
   }
   

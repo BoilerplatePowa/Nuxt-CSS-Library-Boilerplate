@@ -14,8 +14,8 @@ import { computed } from 'vue';
 
 interface Props {
   variant?: 'default' | 'border' | 'bg';
-  color?: 'black' | 'white' | 'primary' | 'secondary' | 'accent';
-  size?: 'sm' | 'md' | 'lg';
+  color?: 'black' | 'white' | 'gold' | 'silver' | 'primary' | 'secondary' | 'accent';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -36,22 +36,28 @@ const mockupClasses = computed(() => {
 
   // Color classes
   if (props.color === 'black') {
-    baseClasses.push('border-black');
+    baseClasses.push('phone-black');
   } else if (props.color === 'white') {
-    baseClasses.push('border-white');
+    baseClasses.push('phone-white');
+  } else if (props.color === 'gold') {
+    baseClasses.push('phone-gold');
+  } else if (props.color === 'silver') {
+    baseClasses.push('phone-silver');
   } else if (props.color === 'primary') {
-    baseClasses.push('border-primary');
+    baseClasses.push('phone-primary');
   } else if (props.color === 'secondary') {
-    baseClasses.push('border-secondary');
+    baseClasses.push('phone-secondary');
   } else if (props.color === 'accent') {
-    baseClasses.push('border-accent');
+    baseClasses.push('phone-accent');
   }
 
   // Size classes
   if (props.size === 'sm') {
-    baseClasses.push('scale-75');
+    baseClasses.push('phone-sm');
   } else if (props.size === 'lg') {
-    baseClasses.push('scale-125');
+    baseClasses.push('phone-lg');
+  } else if (props.size === 'xl') {
+    baseClasses.push('phone-xl');
   }
 
   return baseClasses.join(' ');

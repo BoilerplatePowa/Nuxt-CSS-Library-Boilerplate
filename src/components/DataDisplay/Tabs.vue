@@ -9,7 +9,8 @@
         role="tab"
         @click="selectTab(tab, index, $event)"
       >
-        {{ getTabLabel(tab) }}
+        {{ tab.label }}
+        <span v-if="tab.badge" class="badge badge-sm ml-1">{{ tab.badge }}</span>
       </a>
     </div>
     
@@ -51,10 +52,21 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   'update:modelValue': [value: string | number];
-  'tab-change': [tab: Tab, index: number];
+  'tab-change': [value: string | number];
 }>();
 
 const activeIndex = ref(0);
+
+// Helper functions
+const getTabValue = (tab: Tab): string | number => {
+  return tab.value !== undefined ? tab.value : tab.label;
+};
+
+const getTabKey = (tab: Tab, index: number): string => {
+  return getTabValue(tab).toString() || index.toString();
+};
+
+
 
 // Watch for external model value changes
 watch(
@@ -125,25 +137,10 @@ const selectTab = (tab: Tab, index: number, event: Event) => {
   const tabValue = getTabValue(tab);
   
   emit('update:modelValue', tabValue);
-  emit('tab-change', tab, index);
+  emit('tab-change', tabValue);
 };
 
-// Helper functions
-const getTabKey = (tab: Tab, index: number): string => {
-  return getTabValue(tab).toString() || index.toString();
-};
 
-const getTabLabel = (tab: Tab): string => {
-  let label = tab.label;
-  if (tab.badge) {
-    label += ` (${tab.badge})`;
-  }
-  return label;
-};
-
-const getTabValue = (tab: Tab): string | number => {
-  return tab.value !== undefined ? tab.value : tab.label;
-};
 </script>
 
 <style scoped lang="postcss">
