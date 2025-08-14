@@ -1,18 +1,14 @@
 import type { StorybookConfig } from '@storybook/vue3-vite';
-import tailwindcss from 'tailwindcss';
-import autoprefixer from 'autoprefixer';
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
-  addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
-    '@storybook/addon-a11y',
-  ],
+  addons: ['@storybook/addon-links', '@storybook/addon-a11y', '@storybook/addon-docs'],
   framework: {
     name: '@storybook/vue3-vite',
     options: {},
+  },
+  core: {
+    builder: '@storybook/builder-vite',
   },
   // docs: {
   //   autodocs: 'tag'
@@ -27,11 +23,14 @@ const config: StorybookConfig = {
       };
     }
 
-    // Add Tailwind CSS with specific configuration
-    if (config.css) {
-      config.css.postcss = {
-        plugins: [tailwindcss, autoprefixer],
-      };
+    // Try to dynamically import TailwindCSS 4 Vite plugin
+    try {
+      const { default: tailwindcss } = await import('@tailwindcss/vite');
+      config.plugins = config.plugins || [];
+      config.plugins.push(tailwindcss());
+    } catch (error) {
+      console.warn('TailwindCSS Vite plugin failed to load, using CSS import fallback');
+      // Fallback to CSS import (which is already in preview.ts)
     }
 
     return config;

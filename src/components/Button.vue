@@ -127,8 +127,7 @@ const handleKeydown = (event: KeyboardEvent) => {
 }
 
 .btn:focus {
-  @apply outline-none ring-2 ring-offset-2;
-  --tw-ring-color: theme('colors.primary.500');
+  @apply outline-none ring-2 ring-offset-2 ring-primary-500;
 }
 
 .btn:disabled {

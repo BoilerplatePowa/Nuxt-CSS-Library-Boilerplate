@@ -5,7 +5,6 @@
 module.exports = {
   root: true,
   extends: [
-    '@boilerplatepowa/configuration-starter-boilerplate/eslint/base',
     '@boilerplatepowa/configuration-starter-boilerplate/eslint/vue',
     '@boilerplatepowa/configuration-starter-boilerplate/eslint/tailwind',
   ],
