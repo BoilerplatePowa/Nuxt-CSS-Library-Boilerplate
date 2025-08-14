@@ -1,6 +1,6 @@
 <template>
   <kbd :class="kbdClasses">
-    <slot>{{ key }}</slot>
+    <slot>{{ keyText }}</slot>
   </kbd>
 </template>
 
@@ -8,7 +8,7 @@
 import { computed } from 'vue';
 
 interface Props {
-  key?: string;
+  keyText?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg';
   variant?: 'default' | 'primary' | 'secondary' | 'accent';
 }

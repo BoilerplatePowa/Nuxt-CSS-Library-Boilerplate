@@ -112,7 +112,7 @@ const accordionClasses = computed(() => {
   return baseClasses.join(' ');
 });
 
-const getItemClasses = (item: AccordionItem, index: number) => {
+const getItemClasses = (item: AccordionItem) => {
   const classes = ['bg-base-200'];
 
   if (props.variant === 'bordered') {

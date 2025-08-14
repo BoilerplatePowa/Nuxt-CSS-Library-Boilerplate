@@ -56,9 +56,7 @@ const props = withDefaults(defineProps<Props>(), {
   color: 'primary',
 });
 
-const emit = defineEmits<{
-  'step-click': [step: Step, index: number];
-}>();
+
 
 const stepsClasses = computed(() => {
   const baseClasses = ['steps'];
@@ -142,10 +140,7 @@ const isStepCompleted = (index: number): boolean => {
   return index < props.currentStep || props.steps[index]?.completed === true;
 };
 
-const handleStepClick = (step: Step, index: number) => {
-  if (step.disabled) return;
-  emit('step-click', step, index);
-};
+
 </script>
 
 <style scoped lang="postcss">

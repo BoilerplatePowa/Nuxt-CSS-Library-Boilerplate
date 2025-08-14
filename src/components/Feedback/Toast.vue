@@ -183,8 +183,6 @@ const iconClasses = computed(() => {
   return baseClasses.join(' ');
 });
 
-const titleClasses = computed(() => ['font-medium', 'text-sm', 'mb-1']);
-
 const messageClasses = computed(() =>
   ['text-sm', !props.title && 'font-medium'].filter(Boolean).join(' ')
 );

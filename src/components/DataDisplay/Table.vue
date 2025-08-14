@@ -176,7 +176,7 @@ const getHeaderClasses = (column: TableColumn): string => {
   return classes.join(' ');
 };
 
-const getRowClasses = (row: Record<string, any>, index: number): string => {
+const getRowClasses = (): string => {
   const classes = [];
 
   if (props.selectable) {
@@ -186,7 +186,7 @@ const getRowClasses = (row: Record<string, any>, index: number): string => {
   return classes.join(' ');
 };
 
-const getCellClasses = (column: TableColumn, row: Record<string, any>): string => {
+const getCellClasses = (column: TableColumn): string => {
   const classes = [];
 
   if (column.align === 'center') {
