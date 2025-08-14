@@ -6,20 +6,20 @@
   }
 
   body {
-    @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-white;
+    @apply bg-white text-gray-900;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply btn bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+    @apply bg-blue-500 text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 px-4 py-2 rounded;
   }
 
   .btn-secondary {
-    @apply btn bg-gray-500 text-white hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2;
+    @apply bg-gray-500 text-white hover:bg-gray-600 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 px-4 py-2 rounded;
   }
 
   .card-base {
-    @apply card bg-white shadow-lg dark:bg-gray-800;
+    @apply bg-white shadow-lg rounded-lg p-6;
   }
 }
