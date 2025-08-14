@@ -5,7 +5,7 @@
         v-for="(item, index) in items"
         :key="getItemKey(item, index)"
         class="collapse collapse-arrow"
-        :class="getItemClasses(item, index)"
+        :class="getItemClasses(item)"
       >
         <input
           :id="`accordion-${accordionId}-${index}`"

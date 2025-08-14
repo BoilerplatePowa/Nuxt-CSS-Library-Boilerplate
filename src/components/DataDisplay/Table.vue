@@ -26,13 +26,13 @@
           <tr
             v-for="(row, index) in sortedData"
             :key="getRowKey(row, index)"
-            :class="getRowClasses(row, index)"
+            :class="getRowClasses()"
             @click="handleRowClick(row, index, $event)"
           >
             <td
               v-for="column in columns"
               :key="column.key"
-              :class="getCellClasses(column, row)"
+              :class="getCellClasses(column)"
             >
               <slot
                 :name="`cell-${column.key}`"
