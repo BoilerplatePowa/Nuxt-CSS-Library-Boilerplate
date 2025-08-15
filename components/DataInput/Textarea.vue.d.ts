@@ -15,17 +15,17 @@ interface Props {
     ariaDescribedby?: string;
 }
 declare const _default: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+    focus: (event: FocusEvent) => any;
+    blur: (event: FocusEvent) => any;
     input: (event: Event) => any;
     "update:modelValue": (value: string) => any;
     change: (event: Event) => any;
-    blur: (event: FocusEvent) => any;
-    focus: (event: FocusEvent) => any;
 }, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
+    onFocus?: ((event: FocusEvent) => any) | undefined;
+    onBlur?: ((event: FocusEvent) => any) | undefined;
     onInput?: ((event: Event) => any) | undefined;
     "onUpdate:modelValue"?: ((value: string) => any) | undefined;
     onChange?: ((event: Event) => any) | undefined;
-    onBlur?: ((event: FocusEvent) => any) | undefined;
-    onFocus?: ((event: FocusEvent) => any) | undefined;
 }>, {
     variant: "bordered" | "ghost" | "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";
     size: "xs" | "sm" | "md" | "lg";
@@ -33,7 +33,7 @@ declare const _default: import('vue').DefineComponent<Props, {}, {}, {}, {}, imp
     modelValue: string;
     required: boolean;
     readonly: boolean;
-    rows: number;
     showCharCount: boolean;
+    rows: number;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 export default _default;

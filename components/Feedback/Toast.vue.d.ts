@@ -20,8 +20,18 @@ declare const _default: __VLS_WithTemplateSlots<import('vue').DefineComponent<{
     persistent?: boolean;
     position?: "top-right" | "top-left" | "bottom-right" | "bottom-left" | "top-center" | "bottom-center";
     fixed?: boolean;
-}, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+    autoFocus?: boolean;
+    showProgress?: boolean;
+    pauseOnHover?: boolean;
+    announceToScreenReader?: boolean;
+}, {
+    close: () => void;
+    pause: () => void;
+    resume: () => void;
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     close: () => any;
+    "before-close": () => any;
+    "after-close": () => any;
 }, string, import('vue').PublicProps, Readonly<{
     type?: "success" | "error" | "warning" | "info";
     title?: string;
@@ -31,16 +41,29 @@ declare const _default: __VLS_WithTemplateSlots<import('vue').DefineComponent<{
     persistent?: boolean;
     position?: "top-right" | "top-left" | "bottom-right" | "bottom-left" | "top-center" | "bottom-center";
     fixed?: boolean;
+    autoFocus?: boolean;
+    showProgress?: boolean;
+    pauseOnHover?: boolean;
+    announceToScreenReader?: boolean;
 }> & Readonly<{
     onClose?: (() => any) | undefined;
+    "onBefore-close"?: (() => any) | undefined;
+    "onAfter-close"?: (() => any) | undefined;
 }>, {
     type: "success" | "error" | "warning" | "info";
+    autoFocus: boolean;
     fixed: boolean;
     position: "top-right" | "top-left" | "bottom-right" | "bottom-left" | "top-center" | "bottom-center";
     closable: boolean;
     persistent: boolean;
     duration: number;
-}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>, {
+    showProgress: boolean;
+    pauseOnHover: boolean;
+    announceToScreenReader: boolean;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
+    toastRef: HTMLDivElement;
+    closeButtonRef: HTMLButtonElement;
+}, any>, {
     default?(_: {}): any;
     actions?(_: {}): any;
 }>;

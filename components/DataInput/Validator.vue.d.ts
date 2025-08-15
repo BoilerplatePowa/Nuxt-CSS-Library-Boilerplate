@@ -35,14 +35,14 @@ declare const _default: import('vue').DefineComponent<Props, {
     errors: import('vue').ComputedRef<string[]>;
     reset: () => void;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
-    "update:modelValue": (value: string) => any;
-    blur: () => any;
     focus: () => any;
+    blur: () => any;
+    "update:modelValue": (value: string) => any;
     validate: (isValid: boolean, errors: string[]) => any;
 }, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
-    "onUpdate:modelValue"?: ((value: string) => any) | undefined;
-    onBlur?: (() => any) | undefined;
     onFocus?: (() => any) | undefined;
+    onBlur?: (() => any) | undefined;
+    "onUpdate:modelValue"?: ((value: string) => any) | undefined;
     onValidate?: ((isValid: boolean, errors: string[]) => any) | undefined;
 }>, {
     variant: "default" | "bordered" | "ghost" | "filled";
@@ -51,11 +51,11 @@ declare const _default: import('vue').DefineComponent<Props, {
     type: "text" | "email" | "password" | "url" | "tel" | "number" | "textarea";
     required: boolean;
     readonly: boolean;
-    rows: number;
     showCharCount: boolean;
-    rules: ValidationRule[];
-    validateOnInput: boolean;
     validateOnBlur: boolean;
+    validateOnInput: boolean;
+    rows: number;
+    rules: ValidationRule[];
     showValidationIcon: boolean;
     showSummary: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;

@@ -3,6 +3,8 @@ interface Props {
     size?: 'xs' | 'sm' | 'md' | 'lg';
     disabled?: boolean;
     loading?: boolean;
+    loadingText?: string;
+    hideTextOnLoading?: boolean;
     type?: 'button' | 'submit' | 'reset';
     fullWidth?: boolean;
     circle?: boolean;
@@ -13,6 +15,10 @@ interface Props {
     ariaPressed?: boolean;
     ariaExpanded?: boolean;
     ariaDescribedby?: string;
+    debounceMs?: number;
+    confirmAction?: boolean;
+    confirmText?: string;
+    autoFocus?: boolean;
 }
 declare function __VLS_template(): {
     attrs: Partial<{}>;
@@ -21,28 +27,46 @@ declare function __VLS_template(): {
         default?(_: {}): any;
         'icon-right'?(_: {}): any;
     };
-    refs: {};
+    refs: {
+        buttonRef: HTMLButtonElement;
+    };
     rootEl: HTMLButtonElement;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
-declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+declare const __VLS_component: import('vue').DefineComponent<Props, {
+    focus: () => void | undefined;
+    blur: () => void | undefined;
+    click: () => void | undefined;
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     click: (event: MouseEvent) => any;
     keydown: (event: KeyboardEvent) => any;
+    focus: (event: FocusEvent) => any;
+    blur: (event: FocusEvent) => any;
 }, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
     onClick?: ((event: MouseEvent) => any) | undefined;
     onKeydown?: ((event: KeyboardEvent) => any) | undefined;
+    onFocus?: ((event: FocusEvent) => any) | undefined;
+    onBlur?: ((event: FocusEvent) => any) | undefined;
 }>, {
     variant: "primary" | "secondary" | "accent" | "neutral" | "ghost" | "outline" | "link" | "info" | "success" | "warning" | "error";
     size: "xs" | "sm" | "md" | "lg";
     disabled: boolean;
     loading: boolean;
+    loadingText: string;
+    hideTextOnLoading: boolean;
     type: "button" | "submit" | "reset";
     fullWidth: boolean;
     circle: boolean;
     square: boolean;
     glass: boolean;
     noAnimation: boolean;
-}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLButtonElement>;
+    debounceMs: number;
+    confirmAction: boolean;
+    confirmText: string;
+    autoFocus: boolean;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
+    buttonRef: HTMLButtonElement;
+}, HTMLButtonElement>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
 export default _default;
 type __VLS_WithTemplateSlots<T, S> = T & {
