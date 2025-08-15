@@ -1,5 +1,5 @@
 <template>
-  <Teleport to="body">
+  <Teleport to="body" :disabled="!canTeleport">
     <Transition
       name="modal"
       @enter="onEnter"
@@ -35,6 +35,25 @@
             Start of modal
           </div>
 
+          <!-- Close button - positioned absolutely in top right corner -->
+          <button
+            v-if="closable"
+            ref="closeButtonRef"
+            type="button"
+            :class="closeButtonClasses"
+            aria-label="Close modal"
+            @click="close"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+
           <!-- Header -->
           <header v-if="$slots.header || title" :class="headerClasses">
             <slot name="header">
@@ -42,24 +61,6 @@
                 {{ title }}
               </h2>
             </slot>
-
-            <button
-              v-if="closable"
-              ref="closeButtonRef"
-              type="button"
-              :class="closeButtonClasses"
-              aria-label="Close modal"
-              @click="close"
-            >
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
           </header>
 
           <!-- Body -->
@@ -141,30 +142,53 @@ const titleId = generateId();
 const descriptionId = generateId();
 let previousActiveElement: Element | null = null;
 
+// Check if we can safely use Teleport (for Storybook compatibility)
+const canTeleport = computed(() => {
+  if (typeof window === 'undefined') return false;
+  return document.body !== null;
+});
 
-const overlayClasses = computed(() => [
-  'fixed',
-  'inset-0',
-  `z-${props.zIndex}`,
-  'flex',
-  'items-center',
-  'justify-center',
-  'bg-black',
-  'bg-opacity-50',
-  'backdrop-blur-sm',
-  'overscroll-contain',
-]);
+
+const overlayClasses = computed(() => {
+  const classes = [
+    'fixed',
+    'inset-0',
+    'flex',
+    'items-center',
+    'justify-center',
+    'bg-black/50',
+    'backdrop-blur-sm',
+    'overscroll-contain',
+  ];
+
+  // Handle z-index properly with Tailwind classes
+  if (props.zIndex >= 50) {
+    classes.push('z-50');
+  } else if (props.zIndex >= 40) {
+    classes.push('z-40');
+  } else if (props.zIndex >= 30) {
+    classes.push('z-30');
+  } else if (props.zIndex >= 20) {
+    classes.push('z-20');
+  } else {
+    classes.push('z-10');
+  }
+
+  return classes;
+});
 
 const modalClasses = computed(() => {
   const baseClasses = [
     'modal-box',
-    'bg-white',
+    'bg-base-100',
+    'text-base-content',
     'rounded-lg',
     'shadow-xl',
     'max-h-[90vh]',
     'overflow-hidden',
     'flex',
     'flex-col',
+    'relative',
   ];
 
   // Size
@@ -195,16 +219,24 @@ const headerClasses = computed(() => [
   'justify-between',
   'p-6',
   'border-b',
-  'border-gray-200',
+  'border-base-200',
 ]);
 
-const titleClasses = computed(() => ['text-lg', 'font-semibold', 'text-gray-900']);
+const titleClasses = computed(() => ['text-lg', 'font-semibold', 'text-base-content']);
 
 const closeButtonClasses = computed(() => [
-  'p-1',
-  'text-gray-400',
-  'hover:text-gray-600',
-  'transition-colors',
+  'absolute',
+  'top-4',
+  'right-4',
+  'z-10',
+  'btn',
+  'btn-sm',
+  'btn-ghost',
+  'btn-circle',
+  'text-base-content/70',
+  'hover:text-base-content',
+  'hover:bg-base-200',
+  'transition-all',
   'duration-200',
 ]);
 
@@ -217,7 +249,7 @@ const footerClasses = computed(() => [
   'gap-3',
   'p-6',
   'border-t',
-  'border-gray-200',
+  'border-base-200',
 ]);
 
 // Focus management functions
@@ -397,55 +429,47 @@ onUnmounted(() => {
   transition: opacity 0.3s ease;
 }
 
-.modal-leave-active {
-  transition: opacity 0.3s ease;
+.modal-enter-active .modal-box {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.modal-enter-from,
+.modal-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.modal-leave-active .modal-box {
+  transition: all 0.25s ease-in;
+}
+
+.modal-enter-from {
+  opacity: 0;
+}
+
+.modal-enter-from .modal-box {
+  opacity: 0;
+  transform: scale(0.9) translateY(-20px);
+}
+
 .modal-leave-to {
   opacity: 0;
 }
 
-/* Modal box animations */
+.modal-leave-to .modal-box {
+  opacity: 0;
+  transform: scale(0.95) translateY(-10px);
+}
+
+/* Modal box default state */
 .modal-box {
-  animation: modal-appear 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
   transform-origin: center;
-}
-
-@keyframes modal-appear {
-  from {
-    opacity: 0;
-    transform: scale(0.9) translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-.modal-leave-active .modal-box {
-  animation: modal-disappear 0.25s ease-in;
-}
-
-@keyframes modal-disappear {
-  from {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0.95) translateY(-10px);
-  }
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  overscroll-behavior: contain;
 }
 
 /* Improved focus styles */
 .modal-box:focus {
   outline: none;
-}
-
-/* Better scrolling for modal content */
-.modal-box {
-  overscroll-behavior: contain;
 }
 
 /* Responsive improvements */

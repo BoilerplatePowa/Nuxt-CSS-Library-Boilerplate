@@ -86,7 +86,7 @@ export const WithIcons: Story = {
     template: `
       <Dropdown v-bind="args">
         <template #trigger>
-          <button class="btn btn-ghost">Menu ▼</button>
+          <button>Menu ▼</button>
         </template>
         <li><a>📧 Messages</a></li>
         <li><a>⚙️ Settings</a></li>
@@ -105,7 +105,7 @@ export const Positions: Story = {
       <div class="flex gap-4 flex-wrap">
         <Dropdown position="bottom">
           <template #trigger>
-            <button class="btn btn-outline">Bottom</button>
+            <button>Bottom</button>
           </template>
           <li><a>Item 1</a></li>
           <li><a>Item 2</a></li>
@@ -113,7 +113,7 @@ export const Positions: Story = {
         
         <Dropdown position="top">
           <template #trigger>
-            <button class="btn btn-outline">Top</button>
+            <button>Top</button>
           </template>
           <li><a>Item 1</a></li>
           <li><a>Item 2</a></li>
@@ -121,7 +121,7 @@ export const Positions: Story = {
         
         <Dropdown position="left">
           <template #trigger>
-            <button class="btn btn-outline">Left</button>
+            <button>Left</button>
           </template>
           <li><a>Item 1</a></li>
           <li><a>Item 2</a></li>
@@ -129,7 +129,7 @@ export const Positions: Story = {
         
         <Dropdown position="right">
           <template #trigger>
-            <button class="btn btn-outline">Right</button>
+            <button>Right</button>
           </template>
           <li><a>Item 1</a></li>
           <li><a>Item 2</a></li>
@@ -151,7 +151,7 @@ export const HoverMode: Story = {
     template: `
       <Dropdown v-bind="args">
         <template #trigger>
-          <button class="btn btn-secondary">Hover me</button>
+          <button>Hover me</button>
         </template>
         <li><a>Hover Item 1</a></li>
         <li><a>Hover Item 2</a></li>
@@ -215,7 +215,7 @@ export const CustomTrigger: Story = {
     template: `
       <Dropdown v-bind="args">
         <template #trigger>
-          <button class="btn btn-circle btn-ghost">
+          <button>
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
             </svg>

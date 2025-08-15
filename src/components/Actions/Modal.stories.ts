@@ -54,13 +54,12 @@ export const Default: Story = {
     setup() {
       const isOpen = ref(false);
       const openModal = () => {
+        console.log('Opening modal');
         isOpen.value = true;
       };
-      const closeModal = () => {
-        isOpen.value = false;
-      };
-
-      return { args, isOpen, openModal, closeModal };
+      
+      // Remove the closeModal handler - let v-model handle it
+      return { args, isOpen, openModal };
     },
     template: `
       <div>
@@ -70,9 +69,9 @@ export const Default: Story = {
           v-model="isOpen" 
           v-bind="args"
           title="Modal Title"
-          @close="closeModal"
         >
           <p>This is a basic modal with some content. You can close it by clicking the X button, pressing Escape, or clicking outside the modal.</p>
+          <p class="mt-2 text-sm text-gray-500">Modal state: {{ isOpen ? 'Open' : 'Closed' }}</p>
         </Modal>
       </div>
     `,
@@ -210,6 +209,35 @@ export const Sizes: Story = {
   }),
 };
 
+export const Debug: Story = {
+  render: () => ({
+    components: { Modal, Button },
+    setup() {
+      const isOpen = ref(false);
+      const toggle = () => {
+        console.log('Before toggle:', isOpen.value);
+        isOpen.value = !isOpen.value;
+        console.log('After toggle:', isOpen.value);
+      };
+
+      return { isOpen, toggle };
+    },
+    template: `
+      <div>
+        <div class="mb-4">
+          <Button @click="toggle">Toggle Modal ({{ isOpen ? 'Close' : 'Open' }})</Button>
+          <p class="text-sm mt-2">Current state: {{ isOpen ? 'Open' : 'Closed' }}</p>
+        </div>
+        
+        <Modal v-model="isOpen" title="Debug Modal">
+          <p>This is a debug modal to test functionality.</p>
+          <p class="mt-2">Current state inside modal: {{ isOpen ? 'Open' : 'Closed' }}</p>
+        </Modal>
+      </div>
+    `,
+  }),
+};
+
 export const Persistent: Story = {
   render: args => ({
     components: { Modal, Button },
@@ -236,7 +264,6 @@ export const Persistent: Story = {
           :closable="false"
           :close-on-overlay="false"
           :close-on-esc="false"
-          @close="closeModal"
         >
           <p>This modal cannot be closed by clicking outside, pressing Escape, or using the X button. You must use the Close button below.</p>
           
