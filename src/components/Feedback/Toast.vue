@@ -2,11 +2,15 @@
   <Transition :name="transitionName" @enter="onEnter" @leave="onLeave">
     <div
       v-if="visible"
+      ref="toastRef"
       :class="containerClasses"
       role="alert"
       :aria-live="type === 'error' ? 'assertive' : 'polite'"
+      :aria-label="ariaLabel"
+      tabindex="0"
       @mouseenter="pauseTimer"
       @mouseleave="resumeTimer"
+      @keydown="handleKeydown"
     >
       <div :class="iconContainerClasses">
         <component :is="iconComponent" :class="iconClasses" />
@@ -29,12 +33,13 @@
 
       <button
         v-if="closable"
+        ref="closeButtonRef"
         type="button"
         :class="closeButtonClasses"
-        aria-label="close"
+        :aria-label="closeButtonLabel"
         @click="close"
         @keydown.enter="close"
-        @keydown.space="close"
+        @keydown.space.prevent="close"
       >
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
@@ -50,7 +55,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref, nextTick } from 'vue';
 
 const props = withDefaults(
   defineProps<{
@@ -62,6 +67,10 @@ const props = withDefaults(
     persistent?: boolean;
     position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center';
     fixed?: boolean;
+    autoFocus?: boolean;
+    showProgress?: boolean;
+    pauseOnHover?: boolean;
+    announceToScreenReader?: boolean;
   }>(),
   {
     type: 'info',
@@ -70,15 +79,40 @@ const props = withDefaults(
     persistent: false,
     position: 'top-right',
     fixed: false,
+    autoFocus: false,
+    showProgress: true,
+    pauseOnHover: true,
+    announceToScreenReader: true,
   }
 );
 
 const emit = defineEmits<{
   close: [];
+  'before-close': [];
+  'after-close': [];
 }>();
 
 const visible = ref(true);
+const toastRef = ref<HTMLElement>();
+const closeButtonRef = ref<HTMLElement>();
 let timer: ReturnType<typeof setTimeout> | null = null;
+let remainingTime = ref(props.duration);
+let progressInterval: ReturnType<typeof setInterval> | null = null;
+
+// Computed properties
+const ariaLabel = computed(() => {
+  const typeText = props.type.charAt(0).toUpperCase() + props.type.slice(1);
+  return `${typeText} notification: ${props.title ? props.title + '. ' : ''}${props.message}`;
+});
+
+const closeButtonLabel = computed(() => {
+  return `Close ${props.type} notification`;
+});
+
+const progressPercentage = computed(() => {
+  if (!props.showProgress || props.duration === 0) return 0;
+  return ((props.duration - remainingTime.value) / props.duration) * 100;
+});
 
 const containerClasses = computed(() => {
   const baseClasses = [
@@ -219,23 +253,49 @@ const startTimer = () => {
 };
 
 const pauseTimer = () => {
+  if (!props.pauseOnHover) return;
+  
   if (timer) {
     clearTimeout(timer);
     timer = null;
+  }
+  if (progressInterval) {
+    clearInterval(progressInterval);
+    progressInterval = null;
   }
 };
 
 const resumeTimer = () => {
+  if (!props.pauseOnHover) return;
   startTimer();
 };
 
+const handleKeydown = (event: KeyboardEvent) => {
+  if (event.key === 'Escape' && props.closable) {
+    close();
+  }
+};
+
 const close = () => {
+  emit('before-close');
   visible.value = false;
+  
+  // Cleanup timers
   if (timer) {
     clearTimeout(timer);
     timer = null;
   }
+  if (progressInterval) {
+    clearInterval(progressInterval);
+    progressInterval = null;
+  }
+  
   emit('close');
+  
+  // Emit after-close after animation
+  setTimeout(() => {
+    emit('after-close');
+  }, 300);
 };
 
 const onEnter = () => {
@@ -248,12 +308,33 @@ const onLeave = () => {
 
 onMounted(() => {
   startTimer();
+  
+  if (props.autoFocus && toastRef.value) {
+    nextTick(() => {
+      toastRef.value?.focus();
+    });
+  }
+  
+  // Announce to screen reader
+  if (props.announceToScreenReader) {
+    // Screen reader will automatically announce due to role="alert"
+  }
 });
 
 onUnmounted(() => {
   if (timer) {
     clearTimeout(timer);
   }
+  if (progressInterval) {
+    clearInterval(progressInterval);
+  }
+});
+
+// Expose methods for parent component access
+defineExpose({
+  close,
+  pause: pauseTimer,
+  resume: resumeTimer,
 });
 </script>
 

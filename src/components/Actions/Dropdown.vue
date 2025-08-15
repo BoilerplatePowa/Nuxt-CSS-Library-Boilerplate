@@ -1,17 +1,26 @@
 <template>
-  <div :class="dropdownClasses" @focusout="handleFocusOut">
+  <div 
+    ref="dropdownRef"
+    :class="dropdownClasses" 
+    @focusout="handleFocusOut"
+    @keydown="handleGlobalKeydown"
+  >
     <div 
+      ref="triggerRef"
       :tabindex="disabled ? -1 : 0" 
       role="button" 
       :class="triggerClasses" 
-      @click="toggle" 
-      @keydown="handleKeydown"
+      :aria-haspopup="true"
+      :aria-expanded="isOpen"
+      :aria-controls="menuId"
       :aria-disabled="disabled"
+      @click="toggle" 
+      @keydown="handleTriggerKeydown"
     >
       <slot name="trigger">
         <span>{{ triggerText || 'Dropdown' }}</span>
         <svg
-          class="w-2.5 h-2.5 ml-2.5 transition-transform"
+          class="w-2.5 h-2.5 ml-2.5 transition-transform duration-200"
           :class="{ 'rotate-180': isOpen }"
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
@@ -24,26 +33,45 @@
     </div>
     
     <ul
-      tabindex="0"
+      ref="menuRef"
+      :id="menuId"
+      role="menu"
+      :tabindex="isOpen ? 0 : -1"
       :class="menuClasses"
+      :aria-hidden="!isOpen"
       @click="handleMenuClick"
+      @keydown="handleMenuKeydown"
     >
       <slot>
-        <li v-for="item in items" :key="getItemKey(item)">
+        <li 
+          v-for="(item, index) in items" 
+          :key="getItemKey(item)"
+          role="none"
+        >
           <a
             v-if="getItemHref(item)"
+            :ref="el => setItemRef(el, index)"
             :href="getItemHref(item)"
-            :class="getItemClasses(item)"
+            :class="getItemClasses(item, index)"
+            role="menuitem"
+            :tabindex="isOpen ? 0 : -1"
+            :aria-disabled="getItemDisabled(item)"
             @click="handleItemClick(item, $event)"
+            @keydown="handleItemKeydown($event, index)"
           >
             {{ getItemLabel(item) }}
           </a>
           <button
             v-else
+            :ref="el => setItemRef(el, index)"
             type="button"
-            :class="getItemClasses(item)"
+            :class="getItemClasses(item, index)"
+            role="menuitem"
+            :tabindex="isOpen ? 0 : -1"
             :disabled="getItemDisabled(item)"
+            :aria-disabled="getItemDisabled(item)"
             @click="handleItemClick(item, $event)"
+            @keydown="handleItemKeydown($event, index)"
           >
             {{ getItemLabel(item) }}
           </button>
@@ -54,7 +82,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick } from 'vue';
+import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue';
+
+// Simple ID generator
+let idCounter = 0;
+const generateId = () => `dropdown-${++idCounter}`;
 
 interface DropdownItem {
   label: string;
@@ -75,6 +107,8 @@ interface Props {
   disabled?: boolean;
   size?: 'xs' | 'sm' | 'md' | 'lg';
   variant?: 'primary' | 'secondary' | 'accent' | 'ghost' | 'outline';
+  closeOnSelect?: boolean;
+  autoFocus?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -86,15 +120,34 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
   size: 'md',
   variant: 'ghost',
+  closeOnSelect: true,
+  autoFocus: true,
 });
 
 const emit = defineEmits<{
   'item-click': [item: DropdownItem, event: Event];
   open: [];
   close: [];
+  'update:open': [value: boolean];
 }>();
 
 const isOpen = ref(false);
+const focusedIndex = ref(-1);
+const menuId = generateId();
+
+// Component refs
+const dropdownRef = ref<HTMLElement>();
+const triggerRef = ref<HTMLElement>();
+const menuRef = ref<HTMLElement>();
+const itemRefs = ref<(HTMLElement | null)[]>([]);
+
+const setItemRef = (el: any, index: number) => {
+  if (el && '$el' in el) {
+    itemRefs.value[index] = el.$el as HTMLElement;
+  } else if (el) {
+    itemRefs.value[index] = el as HTMLElement;
+  }
+};
 
 const dropdownClasses = computed(() => {
   const baseClasses = ['dropdown'];
@@ -174,27 +227,77 @@ const menuClasses = computed(() => {
   return classes.join(' ');
 });
 
-const toggle = () => {
+// Navigation helpers
+const getEnabledItems = () => props.items.filter(item => !item.disabled);
+
+const focusItem = (index: number) => {
+  const enabledItems = getEnabledItems();
+  if (index >= 0 && index < enabledItems.length) {
+    focusedIndex.value = index;
+    const actualIndex = props.items.findIndex(item => item === enabledItems[index]);
+    nextTick(() => {
+      itemRefs.value[actualIndex]?.focus();
+    });
+  }
+};
+
+const focusFirstItem = () => focusItem(0);
+const focusLastItem = () => focusItem(getEnabledItems().length - 1);
+
+const focusNextItem = () => {
+  const enabledItems = getEnabledItems();
+  const nextIndex = (focusedIndex.value + 1) % enabledItems.length;
+  focusItem(nextIndex);
+};
+
+const focusPreviousItem = () => {
+  const enabledItems = getEnabledItems();
+  const prevIndex = focusedIndex.value <= 0 
+    ? enabledItems.length - 1 
+    : focusedIndex.value - 1;
+  focusItem(prevIndex);
+};
+
+const open = () => {
   if (props.disabled) return;
   
-  isOpen.value = !isOpen.value;
+  isOpen.value = true;
+  focusedIndex.value = -1;
+  emit('open');
+  emit('update:open', true);
   
-  if (isOpen.value) {
-    emit('open');
-  } else {
-    emit('close');
+  if (props.autoFocus) {
+    nextTick(() => {
+      focusFirstItem();
+    });
   }
 };
 
 const close = () => {
   if (isOpen.value) {
     isOpen.value = false;
+    focusedIndex.value = -1;
     emit('close');
+    emit('update:open', false);
+    
+    // Return focus to trigger
+    nextTick(() => {
+      triggerRef.value?.focus();
+    });
+  }
+};
+
+const toggle = () => {
+  if (props.disabled) return;
+  
+  if (isOpen.value) {
+    close();
+  } else {
+    open();
   }
 };
 
 const handleFocusOut = async (event: FocusEvent) => {
-  // Wait for the next tick to see if focus moved to a child element
   await nextTick();
   
   const dropdown = event.currentTarget as HTMLElement;
@@ -203,24 +306,74 @@ const handleFocusOut = async (event: FocusEvent) => {
   }
 };
 
-const handleKeydown = (event: KeyboardEvent) => {
-  if (event.key === 'Enter' || event.key === ' ') {
-    event.preventDefault();
-    toggle();
-  } else if (event.key === 'Escape') {
-    close();
+const handleGlobalKeydown = (event: KeyboardEvent) => {
+  if (!isOpen.value) return;
+  
+  switch (event.key) {
+    case 'Escape':
+      event.preventDefault();
+      close();
+      break;
+    case 'ArrowDown':
+      event.preventDefault();
+      focusNextItem();
+      break;
+    case 'ArrowUp':
+      event.preventDefault();
+      focusPreviousItem();
+      break;
+    case 'Home':
+      event.preventDefault();
+      focusFirstItem();
+      break;
+    case 'End':
+      event.preventDefault();
+      focusLastItem();
+      break;
+  }
+};
+
+const handleTriggerKeydown = (event: KeyboardEvent) => {
+  switch (event.key) {
+    case 'Enter':
+    case ' ':
+      event.preventDefault();
+      toggle();
+      break;
+    case 'ArrowDown':
+      event.preventDefault();
+      open();
+      break;
+    case 'Escape':
+      event.preventDefault();
+      close();
+      break;
+  }
+};
+
+const handleMenuKeydown = (event: KeyboardEvent) => {
+  // Handled by global keydown
+};
+
+const handleItemKeydown = (event: KeyboardEvent, index: number) => {
+  switch (event.key) {
+    case 'Enter':
+    case ' ':
+      event.preventDefault();
+      (event.target as HTMLElement).click();
+      break;
   }
 };
 
 const handleMenuClick = (event: Event) => {
-  // Don't close if clicking on disabled items or dividers
   const target = event.target as HTMLElement;
   if (target.hasAttribute('disabled') || target.classList.contains('menu-title')) {
     return;
   }
   
-  // Close dropdown after item selection
-  close();
+  if (props.closeOnSelect) {
+    close();
+  }
 };
 
 const handleItemClick = (item: DropdownItem, event: Event) => {
@@ -230,6 +383,10 @@ const handleItemClick = (item: DropdownItem, event: Event) => {
   }
   
   emit('item-click', item, event);
+  
+  if (props.closeOnSelect) {
+    close();
+  }
 };
 
 // Helper functions for item rendering
@@ -253,16 +410,31 @@ const getItemDisabled = (item: DropdownItem | string): boolean => {
   return item.disabled || false;
 };
 
-const getItemClasses = (item: DropdownItem | string) => {
-  const classes = [];
+const getItemClasses = (item: DropdownItem | string, index: number) => {
+  const classes = ['transition-colors', 'duration-150'];
   
   if (typeof item === 'object') {
-    if (item.active) classes.push('active');
-    if (item.disabled) classes.push('disabled');
+    if (item.active) classes.push('active', 'bg-primary', 'text-primary-content');
+    if (item.disabled) classes.push('disabled', 'opacity-50', 'cursor-not-allowed');
+  }
+  
+  // Focus state for keyboard navigation
+  const enabledItems = getEnabledItems();
+  const enabledIndex = enabledItems.findIndex(enabledItem => enabledItem === item);
+  if (enabledIndex === focusedIndex.value) {
+    classes.push('bg-base-200', 'focus');
   }
   
   return classes.join(' ');
 };
+
+// Expose methods for external access
+defineExpose({
+  open,
+  close,
+  toggle,
+  focus: () => triggerRef.value?.focus(),
+});
 </script>
 
 <style scoped lang="postcss">
