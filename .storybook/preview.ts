@@ -29,14 +29,16 @@ const preview: Preview = {
   decorators: [
     (story) => ({
       template: `
-        <div style="
-          width: 100%; 
-          height: 100vh; 
-          display: flex; 
-          align-items: center; 
-          justify-content: center;
-          min-height: 400px;
-        ">
+        <div 
+          style="
+            width: 100%; 
+            height: 100vh; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            min-height: 400px;
+          "
+        >
           <div style="max-width: 1200px; width: 100%; padding: 2rem;">
             <story />
           </div>

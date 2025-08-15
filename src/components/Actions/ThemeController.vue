@@ -39,6 +39,16 @@
       :aria-label="ariaLabel"
     />
 
+    <!-- Switch variant -->
+    <input
+      v-else-if="variant === 'switch'"
+      type="checkbox"
+      :class="switchClasses"
+      :checked="isDark"
+      @change="toggleTheme"
+      :aria-label="ariaLabel"
+    />
+
     <!-- Dropdown variant -->
     <select
       v-else-if="variant === 'dropdown'"
@@ -86,7 +96,7 @@ interface ThemeOption {
 }
 
 interface Props {
-  variant?: 'button' | 'toggle' | 'dropdown' | 'radio';
+  variant?: 'button' | 'toggle' | 'switch' | 'dropdown' | 'radio';
   themes?: ThemeOption[];
   defaultTheme?: string;
   darkTheme?: string;
@@ -155,6 +165,21 @@ const toggleClasses = computed(() => {
   return baseClasses.join(' ');
 });
 
+const switchClasses = computed(() => {
+  const baseClasses = ['toggle', 'toggle-primary'];
+  
+  // Size classes
+  if (props.size === 'xs') {
+    baseClasses.push('toggle-xs');
+  } else if (props.size === 'sm') {
+    baseClasses.push('toggle-sm');
+  } else if (props.size === 'lg') {
+    baseClasses.push('toggle-lg');
+  }
+
+  return baseClasses.join(' ');
+});
+
 const selectClasses = computed(() => {
   const baseClasses = ['select', 'select-bordered'];
   
@@ -190,7 +215,7 @@ const emit = defineEmits<{
 }>();
 
 const toggleTheme = () => {
-  if (props.variant === 'toggle' || props.variant === 'button') {
+  if (props.variant === 'toggle' || props.variant === 'switch' || props.variant === 'button') {
     const newTheme = isDark.value ? props.lightTheme : props.darkTheme;
     currentTheme.value = newTheme;
     emit('themeChange', newTheme);
@@ -206,7 +231,15 @@ const handleThemeChange = (event: Event) => {
 // Apply theme to document
 const applyTheme = (theme: string) => {
   if (typeof document !== 'undefined') {
+    // Apply to html element for DaisyUI themes
     document.documentElement.setAttribute('data-theme', theme);
+    
+    // Also apply to body for compatibility
+    document.body.setAttribute('data-theme', theme);
+    
+    // Update CSS custom properties for theme colors
+    const root = document.documentElement;
+    root.style.setProperty('--theme', theme);
   }
 };
 
