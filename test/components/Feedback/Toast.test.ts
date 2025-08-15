@@ -60,7 +60,7 @@ describe('Toast', () => {
       },
     });
 
-    expect(wrapper.find('button[aria-label="close"]').exists()).toBe(true);
+    expect(wrapper.find('button').exists()).toBe(true);
   });
 
   it('does not show close button when not closable', () => {

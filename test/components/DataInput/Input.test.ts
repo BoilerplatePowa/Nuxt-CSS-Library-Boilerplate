@@ -70,7 +70,7 @@ describe('Input', () => {
     });
 
     expect(wrapper.text()).toContain('This is help text');
-    expect(wrapper.find('p').classes()).toContain('text-gray-600');
+    expect(wrapper.find('p').classes()).toContain('text-base-content/70');
   });
 
   it('shows error message when provided', () => {
@@ -81,7 +81,7 @@ describe('Input', () => {
     });
 
     expect(wrapper.text()).toContain('This field is required');
-    expect(wrapper.find('p').classes()).toContain('text-red-600');
+    expect(wrapper.find('p').classes()).toContain('text-error');
   });
 
   it('applies error state classes', () => {
