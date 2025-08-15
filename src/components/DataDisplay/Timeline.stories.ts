@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/vue3';
-import { ref } from 'vue';
+import type { Meta, StoryObj } from '@storybook/vue3-vite';
+
 import Timeline from './Timeline.vue';
 
 const meta: Meta<typeof Timeline> = {

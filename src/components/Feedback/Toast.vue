@@ -96,7 +96,7 @@ const visible = ref(true);
 const toastRef = ref<HTMLElement>();
 const closeButtonRef = ref<HTMLElement>();
 let timer: ReturnType<typeof setTimeout> | null = null;
-let remainingTime = ref(props.duration);
+
 let progressInterval: ReturnType<typeof setInterval> | null = null;
 
 // Computed properties
@@ -109,10 +109,7 @@ const closeButtonLabel = computed(() => {
   return `Close ${props.type} notification`;
 });
 
-const progressPercentage = computed(() => {
-  if (!props.showProgress || props.duration === 0) return 0;
-  return ((props.duration - remainingTime.value) / props.duration) * 100;
-});
+
 
 const containerClasses = computed(() => {
   const baseClasses = [

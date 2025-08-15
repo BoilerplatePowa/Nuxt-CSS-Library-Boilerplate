@@ -23,21 +23,22 @@
         <option v-if="placeholder && !multiple" value="" disabled>
           {{ placeholder }}
         </option>
-        <optgroup 
-          v-for="group in groupedOptions" 
-          :key="group.label"
-          :label="group.label"
-          v-if="hasGroups"
-        >
-          <option
-            v-for="option in group.options"
-            :key="getOptionValue(option)"
-            :value="getOptionValue(option)"
-            :disabled="getOptionDisabled(option)"
+        <template v-if="hasGroups">
+          <optgroup 
+            v-for="group in groupedOptions" 
+            :key="group.label"
+            :label="group.label"
           >
-            {{ getOptionLabel(option) }}
-          </option>
-        </optgroup>
+            <option
+              v-for="option in group.options"
+              :key="getOptionValue(option)"
+              :value="getOptionValue(option)"
+              :disabled="getOptionDisabled(option)"
+            >
+              {{ getOptionLabel(option) }}
+            </option>
+          </optgroup>
+        </template>
         <template v-if="!hasGroups">
           <slot>
             <option

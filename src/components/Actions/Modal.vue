@@ -88,7 +88,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch, onMounted, onUnmounted } from 'vue';
+import { computed, nextTick, ref, watch, onUnmounted } from 'vue';
 
 // Simple ID generator for compatibility
 let idCounter = 0;
@@ -140,7 +140,7 @@ const lastFocusableElement = ref<HTMLElement>();
 const titleId = generateId();
 const descriptionId = generateId();
 let previousActiveElement: Element | null = null;
-let focusableElements: HTMLElement[] = [];
+
 
 const overlayClasses = computed(() => [
   'fixed',

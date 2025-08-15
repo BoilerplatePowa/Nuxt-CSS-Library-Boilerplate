@@ -116,7 +116,7 @@ import { computed, ref, watch } from 'vue';
 
 interface ValidationRule {
   name: string;
-  test: (value: string) => boolean;
+  test: (value: string) => boolean; // eslint-disable-line no-unused-vars
   message: string;
 }
 
@@ -145,7 +145,7 @@ interface Props {
   url?: boolean;
   minLength?: number;
   pattern?: RegExp;
-  customValidator?: (value: string) => string | null;
+  customValidator?: (value: string) => string | null; // eslint-disable-line no-unused-vars
 }
 
 const props = withDefaults(defineProps<Props>(), {

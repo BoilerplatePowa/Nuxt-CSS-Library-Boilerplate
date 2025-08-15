@@ -52,12 +52,12 @@
             v-if="getItemHref(item)"
             :ref="el => setItemRef(el, index)"
             :href="getItemHref(item)"
-            :class="getItemClasses(item, index)"
+            :class="getItemClasses(item)"
             role="menuitem"
             :tabindex="isOpen ? 0 : -1"
             :aria-disabled="getItemDisabled(item)"
             @click="handleItemClick(item, $event)"
-            @keydown="handleItemKeydown($event, index)"
+            @keydown="handleItemKeydown"
           >
             {{ getItemLabel(item) }}
           </a>
@@ -65,13 +65,13 @@
             v-else
             :ref="el => setItemRef(el, index)"
             type="button"
-            :class="getItemClasses(item, index)"
+            :class="getItemClasses(item)"
             role="menuitem"
             :tabindex="isOpen ? 0 : -1"
             :disabled="getItemDisabled(item)"
             :aria-disabled="getItemDisabled(item)"
             @click="handleItemClick(item, $event)"
-            @keydown="handleItemKeydown($event, index)"
+            @keydown="handleItemKeydown"
           >
             {{ getItemLabel(item) }}
           </button>
@@ -82,7 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, nextTick, onMounted, onUnmounted } from 'vue';
+import { ref, computed, nextTick } from 'vue';
 
 // Simple ID generator
 let idCounter = 0;
@@ -351,11 +351,11 @@ const handleTriggerKeydown = (event: KeyboardEvent) => {
   }
 };
 
-const handleMenuKeydown = (event: KeyboardEvent) => {
+const handleMenuKeydown = () => {
   // Handled by global keydown
 };
 
-const handleItemKeydown = (event: KeyboardEvent, index: number) => {
+const handleItemKeydown = (event: KeyboardEvent) => {
   switch (event.key) {
     case 'Enter':
     case ' ':
@@ -410,7 +410,7 @@ const getItemDisabled = (item: DropdownItem | string): boolean => {
   return item.disabled || false;
 };
 
-const getItemClasses = (item: DropdownItem | string, index: number) => {
+const getItemClasses = (item: DropdownItem | string) => {
   const classes = ['transition-colors', 'duration-150'];
   
   if (typeof item === 'object') {
