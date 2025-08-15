@@ -1,11 +1,15 @@
 // DaisyUI Data Input Category
+export { default as Calendar } from './Calendar.vue';
 export { default as Checkbox } from './Checkbox.vue';
+export { default as Fieldset } from './Fieldset.vue';
 export { default as FileInput } from './FileInput.vue';
+export { default as Filter } from './Filter.vue';
 export { default as Input } from './Input.vue';
+export { default as Label } from './Label.vue';
 export { default as Radio } from './Radio.vue';
 export { default as Range } from './Range.vue';
 export { default as Rating } from './Rating.vue';
 export { default as Select } from './Select.vue';
 export { default as Textarea } from './Textarea.vue';
 export { default as Toggle } from './Toggle.vue';
-// Missing: Calendar, Fieldset, Filter, Label, Validator
+export { default as Validator } from './Validator.vue';
