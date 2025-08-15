@@ -1,6 +1,13 @@
 <template>
   <div :class="dropdownClasses" @focusout="handleFocusOut">
-    <div tabindex="0" role="button" :class="triggerClasses" @click="toggle" @keydown="handleKeydown">
+    <div 
+      :tabindex="disabled ? -1 : 0" 
+      role="button" 
+      :class="triggerClasses" 
+      @click="toggle" 
+      @keydown="handleKeydown"
+      :aria-disabled="disabled"
+    >
       <slot name="trigger">
         <span>{{ triggerText || 'Dropdown' }}</span>
         <svg
@@ -17,7 +24,6 @@
     </div>
     
     <ul
-      v-show="isOpen"
       tabindex="0"
       :class="menuClasses"
       @click="handleMenuClick"
@@ -153,16 +159,20 @@ const triggerClasses = computed(() => {
   return baseClasses.join(' ');
 });
 
-const menuClasses = computed(() => [
-  'dropdown-content',
-  'menu',
-  'bg-base-100',
-  'rounded-box',
-  'z-[1]',
-  'w-52',
-  'p-2',
-  'shadow',
-]);
+const menuClasses = computed(() => {
+  const classes = [
+    'dropdown-content',
+    'menu',
+    'bg-base-100',
+    'rounded-box',
+    'z-[1]',
+    'w-52',
+    'p-2',
+    'shadow'
+  ];
+  
+  return classes.join(' ');
+});
 
 const toggle = () => {
   if (props.disabled) return;

@@ -57,7 +57,10 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
+  args: {
+    triggerText: 'Click me',
+    variant: 'primary',
+  },
   render: (args) => ({
     components: { Dropdown },
     setup() {
@@ -65,9 +68,6 @@ export const Default: Story = {
     },
     template: `
       <Dropdown v-bind="args">
-        <template #trigger>
-          <button class="btn btn-primary">Click me</button>
-        </template>
         <li><a>Item 1</a></li>
         <li><a>Item 2</a></li>
         <li><a>Item 3</a></li>
@@ -164,6 +164,7 @@ export const HoverMode: Story = {
 export const Disabled: Story = {
   args: {
     disabled: true,
+    triggerText: 'Disabled Dropdown',
   },
   render: (args) => ({
     components: { Dropdown },
@@ -172,11 +173,59 @@ export const Disabled: Story = {
     },
     template: `
       <Dropdown v-bind="args">
-        <template #trigger>
-          <button class="btn btn-disabled">Disabled Dropdown</button>
-        </template>
         <li><a>Item 1</a></li>
         <li><a>Item 2</a></li>
+      </Dropdown>
+    `,
+  }),
+};
+
+export const WithItems: Story = {
+  args: {
+    triggerText: 'Select Action',
+    items: [
+      { label: 'Edit', value: 'edit' },
+      { label: 'Delete', value: 'delete' },
+      { label: 'Archive', value: 'archive', disabled: true },
+      { label: 'Share', value: 'share' },
+    ],
+  },
+  render: (args) => ({
+    components: { Dropdown },
+    setup() {
+      const handleItemClick = (item: { label: string; value: string }, _event: Event) => {
+        console.log('Item clicked:', item);
+        alert(`Clicked: ${item.label}`);
+      };
+      return { args, handleItemClick };
+    },
+    template: `
+      <Dropdown v-bind="args" @item-click="handleItemClick" />
+    `,
+  }),
+};
+
+export const CustomTrigger: Story = {
+  args: {},
+  render: (args) => ({
+    components: { Dropdown },
+    setup() {
+      return { args };
+    },
+    template: `
+      <Dropdown v-bind="args">
+        <template #trigger>
+          <button class="btn btn-circle btn-ghost">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+            </svg>
+          </button>
+        </template>
+        <li><a>📧 Messages</a></li>
+        <li><a>⚙️ Settings</a></li>
+        <li><a>👤 Profile</a></li>
+        <li><hr class="my-1"></li>
+        <li><a class="text-error">🚪 Logout</a></li>
       </Dropdown>
     `,
   }),
