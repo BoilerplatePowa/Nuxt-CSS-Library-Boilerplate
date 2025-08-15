@@ -81,7 +81,12 @@ const buttonRef = ref<HTMLButtonElement>();
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
 const buttonClasses = computed(() => {
-  const baseClasses = ['btn', 'transition-all', 'duration-200'];
+  const baseClasses = ['btn'];
+  
+  // Animation classes (unless disabled)
+  if (!props.noAnimation) {
+    baseClasses.push('transition-all', 'duration-200', 'ease-in-out');
+  }
 
   // Variant classes
   switch (props.variant) {
@@ -156,8 +161,13 @@ const buttonClasses = computed(() => {
     baseClasses.push('opacity-75', 'cursor-not-allowed');
   }
 
-  // Responsive classes
+  // Accessibility and interaction classes
   baseClasses.push('focus:outline-none', 'focus:ring-2', 'focus:ring-offset-2', 'focus:ring-current');
+  
+  // Enhanced hover/active states for better animations
+  if (!props.disabled && !props.loading && !props.noAnimation) {
+    baseClasses.push('hover:shadow-md');
+  }
 
   return baseClasses.join(' ');
 });
@@ -247,14 +257,33 @@ defineExpose({
 <style scoped lang="postcss">
 /* DaisyUI handles most button styling, only custom overrides here */
 .btn {
-  @apply gap-2;
-  @apply relative;
-  @apply select-none;
+  @apply gap-2 relative select-none;
+  /* Ensure transforms work properly */
+  transform-origin: center;
+  will-change: transform, box-shadow;
+}
+
+/* Enhanced animation support */
+.btn:not(.no-animation) {
+  @apply transition-all duration-200 ease-in-out;
 }
 
 /* Improved focus styles for better accessibility */
 .btn:focus-visible {
   @apply ring-2 ring-offset-2 ring-current;
+  transform: translateY(-1px);
+}
+
+/* Enhanced hover states with animations */
+.btn:not(:disabled):not([aria-busy="true"]):not(.no-animation):hover {
+  @apply shadow-md;
+  transform: translateY(-1px);
+}
+
+/* Click animation with scale effect */
+.btn:not(:disabled):not([aria-busy="true"]):not(.no-animation):active {
+  @apply shadow-sm;
+  transform: translateY(0) scale(0.95);
 }
 
 /* Loading state improvements */
@@ -265,11 +294,19 @@ defineExpose({
 /* Better disabled state */
 .btn:disabled {
   @apply pointer-events-none opacity-50;
+  transform: none !important;
 }
 
-/* Ripple effect on click (optional enhancement) */
-.btn:active {
-  @apply transform scale-95;
+/* No animation variant */
+.btn.no-animation {
+  transition: none !important;
+  transform: none !important;
+}
+
+.btn.no-animation:hover,
+.btn.no-animation:active,
+.btn.no-animation:focus {
+  transform: none !important;
 }
 
 /* Screen reader only class */
@@ -277,4 +314,20 @@ defineExpose({
   @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
   clip: rect(0, 0, 0, 0);
 }
+
+/* Loading spinner animation enhancement */
+.loading {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Let DaisyUI handle button variant hover colors naturally */
 </style>

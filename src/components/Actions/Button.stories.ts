@@ -353,6 +353,80 @@ export const Glass: Story = {
   }),
 };
 
+export const AnimationDemo: Story = {
+  render: () => ({
+    components: { Button },
+    template: `
+      <div class="space-y-8 p-6">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Button Animations</h3>
+          <p class="text-sm text-gray-600 mb-4">Click buttons to see hover, focus, and active state animations</p>
+          <div class="flex flex-wrap gap-4">
+            <Button variant="primary" class="transform transition-all duration-200 hover:scale-105 hover:shadow-lg">
+              Hover Scale Effect
+            </Button>
+            <Button variant="secondary" class="transition-all duration-300 hover:bg-opacity-80">
+              Smooth Hover
+            </Button>
+            <Button variant="accent" class="transform transition-transform duration-150 active:scale-95">
+              Click Scale
+            </Button>
+            <Button variant="outline" class="transition-all duration-200 hover:border-2 hover:border-primary">
+              Border Animation
+            </Button>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Loading Animations</h3>
+          <div class="flex flex-wrap gap-4">
+            <Button loading variant="primary">Loading Primary</Button>
+            <Button loading variant="secondary">Loading Secondary</Button>
+            <Button loading variant="accent">Loading Accent</Button>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Custom Animation Classes</h3>
+          <p class="text-sm text-gray-600 mb-4">Buttons with custom CSS animations</p>
+          <div class="flex flex-wrap gap-4">
+            <Button 
+              variant="primary" 
+              class="animate-pulse"
+            >
+              Pulse Animation
+            </Button>
+            <Button 
+              variant="secondary" 
+              class="transform transition-all duration-500 hover:rotate-3"
+            >
+              Rotate on Hover
+            </Button>
+            <Button 
+              variant="accent" 
+              class="transition-all duration-300 hover:shadow-2xl hover:shadow-accent/50"
+            >
+              Shadow Glow
+            </Button>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Animation Comparison</h3>
+          <div class="flex flex-wrap gap-4">
+            <Button variant="primary">
+              Normal Button
+            </Button>
+            <Button variant="primary" noAnimation>
+              No Animation
+            </Button>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+};
+
 export const AllVariants: Story = {
   render: () => ({
     components: { Button },
