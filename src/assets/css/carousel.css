@@ -1,0 +1,128 @@
+/* Carousel Component Styles */
+
+/* DaisyUI handles most carousel styling */
+.carousel-wrapper {
+  @apply relative;
+}
+
+.carousel-main-container {
+  @apply flex items-center relative;
+}
+
+.carousel-nav {
+  @apply z-10;
+}
+
+.carousel-controls {
+  @apply flex justify-center gap-2;
+}
+
+/* Top controls positioning */
+.carousel-controls-top {
+  @apply mb-4;
+}
+
+/* Bottom controls positioning */
+.carousel-controls-bottom {
+  @apply mt-4 w-fit mx-auto;
+}
+
+.carousel-controls .carousel-nav {
+  @apply relative;
+}
+
+.carousel-controls .carousel-nav button {
+  /* DaisyUI button classes will be applied via template */
+}
+
+/* External pagination - positioned below carousel */
+.carousel-pagination-external {
+  @apply flex justify-center items-center mt-4;
+  @apply bg-base-100/20 backdrop-blur-sm px-4 py-2 rounded-lg;
+}
+
+/* Side controls (both left and right) - positioned inside carousel with blurry background */
+.carousel-controls-sides {
+  @apply absolute inset-0 pointer-events-none z-20;
+}
+
+.carousel-controls-sides .carousel-nav {
+  @apply absolute top-0 h-full pointer-events-auto;
+}
+
+.carousel-controls-sides .carousel-nav.prev {
+  @apply left-0;
+}
+
+.carousel-controls-sides .carousel-nav.next {
+  @apply right-0;
+}
+
+/* Square side button with blurry background */
+.carousel-side-btn {
+  @apply w-12 h-full bg-base-100/20 backdrop-blur-sm border-0 rounded-none;
+  @apply flex items-center justify-center text-base-content/80;
+  @apply transition-all duration-300 ease-in-out;
+  @apply hover:bg-base-100/40 hover:backdrop-blur-md hover:text-base-content;
+  @apply focus:outline-none focus:ring-2 focus:ring-primary/50;
+}
+
+.carousel-side-btn:hover {
+  @apply shadow-lg;
+}
+
+/* Pagination types - all horizontal */
+.carousel-pagination-numbers {
+  @apply flex gap-2 flex-row;
+}
+
+.carousel-pagination-dots {
+  @apply flex gap-2 flex-row;
+}
+
+.carousel-pagination-line {
+  @apply flex justify-center items-center;
+}
+
+.pagination-line-container {
+  @apply flex gap-2 flex-row justify-center items-center;
+}
+
+.carousel-indicators {
+  @apply flex gap-2 flex-row;
+}
+
+.pagination-line {
+  @apply transition-all duration-300 flex-1 min-w-8 h-1 bg-base-300 rounded-full cursor-pointer overflow-hidden;
+}
+
+.pagination-line-fill {
+  @apply h-full bg-primary transition-all duration-300;
+}
+
+.carousel-container {
+  @apply w-full relative overflow-hidden;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .carousel-main-container {
+    @apply flex-col;
+  }
+  
+  .carousel-controls-sides .carousel-nav {
+    @apply relative top-0 transform-none;
+  }
+  
+  .carousel-controls-sides .carousel-nav.prev {
+    @apply left-0;
+  }
+  
+  .carousel-controls-sides .carousel-nav.next {
+    @apply right-0;
+  }
+  
+  .carousel-side-btn {
+    @apply w-8;
+  }
+}

@@ -3,6 +3,9 @@
   themes: all;
 }
 
+/* Import component styles */
+@import './carousel.css';
+
 /* Boilerplate Light Theme */
 @plugin "daisyui/theme" {
   name: "boilerplate-light";
