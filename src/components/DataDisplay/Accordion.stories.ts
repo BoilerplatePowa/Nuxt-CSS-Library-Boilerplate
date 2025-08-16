@@ -35,6 +35,10 @@ const meta: Meta<typeof Accordion> = {
       control: 'boolean',
       description: 'Disable the accordion',
     },
+    id: {
+      control: 'text',
+      description: 'Custom ID for the accordion (for accessibility and testing)',
+    },
   },
   tags: ['autodocs'],
 };
@@ -152,4 +156,78 @@ export const Large: Story = {
       },
     ],
   },
+};
+
+export const MultipleAccordions: Story = {
+  render: () => ({
+    components: { Accordion },
+    template: `
+      <div class="space-y-8">
+        <div>
+          <h3 class="text-lg font-semibold mb-4">FAQ Section</h3>
+          <Accordion 
+            id="faq-accordion"
+            :items="[
+              {
+                value: 'faq-1',
+                title: 'How do I reset my password?',
+                content: 'Click on the "Forgot Password" link on the login page and follow the instructions sent to your email.'
+              },
+              {
+                value: 'faq-2',
+                title: 'Can I change my subscription plan?',
+                content: 'Yes, you can upgrade or downgrade your subscription plan at any time from your account settings.'
+              }
+            ]"
+          />
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Product Information</h3>
+          <Accordion 
+            id="product-accordion"
+            variant="bordered"
+            :items="[
+              {
+                value: 'product-1',
+                title: 'Product Specifications',
+                content: 'Detailed technical specifications and features of our products.'
+              },
+              {
+                value: 'product-2',
+                title: 'Installation Guide',
+                content: 'Step-by-step installation instructions and requirements.'
+              }
+            ]"
+          />
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-4">Support</h3>
+          <Accordion 
+            id="support-accordion"
+            variant="compact"
+            multiple
+            :items="[
+              {
+                value: 'support-1',
+                title: 'Contact Information',
+                content: 'Email: support@example.com | Phone: 1-800-123-4567'
+              },
+              {
+                value: 'support-2',
+                title: 'Business Hours',
+                content: 'Monday - Friday: 9 AM - 6 PM EST'
+              },
+              {
+                value: 'support-3',
+                title: 'Emergency Support',
+                content: 'For urgent issues, please call our 24/7 emergency line.'
+              }
+            ]"
+          />
+        </div>
+      </div>
+    `,
+  }),
 };

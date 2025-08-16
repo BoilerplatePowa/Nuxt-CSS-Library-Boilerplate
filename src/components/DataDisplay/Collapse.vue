@@ -36,9 +36,8 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 
-// Simple ID generator
-let idCounter = 0;
-const generateId = () => `collapse-${++idCounter}`;
+// Generate unique ID for each collapse instance
+const generateCollapseId = () => `collapse-${Math.random().toString(36).substr(2, 9)}`;
 
 interface Props {
   modelValue?: boolean;
@@ -46,6 +45,7 @@ interface Props {
   variant?: 'default' | 'arrow' | 'plus';
   disabled?: boolean;
   forceOpen?: boolean;
+  id?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -53,6 +53,7 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'default',
   disabled: false,
   forceOpen: false,
+  id: undefined,
 });
 
 const emit = defineEmits<{
@@ -60,7 +61,7 @@ const emit = defineEmits<{
   toggle: [isOpen: boolean];
 }>();
 
-const collapseId = generateId();
+const collapseId = props.id || generateCollapseId();
 const isOpen = ref(props.modelValue);
 
 // Watch for external model value changes

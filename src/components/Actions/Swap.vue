@@ -2,6 +2,8 @@
   <label :class="swapClasses">
     <input
       type="checkbox"
+      :id="inputId"
+      :name="name"
       :checked="isSwapped"
       :disabled="disabled"
       @change="handleChange"
@@ -44,6 +46,9 @@ interface Props {
   offContent?: string;
   indeterminateContent?: string;
   disabled?: boolean;
+  name?: string;
+  id?: string;
+
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -54,6 +59,8 @@ const props = withDefaults(defineProps<Props>(), {
   offContent: '🌚',
   indeterminateContent: '🌤️',
   disabled: false,
+  name: undefined,
+  id: undefined,
 });
 
 const emit = defineEmits<{
@@ -62,6 +69,8 @@ const emit = defineEmits<{
 }>();
 
 const isSwapped = computed(() => props.modelValue);
+
+const inputId = computed(() => props.id || `swap-${Math.random().toString(36).substr(2, 9)}`);
 
 const swapClasses = computed(() => {
   const baseClasses = ['swap'];

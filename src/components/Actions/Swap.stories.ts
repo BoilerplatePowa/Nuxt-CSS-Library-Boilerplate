@@ -39,6 +39,14 @@ const meta: Meta<typeof Swap> = {
       control: 'boolean',
       description: 'Disable the swap interaction',
     },
+    name: {
+      control: 'text',
+      description: 'Name attribute for the input element',
+    },
+    id: {
+      control: 'text',
+      description: 'ID attribute for the input element',
+    },
   },
   tags: ['autodocs'],
 };
@@ -265,6 +273,60 @@ export const Disabled: Story = {
         </div>
         
         <p class="text-sm text-gray-600">Try clicking on the disabled swaps - they should not animate or change state.</p>
+      </div>
+    `,
+  }),
+};
+
+export const Accessible: Story = {
+  args: {
+    modelValue: false,
+    name: 'theme-toggle',
+    id: 'theme-swap',
+  },
+  render: (args) => ({
+    components: { Swap },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Accessible Swap with ID and Name</h3>
+          <Swap v-bind="args">
+            <template #on>
+              <div class="text-4xl">🌞</div>
+            </template>
+            <template #off>
+              <div class="text-4xl">🌙</div>
+            </template>
+          </Swap>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Form Integration Example</h3>
+          <form class="space-y-2">
+            <label for="notifications-swap" class="block text-sm font-medium">
+              Enable Notifications
+            </label>
+            <Swap 
+              v-model="args.modelValue"
+              name="notifications"
+              id="notifications-swap"
+            >
+              <template #on>
+                <div class="text-2xl">🔔</div>
+              </template>
+              <template #off>
+                <div class="text-2xl">🔕</div>
+              </template>
+            </Swap>
+          </form>
+        </div>
+        
+        <p class="text-sm text-gray-600">
+          These swaps have proper id and name attributes for accessibility and form integration.
+        </p>
       </div>
     `,
   }),

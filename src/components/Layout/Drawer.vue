@@ -57,9 +57,8 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue';
 
-// Simple ID generator
-let idCounter = 0;
-const generateId = () => `drawer-${++idCounter}`;
+// Generate unique ID for each drawer instance
+const generateDrawerId = () => `drawer-${Math.random().toString(36).substr(2, 9)}`;
 
 interface Props {
   modelValue?: boolean;
@@ -68,6 +67,7 @@ interface Props {
   backdrop?: boolean;
   persistent?: boolean;
   showCloseButton?: boolean;
+  id?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -77,6 +77,7 @@ const props = withDefaults(defineProps<Props>(), {
   backdrop: true,
   persistent: false,
   showCloseButton: true,
+  id: undefined,
 });
 
 const emit = defineEmits<{
@@ -85,7 +86,7 @@ const emit = defineEmits<{
   close: [];
 }>();
 
-const drawerId = generateId();
+const drawerId = props.id || generateDrawerId();
 const isOpen = ref(props.modelValue);
 
 // Watch for external model value changes

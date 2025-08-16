@@ -42,9 +42,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 
-// Simple ID generator
-let idCounter = 0;
-const generateId = () => ++idCounter;
+// Generate unique ID for each accordion instance
+const generateAccordionId = () => `accordion-${Math.random().toString(36).substr(2, 9)}`;
 
 interface AccordionItem {
   title: string;
@@ -61,6 +60,7 @@ interface Props {
   variant?: 'default' | 'bordered' | 'compact';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
+  id?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -69,6 +69,7 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'default',
   size: 'md',
   disabled: false,
+  id: undefined,
 });
 
 const emit = defineEmits<{
@@ -76,7 +77,7 @@ const emit = defineEmits<{
   'item-toggle': [item: AccordionItem, index: number, isOpen: boolean];
 }>();
 
-const accordionId = generateId();
+const accordionId = props.id || generateAccordionId();
 const openItems = ref(new Set<number>());
 
 // Initialize open items based on defaultOpen or modelValue
