@@ -1,19 +1,5 @@
 <template>
   <div :class="wrapperClasses">
-    <!-- Top Controls -->
-    <div v-if="showArrows && controllerPosition === 'top'" class="carousel-controls carousel-controls-top">
-      <div class="carousel-nav prev" @click="goToPrevious">
-        <slot name="prev-arrow">
-          <button :class="getArrowButtonClasses()">❮</button>
-        </slot>
-      </div>
-      <div class="carousel-nav next" @click="goToNext">
-        <slot name="next-arrow">
-          <button :class="getArrowButtonClasses()">❯</button>
-        </slot>
-      </div>
-    </div>
-
     <!-- Main Carousel Container -->
     <div :class="carouselClasses">
       <!-- Side Controls -->
@@ -30,17 +16,18 @@
         </div>
       </div>
 
-      <!-- Carousel Content -->
-      <div class="carousel-container" :style="carouselStyle">
+      <!-- DaisyUI Carousel Structure -->
+      <div class="carousel w-full" :style="carouselStyle">
         <slot>
           <div
             v-for="(item, index) in items"
             :key="getItemKey(item, index)"
+            :id="`carousel-item-${index}`"
             :class="getItemClasses(index)"
             @click="handleItemClick(item, index, $event)"
           >
             <slot
-              :name="`item-${index}`"
+              :name="`carousel-item-${index}`"
               :item="item"
               :index="index"
               :isActive="index === currentIndex"
@@ -60,30 +47,32 @@
       </div>
     </div>
 
-    <!-- Pagination Indicators -->
-    <div v-if="showIndicators" class="carousel-pagination-external">
+    <!-- Pagination Indicators (for sides) -->
+    <div v-if="showIndicators && controllerPosition === 'sides'" class="carousel-pagination-external">
       <!-- Numbers Pagination -->
       <div v-if="paginationType === 'numbers'" class="carousel-pagination-numbers">
-        <button
+        <a
           v-for="(item, index) in items"
           :key="`pagination-${index}`"
+          :href="`#carousel-item-${index}`"
           :class="getPaginationClasses(index)"
-          @click="goToSlide(index)"
+          @click.prevent="goToSlide(index)"
         >
           {{ index + 1 }}
-        </button>
+        </a>
       </div>
 
       <!-- Dots Pagination -->
       <div v-else-if="paginationType === 'dots'" class="carousel-pagination-dots">
-        <button
+        <a
           v-for="(item, index) in items"
           :key="`pagination-${index}`"
+          :href="`#carousel-item-${index}`"
           :class="getDotClasses(index)"
-          @click="goToSlide(index)"
+          @click.prevent="goToSlide(index)"
         >
           <span class="sr-only">Go to slide {{ index + 1 }}</span>
-        </button>
+        </a>
       </div>
 
       <!-- Line Pagination -->
@@ -99,26 +88,57 @@
           </div>
         </div>
       </div>
-
-      <!-- Default Indicators (fallback) -->
-      <div v-else class="carousel-indicators">
-        <button
-          v-for="(item, index) in items"
-          :key="`indicator-${index}`"
-          :class="getIndicatorClasses(index)"
-          @click="goToSlide(index)"
-        >
-          {{ index + 1 }}
-        </button>
-      </div>
     </div>
 
-    <!-- Bottom Controls -->
+    <!-- Bottom Controls with Indicators Between Arrows -->
     <div v-if="showArrows && controllerPosition === 'bottom'" class="carousel-controls carousel-controls-bottom">
       <div class="carousel-nav prev" @click="goToPrevious">
         <slot name="prev-arrow">
           <button :class="getArrowButtonClasses()">❮</button>
         </slot>
+      </div>
+      
+      <!-- Indicators Between Arrows -->
+      <div v-if="showIndicators" class="carousel-pagination-between">
+        <!-- Numbers Pagination -->
+        <div v-if="paginationType === 'numbers'" class="carousel-pagination-numbers">
+          <a
+            v-for="(item, index) in items"
+            :key="`pagination-${index}`"
+            :href="`#carousel-item-${index}`"
+            :class="getPaginationClasses(index)"
+            @click.prevent="goToSlide(index)"
+          >
+            {{ index + 1 }}
+          </a>
+        </div>
+
+        <!-- Dots Pagination -->
+        <div v-else-if="paginationType === 'dots'" class="carousel-pagination-dots">
+          <a
+            v-for="(item, index) in items"
+            :key="`pagination-${index}`"
+            :href="`#carousel-item-${index}`"
+            :class="getDotClasses(index)"
+            @click.prevent="goToSlide(index)"
+          >
+            <span class="sr-only">Go to slide {{ index + 1 }}</span>
+          </a>
+        </div>
+
+        <!-- Line Pagination -->
+        <div v-else-if="paginationType === 'line'" class="carousel-pagination-line">
+          <div class="pagination-line-container">
+            <div
+              v-for="(item, index) in items"
+              :key="`pagination-${index}`"
+              :class="getLineClasses(index)"
+              @click="goToSlide(index)"
+            >
+              <div class="pagination-line-fill" :style="getLineFillStyle(index)"></div>
+            </div>
+          </div>
+        </div>
       </div>
       
       <div class="carousel-nav next" @click="goToNext">
@@ -135,42 +155,42 @@ import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 
 interface CarouselItem {
   image?: string;
-  content?: string;
   alt?: string;
+  content?: string;
   value?: string | number;
-  href?: string;
 }
 
 interface Props {
-  items?: CarouselItem[];
+  items: CarouselItem[];
   modelValue?: number;
   autoplay?: boolean;
   autoplayInterval?: number;
   loop?: boolean;
-  showArrows?: boolean;
   showIndicators?: boolean;
+  showArrows?: boolean;
+  controllerPosition?: 'bottom' | 'sides';
+  paginationType?: 'numbers' | 'dots' | 'line' | 'default';
   variant?: 'default' | 'full-width' | 'center' | 'vertical';
-  itemWidth?: string;
+  indicatorVariant?: 'default' | 'filled' | 'outline' | 'ghost' | 'link';
+  arrowVariant?: 'default' | 'filled' | 'outline' | 'ghost' | 'link' | 'glass';
   itemHeight?: string;
   gap?: string;
-  controllerPosition?: 'top' | 'bottom' | 'sides';
-  paginationType?: 'numbers' | 'dots' | 'line' | 'default';
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  items: () => [],
   modelValue: 0,
   autoplay: false,
   autoplayInterval: 3000,
   loop: true,
-  showArrows: true,
   showIndicators: true,
-  variant: 'default',
-  itemWidth: '100%',
-  itemHeight: '16rem',
-  gap: '1rem',
+  showArrows: true,
   controllerPosition: 'bottom',
   paginationType: 'dots',
+  variant: 'default',
+  indicatorVariant: 'default',
+  arrowVariant: 'default',
+  itemHeight: '400px',
+  gap: '0',
 });
 
 const emit = defineEmits<{
@@ -201,7 +221,7 @@ const wrapperClasses = computed(() => {
 });
 
 const carouselClasses = computed(() => {
-  const baseClasses = ['carousel', 'relative'];
+  const baseClasses = ['carousel-main-container', 'relative'];
 
   // Variant classes
   if (props.variant === 'full-width') {
@@ -220,16 +240,10 @@ const carouselClasses = computed(() => {
 
 const carouselStyle = computed(() => {
   const style: Record<string, string> = {
-    display: 'flex',
-    transition: 'transform 0.3s ease-in-out',
     height: props.itemHeight,
   };
 
-  if (props.variant === 'vertical') {
-    style.flexDirection = 'column';
-    style.transform = `translateY(-${currentIndex.value * 100}%)`;
-  } else {
-    style.transform = `translateX(-${currentIndex.value * 100}%)`;
+  if (props.gap && props.gap !== '0') {
     style.gap = props.gap;
   }
 
@@ -237,13 +251,7 @@ const carouselStyle = computed(() => {
 });
 
 const getItemClasses = (index: number): string => {
-  const classes = ['carousel-item', 'flex-shrink-0'];
-
-  if (props.variant === 'full-width') {
-    classes.push('w-full');
-  } else {
-    classes.push('min-w-full');
-  }
+  const classes = ['carousel-item', 'w-full'];
 
   if (index === currentIndex.value) {
     classes.push('carousel-item-active');
@@ -265,16 +273,73 @@ const getIndicatorClasses = (index: number): string => {
 };
 
 const getArrowButtonClasses = (): string => {
-  return 'btn btn-sm btn-square';
+  const baseClasses = ['btn', 'btn-sm', 'btn-square'];
+  
+  // Apply arrow variant
+  switch (props.arrowVariant) {
+    case 'filled':
+      baseClasses.push('btn-primary');
+      break;
+    case 'outline':
+      baseClasses.push('btn-outline');
+      break;
+    case 'ghost':
+      baseClasses.push('btn-ghost');
+      break;
+    case 'link':
+      baseClasses.push('btn-link');
+      break;
+    case 'glass':
+      baseClasses.push('btn-glass');
+      break;
+    default:
+      // Default styling
+      break;
+  }
+  
+  return baseClasses.join(' ');
 };
 
 const getPaginationClasses = (index: number): string => {
   const classes = ['btn', 'btn-xs', 'btn-circle'];
 
-  if (index === currentIndex.value) {
-    classes.push('btn-active');
-  } else {
-    classes.push('btn-outline');
+  // Apply indicator variant
+  switch (props.indicatorVariant) {
+    case 'filled':
+      if (index === currentIndex.value) {
+        classes.push('btn-primary');
+      } else {
+        classes.push('btn-base-200');
+      }
+      break;
+    case 'outline':
+      if (index === currentIndex.value) {
+        classes.push('btn-primary', 'btn-outline');
+      } else {
+        classes.push('btn-outline');
+      }
+      break;
+    case 'ghost':
+      if (index === currentIndex.value) {
+        classes.push('btn-primary');
+      } else {
+        classes.push('btn-ghost');
+      }
+      break;
+    case 'link':
+      if (index === currentIndex.value) {
+        classes.push('btn-primary');
+      } else {
+        classes.push('btn-link');
+      }
+      break;
+    default:
+      if (index === currentIndex.value) {
+        classes.push('btn-active');
+      } else {
+        classes.push('btn-outline');
+      }
+      break;
   }
 
   return classes.join(' ');
@@ -283,10 +348,43 @@ const getPaginationClasses = (index: number): string => {
 const getDotClasses = (index: number): string => {
   const classes = ['btn', 'btn-circle', 'btn-xs'];
 
-  if (index === currentIndex.value) {
-    classes.push('btn-active');
-  } else {
-    classes.push('btn-outline');
+  // Apply indicator variant
+  switch (props.indicatorVariant) {
+    case 'filled':
+      if (index === currentIndex.value) {
+        classes.push('btn-primary');
+      } else {
+        classes.push('btn-base-200');
+      }
+      break;
+    case 'outline':
+      if (index === currentIndex.value) {
+        classes.push('btn-primary', 'btn-outline');
+      } else {
+        classes.push('btn-outline');
+      }
+      break;
+    case 'ghost':
+      if (index === currentIndex.value) {
+        classes.push('btn-primary');
+      } else {
+        classes.push('btn-ghost');
+      }
+      break;
+    case 'link':
+      if (index === currentIndex.value) {
+        classes.push('btn-primary');
+      } else {
+        classes.push('btn-link');
+      }
+      break;
+    default:
+      if (index === currentIndex.value) {
+        classes.push('btn-active');
+      } else {
+        classes.push('btn-outline');
+      }
+      break;
   }
 
   return classes.join(' ');
@@ -398,15 +496,17 @@ onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown);
 });
 
-// Watch for external model value changes
-watch(
-  () => props.modelValue,
-  (newValue) => {
-    if (newValue !== currentIndex.value) {
-      goToSlide(newValue);
-    }
-  }
-);
-</script>
+// Watch for modelValue changes
+watch(() => props.modelValue, (newValue) => {
+  currentIndex.value = newValue;
+});
 
-<!-- Styles are now in src/assets/css/carousel.css -->
+// Watch for currentIndex changes to update URL hash
+watch(currentIndex, (newIndex) => {
+  // Update URL hash for DaisyUI carousel navigation
+  const hash = `#carousel-item-${newIndex}`;
+  if (typeof window !== 'undefined') {
+    window.location.hash = hash;
+  }
+});
+</script>

@@ -53,10 +53,7 @@ describe('Carousel', () => {
       expect(wrapper.find('.carousel-controls').exists()).toBe(true);
     });
 
-    it('shows top controls when controllerPosition is top', async () => {
-      await wrapper.setProps({ controllerPosition: 'top' });
-      expect(wrapper.find('.carousel-controls').exists()).toBe(true);
-    });
+
 
     it('shows side controls when controllerPosition is sides', async () => {
       await wrapper.setProps({ controllerPosition: 'sides' });
@@ -101,12 +98,20 @@ describe('Carousel', () => {
 
   describe('Pagination External', () => {
     it('shows pagination external when showIndicators is true', () => {
-      expect(wrapper.find('.carousel-pagination-external').exists()).toBe(true);
+      // For bottom controller position, pagination is between arrows
+      expect(wrapper.find('.carousel-pagination-between').exists()).toBe(true);
     });
 
     it('hides pagination external when showIndicators is false', async () => {
       await wrapper.setProps({ showIndicators: false });
-      expect(wrapper.find('.carousel-pagination-external').exists()).toBe(false);
+      expect(wrapper.find('.carousel-pagination-between').exists()).toBe(false);
+    });
+
+
+
+    it('shows pagination external for sides controller position', async () => {
+      await wrapper.setProps({ controllerPosition: 'sides' });
+      expect(wrapper.find('.carousel-pagination-external').exists()).toBe(true);
     });
   });
 
@@ -158,7 +163,7 @@ describe('Carousel', () => {
 
   describe('Pagination Navigation', () => {
     it('navigates to specific slide via pagination', async () => {
-      const paginationButtons = wrapper.findAll('.carousel-pagination-dots button');
+      const paginationButtons = wrapper.findAll('.carousel-pagination-dots a');
       await paginationButtons[2].trigger('click'); // Click third button
       
       expect(wrapper.vm.currentIndex).toBe(2);
@@ -167,7 +172,7 @@ describe('Carousel', () => {
     it('navigates via numbers pagination', async () => {
       await wrapper.setProps({ paginationType: 'numbers' });
       
-      const paginationButtons = wrapper.findAll('.carousel-pagination-numbers button');
+      const paginationButtons = wrapper.findAll('.carousel-pagination-numbers a');
       await paginationButtons[1].trigger('click'); // Click second button
       
       expect(wrapper.vm.currentIndex).toBe(1);
@@ -176,7 +181,7 @@ describe('Carousel', () => {
     it('navigates via dots pagination', async () => {
       await wrapper.setProps({ paginationType: 'dots' });
       
-      const paginationButtons = wrapper.findAll('.carousel-pagination-dots button');
+      const paginationButtons = wrapper.findAll('.carousel-pagination-dots a');
       await paginationButtons[2].trigger('click'); // Click third button
       
       expect(wrapper.vm.currentIndex).toBe(2);
@@ -258,14 +263,14 @@ describe('Carousel', () => {
     it('handles custom item height', async () => {
       await wrapper.setProps({ itemHeight: '24rem' });
       
-      const container = wrapper.find('.carousel-container');
+      const container = wrapper.find('.carousel');
       expect(container.attributes('style')).toContain('height: 24rem');
     });
 
     it('handles custom gap', async () => {
       await wrapper.setProps({ gap: '2rem' });
       
-      const container = wrapper.find('.carousel-container');
+      const container = wrapper.find('.carousel');
       expect(container.attributes('style')).toContain('gap: 2rem');
     });
   });

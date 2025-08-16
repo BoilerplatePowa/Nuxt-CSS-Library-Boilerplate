@@ -8,7 +8,7 @@ const meta: Meta<typeof Carousel> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Interactive carousel component for displaying images and content with navigation controls.',
+        component: 'Interactive carousel component for displaying images and content with flexible navigation controls. Supports multiple arrow positions (bottom, sides), pagination types (numbers, dots, line), and style variants for both indicators and arrows. Side arrows are transparent by default and appear on hover.',
       },
     },
   },
@@ -41,6 +41,26 @@ const meta: Meta<typeof Carousel> = {
       control: { type: 'select' },
       options: ['default', 'full-width', 'center', 'vertical'],
       description: 'Carousel variant',
+    },
+    controllerPosition: {
+      control: { type: 'select' },
+      options: ['bottom', 'sides'],
+      description: 'Position of navigation arrows',
+    },
+    paginationType: {
+      control: { type: 'select' },
+      options: ['numbers', 'dots', 'line', 'default'],
+      description: 'Type of pagination indicators',
+    },
+    indicatorVariant: {
+      control: { type: 'select' },
+      options: ['default', 'filled', 'outline', 'ghost', 'link'],
+      description: 'Style variant for pagination indicators',
+    },
+    arrowVariant: {
+      control: { type: 'select' },
+      options: ['default', 'filled', 'outline', 'ghost', 'link', 'glass'],
+      description: 'Style variant for arrow buttons',
     },
   },
   tags: ['autodocs'],
@@ -75,6 +95,8 @@ const imageItems = [
 export const Default: Story = {
   args: {
     items: imageItems,
+    controllerPosition: 'bottom',
+    paginationType: 'dots',
     showIndicators: true,
     showArrows: true,
   },
@@ -95,6 +117,51 @@ export const NoControls: Story = {
     items: imageItems,
     showIndicators: false,
     showArrows: false,
+  },
+};
+
+
+
+export const SideControls: Story = {
+  args: {
+    items: imageItems,
+    controllerPosition: 'sides',
+    showIndicators: true,
+    showArrows: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Side arrows are transparent by default and appear when hovering over the carousel. They span the full height of the carousel.',
+      },
+    },
+  },
+};
+
+export const NumbersPagination: Story = {
+  args: {
+    items: imageItems,
+    paginationType: 'numbers',
+    showIndicators: true,
+    showArrows: true,
+  },
+};
+
+export const DotsPagination: Story = {
+  args: {
+    items: imageItems,
+    paginationType: 'dots',
+    showIndicators: true,
+    showArrows: true,
+  },
+};
+
+export const LinePagination: Story = {
+  args: {
+    items: imageItems,
+    paginationType: 'line',
+    showIndicators: true,
+    showArrows: true,
   },
 };
 
@@ -155,6 +222,63 @@ export const ProductShowcase: Story = {
   },
 };
 
+export const ProductShowcaseWithSideControls: Story = {
+  args: {
+    items: [
+      {
+        value: '1',
+        content: `
+          <div class="flex flex-col items-center p-8 bg-gradient-to-br from-blue-50 to-indigo-100">
+            <div class="w-32 h-32 bg-blue-500 rounded-full mb-4 flex items-center justify-center text-white text-4xl">
+              📱
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Smartphone</h3>
+            <p class="text-gray-600 text-center">Latest technology with amazing features</p>
+            <div class="text-3xl font-bold text-blue-600 mt-4">$699</div>
+          </div>
+        `,
+      },
+      {
+        value: '2',
+        content: `
+          <div class="flex flex-col items-center p-8 bg-gradient-to-br from-green-50 to-emerald-100">
+            <div class="w-32 h-32 bg-green-500 rounded-full mb-4 flex items-center justify-center text-white text-4xl">
+              💻
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Laptop</h3>
+            <p class="text-gray-600 text-center">Powerful performance for work and play</p>
+            <div class="text-3xl font-bold text-green-600 mt-4">$1,299</div>
+          </div>
+        `,
+      },
+      {
+        value: '3',
+        content: `
+          <div class="flex flex-col items-center p-8 bg-gradient-to-br from-purple-50 to-violet-100">
+            <div class="w-32 h-32 bg-purple-500 rounded-full mb-4 flex items-center justify-center text-white text-4xl">
+              🎧
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Headphones</h3>
+            <p class="text-gray-600 text-center">Premium sound quality and comfort</p>
+            <div class="text-3xl font-bold text-purple-600 mt-4">$199</div>
+          </div>
+        `,
+      },
+    ],
+    controllerPosition: 'sides',
+    paginationType: 'dots',
+    showIndicators: true,
+    showArrows: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Product showcase with side controls. Hover over the carousel to see the transparent arrows appear.',
+      },
+    },
+  },
+};
+
 export const TestimonialCarousel: Story = {
   args: {
     items: [
@@ -211,5 +335,151 @@ export const TestimonialCarousel: Story = {
     autoplayInterval: 4000,
     showIndicators: true,
     showArrows: false,
+  },
+};
+
+export const FilledIndicators: Story = {
+  args: {
+    items: imageItems,
+    indicatorVariant: 'filled',
+    showIndicators: true,
+    showArrows: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Carousel with filled indicator style - active indicators are primary colored, inactive ones are base-200.',
+      },
+    },
+  },
+};
+
+export const OutlineIndicators: Story = {
+  args: {
+    items: imageItems,
+    indicatorVariant: 'outline',
+    showIndicators: true,
+    showArrows: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Carousel with outline indicator style - all indicators have outlines, active ones are primary colored.',
+      },
+    },
+  },
+};
+
+export const GhostIndicators: Story = {
+  args: {
+    items: imageItems,
+    indicatorVariant: 'ghost',
+    showIndicators: true,
+    showArrows: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Carousel with ghost indicator style - subtle indicators that become primary colored when active.',
+      },
+    },
+  },
+};
+
+export const LinkIndicators: Story = {
+  args: {
+    items: imageItems,
+    indicatorVariant: 'link',
+    showIndicators: true,
+    showArrows: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Carousel with link indicator style - indicators look like links, active ones are primary colored.',
+      },
+    },
+  },
+};
+
+export const FilledArrows: Story = {
+  args: {
+    items: imageItems,
+    arrowVariant: 'filled',
+    showIndicators: true,
+    showArrows: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Carousel with filled arrow buttons - primary colored buttons.',
+      },
+    },
+  },
+};
+
+export const OutlineArrows: Story = {
+  args: {
+    items: imageItems,
+    arrowVariant: 'outline',
+    showIndicators: true,
+    showArrows: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Carousel with outline arrow buttons - outlined buttons with transparent background.',
+      },
+    },
+  },
+};
+
+export const GhostArrows: Story = {
+  args: {
+    items: imageItems,
+    arrowVariant: 'ghost',
+    showIndicators: true,
+    showArrows: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Carousel with ghost arrow buttons - subtle buttons that become more visible on hover.',
+      },
+    },
+  },
+};
+
+export const GlassArrows: Story = {
+  args: {
+    items: imageItems,
+    arrowVariant: 'glass',
+    showIndicators: true,
+    showArrows: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Carousel with glass arrow buttons - translucent buttons with blur effect.',
+      },
+    },
+  },
+};
+
+export const CombinedVariants: Story = {
+  args: {
+    items: imageItems,
+    indicatorVariant: 'filled',
+    arrowVariant: 'glass',
+    controllerPosition: 'sides',
+    showIndicators: true,
+    showArrows: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Carousel combining different variants - filled indicators with glass arrows and side controls.',
+      },
+    },
   },
 };

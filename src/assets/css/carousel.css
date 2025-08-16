@@ -1,128 +1,159 @@
-/* Carousel Component Styles */
-
-/* DaisyUI handles most carousel styling */
+/* Carousel wrapper styling */
 .carousel-wrapper {
   @apply relative;
 }
 
+/* Carousel main container */
 .carousel-main-container {
-  @apply flex items-center relative;
+  @apply relative;
 }
 
-.carousel-nav {
-  @apply z-10;
+/* Center variant styling */
+.carousel-center {
+  @apply mx-auto;
+  max-width: 800px;
 }
 
+/* Carousel wrapper centering */
+.carousel-wrapper.carousel-center {
+  @apply mx-auto;
+  max-width: 800px;
+}
+
+/* DaisyUI carousel styling - using native DaisyUI classes */
+.carousel {
+  /* DaisyUI handles the carousel behavior */
+}
+
+.carousel-item {
+  /* DaisyUI handles the item styling */
+}
+
+.carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Controls styling */
 .carousel-controls {
-  @apply flex justify-center gap-2;
+  @apply flex justify-center items-center mt-4;
 }
 
-/* Top controls positioning */
-.carousel-controls-top {
-  @apply mb-4;
-}
 
-/* Bottom controls positioning */
+
 .carousel-controls-bottom {
-  @apply mt-4 w-fit mx-auto;
+  @apply mt-2;
 }
 
+/* Make arrows stick together */
 .carousel-controls .carousel-nav {
   @apply relative;
 }
 
+.carousel-controls .carousel-nav:first-child {
+  @apply rounded-r-none;
+}
+
+.carousel-controls .carousel-nav:last-child {
+  @apply rounded-l-none;
+}
+
+/* Ensure buttons inside nav are properly styled */
 .carousel-controls .carousel-nav button {
-  /* DaisyUI button classes will be applied via template */
+  @apply rounded-none;
 }
 
-/* External pagination - positioned below carousel */
-.carousel-pagination-external {
-  @apply flex justify-center items-center mt-4;
-  @apply bg-base-100/20 backdrop-blur-sm px-4 py-2 rounded-lg;
+.carousel-controls .carousel-nav:first-child button {
+  @apply rounded-l-lg rounded-r-none;
 }
 
-/* Side controls (both left and right) - positioned inside carousel with blurry background */
+.carousel-controls .carousel-nav:last-child button {
+  @apply rounded-r-lg rounded-l-none;
+}
+
+/* Side controls styling */
 .carousel-controls-sides {
-  @apply absolute inset-0 pointer-events-none z-20;
-}
-
-.carousel-controls-sides .carousel-nav {
-  @apply absolute top-0 h-full pointer-events-auto;
+  @apply absolute inset-0 pointer-events-none;
 }
 
 .carousel-controls-sides .carousel-nav.prev {
-  @apply left-0;
+  @apply absolute left-0 top-0 bottom-0;
 }
 
 .carousel-controls-sides .carousel-nav.next {
-  @apply right-0;
+  @apply absolute right-0 top-0 bottom-0;
 }
 
-/* Square side button with blurry background */
 .carousel-side-btn {
-  @apply w-12 h-full bg-base-100/20 backdrop-blur-sm border-0 rounded-none;
-  @apply flex items-center justify-center text-base-content/80;
+  @apply w-12 h-full bg-transparent border-0 rounded-none;
+  @apply flex items-center justify-center text-transparent;
   @apply transition-all duration-300 ease-in-out;
-  @apply hover:bg-base-100/40 hover:backdrop-blur-md hover:text-base-content;
+  @apply hover:bg-base-100/20 hover:backdrop-blur-sm hover:text-base-content/80;
   @apply focus:outline-none focus:ring-2 focus:ring-primary/50;
+  @apply pointer-events-auto;
 }
 
-.carousel-side-btn:hover {
-  @apply shadow-lg;
+.carousel-wrapper:hover .carousel-side-btn {
+  @apply bg-base-100/20 backdrop-blur-sm text-base-content/80;
 }
 
-/* Pagination types - all horizontal */
+/* Pagination external styling */
+.carousel-pagination-external {
+  @apply flex justify-center items-center gap-2 mt-4 mb-2;
+}
+
+/* Pagination between arrows styling */
+.carousel-pagination-between {
+  @apply flex justify-center items-center gap-2 mx-4;
+}
+
+/* Numbers pagination */
 .carousel-pagination-numbers {
-  @apply flex gap-2 flex-row;
+  @apply flex gap-2;
 }
 
+/* Dots pagination */
 .carousel-pagination-dots {
-  @apply flex gap-2 flex-row;
+  @apply flex gap-1;
 }
 
+.carousel-pagination-dots .btn {
+  @apply btn-xs;
+  min-width: 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+}
+
+/* Line pagination */
 .carousel-pagination-line {
-  @apply flex justify-center items-center;
+  @apply flex gap-2;
 }
 
 .pagination-line-container {
-  @apply flex gap-2 flex-row justify-center items-center;
-}
-
-.carousel-indicators {
-  @apply flex gap-2 flex-row;
+  @apply flex gap-1;
 }
 
 .pagination-line {
-  @apply transition-all duration-300 flex-1 min-w-8 h-1 bg-base-300 rounded-full cursor-pointer overflow-hidden;
+  @apply w-8 h-1 bg-base-300 rounded cursor-pointer;
+  @apply transition-all duration-300 ease-in-out;
 }
 
 .pagination-line-fill {
-  @apply h-full bg-primary transition-all duration-300;
-}
-
-.carousel-container {
-  @apply w-full relative overflow-hidden;
+  @apply h-full bg-primary rounded transition-all duration-300 ease-in-out;
 }
 
 /* Responsive adjustments */
-@media (max-width: 640px) {
-  .carousel-main-container {
-    @apply flex-col;
-  }
-  
-  .carousel-controls-sides .carousel-nav {
-    @apply relative top-0 transform-none;
-  }
-  
-  .carousel-controls-sides .carousel-nav.prev {
-    @apply left-0;
-  }
-  
-  .carousel-controls-sides .carousel-nav.next {
-    @apply right-0;
-  }
-  
+@media (max-width: 768px) {
   .carousel-side-btn {
     @apply w-8;
+  }
+  
+  .carousel-controls {
+    @apply gap-1;
+  }
+  
+  .carousel-pagination-external {
+    @apply gap-1;
   }
 }
