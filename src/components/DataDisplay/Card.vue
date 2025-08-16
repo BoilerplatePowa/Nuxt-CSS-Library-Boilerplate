@@ -26,40 +26,77 @@
       </div>
     </figure>
 
-    <!-- Header section -->
-    <div v-if="title || subtitle || $slots.header" :class="headerClasses">
-      <slot name="header">
-        <div class="card-title-wrapper">
-          <h2 v-if="title" :class="titleClasses">{{ title }}</h2>
-          <p v-if="subtitle" :class="subtitleClasses">{{ subtitle }}</p>
-        </div>
-        <div v-if="$slots.headerActions" class="card-header-actions">
-          <slot name="headerActions" />
-        </div>
-      </slot>
+    <!-- Content wrapper for side variant -->
+    <div v-if="variant === 'side'" :class="contentWrapperClasses">
+      <!-- Header section -->
+      <div v-if="title || subtitle || $slots.header || badge || $slots.badge" :class="headerClasses">
+        <slot name="header">
+          <div class="card-title-wrapper">
+            <div v-if="badge || $slots.badge" :class="badgeContainerClasses">
+              <slot name="badge">
+                <span v-if="badge" :class="badgeClasses">{{ badge }}</span>
+              </slot>
+            </div>
+            <h2 v-if="title" :class="titleClasses">{{ title }}</h2>
+            <p v-if="subtitle" :class="subtitleClasses">{{ subtitle }}</p>
+          </div>
+          <div class="card-header-actions">
+            <slot name="headerActions" />
+          </div>
+        </slot>
+      </div>
+
+      <!-- Body content -->
+      <div :class="bodyClasses">
+        <slot />
+      </div>
+
+      <!-- Actions section -->
+      <div v-if="$slots.actions" :class="actionsClasses">
+        <slot name="actions" />
+      </div>
+
+      <!-- Footer section -->
+      <div v-if="$slots.footer" :class="footerClasses">
+        <slot name="footer" />
+      </div>
     </div>
 
-    <!-- Body content -->
-    <div :class="bodyClasses">
-      <slot />
-    </div>
+    <!-- Standard layout for non-side variants -->
+    <template v-else>
+      <!-- Header section -->
+      <div v-if="title || subtitle || $slots.header || badge || $slots.badge" :class="headerClasses">
+        <slot name="header">
+          <div class="card-title-wrapper">
+            <div v-if="badge || $slots.badge" :class="badgeContainerClasses">
+              <slot name="badge">
+                <span v-if="badge" :class="badgeClasses">{{ badge }}</span>
+              </slot>
+            </div>
+            <h2 v-if="title" :class="titleClasses">{{ title }}</h2>
+            <p v-if="subtitle" :class="subtitleClasses">{{ subtitle }}</p>
+          </div>
+          <div class="card-header-actions">
+            <slot name="headerActions" />
+          </div>
+        </slot>
+      </div>
 
-    <!-- Actions section -->
-    <div v-if="$slots.actions" :class="actionsClasses">
-      <slot name="actions" />
-    </div>
+      <!-- Body content -->
+      <div :class="bodyClasses">
+        <slot />
+      </div>
 
-    <!-- Footer section -->
-    <div v-if="$slots.footer" :class="footerClasses">
-      <slot name="footer" />
-    </div>
+      <!-- Actions section -->
+      <div v-if="$slots.actions" :class="actionsClasses">
+        <slot name="actions" />
+      </div>
 
-    <!-- Badge/Indicator -->
-    <div v-if="badge || $slots.badge" :class="badgeContainerClasses">
-      <slot name="badge">
-        <span v-if="badge" :class="badgeClasses">{{ badge }}</span>
-      </slot>
-    </div>
+      <!-- Footer section -->
+      <div v-if="$slots.footer" :class="footerClasses">
+        <slot name="footer" />
+      </div>
+    </template>
   </component>
 </template>
 
@@ -111,17 +148,26 @@ const cardRef = ref<HTMLElement>();
 const isHovered = ref(false);
 
 const cardClasses = computed(() => {
-  const baseClasses = ['card', 'bg-base-100', 'transition-all', 'duration-200'];
+  const baseClasses = ['card', 'transition-all', 'duration-200'];
 
-  // Variant
+  // Background and base styling
+  if (props.glass) {
+    baseClasses.push('glass');
+  } else if (props.variant === 'outline') {
+    baseClasses.push('bg-transparent');
+  } else {
+    baseClasses.push('bg-base-100');
+  }
+
+  // Variant-specific styling
   if (props.variant === 'bordered') {
-    baseClasses.push('card-bordered');
+    baseClasses.push('border', 'border-base-300');
   } else if (props.variant === 'compact') {
     baseClasses.push('card-compact');
   } else if (props.variant === 'side') {
     baseClasses.push('card-side');
   } else if (props.variant === 'outline') {
-    baseClasses.push('border', 'border-base-300');
+    baseClasses.push('border-2', 'border-base-300', 'bg-transparent', 'hover:border-primary', 'hover:shadow-md');
   }
 
   // Shadow
@@ -132,11 +178,6 @@ const cardClasses = computed(() => {
   // Image full
   if (props.imageFull) {
     baseClasses.push('image-full');
-  }
-
-  // Glass effect
-  if (props.glass) {
-    baseClasses.push('glass');
   }
 
   // Interactive states
@@ -197,12 +238,21 @@ const imageOverlayClasses = computed(() => [
   'text-white',
 ]);
 
+const contentWrapperClasses = computed(() => [
+  'card-content',
+  'flex-1',
+  'flex',
+  'flex-col',
+]);
+
 const headerClasses = computed(() => [
   'card-header',
   'flex',
   'items-start',
   'justify-between',
   'gap-4',
+  'p-4',
+  'pb-2',
 ]);
 
 const titleClasses = computed(() => {
@@ -220,10 +270,15 @@ const subtitleClasses = computed(() => [
 ]);
 
 const bodyClasses = computed(() => {
-  const classes = ['card-body'];
+  const classes = ['card-body', 'px-4'];
+  
+  // Adjust padding based on variant and presence of header/footer
   if (props.variant === 'compact') {
-    classes.push('p-4');
+    classes.push('py-2');
+  } else {
+    classes.push('py-2');
   }
+  
   return classes;
 });
 
@@ -231,20 +286,28 @@ const actionsClasses = computed(() => [
   'card-actions',
   'justify-end',
   'gap-2',
+  'p-4',
+  'pt-2',
 ]);
 
-const footerClasses = computed(() => [
-  'card-footer',
-  'border-t',
-  'border-base-300',
-  'pt-4',
-]);
+const footerClasses = computed(() => {
+  const classes = ['card-footer', 'p-4', 'pt-4'];
+  
+  // Only add border for non-outline variants
+  if (props.variant !== 'outline') {
+    classes.push('border-t', 'border-base-300');
+  } else {
+    classes.push('border-t', 'border-base-200');
+  }
+  
+  return classes;
+});
 
 const badgeContainerClasses = computed(() => [
-  'absolute',
-  'top-2',
-  'right-2',
-  'z-10',
+  'flex',
+  'items-center',
+  'gap-2',
+  'mb-2',
 ]);
 
 const badgeClasses = computed(() => {
