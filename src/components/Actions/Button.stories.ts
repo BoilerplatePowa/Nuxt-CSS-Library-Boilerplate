@@ -371,7 +371,7 @@ export const AnimationDemo: Story = {
             <Button variant="accent" class="transform transition-transform duration-150 active:scale-95">
               Click Scale
             </Button>
-            <Button variant="outline" class="transition-all duration-200 hover:border-2 hover:border-primary">
+            <Button variant="outline" class="transition-all duration-200 hover:border-1 hover:border-primary">
               Border Animation
             </Button>
           </div>

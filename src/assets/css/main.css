@@ -5,6 +5,7 @@
 
 /* Import component styles */
 @import './carousel.css';
+@import './button.css';
 
 /* Boilerplate Light Theme */
 @plugin "daisyui/theme" {

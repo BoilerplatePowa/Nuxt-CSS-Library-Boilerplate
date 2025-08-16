@@ -1,0 +1,76 @@
+/* Button Component Styles */
+/* DaisyUI handles most button styling, only custom overrides here */
+.btn {
+  @apply gap-2 relative select-none;
+  /* Ensure transforms work properly */
+  transform-origin: center;
+  will-change: transform, box-shadow;
+}
+
+/* Enhanced animation support */
+.btn:not(.no-animation) {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Improved focus styles for better accessibility */
+.btn:focus-visible {
+  @apply ring-2 ring-offset-2 ring-current;
+  transform: translateY(-1px);
+}
+
+/* Enhanced hover states with animations */
+.btn:not(:disabled):not([aria-busy="true"]):not(.no-animation):hover {
+  @apply shadow-md;
+  transform: translateY(-1px);
+}
+
+/* Click animation with scale effect */
+.btn:not(:disabled):not([aria-busy="true"]):not(.no-animation):active {
+  @apply shadow-sm;
+  transform: translateY(0) scale(0.95);
+}
+
+/* Loading state improvements */
+.btn[aria-busy="true"] {
+  @apply pointer-events-none;
+}
+
+/* Better disabled state */
+.btn:disabled {
+  @apply pointer-events-none opacity-50;
+  transform: none !important;
+}
+
+/* No animation variant */
+.btn.no-animation {
+  transition: none !important;
+  transform: none !important;
+}
+
+.btn.no-animation:hover,
+.btn.no-animation:active,
+.btn.no-animation:focus {
+  transform: none !important;
+}
+
+/* Screen reader only class */
+.sr-only {
+  @apply absolute w-px h-px p-0 -m-px overflow-hidden whitespace-nowrap border-0;
+  clip: rect(0, 0, 0, 0);
+}
+
+/* Loading spinner animation enhancement */
+.loading {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Let DaisyUI handle button variant hover colors naturally */
