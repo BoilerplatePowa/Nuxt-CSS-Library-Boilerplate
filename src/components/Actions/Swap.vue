@@ -3,6 +3,7 @@
     <input
       type="checkbox"
       :checked="isSwapped"
+      :disabled="disabled"
       @change="handleChange"
     />
     
@@ -84,7 +85,7 @@ const swapClasses = computed(() => {
   }
 
   if (props.disabled) {
-    baseClasses.push('swap-disabled', 'opacity-50', 'cursor-not-allowed');
+    baseClasses.push('swap-disabled', 'opacity-50', 'cursor-not-allowed', 'pointer-events-none');
   }
 
   return baseClasses.join(' ');
@@ -103,4 +104,19 @@ const handleChange = (event: Event) => {
 
 <style scoped lang="postcss">
 /* DaisyUI handles most swap styling */
+
+/* Disable animations when disabled */
+.swap-disabled {
+  transition: none !important;
+}
+
+.swap-disabled * {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Ensure disabled state is visually distinct */
+.swap-disabled {
+  filter: grayscale(50%);
+}
 </style>

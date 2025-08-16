@@ -49,6 +49,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     modelValue: false,
+    onContent: '🌞',
+    offContent: '🌙',
   },
   render: (args) => ({
     components: { Swap },
@@ -56,14 +58,7 @@ export const Default: Story = {
       return { args };
     },
     template: `
-      <Swap v-bind="args">
-        <template #on>
-          <div class="text-4xl">🌞</div>
-        </template>
-        <template #off>
-          <div class="text-4xl">🌙</div>
-        </template>
-      </Swap>
+      <Swap v-bind="args" />
     `,
   }),
 };
@@ -235,14 +230,42 @@ export const Disabled: Story = {
       return { args };
     },
     template: `
-      <Swap v-bind="args">
-        <template #on>
-          <div class="text-4xl opacity-50">🌞</div>
-        </template>
-        <template #off>
-          <div class="text-4xl opacity-50">🌙</div>
-        </template>
-      </Swap>
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Disabled with Slots</h3>
+          <Swap v-bind="args">
+            <template #on>
+              <div class="text-4xl">🌞</div>
+            </template>
+            <template #off>
+              <div class="text-4xl">🌙</div>
+            </template>
+          </Swap>
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Disabled with Props</h3>
+          <Swap 
+            v-bind="args"
+            on-content="🌞"
+            off-content="🌙"
+          />
+        </div>
+        
+        <div>
+          <h3 class="text-lg font-semibold mb-2">Enabled for Comparison</h3>
+          <Swap 
+            :model-value="args.modelValue"
+            :variant="args.variant"
+            :size="args.size"
+            :disabled="false"
+            on-content="🌞"
+            off-content="🌙"
+          />
+        </div>
+        
+        <p class="text-sm text-gray-600">Try clicking on the disabled swaps - they should not animate or change state.</p>
+      </div>
     `,
   }),
 };

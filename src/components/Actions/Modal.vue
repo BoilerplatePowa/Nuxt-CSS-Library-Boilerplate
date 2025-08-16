@@ -31,6 +31,7 @@
             tabindex="0" 
             @focus="focusLastElement"
             class="sr-only"
+            data-focus-trap="first"
           >
             Start of modal
           </div>
@@ -79,6 +80,7 @@
             tabindex="0" 
             @focus="focusFirstElement"
             class="sr-only"
+            data-focus-trap="last"
           >
             End of modal
           </div>
@@ -265,7 +267,15 @@ const getFocusableElements = (): HTMLElement[] => {
     '[tabindex]:not([tabindex="-1"])'
   ];
   
-  return Array.from(modalRef.value.querySelectorAll(selectors.join(', '))) as HTMLElement[];
+  const elements = Array.from(modalRef.value.querySelectorAll(selectors.join(', '))) as HTMLElement[];
+  
+  // Filter out the focus trap elements to prevent infinite loops
+  return elements.filter(element => 
+    !element.classList.contains('sr-only') && 
+    element !== firstFocusableElement.value && 
+    element !== lastFocusableElement.value &&
+    !element.hasAttribute('data-focus-trap')
+  );
 };
 
 const focusFirstElement = () => {
