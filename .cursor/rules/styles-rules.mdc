@@ -1,0 +1,44 @@
+# Rule: Use external CSS with Tailwind (@apply) — never `<style>` in Vue SFCs
+
+## Intent
+When generating or editing Vue/Nuxt code, **do not use `<style>` blocks** inside `.vue` components. Instead, create/modify external CSS files that primarily use Tailwind utility classes with `@apply`, plus minimal custom CSS when needed.
+
+## Requirements
+- ❌ No `<style>` or `<style scoped>` sections in `.vue` files.
+- ✅ Define styles in external `.css` (or `.pcss`) files.
+- ✅ Prefer Tailwind utilities and `@apply` to compose classes.
+- ✅ Only write custom CSS for cases Tailwind cannot cover.
+- ✅ Keep class names semantic and minimal; avoid deep selectors.
+
+## Vue/Nuxt specifics
+- For **Nuxt**, register global CSS in `nuxt.config.ts` → `css: ['~/assets/css/main.css']`.
+- For component-local styles, create a colocated CSS file (e.g., `components/Button.css`) and import it in the component’s `<script setup>` or entry point (Nuxt auto-imports are fine if configured).
+- If modifying an existing component that has a `<style>` block, **move** those rules into an external CSS file and remove the `<style>`.
+
+## File/Folder conventions
+- `assets/styles/` for global styles, layers, and variables.
+- `components/<ComponentName>.css` for component-specific rules built with `@apply`.
+
+## Tailwind usage
+- Compose with `@apply` for common variants (hover/focus/disabled), spacing, typography, colors, and layout.
+- Use Tailwind layers (`@layer components; @layer utilities`) as appropriate.
+- Prefer Tailwind config (theme, plugins) over ad-hoc custom CSS when possible.
+
+## DO / DON'T
+
+**DON'T (invalid):**
+```vue
+<!-- Button.vue -->
+<template>
+  <button class="btn">Click me</button>
+</template>
+
+<style scoped>
+.btn {
+  background: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+.btn:hover { background: #2563eb; }
+</style>
