@@ -2,17 +2,13 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Stat from './Stat.vue';
 
 const meta: Meta<typeof Stat> = {
-  title: 'DataDisplay/Stat',
+  title: 'Data Display/Stat',
   component: Stat,
   parameters: {
     layout: 'padded',
   },
   argTypes: {
     variant: {
-      control: { type: 'select' },
-      options: ['default', 'bordered', 'compact'],
-    },
-    valueColor: {
       control: { type: 'select' },
       options: ['default', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'],
     },
@@ -52,7 +48,7 @@ export const BasicStats: Story = {
           value="2.6M"
           description="↗︎ 25% increase"
           icon="👁️"
-          value-color="primary"
+          variant="primary"
         />
         
         <Stat 
@@ -60,7 +56,7 @@ export const BasicStats: Story = {
           value="$89,400"
           description="↗︎ $12,500 (16%)"
           icon="💵"
-          value-color="success"
+          variant="success"
         />
       </div>
     `,
@@ -87,7 +83,7 @@ export const WithTrends: Story = {
         <Stat 
           title="New Users"
           value="4,200"
-          value-color="secondary"
+          variant="secondary"
         >
           <template #icon>
             <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -102,7 +98,7 @@ export const WithTrends: Story = {
         <Stat 
           title="New Registers"
           value="1,200"
-          value-color="accent"
+          variant="accent"
         >
           <template #icon>
             <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +159,7 @@ export const Dashboard: Story = {
             title="Total Sales"
             value="$45,231.89"
             description="+20.1% from last month"
-            value-color="success"
+            variant="success"
           >
             <template #icon>
               <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -176,7 +172,7 @@ export const Dashboard: Story = {
             title="Active Users"
             value="2,350"
             description="+180.1% from last month"
-            value-color="primary"
+            variant="primary"
           >
             <template #icon>
               <svg class="w-8 h-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -189,7 +185,7 @@ export const Dashboard: Story = {
             title="Orders"
             value="12,234"
             description="+19% from last month"
-            value-color="secondary"
+            variant="secondary"
           >
             <template #icon>
               <svg class="w-8 h-8 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -202,7 +198,7 @@ export const Dashboard: Story = {
             title="Conversion Rate"
             value="3.2%"
             description="+2.5% from last month"
-            value-color="accent"
+            variant="accent"
           >
             <template #icon>
               <svg class="w-8 h-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -219,7 +215,7 @@ export const Dashboard: Story = {
               title="Support Tickets"
               value="573"
               description="24 resolved today"
-              value-color="warning"
+              variant="warning"
             >
               <template #icon>
                 <svg class="w-8 h-8 text-warning" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -232,7 +228,7 @@ export const Dashboard: Story = {
               title="Response Time"
               value="2.4h"
               description="Average this week"
-              value-color="info"
+              variant="info"
             >
               <template #icon>
                 <svg class="w-8 h-8 text-info" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -247,7 +243,7 @@ export const Dashboard: Story = {
               title="Server Uptime"
               value="99.9%"
               description="30 days average"
-              value-color="success"
+              variant="success"
             >
               <template #icon>
                 <svg class="w-8 h-8 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -260,7 +256,7 @@ export const Dashboard: Story = {
               title="API Errors"
               value="0.1%"
               description="Last 24 hours"
-              value-color="error"
+              variant="error"
             >
               <template #icon>
                 <svg class="w-8 h-8 text-error" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -283,28 +279,28 @@ export const CustomColors: Story = {
         <Stat 
           title="Primary"
           value="1,234"
-          value-color="primary"
+          variant="primary"
           description="Sample description"
         />
         
         <Stat 
           title="Success"
           value="5,678"
-          value-color="success"
+          variant="success"
           description="Sample description"
         />
         
         <Stat 
           title="Warning"
           value="910"
-          value-color="warning"
+          variant="warning"
           description="Sample description"
         />
         
         <Stat 
           title="Error"
           value="112"
-          value-color="error"
+          variant="error"
           description="Sample description"
         />
       </div>
