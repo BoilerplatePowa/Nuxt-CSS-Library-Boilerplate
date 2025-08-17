@@ -31,9 +31,10 @@ const meta: Meta<typeof Collapse> = {
     },
     variant: {
       control: { type: 'select' },
-      options: ['default', 'arrow', 'plus'],
+      options: ['default', 'arrow', 'plus', 'bordered', 'ghost'],
       description: 'Visual style variant',
     },
+
   },
   tags: ['autodocs'],
 };
@@ -107,26 +108,7 @@ export const Variants: Story = {
   }),
 };
 
-export const DifferentIcons: Story = {
-  render: () => ({
-    components: { Collapse },
-    template: `
-      <div class="space-y-4 w-96">
-        <Collapse title="Arrow Icon" icon="arrow">
-          <p>This collapse uses an arrow icon indicator.</p>
-        </Collapse>
-        
-        <Collapse title="Plus Icon" icon="plus">
-          <p>This collapse uses a plus/minus icon indicator.</p>
-        </Collapse>
-        
-        <Collapse title="Chevron Icon" icon="chevron">
-          <p>This collapse uses a chevron icon indicator.</p>
-        </Collapse>
-      </div>
-    `,
-  }),
-};
+
 
 export const NestedCollapses: Story = {
   render: () => ({

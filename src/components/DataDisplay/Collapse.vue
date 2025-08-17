@@ -5,6 +5,7 @@
       v-model="isOpen"
       type="checkbox"
       :class="checkboxClasses"
+      :disabled="disabled"
     />
     <label
       :for="collapseId"
@@ -14,17 +15,6 @@
     >
       <slot name="title">
         {{ title }}
-      </slot>
-      <slot name="icon">
-        <svg
-          class="w-4 h-4 transition-transform"
-          :class="{ 'rotate-180': isOpen }"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-        </svg>
       </slot>
     </label>
     <div :class="contentClasses">
@@ -42,7 +32,7 @@ const generateCollapseId = () => `collapse-${Math.random().toString(36).substr(2
 interface Props {
   modelValue?: boolean;
   title?: string;
-  variant?: 'default' | 'arrow' | 'plus';
+  variant?: 'default' | 'arrow' | 'plus' | 'bordered' | 'ghost';
   disabled?: boolean;
   forceOpen?: boolean;
   id?: string;
@@ -86,6 +76,10 @@ const collapseClasses = computed(() => {
     baseClasses.push('collapse-arrow');
   } else if (props.variant === 'plus') {
     baseClasses.push('collapse-plus');
+  } else if (props.variant === 'bordered') {
+    baseClasses.push('collapse-arrow', 'border', 'border-base-300');
+  } else if (props.variant === 'ghost') {
+    baseClasses.push('collapse-arrow', 'bg-transparent');
   }
 
   // Force open
@@ -93,8 +87,10 @@ const collapseClasses = computed(() => {
     baseClasses.push('collapse-open');
   }
 
-  // Background
-  baseClasses.push('bg-base-200');
+  // Background (only for default variant)
+  if (props.variant === 'default') {
+    baseClasses.push('bg-base-200');
+  }
 
   return baseClasses.join(' ');
 });
@@ -102,10 +98,12 @@ const collapseClasses = computed(() => {
 const checkboxClasses = computed(() => ['collapse-checkbox']);
 
 const titleClasses = computed(() => {
-  const classes = ['collapse-title', 'text-xl', 'font-medium', 'cursor-pointer'];
+  const classes = ['collapse-title', 'text-xl', 'font-medium'];
   
   if (props.disabled) {
     classes.push('opacity-50', 'cursor-not-allowed');
+  } else {
+    classes.push('cursor-pointer');
   }
   
   return classes.join(' ');
