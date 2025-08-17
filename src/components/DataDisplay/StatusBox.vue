@@ -1,5 +1,5 @@
 <template>
-  <div :class="statusClasses">
+  <div v-if="visible" :class="statusClasses">
     <!-- Content -->
     <div class="flex-1 min-w-0">
       <!-- Title -->
@@ -115,6 +115,7 @@ interface StatusBoxProps {
   dismissible?: boolean;
   size?: 'sm' | 'md' | 'lg';
   actions?: StatusAction[];
+  visible?: boolean;
 }
 
 const props = withDefaults(defineProps<StatusBoxProps>(), {
@@ -123,6 +124,7 @@ const props = withDefaults(defineProps<StatusBoxProps>(), {
   dismissible: false,
   size: 'md',
   actions: () => [],
+  visible: true,
 });
 
 const emit = defineEmits<{

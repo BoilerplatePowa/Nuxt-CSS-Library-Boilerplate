@@ -1,6 +1,21 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import StatusBox from './StatusBox.vue';
 
+interface NotificationItem {
+  id: number;
+  variant: 'success' | 'error' | 'warning' | 'info' | 'pending' | 'neutral';
+  title: string;
+  message: string;
+  visible: boolean;
+  timestamp?: Date;
+  actions?: Array<{
+    label: string;
+    variant: 'primary' | 'secondary' | 'accent' | 'ghost' | 'outline';
+    size: 'xs' | 'sm' | 'md';
+  }>;
+  dismissible?: boolean;
+}
+
 const meta: Meta<typeof StatusBox> = {
   title: 'Data Display/StatusBox',
   component: StatusBox,
@@ -249,12 +264,12 @@ export const Dismissible: Story = {
             message: 'Your session will expire in 5 minutes.',
             visible: true,
           },
-        ],
+        ] as NotificationItem[],
       };
     },
     methods: {
       handleDismiss(id: number) {
-        const notification = this.notifications.find(n => n.id === id);
+        const notification = this.notifications.find((n: NotificationItem) => n.id === id);
         if (notification) {
           notification.visible = false;
         }
@@ -267,10 +282,10 @@ export const Dismissible: Story = {
         
         <div v-for="notification in notifications" :key="notification.id">
           <StatusBox 
-            v-if="notification.visible"
             :variant="notification.variant"
             :title="notification.title"
             :message="notification.message"
+            :visible="notification.visible"
             dismissible
             @dismiss="handleDismiss(notification.id)"
           />
@@ -389,17 +404,12 @@ export const NotificationCenter: Story = {
             dismissible: true,
             visible: true,
           },
-        ],
+        ] as NotificationItem[],
       };
-    },
-    computed: {
-      visibleNotifications() {
-        return this.notifications.filter(n => n.visible);
-      },
     },
     methods: {
       handleDismiss(id: number) {
-        const notification = this.notifications.find(n => n.id === id);
+        const notification = this.notifications.find((n: NotificationItem) => n.id === id);
         if (notification) {
           notification.visible = false;
         }
@@ -409,7 +419,7 @@ export const NotificationCenter: Story = {
         alert(`${action.label} clicked!`);
       },
       clearAll() {
-        this.notifications.forEach(n => n.visible = false);
+        this.notifications.forEach((n: NotificationItem) => n.visible = false);
       },
     },
     template: `
@@ -417,7 +427,7 @@ export const NotificationCenter: Story = {
         <div class="flex justify-between items-center mb-4">
           <h3 class="text-lg font-bold">Notification Center</h3>
           <button 
-            v-if="visibleNotifications.length > 0"
+            v-if="notifications.some(n => n.visible)"
             @click="clearAll"
             class="btn btn-ghost btn-sm"
           >
@@ -425,14 +435,14 @@ export const NotificationCenter: Story = {
           </button>
         </div>
         
-        <div v-if="visibleNotifications.length === 0" class="text-center py-12 opacity-60">
+        <div v-if="!notifications.some(n => n.visible)" class="text-center py-12 opacity-60">
           <div class="text-4xl mb-4">🔔</div>
           <p>No notifications</p>
         </div>
         
         <div v-else class="space-y-3">
           <StatusBox 
-            v-for="notification in visibleNotifications"
+            v-for="notification in notifications"
             :key="notification.id"
             :variant="notification.variant"
             :title="notification.title"
@@ -440,6 +450,7 @@ export const NotificationCenter: Story = {
             :timestamp="notification.timestamp"
             :actions="notification.actions || []"
             :dismissible="notification.dismissible"
+            :visible="notification.visible"
             size="sm"
             @dismiss="handleDismiss(notification.id)"
             @action-click="handleActionClick"
