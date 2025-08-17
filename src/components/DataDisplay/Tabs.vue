@@ -14,12 +14,13 @@
       </a>
     </div>
     
+    <!-- Content area -->
     <div v-if="$slots.default" class="tab-content mt-4">
       <slot />
     </div>
     
     <div v-else-if="tabs.length > 0 && tabs[activeIndex]?.content" class="tab-content mt-4">
-      <div v-html="tabs[activeIndex].content"></div>
+      <div class="tab-pane" v-html="tabs[activeIndex].content"></div>
     </div>
   </div>
 </template>
@@ -65,8 +66,6 @@ const getTabValue = (tab: Tab): string | number => {
 const getTabKey = (tab: Tab, index: number): string => {
   return getTabValue(tab).toString() || index.toString();
 };
-
-
 
 // Watch for external model value changes
 watch(
@@ -139,13 +138,8 @@ const selectTab = (tab: Tab, index: number, event: Event) => {
   emit('update:modelValue', tabValue);
   emit('tab-change', tabValue);
 };
-
-
 </script>
 
 <style scoped lang="postcss">
-/* DaisyUI handles most tabs styling */
-.tab-content {
-  @apply min-h-0;
-}
+/* Tabs styles are now in src/assets/css/tabs.css */
 </style>

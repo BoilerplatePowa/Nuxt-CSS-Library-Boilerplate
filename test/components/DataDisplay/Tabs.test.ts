@@ -169,4 +169,23 @@ describe('Tabs', () => {
 
     expect(wrapper.findAll('.tab')).toHaveLength(0);
   });
+
+  it('has distinct styling for different variants', () => {
+    const variants = ['bordered', 'lifted', 'boxed'] as const;
+    
+    variants.forEach(variant => {
+      const wrapper = mount(Tabs, {
+        props: {
+          tabs: sampleTabs,
+          variant,
+        },
+      });
+
+      const tabsContainer = wrapper.find('.tabs');
+      expect(tabsContainer.classes()).toContain(`tabs-${variant}`);
+      
+      // Verify that the variant class is applied
+      expect(tabsContainer.classes()).toContain(`tabs-${variant}`);
+    });
+  });
 });
