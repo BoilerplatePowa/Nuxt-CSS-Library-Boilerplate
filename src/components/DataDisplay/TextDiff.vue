@@ -40,7 +40,7 @@
         <!-- Old/Left side -->
         <table class="diff-old bg-error/5 w-full" role="table" aria-label="Original version">
           <tbody>
-            <tr v-for="(line, index) in oldLines" :key="index" :class="getLineClasses('old', line, index)" role="row">
+            <tr v-for="(line, index) in oldLines" :key="index" :class="getLineClasses('old', line)" role="row">
               <td class="line-number" role="cell">{{ getOldLineNumber(index) }}</td>
               <td class="line-content" role="cell">{{ typeof line === 'string' ? line : line.content }}</td>
             </tr>
@@ -50,7 +50,7 @@
         <!-- New/Right side -->
         <table class="diff-new bg-success/5 w-full" role="table" aria-label="Modified version">
           <tbody>
-            <tr v-for="(line, index) in newLines" :key="index" :class="getLineClasses('new', line, index)" role="row">
+            <tr v-for="(line, index) in newLines" :key="index" :class="getLineClasses('new', line)" role="row">
               <td class="line-number" role="cell">{{ getNewLineNumber(index) }}</td>
               <td class="line-content" role="cell">{{ typeof line === 'string' ? line : line.content }}</td>
             </tr>
@@ -61,7 +61,7 @@
       <div v-else class="diff-unified">
         <table class="w-full" role="table" aria-label="Unified diff view">
           <tbody>
-            <tr v-for="(line, index) in unifiedLines" :key="index" :class="getLineClasses('unified', line, index)" role="row">
+            <tr v-for="(line, index) in unifiedLines" :key="index" :class="getLineClasses('unified', line)" role="row">
               <td class="line-number old" role="cell">{{ line.oldLineNumber || '' }}</td>
               <td class="line-number new" role="cell">{{ line.newLineNumber || '' }}</td>
               <td class="line-prefix" role="cell">{{ line.prefix || ' ' }}</td>
@@ -242,7 +242,7 @@ const totalLines = computed(() => {
   return Math.max(oldLines.value.length, newLines.value.length);
 });
 
-  const getLineClasses = (mode: string, line: string | DiffLine, index?: number) => {
+  const getLineClasses = (mode: string, line: string | DiffLine) => {
   const baseClasses = ['diff-line'];
 
   if (mode === 'unified' && typeof line === 'object') {

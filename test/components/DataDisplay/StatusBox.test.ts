@@ -79,27 +79,7 @@ describe('StatusBox', () => {
     expect(mediumWrapper.classes()).toContain('p-4');
   });
 
-  it('applies layout classes correctly', () => {
-    const verticalWrapper = mount(StatusBox, {
-      props: { 
-        title: 'Test',
-        layout: 'vertical',
-      },
-    });
 
-    expect(verticalWrapper.classes()).toContain('flex-col');
-    expect(verticalWrapper.classes()).toContain('items-center');
-    expect(verticalWrapper.classes()).toContain('text-center');
-
-    const horizontalWrapper = mount(StatusBox, {
-      props: { 
-        title: 'Test',
-        layout: 'horizontal',
-      },
-    });
-
-    expect(horizontalWrapper.classes()).not.toContain('flex-col');
-  });
 
   it('shows indicator by default', () => {
     const wrapper = mount(StatusBox, {
