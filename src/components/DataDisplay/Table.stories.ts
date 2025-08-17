@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Table from './Table.vue';
 
 const meta: Meta<typeof Table> = {
-  title: 'DataDisplay/Table',
+  title: 'Data Display/Table',
   component: Table,
   parameters: {
     layout: 'padded',

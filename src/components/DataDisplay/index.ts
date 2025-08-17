@@ -12,6 +12,7 @@ export { default as Kbd } from './Kbd.vue';
 export { default as List } from './List.vue';
 export { default as Stat } from './Stat.vue';
 export { default as Status } from './Status.vue';
+export { default as StatusBox } from './StatusBox.vue';
 export { default as Table } from './Table.vue';
 export { default as Tabs } from './Tabs.vue';
 export { default as Timeline } from './Timeline.vue';

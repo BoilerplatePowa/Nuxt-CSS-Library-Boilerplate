@@ -10,7 +10,7 @@
 @import './textdiff.css';
 @import './list.css';
 @import './statusbox.css';
-@import './status.css';
+@import './timeline.css';
 
 /* Boilerplate Light Theme */
 @plugin "daisyui/theme" {
