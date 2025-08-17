@@ -1,0 +1,7 @@
+/* Status Component Styles */
+
+/* Base status styling */
+.status {
+  @apply relative;
+}
+

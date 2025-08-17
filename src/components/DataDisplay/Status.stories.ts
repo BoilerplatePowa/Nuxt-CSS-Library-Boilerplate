@@ -2,486 +2,202 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Status from './Status.vue';
 
 const meta: Meta<typeof Status> = {
-  title: 'DataDisplay/Status',
+  title: 'Data Display/Status',
   component: Status,
   parameters: {
-    layout: 'padded',
+    layout: 'centered',
   },
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['success', 'error', 'warning', 'info', 'pending', 'neutral'],
+      options: ['primary', 'secondary', 'accent', 'neutral', 'info', 'success', 'warning', 'error'],
+    },
+    animation: {
+      control: { type: 'select' },
+      options: ['pulse', 'bounce', 'none'],
     },
     size: {
       control: { type: 'select' },
-      options: ['sm', 'md', 'lg'],
+      options: ['xs', 'sm', 'md', 'lg', 'xl'],
     },
-    layout: {
-      control: { type: 'select' },
-      options: ['horizontal', 'vertical'],
-    },
-    showIndicator: {
-      control: { type: 'boolean' },
-    },
-    dismissible: {
-      control: { type: 'boolean' },
+    ariaLabel: {
+      control: { type: 'text' },
     },
   },
 };
 
 export default meta;
-type Story = StoryObj<typeof meta>;
+type Story = StoryObj<typeof Status>;
 
 export const Default: Story = {
+  render: (args) => ({
+    components: { Status },
+    setup() {
+      return { args };
+    },
+    template: `
+      <Status v-bind="args" />
+    `,
+  }),
   args: {
-    variant: 'success',
-    title: 'Success',
-    message: 'Your action completed successfully.',
+    variant: 'neutral',
+    animation: 'none',
+    size: 'md',
+    ariaLabel: 'status',
   },
 };
 
-export const Variants: Story = {
+export const AllVariants: Story = {
   render: () => ({
     components: { Status },
     template: `
-      <div class="space-y-4 max-w-md">
-        <Status 
-          variant="success" 
-          title="Success" 
-          message="Operation completed successfully."
-        />
-        
-        <Status 
-          variant="error" 
-          title="Error" 
-          message="Something went wrong. Please try again."
-        />
-        
-        <Status 
-          variant="warning" 
-          title="Warning" 
-          message="Please review your settings before proceeding."
-        />
-        
-        <Status 
-          variant="info" 
-          title="Information" 
-          message="New features are available in this version."
-        />
-        
-        <Status 
-          variant="pending" 
-          title="Processing" 
-          message="Your request is being processed..."
-        />
-        
-        <Status 
-          variant="neutral" 
-          title="Neutral" 
-          message="This is a neutral status message."
-        />
+      <div class="space-y-4">
+        <div class="flex flex-wrap gap-4">
+          <Status variant="primary" aria-label="status" />
+          <Status variant="secondary" aria-label="status" />
+          <Status variant="accent" aria-label="status" />
+          <Status variant="neutral" aria-label="status" />
+        </div>
+        <div class="flex flex-wrap gap-4">
+          <Status variant="info" aria-label="info" />
+          <Status variant="success" aria-label="success" />
+          <Status variant="warning" aria-label="warning" />
+          <Status variant="error" aria-label="error" />
+        </div>
       </div>
     `,
   }),
 };
 
-export const Sizes: Story = {
+export const AllSizes: Story = {
+  render: () => ({
+    components: { Status },
+    template: `
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold mb-2">All Sizes</h3>
+        <div class="flex flex-wrap items-center gap-4">
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-xs">xs</span>
+            <Status variant="success" size="xs" aria-label="status" />
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-xs">sm</span>
+            <Status variant="success" size="sm" aria-label="status" />
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-xs">md</span>
+            <Status variant="success" size="md" aria-label="status" />
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-xs">lg</span>
+            <Status variant="success" size="lg" aria-label="status" />
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-xs">xl</span>
+            <Status variant="success" size="xl" aria-label="status" />
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const AllAnimations: Story = {
+  render: () => ({
+    components: { Status },
+    template: `
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold mb-2">All Animations</h3>
+        <div class="flex flex-wrap gap-4">
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-xs">pulse</span>
+            <Status variant="info" animation="pulse" aria-label="status" />
+          </div>
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-xs">bounce</span>
+            <Status variant="success" animation="bounce" aria-label="status" />
+          </div>
+
+          <div class="flex flex-col items-center gap-2">
+            <span class="text-xs">none</span>
+            <Status variant="error" animation="none" aria-label="status" />
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const SimpleExamples: Story = {
   render: () => ({
     components: { Status },
     template: `
       <div class="space-y-4">
         <div>
-          <h3 class="text-lg font-bold mb-2">Small</h3>
-          <Status 
-            variant="info" 
-            title="Small Status" 
-            message="This is a small status message."
-            size="sm"
-          />
+          <h3 class="text-lg font-bold mb-2">Basic Status Indicators</h3>
+          <div class="flex flex-wrap gap-4">
+            <Status variant="primary" aria-label="status" />
+            <Status variant="secondary" aria-label="status" />
+            <Status variant="accent" aria-label="status" />
+            <Status variant="neutral" aria-label="status" />
+          </div>
         </div>
         
         <div>
-          <h3 class="text-lg font-bold mb-2">Medium (Default)</h3>
-          <Status 
-            variant="info" 
-            title="Medium Status" 
-            message="This is a medium status message."
-            size="md"
-          />
-        </div>
-        
-        <div>
-          <h3 class="text-lg font-bold mb-2">Large</h3>
-          <Status 
-            variant="info" 
-            title="Large Status" 
-            message="This is a large status message."
-            size="lg"
-          />
+          <h3 class="text-lg font-bold mb-2">Semantic Status Indicators</h3>
+          <div class="flex flex-wrap gap-4">
+            <Status variant="info" aria-label="info" />
+            <Status variant="success" aria-label="success" />
+            <Status variant="warning" aria-label="warning" />
+            <Status variant="error" aria-label="error" />
+          </div>
         </div>
       </div>
     `,
   }),
 };
 
-export const WithTimestamp: Story = {
+export const Interactive: Story = {
   render: () => ({
     components: { Status },
-    data() {
-      return {
-        now: new Date(),
-        fiveMinutesAgo: new Date(Date.now() - 5 * 60 * 1000),
-        oneHourAgo: new Date(Date.now() - 60 * 60 * 1000),
-        yesterdayDate: new Date(Date.now() - 24 * 60 * 60 * 1000),
-      };
-    },
     template: `
-      <div class="space-y-4 max-w-lg">
-        <Status 
-          variant="success" 
-          title="Just completed" 
-          message="Task finished successfully."
-          :timestamp="now"
-        />
-        
-        <Status 
-          variant="info" 
-          title="Recent update" 
-          message="System updated with new features."
-          :timestamp="fiveMinutesAgo"
-        />
-        
-        <Status 
-          variant="warning" 
-          title="Earlier today" 
-          message="Warning: High memory usage detected."
-          :timestamp="oneHourAgo"
-        />
-        
-        <Status 
-          variant="error" 
-          title="Yesterday's issue" 
-          message="Server error occurred during deployment."
-          :timestamp="yesterdayDate"
-        />
-      </div>
-    `,
-  }),
-};
-
-export const WithActions: Story = {
-  render: () => ({
-    components: { Status },
-    data() {
-      return {
-        statusItems: [
-          {
-            variant: 'error',
-            title: 'Payment Failed',
-            message: 'Your payment could not be processed. Please check your payment method.',
-            actions: [
-              { label: 'Retry', variant: 'primary', size: 'sm' },
-              { label: 'Change Method', variant: 'outline', size: 'sm' },
-            ],
-          },
-          {
-            variant: 'warning',
-            title: 'Storage Almost Full',
-            message: 'You have used 95% of your storage space.',
-            actions: [
-              { label: 'Upgrade', variant: 'primary', size: 'sm' },
-              { label: 'Manage Files', variant: 'ghost', size: 'sm' },
-            ],
-          },
-          {
-            variant: 'info',
-            title: 'New Feature Available',
-            message: 'Try our new collaboration tools to improve team productivity.',
-            actions: [
-              { label: 'Learn More', variant: 'outline', size: 'sm' },
-            ],
-          },
-        ],
-      };
-    },
-    methods: {
-      handleActionClick(action: { label: string }, _event: Event) {
-        console.log('Action clicked:', action.label);
-        alert(`${action.label} clicked!`);
-      },
-    },
-    template: `
-      <div class="space-y-4 max-w-lg">
-        <Status 
-          v-for="(item, index) in statusItems"
-          :key="index"
-          :variant="item.variant"
-          :title="item.title"
-          :message="item.message"
-          :actions="item.actions"
-          @action-click="handleActionClick"
-        />
-      </div>
-    `,
-  }),
-};
-
-export const Dismissible: Story = {
-  render: () => ({
-    components: { Status },
-    data() {
-      return {
-        notifications: [
-          {
-            id: 1,
-            variant: 'success',
-            title: 'Profile Updated',
-            message: 'Your profile has been successfully updated.',
-            visible: true,
-          },
-          {
-            id: 2,
-            variant: 'info',
-            title: 'New Message',
-            message: 'You have received a new message from John.',
-            visible: true,
-          },
-          {
-            id: 3,
-            variant: 'warning',
-            title: 'Session Expiring',
-            message: 'Your session will expire in 5 minutes.',
-            visible: true,
-          },
-        ],
-      };
-    },
-    methods: {
-      handleDismiss(id: number) {
-        const notification = this.notifications.find(n => n.id === id);
-        if (notification) {
-          notification.visible = false;
-        }
-        console.log('Dismissed notification:', id);
-      },
-    },
-    template: `
-      <div class="space-y-4 max-w-lg">
-        <h3 class="text-lg font-bold">Dismissible Notifications</h3>
-        
-        <div v-for="notification in notifications" :key="notification.id">
-          <Status 
-            v-if="notification.visible"
-            :variant="notification.variant"
-            :title="notification.title"
-            :message="notification.message"
-            dismissible
-            @dismiss="handleDismiss(notification.id)"
-          />
-        </div>
-        
-        <div v-if="!notifications.some(n => n.visible)" class="text-center py-8 opacity-60">
-          All notifications dismissed
+      <div class="space-y-4">
+        <h3 class="text-lg font-bold mb-2">Interactive Status Indicators</h3>
+        <div class="flex flex-wrap gap-4">
+          <Status variant="info" aria-label="info" class="cursor-pointer hover:opacity-80" />
+          <Status variant="success" aria-label="success" class="cursor-pointer hover:opacity-80" />
+          <Status variant="warning" aria-label="warning" class="cursor-pointer hover:opacity-80" />
+          <Status variant="error" aria-label="error" class="cursor-pointer hover:opacity-80" />
         </div>
       </div>
     `,
   }),
 };
 
-export const VerticalLayout: Story = {
+export const CombinedVariants: Story = {
   render: () => ({
     components: { Status },
     template: `
       <div class="space-y-6">
         <div>
-          <h3 class="text-lg font-bold mb-4">Horizontal Layout (Default)</h3>
-          <div class="max-w-md">
-            <Status 
-              variant="success" 
-              title="Deployment Complete" 
-              message="Your application has been successfully deployed to production."
-              :actions="[{ label: 'View App', variant: 'primary', size: 'sm' }]"
-            />
+          <h3 class="text-lg font-bold mb-2">Different Sizes with Animations</h3>
+          <div class="flex flex-wrap items-center gap-4">
+            <Status variant="success" size="xs" animation="pulse" aria-label="status" />
+            <Status variant="info" size="sm" animation="bounce" aria-label="status" />
+            <Status variant="warning" size="md" animation="bounce" aria-label="status" />
+            <Status variant="error" size="lg" animation="none" aria-label="status" />
+            <Status variant="primary" size="xl" animation="pulse" aria-label="status" />
           </div>
         </div>
         
         <div>
-          <h3 class="text-lg font-bold mb-4">Vertical Layout</h3>
-          <div class="max-w-xs mx-auto">
-            <Status 
-              variant="success" 
-              title="Deployment Complete" 
-              message="Your application has been successfully deployed to production."
-              layout="vertical"
-              :actions="[{ label: 'View App', variant: 'primary', size: 'sm' }]"
-            />
+          <h3 class="text-lg font-bold mb-2">Animated Status Indicators</h3>
+          <div class="flex flex-wrap gap-4">
+            <Status variant="info" animation="pulse" aria-label="info" />
+            <Status variant="success" animation="bounce" aria-label="success" />
+            <Status variant="warning" animation="bounce" aria-label="warning" />
+            <Status variant="error" animation="pulse" aria-label="error" />
           </div>
-        </div>
-      </div>
-    `,
-  }),
-};
-
-export const CustomIndicators: Story = {
-  render: () => ({
-    components: { Status },
-    template: `
-      <div class="space-y-4 max-w-lg">
-        <Status variant="success" title="Custom Success Icon" message="With a checkmark icon">
-          <template #indicator>
-            <div class="w-6 h-6 bg-success rounded-full flex items-center justify-center">
-              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-              </svg>
-            </div>
-          </template>
-        </Status>
-        
-        <Status variant="error" title="Custom Error Icon" message="With an X icon">
-          <template #indicator>
-            <div class="w-6 h-6 bg-error rounded-full flex items-center justify-center">
-              <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-              </svg>
-            </div>
-          </template>
-        </Status>
-        
-        <Status variant="info" title="Progress Status" message="25% completed">
-          <template #indicator>
-            <div class="w-8 h-8 relative">
-              <svg class="w-8 h-8 text-info" viewBox="0 0 36 36">
-                <path
-                  d="M18 2.0845
-                    a 15.9155 15.9155 0 0 1 0 31.831
-                    a 15.9155 15.9155 0 0 1 0 -31.831"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="3"
-                  stroke-dasharray="25, 100"
-                />
-              </svg>
-              <div class="absolute inset-0 flex items-center justify-center text-xs font-bold">
-                25%
-              </div>
-            </div>
-          </template>
-        </Status>
-        
-        <Status variant="warning" title="No Indicator" message="Status without indicator" :show-indicator="false" />
-      </div>
-    `,
-  }),
-};
-
-export const NotificationCenter: Story = {
-  render: () => ({
-    components: { Status },
-    data() {
-      return {
-        notifications: [
-          {
-            id: 1,
-            variant: 'success',
-            title: 'Backup Complete',
-            message: 'Your data has been successfully backed up.',
-            timestamp: new Date(Date.now() - 2 * 60 * 1000),
-            dismissible: true,
-            visible: true,
-          },
-          {
-            id: 2,
-            variant: 'info',
-            title: 'System Update',
-            message: 'A new system update is available for installation.',
-            timestamp: new Date(Date.now() - 30 * 60 * 1000),
-            actions: [
-              { label: 'Install', variant: 'primary', size: 'xs' },
-              { label: 'Later', variant: 'ghost', size: 'xs' },
-            ],
-            dismissible: true,
-            visible: true,
-          },
-          {
-            id: 3,
-            variant: 'warning',
-            title: 'High CPU Usage',
-            message: 'CPU usage is at 85%. Consider closing unnecessary applications.',
-            timestamp: new Date(Date.now() - 60 * 60 * 1000),
-            actions: [
-              { label: 'View Details', variant: 'outline', size: 'xs' },
-            ],
-            dismissible: true,
-            visible: true,
-          },
-          {
-            id: 4,
-            variant: 'error',
-            title: 'Connection Failed',
-            message: 'Unable to connect to the remote server.',
-            timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
-            actions: [
-              { label: 'Retry', variant: 'primary', size: 'xs' },
-              { label: 'Settings', variant: 'ghost', size: 'xs' },
-            ],
-            dismissible: true,
-            visible: true,
-          },
-        ],
-      };
-    },
-    computed: {
-      visibleNotifications() {
-        return this.notifications.filter(n => n.visible);
-      },
-    },
-    methods: {
-      handleDismiss(id: number) {
-        const notification = this.notifications.find(n => n.id === id);
-        if (notification) {
-          notification.visible = false;
-        }
-      },
-      handleActionClick(action: { label: string }, _event: Event) {
-        console.log('Action clicked:', action.label);
-        alert(`${action.label} clicked!`);
-      },
-      clearAll() {
-        this.notifications.forEach(n => n.visible = false);
-      },
-    },
-    template: `
-      <div class="max-w-md mx-auto">
-        <div class="flex justify-between items-center mb-4">
-          <h3 class="text-lg font-bold">Notification Center</h3>
-          <button 
-            v-if="visibleNotifications.length > 0"
-            @click="clearAll"
-            class="btn btn-ghost btn-sm"
-          >
-            Clear All
-          </button>
-        </div>
-        
-        <div v-if="visibleNotifications.length === 0" class="text-center py-12 opacity-60">
-          <div class="text-4xl mb-4">🔔</div>
-          <p>No notifications</p>
-        </div>
-        
-        <div v-else class="space-y-3">
-          <Status 
-            v-for="notification in visibleNotifications"
-            :key="notification.id"
-            :variant="notification.variant"
-            :title="notification.title"
-            :message="notification.message"
-            :timestamp="notification.timestamp"
-            :actions="notification.actions || []"
-            :dismissible="notification.dismissible"
-            size="sm"
-            @dismiss="handleDismiss(notification.id)"
-            @action-click="handleActionClick"
-          />
         </div>
       </div>
     `,

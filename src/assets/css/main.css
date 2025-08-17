@@ -9,6 +9,8 @@
 @import './tabs.css';
 @import './textdiff.css';
 @import './list.css';
+@import './statusbox.css';
+@import './status.css';
 
 /* Boilerplate Light Theme */
 @plugin "daisyui/theme" {
