@@ -260,18 +260,6 @@ const getItemClasses = (index: number): string => {
   return classes.join(' ');
 };
 
-const getIndicatorClasses = (index: number): string => {
-  const classes = ['btn', 'btn-xs'];
-
-  if (index === currentIndex.value) {
-    classes.push('btn-active');
-  } else {
-    classes.push('btn-outline');
-  }
-
-  return classes.join(' ');
-};
-
 const getArrowButtonClasses = (): string => {
   const baseClasses = ['btn', 'btn-sm', 'btn-square'];
   
