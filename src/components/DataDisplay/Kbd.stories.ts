@@ -13,7 +13,7 @@ const meta: Meta<typeof Kbd> = {
     },
   },
   argTypes: {
-    key: {
+    keyText: {
       control: 'text',
       description: 'The key or key combination to display',
     },
@@ -36,7 +36,7 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    key: 'Enter',
+    keyText: 'Enter',
   },
 };
 
@@ -45,20 +45,20 @@ export const SingleKeys: Story = {
     components: { Kbd },
     template: `
       <div class="flex flex-wrap gap-2">
-        <Kbd key="A" />
-        <Kbd key="B" />
-        <Kbd key="C" />
-        <Kbd key="1" />
-        <Kbd key="2" />
-        <Kbd key="3" />
-        <Kbd key="Space" />
-        <Kbd key="Enter" />
-        <Kbd key="Tab" />
-        <Kbd key="Esc" />
-        <Kbd key="Shift" />
-        <Kbd key="Ctrl" />
-        <Kbd key="Alt" />
-        <Kbd key="Cmd" />
+        <Kbd keyText="A" />
+        <Kbd keyText="B" />
+        <Kbd keyText="C" />
+        <Kbd keyText="1" />
+        <Kbd keyText="2" />
+        <Kbd keyText="3" />
+        <Kbd keyText="Space" />
+        <Kbd keyText="Enter" />
+        <Kbd keyText="Tab" />
+        <Kbd keyText="Esc" />
+        <Kbd keyText="Shift" />
+        <Kbd keyText="Ctrl" />
+        <Kbd keyText="Alt" />
+        <Kbd keyText="Cmd" />
       </div>
     `,
   }),
@@ -71,37 +71,37 @@ export const KeyCombinations: Story = {
       <div class="space-y-4">
         <div class="flex items-center gap-2">
           <span>Copy:</span>
-          <Kbd key="Ctrl" />
+          <Kbd keyText="Ctrl" />
           <span>+</span>
-          <Kbd key="C" />
+          <Kbd keyText="C" />
         </div>
         
         <div class="flex items-center gap-2">
           <span>Paste:</span>
-          <Kbd key="Ctrl" />
+          <Kbd keyText="Ctrl" />
           <span>+</span>
-          <Kbd key="V" />
+          <Kbd keyText="V" />
         </div>
         
         <div class="flex items-center gap-2">
           <span>Save:</span>
-          <Kbd key="Ctrl" />
+          <Kbd keyText="Ctrl" />
           <span>+</span>
-          <Kbd key="S" />
+          <Kbd keyText="S" />
         </div>
         
         <div class="flex items-center gap-2">
           <span>Select All:</span>
-          <Kbd key="Ctrl" />
+          <Kbd keyText="Ctrl" />
           <span>+</span>
-          <Kbd key="A" />
+          <Kbd keyText="A" />
         </div>
         
         <div class="flex items-center gap-2">
           <span>Undo:</span>
-          <Kbd key="Ctrl" />
+          <Kbd keyText="Ctrl" />
           <span>+</span>
-          <Kbd key="Z" />
+          <Kbd keyText="Z" />
         </div>
       </div>
     `,
@@ -115,30 +115,30 @@ export const Sizes: Story = {
       <div class="space-y-4">
         <div class="flex items-center gap-2">
           <span>Extra Small:</span>
-          <Kbd key="Ctrl" size="xs" />
+          <Kbd keyText="Ctrl" size="xs" />
           <span>+</span>
-          <Kbd key="C" size="xs" />
+          <Kbd keyText="C" size="xs" />
         </div>
         
         <div class="flex items-center gap-2">
           <span>Small:</span>
-          <Kbd key="Ctrl" size="sm" />
+          <Kbd keyText="Ctrl" size="sm" />
           <span>+</span>
-          <Kbd key="C" size="sm" />
+          <Kbd keyText="C" size="sm" />
         </div>
         
         <div class="flex items-center gap-2">
           <span>Medium:</span>
-          <Kbd key="Ctrl" size="md" />
+          <Kbd keyText="Ctrl" size="md" />
           <span>+</span>
-          <Kbd key="C" size="md" />
+          <Kbd keyText="C" size="md" />
         </div>
         
         <div class="flex items-center gap-2">
           <span>Large:</span>
-          <Kbd key="Ctrl" size="lg" />
+          <Kbd keyText="Ctrl" size="lg" />
           <span>+</span>
-          <Kbd key="C" size="lg" />
+          <Kbd keyText="C" size="lg" />
         </div>
       </div>
     `,
@@ -152,22 +152,22 @@ export const Variants: Story = {
       <div class="space-y-4">
         <div class="flex items-center gap-2">
           <span>Default:</span>
-          <Kbd key="Enter" variant="default" />
+          <Kbd keyText="Enter" variant="default" />
         </div>
         
         <div class="flex items-center gap-2">
           <span>Primary:</span>
-          <Kbd key="Enter" variant="primary" />
+          <Kbd keyText="Enter" variant="primary" />
         </div>
         
         <div class="flex items-center gap-2">
           <span>Secondary:</span>
-          <Kbd key="Enter" variant="secondary" />
+          <Kbd keyText="Enter" variant="secondary" />
         </div>
         
         <div class="flex items-center gap-2">
           <span>Accent:</span>
-          <Kbd key="Enter" variant="accent" />
+          <Kbd keyText="Enter" variant="accent" />
         </div>
       </div>
     `,
@@ -184,47 +184,47 @@ export const KeyboardShortcuts: Story = {
           <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
             <span>New File</span>
             <div class="flex items-center gap-1">
-              <Kbd key="Ctrl" size="sm" />
+              <Kbd keyText="Ctrl" size="sm" />
               <span class="text-xs">+</span>
-              <Kbd key="N" size="sm" />
+              <Kbd keyText="N" size="sm" />
             </div>
           </div>
           
           <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
             <span>Open File</span>
             <div class="flex items-center gap-1">
-              <Kbd key="Ctrl" size="sm" />
+              <Kbd keyText="Ctrl" size="sm" />
               <span class="text-xs">+</span>
-              <Kbd key="O" size="sm" />
+              <Kbd keyText="O" size="sm" />
             </div>
           </div>
           
           <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
             <span>Find</span>
             <div class="flex items-center gap-1">
-              <Kbd key="Ctrl" size="sm" />
+              <Kbd keyText="Ctrl" size="sm" />
               <span class="text-xs">+</span>
-              <Kbd key="F" size="sm" />
+              <Kbd keyText="F" size="sm" />
             </div>
           </div>
           
           <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
             <span>Find & Replace</span>
             <div class="flex items-center gap-1">
-              <Kbd key="Ctrl" size="sm" />
+              <Kbd keyText="Ctrl" size="sm" />
               <span class="text-xs">+</span>
-              <Kbd key="H" size="sm" />
+              <Kbd keyText="H" size="sm" />
             </div>
           </div>
           
           <div class="flex justify-between items-center p-3 bg-base-200 rounded-lg">
             <span>Command Palette</span>
             <div class="flex items-center gap-1">
-              <Kbd key="Ctrl" size="sm" />
+              <Kbd keyText="Ctrl" size="sm" />
               <span class="text-xs">+</span>
-              <Kbd key="Shift" size="sm" />
+              <Kbd keyText="Shift" size="sm" />
               <span class="text-xs">+</span>
-              <Kbd key="P" size="sm" />
+              <Kbd keyText="P" size="sm" />
             </div>
           </div>
         </div>
@@ -242,11 +242,11 @@ export const ArrowKeys: Story = {
         
         <div class="grid grid-cols-3 gap-2 w-40 mx-auto">
           <div></div>
-          <Kbd key="↑" />
+          <Kbd keyText="↑" />
           <div></div>
-          <Kbd key="←" />
-          <Kbd key="↓" />
-          <Kbd key="→" />
+          <Kbd keyText="←" />
+          <Kbd keyText="↓" />
+          <Kbd keyText="→" />
         </div>
         
         <div class="text-sm text-gray-600">
@@ -265,22 +265,22 @@ export const FunctionKeys: Story = {
         <h4 class="text-lg font-semibold">Function Keys</h4>
         
         <div class="grid grid-cols-6 gap-2">
-          <Kbd key="F1" size="sm" />
-          <Kbd key="F2" size="sm" />
-          <Kbd key="F3" size="sm" />
-          <Kbd key="F4" size="sm" />
-          <Kbd key="F5" size="sm" />
-          <Kbd key="F6" size="sm" />
-          <Kbd key="F7" size="sm" />
-          <Kbd key="F8" size="sm" />
-          <Kbd key="F9" size="sm" />
-          <Kbd key="F10" size="sm" />
-          <Kbd key="F11" size="sm" />
-          <Kbd key="F12" size="sm" />
+          <Kbd keyText="F1" size="sm" />
+          <Kbd keyText="F2" size="sm" />
+          <Kbd keyText="F3" size="sm" />
+          <Kbd keyText="F4" size="sm" />
+          <Kbd keyText="F5" size="sm" />
+          <Kbd keyText="F6" size="sm" />
+          <Kbd keyText="F7" size="sm" />
+          <Kbd keyText="F8" size="sm" />
+          <Kbd keyText="F9" size="sm" />
+          <Kbd keyText="F10" size="sm" />
+          <Kbd keyText="F11" size="sm" />
+          <Kbd keyText="F12" size="sm" />
         </div>
         
         <div class="text-sm text-gray-600">
-          Press <Kbd key="F5" size="xs" /> to refresh
+          Press <Kbd keyText="F5" size="xs" /> to refresh
         </div>
       </div>
     `,
@@ -298,32 +298,32 @@ export const GameControls: Story = {
           <div class="space-y-3">
             <div class="flex justify-between items-center">
               <span>Move</span>
-              <div class="flex gap-1">
-                <Kbd key="W" size="sm" variant="primary" />
-                <Kbd key="A" size="sm" variant="primary" />
-                <Kbd key="S" size="sm" variant="primary" />
-                <Kbd key="D" size="sm" variant="primary" />
+              <div class="flex gap-1 text-black">
+                <Kbd keyText="W" size="sm" variant="primary" />
+                <Kbd keyText="A" size="sm" variant="primary" />
+                <Kbd keyText="S" size="sm" variant="primary" />
+                <Kbd keyText="D" size="sm" variant="primary" />
               </div>
             </div>
             
             <div class="flex justify-between items-center">
               <span>Jump</span>
-              <Kbd key="Space" size="sm" variant="accent" />
+              <Kbd keyText="Space" size="sm" variant="accent" class="text-black" />
             </div>
             
             <div class="flex justify-between items-center">
               <span>Sprint</span>
-              <Kbd key="Shift" size="sm" variant="secondary" />
+              <Kbd keyText="Shift" size="sm" variant="secondary" class="text-black" />
             </div>
             
             <div class="flex justify-between items-center">
               <span>Interact</span>
-              <Kbd key="E" size="sm" variant="accent" />
+              <Kbd keyText="E" size="sm" variant="accent" class="text-black" />
             </div>
             
             <div class="flex justify-between items-center">
               <span>Menu</span>
-              <Kbd key="Esc" size="sm" variant="secondary" />
+              <Kbd keyText="Esc" size="sm" variant="secondary" class="text-black" />
             </div>
           </div>
         </div>

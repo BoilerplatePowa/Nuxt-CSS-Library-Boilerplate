@@ -14,6 +14,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  keyText: '',
   size: 'md',
   variant: 'default',
 });
@@ -30,13 +31,13 @@ const kbdClasses = computed(() => {
     baseClasses.push('kbd-lg');
   }
 
-  // Variant classes
+  // Variant classes - use standard button variants that work with kbd
   if (props.variant === 'primary') {
-    baseClasses.push('kbd-primary');
+    baseClasses.push('btn-primary');
   } else if (props.variant === 'secondary') {
-    baseClasses.push('kbd-secondary');
+    baseClasses.push('btn-secondary');
   } else if (props.variant === 'accent') {
-    baseClasses.push('kbd-accent');
+    baseClasses.push('btn-accent');
   }
 
   return baseClasses.join(' ');
