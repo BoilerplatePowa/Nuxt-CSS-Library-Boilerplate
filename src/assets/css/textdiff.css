@@ -1,0 +1,112 @@
+/* TextDiff Component Styles */
+
+/* Base diff line styling */
+.diff-line {
+  @apply hover:bg-base-100;
+}
+
+.diff-line td {
+  @apply px-2 py-0.5 align-top;
+  vertical-align: top;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Line number styling */
+.line-number {
+  @apply text-right pr-2 text-xs opacity-60 select-none whitespace-nowrap;
+  width: fit-content;
+  min-width: 0;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  white-space: nowrap;
+}
+
+.line-prefix {
+  @apply text-center text-xs font-bold select-none whitespace-nowrap;
+  width: fit-content;
+  min-width: 1.5rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+  white-space: nowrap;
+}
+
+.line-content {
+  @apply whitespace-pre-wrap break-words;
+  width: 100%;
+  text-align: left;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Split diff layout */
+.diff-split {
+  @apply grid grid-cols-2 gap-px;
+}
+
+.diff-split .diff-old {
+  @apply border-r border-base-300;
+}
+
+.diff-split .diff-old,
+.diff-split .diff-new {
+  @apply min-h-0;
+}
+
+/* Line number styling for old/new lines */
+.line-number.old {
+  @apply text-error/60;
+}
+
+.line-number.new {
+  @apply text-success/60;
+}
+
+/* Hover effects */
+.diff-line:hover .line-number {
+  @apply opacity-100;
+}
+
+/* Text color for unchanged lines (white/neutral background) */
+.diff-line:not(.bg-success\/10):not(.bg-error\/10):not(.bg-info\/10) .line-content {
+  @apply text-black;
+}
+
+/* Line numbers for unchanged lines */
+.diff-line:not(.bg-success\/10):not(.bg-error\/10):not(.bg-info\/10) .line-number {
+  @apply text-black;
+}
+
+/* Table styling */
+.diff-old table,
+.diff-new table,
+.diff-unified table {
+  @apply border-collapse table-auto;
+  table-layout: auto;
+  width: 100%;
+}
+
+.diff-old tr,
+.diff-new tr,
+.diff-unified tr {
+  @apply border-0;
+}
+
+/* Table layout improvements */
+.diff-old table,
+.diff-new table {
+  @apply table-auto;
+}
+
+.diff-unified table {
+  @apply table-auto;
+}
+
+/* Ensure content takes remaining space and is centered */
+.diff-old .line-content,
+.diff-new .line-content,
+.diff-unified .line-content {
+  @apply w-full text-left;
+}

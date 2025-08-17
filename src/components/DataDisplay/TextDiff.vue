@@ -1,5 +1,5 @@
 <template>
-  <div :class="diffClasses">
+  <div :class="textDiffClasses">
     <!-- Header -->
     <div v-if="showHeader" :class="headerClasses">
       <div class="flex items-center justify-between">
@@ -36,31 +36,39 @@
 
     <!-- Diff content -->
     <div :class="contentClasses">
-      <div v-if="mode === 'split'" class="diff-split grid grid-cols-2 gap-px">
+      <div v-if="mode === 'split'" class="diff-split">
         <!-- Old/Left side -->
-        <div class="diff-old bg-error/5">
-          <div v-for="(line, index) in oldLines" :key="index" :class="getLineClasses('old', line, index)">
-            <span class="line-number">{{ getOldLineNumber(index) }}</span>
-            <span class="line-content">{{ line.content || line }}</span>
-          </div>
-        </div>
+        <table class="diff-old bg-error/5 w-full" role="table" aria-label="Original version">
+          <tbody>
+            <tr v-for="(line, index) in oldLines" :key="index" :class="getLineClasses('old', line, index)" role="row">
+              <td class="line-number" role="cell">{{ getOldLineNumber(index) }}</td>
+              <td class="line-content" role="cell">{{ typeof line === 'string' ? line : line.content }}</td>
+            </tr>
+          </tbody>
+        </table>
         
         <!-- New/Right side -->
-        <div class="diff-new bg-success/5">
-          <div v-for="(line, index) in newLines" :key="index" :class="getLineClasses('new', line, index)">
-            <span class="line-number">{{ getNewLineNumber(index) }}</span>
-            <span class="line-content">{{ line.content || line }}</span>
-          </div>
-        </div>
+        <table class="diff-new bg-success/5 w-full" role="table" aria-label="Modified version">
+          <tbody>
+            <tr v-for="(line, index) in newLines" :key="index" :class="getLineClasses('new', line, index)" role="row">
+              <td class="line-number" role="cell">{{ getNewLineNumber(index) }}</td>
+              <td class="line-content" role="cell">{{ typeof line === 'string' ? line : line.content }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <div v-else class="diff-unified">
-        <div v-for="(line, index) in unifiedLines" :key="index" :class="getLineClasses('unified', line, index)">
-          <span class="line-number old">{{ line.oldLineNumber || '' }}</span>
-          <span class="line-number new">{{ line.newLineNumber || '' }}</span>
-          <span class="line-prefix">{{ line.prefix || ' ' }}</span>
-          <span class="line-content">{{ line.content }}</span>
-        </div>
+        <table class="w-full" role="table" aria-label="Unified diff view">
+          <tbody>
+            <tr v-for="(line, index) in unifiedLines" :key="index" :class="getLineClasses('unified', line, index)" role="row">
+              <td class="line-number old" role="cell">{{ line.oldLineNumber || '' }}</td>
+              <td class="line-number new" role="cell">{{ line.newLineNumber || '' }}</td>
+              <td class="line-prefix" role="cell">{{ line.prefix || ' ' }}</td>
+              <td class="line-content" role="cell">{{ line.content }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -116,7 +124,7 @@ const emit = defineEmits<{
   actionClick: [action: DiffAction, event: Event];
 }>();
 
-const diffClasses = computed(() => {
+const textDiffClasses = computed(() => {
   const baseClasses = ['diff', 'border', 'border-base-300', 'rounded-lg', 'overflow-hidden'];
 
   // Size
@@ -234,8 +242,8 @@ const totalLines = computed(() => {
   return Math.max(oldLines.value.length, newLines.value.length);
 });
 
-  const getLineClasses = (mode: string, line: string | DiffLine) => {
-  const baseClasses = ['diff-line', 'flex', 'items-center', 'px-2', 'py-0.5', 'hover:bg-base-100'];
+  const getLineClasses = (mode: string, line: string | DiffLine, index?: number) => {
+  const baseClasses = ['diff-line'];
 
   if (mode === 'unified' && typeof line === 'object') {
     if (line.type === 'added') {
@@ -300,35 +308,3 @@ const handleActionClick = (action: DiffAction, event: Event) => {
   emit('actionClick', action, event);
 };
 </script>
-
-<style scoped lang="postcss">
-.line-number {
-  @apply w-12 text-right pr-2 text-xs opacity-60 select-none;
-}
-
-.line-prefix {
-  @apply w-4 text-center text-xs font-bold select-none;
-}
-
-.line-content {
-  @apply flex-1 whitespace-pre;
-}
-
-.diff-split .diff-old .diff-line {
-  @apply border-r border-base-300;
-}
-
-/* Line number styling */
-.line-number.old {
-  @apply text-error/60;
-}
-
-.line-number.new {
-  @apply text-success/60;
-}
-
-/* Hover effects */
-.diff-line:hover .line-number {
-  @apply opacity-100;
-}
-</style>

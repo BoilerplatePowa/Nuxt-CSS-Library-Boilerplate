@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
-import Diff from './Diff.vue';
+import TextDiff from './TextDiff.vue';
 
-const meta: Meta<typeof Diff> = {
-  title: 'DataDisplay/Diff',
-  component: Diff,
+const meta: Meta<typeof TextDiff> = {
+  title: 'Data Display/TextDiff',
+  component: TextDiff,
   parameters: {
     layout: 'padded',
   },
@@ -58,7 +58,7 @@ export const Default: Story = {
 
 export const UnifiedMode: Story = {
   render: () => ({
-    components: { Diff },
+    components: { TextDiff },
     data() {
       return {
         oldCode: `import React from 'react';
@@ -101,7 +101,7 @@ export default Button;`,
     template: `
       <div class="max-w-4xl">
         <h3 class="text-lg font-bold mb-4">Unified Diff View</h3>
-        <Diff 
+        <TextDiff 
           :old-text="oldCode"
           :new-text="newCode"
           old-file-name="Button.jsx"
@@ -115,7 +115,7 @@ export default Button;`,
 
 export const SplitMode: Story = {
   render: () => ({
-    components: { Diff },
+    components: { TextDiff },
     data() {
       return {
         oldConfig: `{
@@ -147,7 +147,7 @@ export const SplitMode: Story = {
     template: `
       <div class="max-w-6xl">
         <h3 class="text-lg font-bold mb-4">Split Diff View</h3>
-        <Diff 
+        <TextDiff 
           :old-text="oldConfig"
           :new-text="newConfig"
           old-file-name="package.json"
@@ -161,7 +161,7 @@ export const SplitMode: Story = {
 
 export const WithActions: Story = {
   render: () => ({
-    components: { Diff },
+    components: { TextDiff },
     data() {
       return {
         oldCode: `def fibonacci(n):
@@ -191,7 +191,7 @@ export const WithActions: Story = {
     template: `
       <div class="max-w-4xl">
         <h3 class="text-lg font-bold mb-4">Code Review Diff</h3>
-        <Diff 
+        <TextDiff 
           :old-text="oldCode"
           :new-text="newCode"
           old-file-name="fibonacci.py"
@@ -206,7 +206,7 @@ export const WithActions: Story = {
 
 export const CustomDiffLines: Story = {
   render: () => ({
-    components: { Diff },
+    components: { TextDiff },
     data() {
       return {
         customUnifiedLines: [
@@ -307,7 +307,7 @@ export const CustomDiffLines: Story = {
     template: `
       <div class="max-w-4xl">
         <h3 class="text-lg font-bold mb-4">Custom Diff Lines</h3>
-        <Diff 
+        <TextDiff 
           :unified-lines="customUnifiedLines"
           old-file-name="UserService.js"
           new-file-name="UserService.js"
@@ -320,7 +320,7 @@ export const CustomDiffLines: Story = {
 
 export const NoHeader: Story = {
   render: () => ({
-    components: { Diff },
+    components: { TextDiff },
     data() {
       return {
         oldSnippet: `const users = [
@@ -337,7 +337,7 @@ export const NoHeader: Story = {
     template: `
       <div class="max-w-3xl">
         <h3 class="text-lg font-bold mb-4">Minimal Diff (No Header)</h3>
-        <Diff 
+        <TextDiff 
           :old-text="oldSnippet"
           :new-text="newSnippet"
           :show-header="false"
@@ -350,7 +350,7 @@ export const NoHeader: Story = {
 
 export const LargeDiff: Story = {
   render: () => ({
-    components: { Diff },
+    components: { TextDiff },
     data() {
       return {
         oldDocument: `# Project Documentation
@@ -420,7 +420,7 @@ Make sure to run \`npm run lint\` before committing.`,
       <div class="max-w-5xl">
         <h3 class="text-lg font-bold mb-4">Large Document Diff</h3>
         <div class="max-h-96 overflow-auto">
-          <Diff 
+          <TextDiff 
             :old-text="oldDocument"
             :new-text="newDocument"
             old-file-name="README.md"
@@ -435,7 +435,7 @@ Make sure to run \`npm run lint\` before committing.`,
 
 export const GitStyleDiff: Story = {
   render: () => ({
-    components: { Diff },
+    components: { TextDiff },
     data() {
       return {
         gitDiffLines: [
@@ -533,7 +533,7 @@ export const GitStyleDiff: Story = {
     template: `
       <div class="max-w-4xl">
         <h3 class="text-lg font-bold mb-4">Git-style Diff</h3>
-        <Diff 
+        <TextDiff 
           :unified-lines="gitDiffLines"
           old-file-name="src/utils.js"
           new-file-name="src/utils.js"

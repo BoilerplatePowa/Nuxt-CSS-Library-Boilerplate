@@ -7,7 +7,7 @@ export { default as Carousel } from './Carousel.vue';
 export { default as ChatBubble } from './ChatBubble.vue';
 export { default as Collapse } from './Collapse.vue';
 export { default as Countdown } from './Countdown.vue';
-export { default as Diff } from './Diff.vue';
+export { default as TextDiff } from './TextDiff.vue';
 export { default as Kbd } from './Kbd.vue';
 export { default as List } from './List.vue';
 export { default as Stat } from './Stat.vue';
