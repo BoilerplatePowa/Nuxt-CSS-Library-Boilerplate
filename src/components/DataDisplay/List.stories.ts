@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import List from './List.vue';
 
 const meta: Meta<typeof List> = {
-  title: 'DataDisplay/List',
+  title: 'Data Display/List',
   component: List,
   parameters: {
     layout: 'padded',
@@ -280,14 +280,14 @@ export const Interactive: Story = {
     },
     computed: {
       computedItems() {
-        return this.contactItems.map(item => ({
+        return this.contactItems.map((item: any) => ({
           ...item,
           selected: this.selectedItems.has(item.id),
         }));
       },
     },
     methods: {
-      handleItemClick(item: { id: number; title: string }, index: number) {
+      handleItemClick(item: any, index: number) {
         if (item.disabled) return;
         
         if (this.selectedItems.has(item.id)) {

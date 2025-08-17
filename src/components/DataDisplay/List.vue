@@ -24,15 +24,18 @@
         
         <div class="flex-1">
           <div class="flex justify-between items-start">
-            <div>
+            <div class="flex items-center gap-2">
               <h3 v-if="item.title" class="font-semibold">{{ item.title }}</h3>
-              <p v-if="item.subtitle" class="text-sm opacity-70">{{ item.subtitle }}</p>
+              <div v-if="item.badge" :class="getBadgeClasses(item.badge)" class="badge badge-sm">
+                {{ item.badge }}
+              </div>
             </div>
             <div v-if="item.meta" class="text-xs opacity-60">
               {{ item.meta }}
             </div>
           </div>
           
+          <p v-if="item.subtitle" class="text-sm opacity-70 mt-1">{{ item.subtitle }}</p>
           <p v-if="item.description" class="text-sm mt-1">{{ item.description }}</p>
           
           <div v-if="item.actions" class="flex gap-2 mt-2">
@@ -46,15 +49,11 @@
             </button>
           </div>
         </div>
-        
-        <div v-if="item.badge" class="badge badge-sm">
-          {{ item.badge }}
-        </div>
       </slot>
     </li>
     
     <!-- Empty state -->
-    <li v-if="items.length === 0 && showEmpty" class="list-item text-center py-8 opacity-60">
+    <li v-if="items.length === 0 && showEmpty" class="list-item text-center justify-center py-8 opacity-60">
       <slot name="empty">
         <div>
           <svg class="w-12 h-12 mx-auto mb-4 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,7 +162,7 @@ const getItemClasses = (item: ListItem) => {
   const baseClasses = ['list-item', 'flex', 'items-center'];
 
   if (props.dividers) {
-    baseClasses.push('border-b', 'border-base-200', 'last:border-b-0');
+    baseClasses.push('border-divider');
   }
 
   // Padding based on size
@@ -188,6 +187,27 @@ const getItemClasses = (item: ListItem) => {
     baseClasses.push('opacity-50', 'cursor-not-allowed');
   }
 
+  return baseClasses.join(' ');
+};
+
+const getBadgeClasses = (badge: string) => {
+  const baseClasses = ['badge', 'badge-sm'];
+  
+  // Color based on badge text
+  const lowerBadge = badge.toLowerCase();
+  
+  if (lowerBadge.includes('high') || lowerBadge.includes('urgent') || lowerBadge.includes('error')) {
+    baseClasses.push('badge-error');
+  } else if (lowerBadge.includes('medium') || lowerBadge.includes('warning')) {
+    baseClasses.push('badge-warning');
+  } else if (lowerBadge.includes('low') || lowerBadge.includes('info')) {
+    baseClasses.push('badge-info');
+  } else if (lowerBadge.includes('new') || lowerBadge.includes('success')) {
+    baseClasses.push('badge-success');
+  } else {
+    baseClasses.push('badge-primary');
+  }
+  
   return baseClasses.join(' ');
 };
 
@@ -235,33 +255,3 @@ const handleActionClick = (action: ListAction, item: ListItem, index: number, ev
   emit('actionClick', action, item, index, event);
 };
 </script>
-
-<style scoped lang="postcss">
-.list {
-  @apply w-full;
-}
-
-.list-bordered {
-  @apply border border-base-300 rounded-lg;
-}
-
-.list-hover .list-item:hover {
-  @apply bg-base-200;
-}
-
-.list-zebra .list-item:nth-child(even) {
-  @apply bg-base-200;
-}
-
-.list-sm .list-item {
-  @apply text-sm;
-}
-
-.list-lg .list-item {
-  @apply text-lg;
-}
-
-.avatar {
-  @apply rounded-full overflow-hidden bg-base-300 flex items-center justify-center;
-}
-</style>

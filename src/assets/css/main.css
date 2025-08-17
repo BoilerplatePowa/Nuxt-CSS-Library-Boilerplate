@@ -8,6 +8,7 @@
 @import './button.css';
 @import './tabs.css';
 @import './textdiff.css';
+@import './list.css';
 
 /* Boilerplate Light Theme */
 @plugin "daisyui/theme" {

@@ -1,0 +1,111 @@
+/* List Component Styles */
+
+/* Base list styling */
+.list {
+  @apply w-full;
+}
+
+/* List item base styling */
+.list-item {
+  @apply transition-colors duration-200;
+}
+
+/* List item layout and spacing */
+.list-item {
+  @apply flex items-center;
+}
+
+/* List item dividers */
+.list-item.border-divider {
+  @apply border-b border-black/10;
+}
+
+.list-item.border-divider:last-child {
+  @apply border-b-0;
+}
+
+/* Alternative divider styling for better compatibility */
+.list-item[class*="border-b"] {
+  @apply border-b border-base-200 bg-red-100;
+}
+
+.list-item[class*="border-b"]:last-child {
+  @apply border-b-0;
+}
+
+/* Force divider visibility */
+.list-item.border-b {
+  @apply border-b border-base-300;
+}
+
+.list-item.border-b:last-child {
+  @apply border-b-0;
+}
+
+/* List item padding based on size */
+.list-item.px-3.py-2 {
+  @apply px-3 py-2;
+}
+
+.list-item.px-4.py-3 {
+  @apply px-4 py-3;
+}
+
+.list-item.px-6.py-4 {
+  @apply px-6 py-4;
+}
+
+/* List item hover states */
+.list-item.hover\:bg-base-200:hover {
+  @apply bg-base-200;
+}
+
+/* List variants */
+.list-bordered {
+  @apply border border-base-300 rounded-lg;
+}
+
+.list-hover .list-item:hover {
+  @apply bg-base-200;
+}
+
+.list-zebra .list-item:nth-child(even) {
+  @apply bg-base-200;
+}
+
+/* List sizes */
+.list-sm .list-item {
+  @apply text-sm;
+}
+
+.list-lg .list-item {
+  @apply text-lg;
+}
+
+/* Avatar styling */
+.avatar {
+  @apply rounded-full overflow-hidden bg-base-300 flex items-center justify-center;
+}
+
+/* Interactive states */
+.list-item.cursor-pointer {
+  @apply cursor-pointer;
+}
+
+.list-item.cursor-not-allowed {
+  @apply cursor-not-allowed;
+}
+
+.list-item.opacity-50 {
+  @apply opacity-50;
+}
+
+/* Selected state */
+.list-item.bg-primary {
+  @apply bg-primary text-primary-content;
+}
+
+/* Selected state hover - ensure black text */
+.list-item.bg-primary:hover {
+  @apply text-black;
+}
