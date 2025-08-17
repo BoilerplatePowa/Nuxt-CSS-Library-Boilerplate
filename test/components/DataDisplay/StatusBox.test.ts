@@ -11,7 +11,7 @@ describe('StatusBox', () => {
       },
     });
     
-    expect(wrapper.classes()).toContain('status');
+    expect(wrapper.classes()).toContain('statusbox');
     expect(wrapper.text()).toContain('Test Status');
     expect(wrapper.text()).toContain('Test message');
   });
@@ -109,8 +109,9 @@ describe('StatusBox', () => {
       },
     });
 
-    const indicator = wrapper.find('.w-2.h-2.bg-success.rounded-full');
+    const indicator = wrapper.findComponent({ name: 'Status' });
     expect(indicator.exists()).toBe(true);
+    expect(indicator.props('variant')).toBe('success');
   });
 
   it('hides indicator when showIndicator is false', () => {
@@ -272,7 +273,8 @@ describe('StatusBox', () => {
       },
     });
 
-    const indicator = wrapper.find('.animate-pulse');
+    const indicator = wrapper.findComponent({ name: 'Status' });
     expect(indicator.exists()).toBe(true);
+    expect(indicator.props('animation')).toBe('pulse');
   });
 });

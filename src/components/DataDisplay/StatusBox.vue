@@ -1,22 +1,53 @@
 <template>
   <div :class="statusClasses">
-    <!-- Icon/indicator -->
-    <div v-if="showIndicator" :class="indicatorClasses">
-      <slot name="indicator">
-        <!-- Default indicators based on variant -->
-        <div v-if="variant === 'success'" class="w-2 h-2 bg-success rounded-full"></div>
-        <div v-else-if="variant === 'error'" class="w-2 h-2 bg-error rounded-full"></div>
-        <div v-else-if="variant === 'warning'" class="w-2 h-2 bg-warning rounded-full"></div>
-        <div v-else-if="variant === 'info'" class="w-2 h-2 bg-info rounded-full"></div>
-        <div v-else-if="variant === 'pending'" class="w-2 h-2 bg-base-300 rounded-full animate-pulse"></div>
-        <div v-else class="w-2 h-2 bg-base-300 rounded-full"></div>
-      </slot>
-    </div>
-
     <!-- Content -->
-    <div class="flex-1">
+    <div class="flex-1 min-w-0">
       <!-- Title -->
       <div v-if="title || $slots.title" :class="titleClasses">
+        <!-- Icon/indicator -->
+    <div v-if="showIndicator" :class="indicatorClasses">
+      <slot name="indicator">
+        <!-- Default indicators using Status component -->
+        <Status 
+          v-if="variant === 'success'" 
+          variant="success" 
+          size="md"
+          aria-label="Success status"
+        />
+        <Status 
+          v-else-if="variant === 'error'" 
+          variant="error" 
+          size="md"
+          aria-label="Error status"
+        />
+        <Status 
+          v-else-if="variant === 'warning'" 
+          variant="warning" 
+          size="md"
+          aria-label="Warning status"
+        />
+        <Status 
+          v-else-if="variant === 'info'" 
+          variant="info" 
+          size="md"
+          aria-label="Info status"
+        />
+        <Status 
+          v-else-if="variant === 'pending'" 
+          variant="neutral" 
+          size="md"
+          animation="pulse"
+          aria-label="Pending status"
+        />
+        <Status 
+          v-else 
+          variant="neutral" 
+          size="md"
+          aria-label="Neutral status"
+        />
+      </slot>
+    </div>
+    
         <slot name="title">{{ title }}</slot>
       </div>
 
@@ -31,37 +62,41 @@
       </div>
     </div>
 
-    <!-- Actions -->
-    <div v-if="actions.length > 0 || $slots.actions" class="flex gap-2 ml-4">
-      <slot name="actions">
-        <button
-          v-for="action in actions"
-          :key="action.label"
-          :class="getActionClasses(action)"
-          @click="handleActionClick(action, $event)"
-          :disabled="action.disabled"
-        >
-          {{ action.label }}
-        </button>
-      </slot>
-    </div>
+    <!-- Actions and Dismiss -->
+    <div v-if="actions.length > 0 || $slots.actions || dismissible" class="flex items-center gap-2 flex-shrink-0">
+      <!-- Actions -->
+      <div v-if="actions.length > 0 || $slots.actions" class="flex gap-2">
+        <slot name="actions">
+          <button
+            v-for="action in actions"
+            :key="action.label"
+            :class="getActionClasses(action)"
+            @click="handleActionClick(action, $event)"
+            :disabled="action.disabled"
+          >
+            {{ action.label }}
+          </button>
+        </slot>
+      </div>
 
-    <!-- Dismiss button -->
-    <button
-      v-if="dismissible"
-      @click="handleDismiss"
-      class="btn btn-ghost btn-sm btn-circle ml-2"
-      aria-label="Dismiss"
-    >
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-      </svg>
-    </button>
+      <!-- Dismiss button -->
+      <button
+        v-if="dismissible"
+        @click="handleDismiss"
+        class="btn btn-ghost btn-sm btn-circle"
+        aria-label="Dismiss"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import Status from './Status.vue';
 
 interface StatusAction {
   label: string;
@@ -79,7 +114,6 @@ interface StatusBoxProps {
   showIndicator?: boolean;
   dismissible?: boolean;
   size?: 'sm' | 'md' | 'lg';
-  layout?: 'horizontal' | 'vertical';
   actions?: StatusAction[];
 }
 
@@ -88,7 +122,6 @@ const props = withDefaults(defineProps<StatusBoxProps>(), {
   showIndicator: true,
   dismissible: false,
   size: 'md',
-  layout: 'horizontal',
   actions: () => [],
 });
 
@@ -98,12 +131,9 @@ const emit = defineEmits<{
 }>();
 
 const statusClasses = computed(() => {
-  const baseClasses = ['status', 'flex', 'items-start', 'gap-3'];
+  const baseClasses = ['statusbox', 'flex', 'items-start', 'gap-3', 'w-full'];
 
-  // Layout
-  if (props.layout === 'vertical') {
-    baseClasses.push('flex-col', 'items-center', 'text-center');
-  }
+  baseClasses.push('items-start');
 
   // Size
   if (props.size === 'sm') {
@@ -133,19 +163,13 @@ const statusClasses = computed(() => {
 });
 
 const indicatorClasses = computed(() => {
-  const baseClasses = ['flex', 'items-center', 'justify-center'];
-  
-  if (props.layout === 'vertical') {
-    baseClasses.push('mb-2');
-  } else {
-    baseClasses.push('mt-1');
-  }
+  const baseClasses = ['flex', 'items-center', 'justify-center', 'flex-shrink-0'];
 
   return baseClasses.join(' ');
 });
 
 const titleClasses = computed(() => {
-  const baseClasses = ['font-semibold'];
+  const baseClasses = ['font-semibold', 'break-words', 'flex', 'gap-2', ''];
 
   // Color based on variant
   if (props.variant === 'success') {
@@ -169,7 +193,7 @@ const titleClasses = computed(() => {
 });
 
 const messageClasses = computed(() => {
-  const baseClasses = [];
+  const baseClasses = ['break-words'];
 
   // Size
   if (props.size === 'sm') {
@@ -189,7 +213,7 @@ const messageClasses = computed(() => {
 });
 
 const timestampClasses = computed(() => {
-  const baseClasses = ['text-xs', 'opacity-60', 'mt-1'];
+  const baseClasses = ['text-xs', 'opacity-60', 'mt-1', 'break-words'];
   return baseClasses.join(' ');
 });
 

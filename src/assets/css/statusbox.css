@@ -1,7 +1,26 @@
-/* Status Component Styles */
+/* StatusBox Component Styles */
 
-/* Base status styling */
-.status {
+/* Base statusbox styling */
+.statusbox {
   @apply relative;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Ensure proper text wrapping */
+.statusbox * {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* Responsive behavior for small screens */
+@media (max-width: 640px) {
+  .statusbox {
+    @apply flex-col items-start;
+  }
+  
+  .statusbox .flex-1 {
+    @apply w-full;
+  }
 }
 

@@ -5,7 +5,7 @@ const meta: Meta<typeof StatusBox> = {
   title: 'Data Display/StatusBox',
   component: StatusBox,
   parameters: {
-    layout: 'padded',
+    layout: 'centered',
   },
   argTypes: {
     variant: {
@@ -15,10 +15,6 @@ const meta: Meta<typeof StatusBox> = {
     size: {
       control: { type: 'select' },
       options: ['sm', 'md', 'lg'],
-    },
-    layout: {
-      control: { type: 'select' },
-      options: ['horizontal', 'vertical'],
     },
     showIndicator: {
       control: { type: 'boolean' },
@@ -282,40 +278,6 @@ export const Dismissible: Story = {
         
         <div v-if="!notifications.some(n => n.visible)" class="text-center py-8 opacity-60">
           All notifications dismissed
-        </div>
-      </div>
-    `,
-  }),
-};
-
-export const VerticalLayout: Story = {
-  render: () => ({
-    components: { StatusBox },
-    template: `
-      <div class="space-y-6">
-        <div>
-          <h3 class="text-lg font-bold mb-4">Horizontal Layout (Default)</h3>
-          <div class="max-w-md">
-            <StatusBox 
-              variant="success" 
-              title="Deployment Complete" 
-              message="Your application has been successfully deployed to production."
-              :actions="[{ label: 'View App', variant: 'primary', size: 'sm' }]"
-            />
-          </div>
-        </div>
-        
-        <div>
-          <h3 class="text-lg font-bold mb-4">Vertical Layout</h3>
-          <div class="max-w-xs mx-auto">
-            <StatusBox 
-              variant="success" 
-              title="Deployment Complete" 
-              message="Your application has been successfully deployed to production."
-              layout="vertical"
-              :actions="[{ label: 'View App', variant: 'primary', size: 'sm' }]"
-            />
-          </div>
         </div>
       </div>
     `,
