@@ -13,15 +13,34 @@
         :class="startClasses"
       >
         <slot name="start" :item="item" :index="index">
-          {{ item.title }}
+          <!-- Complex content variant -->
+          <template v-if="variant === 'complex'">
+            <time v-if="item.timestamp" class="font-mono italic">{{ item.timestamp }}</time>
+            <div v-if="item.title" class="text-lg font-black">{{ item.title }}</div>
+            <div v-if="item.description" class="mt-2">{{ item.description }}</div>
+          </template>
+          <!-- Simple content variant -->
+          <template v-else>
+            {{ item.title }}
+          </template>
         </slot>
       </div>
 
       <!-- Timeline middle (icon/marker) -->
       <div :class="middleClasses">
         <slot name="middle" :item="item" :index="index">
-          <!-- Default icon -->
+          <!-- Custom icon if provided -->
+          <div v-if="item.icon" class="flex items-center justify-center">
+            <component 
+              v-if="isValidComponentName(item.icon)" 
+              :is="item.icon"
+              class="h-5 w-5"
+            />
+            <span v-else class="text-lg">{{ item.icon }}</span>
+          </div>
+          <!-- Default DaisyUI icon -->
           <svg
+            v-else
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -42,7 +61,16 @@
         :class="endClasses"
       >
         <slot name="end" :item="item" :index="index">
-          {{ item.title }}
+          <!-- Complex content variant -->
+          <template v-if="variant === 'complex'">
+            <time v-if="item.timestamp" class="font-mono italic">{{ item.timestamp }}</time>
+            <div v-if="item.title" class="text-lg font-black">{{ item.title }}</div>
+            <div v-if="item.description" class="mt-2">{{ item.description }}</div>
+          </template>
+          <!-- Simple content variant -->
+          <template v-else>
+            {{ item.title }}
+          </template>
         </slot>
       </div>
 
@@ -58,6 +86,9 @@ import { computed } from 'vue';
 interface TimelineItem {
   id?: string | number;
   title?: string;
+  timestamp?: string;
+  description?: string;
+  icon?: string | unknown; // Can be a component name, emoji, or any icon
   [key: string]: unknown;
 }
 
@@ -66,12 +97,14 @@ interface Props {
   direction?: 'vertical' | 'horizontal';
   compact?: boolean;
   snapIcon?: boolean;
+  variant?: 'simple' | 'complex';
 }
 
 const props = withDefaults(defineProps<Props>(), {
   direction: 'vertical',
   compact: false,
   snapIcon: false,
+  variant: 'simple',
 });
 
 const timelineClasses = computed(() => {
@@ -84,15 +117,30 @@ const timelineClasses = computed(() => {
     baseClasses.push('timeline-vertical');
   }
 
-  // Compact modifier
-  if (props.compact) {
+  // Complex variant with responsive behavior
+  if (props.variant === 'complex') {
+    baseClasses.push('timeline-snap-icon', 'max-md:timeline-compact');
+  }
+
+  // Compact modifier (for simple variant)
+  if (props.compact && props.variant === 'simple') {
     baseClasses.push('timeline-compact');
+  }
+
+  // Snap icon modifier (for simple variant)
+  if (props.snapIcon && props.variant === 'simple') {
+    baseClasses.push('timeline-snap-icon');
   }
 
   return baseClasses.join(' ');
 });
 
 const shouldShowStart = (index: number) => {
+  // In complex variant, always show content based on alternating pattern
+  if (props.variant === 'complex') {
+    return index % 2 === 0;
+  }
+  
   // In compact mode, all content goes to one side
   if (props.compact) return false;
   
@@ -101,6 +149,11 @@ const shouldShowStart = (index: number) => {
 };
 
 const shouldShowEnd = (index: number) => {
+  // In complex variant, always show content based on alternating pattern
+  if (props.variant === 'complex') {
+    return index % 2 === 1;
+  }
+  
   // In compact mode, all content goes to one side
   if (props.compact) return true;
   
@@ -111,11 +164,18 @@ const shouldShowEnd = (index: number) => {
 const startClasses = computed(() => {
   const baseClasses = ['timeline-start'];
   
-  // Add box modifier
-  baseClasses.push('timeline-box');
+  // Add box modifier for simple variant
+  if (props.variant === 'simple') {
+    baseClasses.push('timeline-box');
+  }
   
-  // Add snap-icon modifier if enabled
-  if (props.snapIcon) {
+  // Complex variant styling
+  if (props.variant === 'complex') {
+    baseClasses.push('mb-10', 'md:text-end');
+  }
+  
+  // Add snap-icon modifier if enabled (simple variant only)
+  if (props.snapIcon && props.variant === 'simple') {
     baseClasses.push('timeline-snap-icon');
   }
 
@@ -125,8 +185,8 @@ const startClasses = computed(() => {
 const middleClasses = computed(() => {
   const baseClasses = ['timeline-middle'];
   
-  // Add snap-icon modifier if enabled
-  if (props.snapIcon) {
+  // Add snap-icon modifier if enabled (simple variant only)
+  if (props.snapIcon && props.variant === 'simple') {
     baseClasses.push('timeline-snap-icon');
   }
 
@@ -136,13 +196,28 @@ const middleClasses = computed(() => {
 const endClasses = computed(() => {
   const baseClasses = ['timeline-end'];
   
-  // Add box modifier
-  baseClasses.push('timeline-box');
+  // Add box modifier for simple variant
+  if (props.variant === 'simple') {
+    baseClasses.push('timeline-box');
+  }
+  
+  // Complex variant styling
+  if (props.variant === 'complex') {
+    baseClasses.push('md:mb-10');
+  }
 
   return baseClasses.join(' ');
 });
 
 const getItemKey = (item: TimelineItem, index: number) => {
   return item.id !== undefined ? item.id : index;
+};
+
+const isValidComponentName = (icon: unknown): boolean => {
+  if (typeof icon !== 'string') return false;
+  
+  // Check if it's a valid component name (starts with a letter, contains only letters, numbers, hyphens, underscores)
+  const componentNameRegex = /^[a-zA-Z][a-zA-Z0-9-_]*$/;
+  return componentNameRegex.test(icon);
 };
 </script>
