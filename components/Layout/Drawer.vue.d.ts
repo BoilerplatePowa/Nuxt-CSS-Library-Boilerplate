@@ -5,6 +5,7 @@ interface Props {
     backdrop?: boolean;
     persistent?: boolean;
     showCloseButton?: boolean;
+    id?: string;
 }
 declare function __VLS_template(): {
     attrs: Partial<{}>;
@@ -32,6 +33,7 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
     "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
 }>, {
     position: "left" | "right" | "top" | "bottom";
+    id: string;
     modelValue: boolean;
     persistent: boolean;
     width: "sm" | "md" | "lg" | "xl" | "full";

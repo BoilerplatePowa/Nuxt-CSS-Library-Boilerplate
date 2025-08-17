@@ -1,15 +1,15 @@
 interface Props {
     modelValue?: boolean;
     title?: string;
-    variant?: 'default' | 'arrow' | 'plus';
+    variant?: 'default' | 'arrow' | 'plus' | 'bordered' | 'ghost';
     disabled?: boolean;
     forceOpen?: boolean;
+    id?: string;
 }
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: {
         title?(_: {}): any;
-        icon?(_: {}): any;
         default?(_: {}): any;
     };
     refs: {};
@@ -23,9 +23,10 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
     onToggle?: ((isOpen: boolean) => any) | undefined;
     "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
 }>, {
-    variant: "default" | "arrow" | "plus";
+    variant: "default" | "arrow" | "plus" | "bordered" | "ghost";
     disabled: boolean;
     forceOpen: boolean;
+    id: string;
     modelValue: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;

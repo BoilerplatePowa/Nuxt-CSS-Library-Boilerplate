@@ -12,6 +12,7 @@ interface Props {
     variant?: 'default' | 'bordered' | 'compact';
     size?: 'sm' | 'md' | 'lg';
     disabled?: boolean;
+    id?: string;
 }
 declare function __VLS_template(): {
     attrs: Partial<{}>;
@@ -37,6 +38,7 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
     size: "sm" | "md" | "lg";
     disabled: boolean;
     items: AccordionItem[];
+    id: string;
     multiple: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;

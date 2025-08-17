@@ -6,6 +6,8 @@ interface Props {
     offContent?: string;
     indeterminateContent?: string;
     disabled?: boolean;
+    name?: string;
+    id?: string;
 }
 declare function __VLS_template(): {
     attrs: Partial<{}>;
@@ -29,9 +31,11 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
     "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
     onChange?: ((value: boolean) => any) | undefined;
 }>, {
+    name: string;
     variant: "rotate" | "flip" | "indeterminate";
     size: "xs" | "sm" | "md" | "lg";
     disabled: boolean;
+    id: string;
     modelValue: boolean;
     onContent: string;
     offContent: string;

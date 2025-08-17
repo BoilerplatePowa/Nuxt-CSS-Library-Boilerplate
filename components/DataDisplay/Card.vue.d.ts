@@ -23,11 +23,17 @@ declare function __VLS_template(): {
         image?(_: {}): any;
         'image-overlay'?(_: {}): any;
         header?(_: {}): any;
+        header?(_: {}): any;
+        badge?(_: {}): any;
+        badge?(_: {}): any;
+        headerActions?(_: {}): any;
         headerActions?(_: {}): any;
         default?(_: {}): any;
+        default?(_: {}): any;
+        actions?(_: {}): any;
         actions?(_: {}): any;
         footer?(_: {}): any;
-        badge?(_: {}): any;
+        footer?(_: {}): any;
     };
     refs: {
         cardRef: unknown;

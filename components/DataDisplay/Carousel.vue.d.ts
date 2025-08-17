@@ -1,33 +1,37 @@
 interface CarouselItem {
     image?: string;
-    content?: string;
     alt?: string;
+    content?: string;
     value?: string | number;
-    href?: string;
 }
 interface Props {
-    items?: CarouselItem[];
+    items: CarouselItem[];
     modelValue?: number;
     autoplay?: boolean;
     autoplayInterval?: number;
     loop?: boolean;
-    showArrows?: boolean;
     showIndicators?: boolean;
+    showArrows?: boolean;
+    controllerPosition?: 'bottom' | 'sides';
+    paginationType?: 'numbers' | 'dots' | 'line' | 'default';
     variant?: 'default' | 'full-width' | 'center' | 'vertical';
-    itemWidth?: string;
+    indicatorVariant?: 'default' | 'filled' | 'outline' | 'ghost' | 'link';
+    arrowVariant?: 'default' | 'filled' | 'outline' | 'ghost' | 'link' | 'glass';
     itemHeight?: string;
     gap?: string;
 }
 declare function __VLS_template(): {
     attrs: Partial<{}>;
-    slots: Partial<Record<`item-${number}`, (_: {
+    slots: Partial<Record<`carousel-item-${number}`, (_: {
         item: CarouselItem;
         index: number;
         isActive: boolean;
     }) => any>> & {
         'prev-arrow'?(_: {}): any;
-        default?(_: {}): any;
+        'prev-arrow'?(_: {}): any;
         'next-arrow'?(_: {}): any;
+        'next-arrow'?(_: {}): any;
+        default?(_: {}): any;
     };
     refs: {};
     rootEl: HTMLDivElement;
@@ -43,14 +47,16 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
     "onSlide-change"?: ((index: number, item: CarouselItem) => any) | undefined;
 }>, {
     variant: "default" | "full-width" | "center" | "vertical";
-    items: CarouselItem[];
     modelValue: number;
     autoplay: boolean;
     autoplayInterval: number;
     loop: boolean;
-    showArrows: boolean;
     showIndicators: boolean;
-    itemWidth: string;
+    showArrows: boolean;
+    controllerPosition: "bottom" | "sides";
+    paginationType: "numbers" | "dots" | "line" | "default";
+    indicatorVariant: "default" | "filled" | "outline" | "ghost" | "link";
+    arrowVariant: "default" | "filled" | "outline" | "ghost" | "link" | "glass";
     itemHeight: string;
     gap: string;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
