@@ -44,6 +44,9 @@ const meta: Meta<typeof Calendar> = {
     placeholder: {
       control: 'text',
     },
+    range: {
+      control: 'boolean',
+    },
   },
 };
 
@@ -107,6 +110,36 @@ export const DatePicker: Story = {
           <p>• Uses native CSS popover API</p>
           <p>• Click outside to close</p>
           <p>• Fully accessible with keyboard navigation</p>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const RangeCalendar: Story = {
+  args: {
+    size: 'md',
+    variant: 'bordered',
+    mode: 'calendar',
+    range: true,
+    allowMonthSelect: true,
+    allowYearSelect: true,
+    showToday: true,
+  },
+  render: (args) => ({
+    components: { Calendar },
+    setup() {
+      const selectedDate = ref<Date | null>(null);
+      
+      return { args, selectedDate };
+    },
+    template: `
+      <div class="space-y-4">
+        <Calendar v-bind="args" v-model="selectedDate" />
+        <div class="text-sm text-center opacity-70">
+          <p>• Uses Cally calendar-range component</p>
+          <p>• Supports date range selection</p>
+          <p>• Visual feedback for selected ranges</p>
         </div>
       </div>
     `,
@@ -374,6 +407,35 @@ export const CalendarVsDatePicker: Story = {
           <h3 class="font-semibold mb-2">Date Picker Mode</h3>
           <Calendar v-model="dates.datepicker" mode="datepicker" variant="bordered" placeholder="Pick a date" />
           <p class="text-sm mt-2 opacity-70">Native CSS popover with click-to-open</p>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const SingleVsRange: Story = {
+  render: () => ({
+    components: { Calendar },
+    setup() {
+      const dates = ref({
+        single: null,
+        range: null,
+      });
+      
+      return { dates };
+    },
+    template: `
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="text-center">
+          <h3 class="font-semibold mb-2">Single Date Selection</h3>
+          <Calendar v-model="dates.single" mode="calendar" variant="bordered" />
+          <p class="text-sm mt-2 opacity-70">Select individual dates</p>
+        </div>
+        
+        <div class="text-center">
+          <h3 class="font-semibold mb-2">Date Range Selection</h3>
+          <Calendar v-model="dates.range" mode="calendar" variant="bordered" :range="true" />
+          <p class="text-sm mt-2 opacity-70">Select date ranges with visual feedback</p>
         </div>
       </div>
     `,

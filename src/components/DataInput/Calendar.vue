@@ -18,7 +18,8 @@
         :class="dropdownClasses"
         :style="{ 'position-anchor': `--${buttonId}` } as any"
       >
-        <calendar-date 
+        <component 
+          :is="calendarComponent"
           :class="callyClasses"
           :onchange="`document.getElementById('${buttonId}').innerText = this.value`"
         >
@@ -41,12 +42,13 @@
             <path fill="currentColor" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
           </svg>
           <calendar-month></calendar-month>
-        </calendar-date>
+        </component>
       </div>
     </div>
 
     <!-- Calendar Display Mode -->
-    <calendar-date 
+    <component 
+      :is="calendarComponent"
       v-else
       :class="callyClasses"
     >
@@ -69,7 +71,7 @@
         <path fill="currentColor" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
       </svg>
       <calendar-month></calendar-month>
-    </calendar-date>
+    </component>
   </div>
 </template>
 
@@ -94,6 +96,7 @@ interface Props {
   locale?: string;
   mode?: 'calendar' | 'datepicker';
   placeholder?: string;
+  range?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -108,6 +111,7 @@ const props = withDefaults(defineProps<Props>(), {
   locale: 'en-US',
   mode: 'calendar',
   placeholder: 'Pick a date',
+  range: false,
 });
 
 const emit = defineEmits<{
@@ -123,6 +127,8 @@ const isDatePicker = computed(() => props.mode === 'datepicker');
 
 const buttonId = computed(() => `calendar-button-${Math.random().toString(36).substr(2, 9)}`);
 const popoverId = computed(() => `calendar-popover-${Math.random().toString(36).substr(2, 9)}`);
+
+const calendarComponent = computed(() => props.range ? 'calendar-range' : 'calendar-date');
 
 const containerClasses = computed(() => {
   const baseClasses = ['calendar-container'];

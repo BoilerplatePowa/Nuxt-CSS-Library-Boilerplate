@@ -15,6 +15,14 @@ const mockCalendarDate = {
   emits: ['change'],
 };
 
+// Mock the calendar-range web component
+const mockCalendarRange = {
+  name: 'calendar-range',
+  template: '<div class="mock-calendar-range cally"><slot /></div>',
+  props: ['value', 'class'],
+  emits: ['change'],
+};
+
 const mockCalendarMonth = {
   name: 'calendar-month',
   template: '<div class="mock-calendar-month">Calendar Month</div>',
@@ -27,6 +35,7 @@ describe('Calendar', () => {
       global: {
         components: {
           'calendar-date': mockCalendarDate,
+          'calendar-range': mockCalendarRange,
           'calendar-month': mockCalendarMonth,
         },
       },
@@ -87,6 +96,24 @@ describe('Calendar', () => {
         modelValue: testDate
       });
       expect(wrapper.find('button').text()).toBe(testDate.toLocaleDateString());
+    });
+
+    it('renders range calendar when range prop is true', () => {
+      const wrapper = createWrapper({ range: true });
+      expect(wrapper.find('.mock-calendar-range').exists()).toBe(true);
+      expect(wrapper.find('.mock-calendar-date').exists()).toBe(false);
+    });
+
+    it('renders single date calendar when range prop is false', () => {
+      const wrapper = createWrapper({ range: false });
+      expect(wrapper.find('.mock-calendar-date').exists()).toBe(true);
+      expect(wrapper.find('.mock-calendar-range').exists()).toBe(false);
+    });
+
+    it('renders range calendar in datepicker mode', () => {
+      const wrapper = createWrapper({ mode: 'datepicker', range: true });
+      expect(wrapper.find('.mock-calendar-range').exists()).toBe(true);
+      expect(wrapper.find('button').exists()).toBe(true);
     });
   });
 
