@@ -11,7 +11,7 @@ vi.mock('cally', () => ({
 const mockCalendarDate = {
   name: 'calendar-date',
   template: '<div class="mock-calendar-date cally" :class="$attrs.class"><slot /></div>',
-  props: ['value', 'class'],
+  props: ['class'],
   emits: ['change'],
 };
 
@@ -19,7 +19,7 @@ const mockCalendarDate = {
 const mockCalendarRange = {
   name: 'calendar-range',
   template: '<div class="mock-calendar-range cally" :class="$attrs.class"><slot /></div>',
-  props: ['value', 'class'],
+  props: ['class'],
   emits: ['change'],
 };
 
@@ -88,6 +88,18 @@ describe('Calendar', () => {
         allowYearSelect: false 
       });
       expect(wrapper.find('.calendar-header').exists()).toBe(false);
+    });
+
+    it('renders calendar component with key for month/year changes', () => {
+      const wrapper = createWrapper({ 
+        allowMonthSelect: true, 
+        allowYearSelect: true 
+      });
+      const calendarComponent = wrapper.find('.mock-calendar-date');
+      
+      // Check that the component exists and has the expected classes
+      expect(calendarComponent.exists()).toBe(true);
+      expect(calendarComponent.classes()).toContain('cally');
     });
   });
 

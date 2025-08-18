@@ -59,6 +59,7 @@
         
         <component 
           :is="calendarComponent"
+          :key="`${currentMonth}-${currentYear}`"
           :class="callyClasses"
           :onchange="`document.getElementById('${buttonId}').innerText = this.value`"
         >
@@ -128,6 +129,7 @@
       
       <component 
         :is="calendarComponent"
+        :key="`${currentMonth}-${currentYear}`"
         :class="callyClasses"
       >
         <svg 

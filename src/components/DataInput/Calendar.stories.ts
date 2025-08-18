@@ -180,7 +180,7 @@ export const MonthYearSelection: Story = {
             :allow-year-select="true"
             @month-change="handleMonthChange"
           />
-          <p class="text-sm mt-2 opacity-70">Both month and year selectors enabled</p>
+          <p class="text-sm mt-2 opacity-70">Both month and year selectors enabled - calendar updates when changed</p>
         </div>
         
         <div class="text-center">
@@ -193,7 +193,7 @@ export const MonthYearSelection: Story = {
             :allow-year-select="false"
             @month-change="handleMonthChange"
           />
-          <p class="text-sm mt-2 opacity-70">Only month selector enabled</p>
+          <p class="text-sm mt-2 opacity-70">Only month selector enabled - calendar updates when month changes</p>
         </div>
         
         <div class="text-center">
@@ -206,7 +206,7 @@ export const MonthYearSelection: Story = {
             :allow-year-select="true"
             @month-change="handleMonthChange"
           />
-          <p class="text-sm mt-2 opacity-70">Only year selector enabled</p>
+          <p class="text-sm mt-2 opacity-70">Only year selector enabled - calendar updates when year changes</p>
         </div>
         
         <div class="text-center">
