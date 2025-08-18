@@ -146,6 +146,8 @@ const inputClasses = computed(() => {
   // Size
   if (props.size === 'sm') {
     baseClasses.push('input-sm');
+  } else if (props.size === 'md') {
+    baseClasses.push('input-md');
   } else if (props.size === 'lg') {
     baseClasses.push('input-lg');
   }
@@ -177,6 +179,8 @@ const callyClasses = computed(() => {
   // Size
   if (props.size === 'sm') {
     baseClasses.push('text-sm');
+  } else if (props.size === 'md') {
+    baseClasses.push('text-md');
   } else if (props.size === 'lg') {
     baseClasses.push('text-lg');
   }

@@ -333,18 +333,27 @@ export const DifferentSizes: Story = {
     template: `
       <div class="space-y-8">
         <div class="text-center">
-          <h3 class="font-semibold mb-2">Small Size</h3>
-          <Calendar v-model="dates.sm" size="sm" variant="bordered" mode="calendar" />
+          <h3 class="font-semibold mb-2">Small Size (sm)</h3>
+          <div class="inline-block">
+            <Calendar v-model="dates.sm" size="sm" variant="bordered" mode="calendar" />
+          </div>
+          <p class="text-xs mt-2 opacity-70">Uses text-sm and input-sm classes</p>
         </div>
         
         <div class="text-center">
-          <h3 class="font-semibold mb-2">Medium Size (Default)</h3>
-          <Calendar v-model="dates.md" size="md" variant="bordered" mode="calendar" />
+          <h3 class="font-semibold mb-2">Medium Size (md) - Default</h3>
+          <div class="inline-block">
+            <Calendar v-model="dates.md" size="md" variant="bordered" mode="calendar" />
+          </div>
+          <p class="text-xs mt-2 opacity-70">Uses text-md and input-md classes</p>
         </div>
         
         <div class="text-center">
-          <h3 class="font-semibold mb-2">Large Size</h3>
-          <Calendar v-model="dates.lg" size="lg" variant="bordered" mode="calendar" />
+          <h3 class="font-semibold mb-2">Large Size (lg)</h3>
+          <div class="inline-block">
+            <Calendar v-model="dates.lg" size="lg" variant="bordered" mode="calendar" />
+          </div>
+          <p class="text-xs mt-2 opacity-70">Uses text-lg and input-lg classes</p>
         </div>
       </div>
     `,
@@ -460,22 +469,26 @@ export const NativePopoverFeatures: Story = {
           <h3 class="font-semibold mb-4">Native CSS Popover Features</h3>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
-              <h4 class="font-medium mb-2">Small Size</h4>
+              <h4 class="font-medium mb-2">Small Size (sm)</h4>
               <Calendar v-model="dates.popover1" mode="datepicker" size="sm" placeholder="Small picker" />
+              <p class="text-xs mt-1 opacity-70">input-sm class</p>
             </div>
             <div>
-              <h4 class="font-medium mb-2">Medium Size</h4>
+              <h4 class="font-medium mb-2">Medium Size (md)</h4>
               <Calendar v-model="dates.popover2" mode="datepicker" size="md" placeholder="Medium picker" />
+              <p class="text-xs mt-1 opacity-70">input-md class</p>
             </div>
             <div>
-              <h4 class="font-medium mb-2">Large Size</h4>
+              <h4 class="font-medium mb-2">Large Size (lg)</h4>
               <Calendar v-model="dates.popover3" mode="datepicker" size="lg" placeholder="Large picker" />
+              <p class="text-xs mt-1 opacity-70">input-lg class</p>
             </div>
           </div>
           <div class="text-sm mt-4 space-y-1 opacity-70">
             <p>• Each picker has unique IDs and anchor positioning</p>
             <p>• Native browser popover behavior (ESC to close, focus management)</p>
             <p>• Automatic positioning relative to the trigger button</p>
+            <p>• Size classes apply to both input buttons and calendar content</p>
           </div>
         </div>
       </div>
