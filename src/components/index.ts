@@ -12,6 +12,9 @@ export * from './DataInput';
 // Feedback
 export * from './Feedback';
 
+// Icons
+export * from './Icons';
+
 // Layout
 export * from './Layout';
 
