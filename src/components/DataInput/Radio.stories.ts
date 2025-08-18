@@ -3,7 +3,7 @@ import Radio from './Radio.vue';
 import { ref } from 'vue';
 
 const meta: Meta<typeof Radio> = {
-  title: 'DataInput/Radio',
+  title: 'Data Input/Radio',
   component: Radio,
   parameters: {
     layout: 'padded',

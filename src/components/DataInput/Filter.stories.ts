@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Filter from './Filter.vue';
 
 const meta: Meta<typeof Filter> = {
-  title: 'DataInput/Filter',
+  title: 'Data Input/Filter',
   component: Filter,
   parameters: {
     layout: 'centered',

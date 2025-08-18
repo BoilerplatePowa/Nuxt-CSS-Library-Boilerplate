@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import FileInput from './FileInput.vue';
 
 const meta: Meta<typeof FileInput> = {
-  title: 'DataInput/FileInput',
+  title: 'Data Input/FileInput',
   component: FileInput,
   parameters: {
     layout: 'padded',

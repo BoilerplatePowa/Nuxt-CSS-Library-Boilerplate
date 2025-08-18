@@ -3,7 +3,7 @@ import Rating from './Rating.vue';
 import { ref } from 'vue';
 
 const meta: Meta<typeof Rating> = {
-  title: 'DataInput/Rating',
+  title: 'Data Input/Rating',
   component: Rating,
   parameters: {
     layout: 'padded',

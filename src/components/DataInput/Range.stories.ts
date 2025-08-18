@@ -3,7 +3,7 @@ import Range from './Range.vue';
 import { ref } from 'vue';
 
 const meta: Meta<typeof Range> = {
-  title: 'DataInput/Range',
+  title: 'Data Input/Range',
   component: Range,
   parameters: {
     layout: 'padded',

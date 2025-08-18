@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import Validator from './Validator.vue';
 
 const meta: Meta<typeof Validator> = {
-  title: 'DataInput/Validator',
+  title: 'Data Input/Validator',
   component: Validator,
   parameters: {
     layout: 'centered',

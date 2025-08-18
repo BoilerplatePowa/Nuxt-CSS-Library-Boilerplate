@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Label from './Label.vue';
 
 const meta: Meta<typeof Label> = {
-  title: 'DataInput/Label',
+  title: 'Data Input/Label',
   component: Label,
   parameters: {
     layout: 'padded',

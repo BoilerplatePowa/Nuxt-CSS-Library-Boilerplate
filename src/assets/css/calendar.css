@@ -1,0 +1,65 @@
+/* Calendar Component Styles */
+.calendar-container {
+  @apply relative;
+}
+
+.dropdown {
+  @apply z-50;
+}
+
+/* Custom styles for Cally component */
+.cally {
+  @apply font-sans;
+}
+
+.cally calendar-month {
+  @apply p-4;
+}
+
+.cally [role="grid"] {
+  @apply gap-1;
+}
+
+.cally [role="gridcell"] {
+  @apply rounded-md;
+}
+
+.cally [role="gridcell"]:hover:not([aria-disabled="true"]) {
+  @apply bg-base-200;
+}
+
+.cally [role="gridcell"][aria-selected="true"] {
+  @apply bg-primary text-primary-content;
+}
+
+.cally [role="gridcell"][aria-current="date"] {
+  @apply ring-2 ring-primary ring-offset-1;
+}
+
+.cally [role="gridcell"][aria-disabled="true"] {
+  @apply opacity-50 cursor-not-allowed;
+}
+
+.cally [role="gridcell"]:not([data-month="true"]) {
+  @apply opacity-40;
+}
+
+.cally [role="button"] {
+  @apply transition-colors;
+}
+
+.cally [role="button"]:hover:not([aria-disabled="true"]) {
+  @apply bg-base-200;
+}
+
+.cally [role="button"][aria-selected="true"] {
+  @apply bg-primary text-primary-content;
+}
+
+.cally [role="button"][aria-current="date"] {
+  @apply ring-2 ring-primary ring-offset-1;
+}
+
+.cally [role="button"][aria-disabled="true"] {
+  @apply opacity-50 cursor-not-allowed;
+}

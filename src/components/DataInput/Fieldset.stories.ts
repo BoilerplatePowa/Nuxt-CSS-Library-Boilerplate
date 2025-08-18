@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Fieldset from './Fieldset.vue';
 
 const meta: Meta<typeof Fieldset> = {
-  title: 'DataInput/Fieldset',
+  title: 'Data Input/Fieldset',
   component: Fieldset,
   parameters: {
     layout: 'padded',

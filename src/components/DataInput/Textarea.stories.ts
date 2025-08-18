@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import Textarea from './Textarea.vue';
 
 const meta: Meta<typeof Textarea> = {
-  title: 'DataInput/Textarea',
+  title: 'Data Input/Textarea',
   component: Textarea,
   parameters: {
     layout: 'padded',
