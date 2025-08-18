@@ -71,6 +71,24 @@ describe('Calendar', () => {
       expect(wrapper.find('.calendar-container').classes()).toContain('opacity-60');
       expect(wrapper.find('.calendar-container').classes()).toContain('pointer-events-none');
     });
+
+    it('shows month selector when allowMonthSelect is true', () => {
+      const wrapper = createWrapper({ allowMonthSelect: true });
+      expect(wrapper.find('select').exists()).toBe(true);
+    });
+
+    it('shows year selector when allowYearSelect is true', () => {
+      const wrapper = createWrapper({ allowYearSelect: true });
+      expect(wrapper.find('select').exists()).toBe(true);
+    });
+
+    it('hides selectors when both allowMonthSelect and allowYearSelect are false', () => {
+      const wrapper = createWrapper({ 
+        allowMonthSelect: false, 
+        allowYearSelect: false 
+      });
+      expect(wrapper.find('.calendar-header').exists()).toBe(false);
+    });
   });
 
   describe('Modes', () => {
@@ -143,7 +161,28 @@ describe('Calendar', () => {
       expect(button.attributes('popovertarget')).toBe(popover.attributes('id'));
     });
 
+    it('emits monthChange event when month selector changes', async () => {
+      const wrapper = createWrapper({ allowMonthSelect: true });
+      const monthSelect = wrapper.find('select');
+      
+      await monthSelect.setValue('5'); // June
+      
+      expect(wrapper.emitted('monthChange')).toBeTruthy();
+      expect(wrapper.emitted('monthChange')?.[0]).toEqual([5, new Date().getFullYear()]);
+    });
 
+    it('emits monthChange event when year selector changes', async () => {
+      const wrapper = createWrapper({ 
+        allowMonthSelect: false, 
+        allowYearSelect: true 
+      });
+      const yearSelect = wrapper.find('select');
+      
+      await yearSelect.setValue('2025');
+      
+      expect(wrapper.emitted('monthChange')).toBeTruthy();
+      expect(wrapper.emitted('monthChange')?.[0]).toEqual([new Date().getMonth(), 2025]);
+    });
   });
 
   describe('Date validation', () => {

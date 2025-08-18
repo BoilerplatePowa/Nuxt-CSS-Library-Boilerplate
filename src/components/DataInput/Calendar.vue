@@ -18,6 +18,45 @@
         :class="dropdownClasses"
         :style="{ 'position-anchor': `--${buttonId}` } as any"
       >
+        <!-- Month and Year Selectors -->
+        <div v-if="allowMonthSelect || allowYearSelect" class="calendar-header p-3 border-b border-base-300">
+          <div class="flex items-center justify-between gap-2">
+            <!-- Month Selector -->
+            <select 
+              v-if="allowMonthSelect"
+              :value="currentMonth"
+              @change="handleMonthChange"
+              :class="selectClasses"
+              :disabled="disabled"
+            >
+              <option 
+                v-for="(month, index) in monthNames" 
+                :key="index" 
+                :value="index"
+              >
+                {{ month }}
+              </option>
+            </select>
+            
+            <!-- Year Selector -->
+            <select 
+              v-if="allowYearSelect"
+              :value="currentYear"
+              @change="handleYearChange"
+              :class="selectClasses"
+              :disabled="disabled"
+            >
+              <option 
+                v-for="year in availableYears" 
+                :key="year" 
+                :value="year"
+              >
+                {{ year }}
+              </option>
+            </select>
+          </div>
+        </div>
+        
         <component 
           :is="calendarComponent"
           :class="callyClasses"
@@ -47,36 +86,76 @@
     </div>
 
     <!-- Calendar Display Mode -->
-    <component 
-      :is="calendarComponent"
-      v-else
-      :class="callyClasses"
-    >
-      <svg 
-        aria-label="Previous" 
-        class="fill-current size-4" 
-        slot="previous" 
-        xmlns="http://www.w3.org/2000/svg" 
-        viewBox="0 0 24 24"
+    <div v-else class="calendar-wrapper">
+      <!-- Month and Year Selectors -->
+      <div v-if="allowMonthSelect || allowYearSelect" class="calendar-header p-3 border-b border-base-300">
+        <div class="flex items-center justify-between gap-2">
+          <!-- Month Selector -->
+          <select 
+            v-if="allowMonthSelect"
+            :value="currentMonth"
+            @change="handleMonthChange"
+            :class="selectClasses"
+            :disabled="disabled"
+          >
+            <option 
+              v-for="(month, index) in monthNames" 
+              :key="index" 
+              :value="index"
+            >
+              {{ month }}
+            </option>
+          </select>
+          
+          <!-- Year Selector -->
+          <select 
+            v-if="allowYearSelect"
+            :value="currentYear"
+            @change="handleYearChange"
+            :class="selectClasses"
+            :disabled="disabled"
+          >
+            <option 
+              v-for="year in availableYears" 
+              :key="year" 
+              :value="year"
+            >
+              {{ year }}
+            </option>
+          </select>
+        </div>
+      </div>
+      
+      <component 
+        :is="calendarComponent"
+        :class="callyClasses"
       >
-        <path fill="currentColor" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
-      </svg>
-      <svg 
-        aria-label="Next" 
-        class="fill-current size-4" 
-        slot="next" 
-        xmlns="http://www.w3.org/2000/svg" 
-        viewBox="0 0 24 24"
-      >
-        <path fill="currentColor" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
-      </svg>
-      <calendar-month></calendar-month>
-    </component>
+        <svg 
+          aria-label="Previous" 
+          class="fill-current size-4" 
+          slot="previous" 
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 24 24"
+        >
+          <path fill="currentColor" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
+        </svg>
+        <svg 
+          aria-label="Next" 
+          class="fill-current size-4" 
+          slot="next" 
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 24 24"
+        >
+          <path fill="currentColor" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
+        </svg>
+        <calendar-month></calendar-month>
+      </component>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import 'cally';
 
 interface Props {
@@ -120,7 +199,9 @@ const emit = defineEmits<{
   monthChange: [month: number, year: number];
 }>();
 
-
+// State for current month/year
+const currentMonth = ref(new Date().getMonth());
+const currentYear = ref(new Date().getFullYear());
 
 // Computed properties
 const isDatePicker = computed(() => props.mode === 'datepicker');
@@ -129,6 +210,20 @@ const buttonId = computed(() => `calendar-button-${Math.random().toString(36).su
 const popoverId = computed(() => `calendar-popover-${Math.random().toString(36).substr(2, 9)}`);
 
 const calendarComponent = computed(() => props.range ? 'calendar-range' : 'calendar-date');
+
+// Month names for the current locale
+const monthNames = computed(() => {
+  const formatter = new Intl.DateTimeFormat(props.locale, { month: 'long' });
+  return Array.from({ length: 12 }, (_, i) => 
+    formatter.format(new Date(2024, i, 1))
+  );
+});
+
+// Available years based on yearRange prop
+const availableYears = computed(() => {
+  const [start, end] = props.yearRange;
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+});
 
 const containerClasses = computed(() => {
   const baseClasses = ['calendar-container'];
@@ -162,6 +257,21 @@ const inputClasses = computed(() => {
 
 const dropdownClasses = computed(() => {
   return ['dropdown', 'bg-base-100', 'rounded-box', 'shadow-lg'];
+});
+
+const selectClasses = computed(() => {
+  const baseClasses = ['select', 'select-bordered'];
+  
+  // Size
+  if (props.size === 'sm') {
+    baseClasses.push('select-sm');
+  } else if (props.size === 'md') {
+    baseClasses.push('select-md');
+  } else if (props.size === 'lg') {
+    baseClasses.push('select-lg');
+  }
+  
+  return baseClasses.join(' ');
 });
 
 const callyClasses = computed(() => {
@@ -202,6 +312,18 @@ const displayValue = computed(() => {
 });
 
 // Methods
+const handleMonthChange = (event: Event) => {
+  const target = event.target as HTMLSelectElement;
+  currentMonth.value = parseInt(target.value);
+  emit('monthChange', currentMonth.value, currentYear.value);
+};
+
+const handleYearChange = (event: Event) => {
+  const target = event.target as HTMLSelectElement;
+  currentYear.value = parseInt(target.value);
+  emit('monthChange', currentMonth.value, currentYear.value);
+};
+
 const isDateValid = (date: Date) => {
   // Check min/max date constraints
   if (props.minDate && date < new Date(props.minDate)) {
@@ -223,6 +345,17 @@ const isDateValid = (date: Date) => {
   
   return true;
 };
+
+// Watch for modelValue changes to update current month/year
+watch(() => props.modelValue, (newValue) => {
+  if (newValue) {
+    const date = new Date(newValue);
+    if (!isNaN(date.getTime())) {
+      currentMonth.value = date.getMonth();
+      currentYear.value = date.getFullYear();
+    }
+  }
+}, { immediate: true });
 </script>
 
 

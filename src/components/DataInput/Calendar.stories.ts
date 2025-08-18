@@ -67,13 +67,18 @@ export const Default: Story = {
     setup() {
       const selectedDate = ref<Date | null>(null);
       
-      return { args, selectedDate };
+      const handleMonthChange = (month: number, year: number) => {
+        console.log('Month/Year changed:', { month, year });
+      };
+      
+      return { args, selectedDate, handleMonthChange };
     },
     template: `
       <div class="space-y-4">
         <Calendar 
           v-bind="args" 
           v-model="selectedDate"
+          @month-change="handleMonthChange"
         />
         <div v-if="selectedDate" class="text-sm text-center opacity-70">
           Selected: {{ selectedDate.toLocaleDateString() }}
@@ -140,6 +145,80 @@ export const RangeCalendar: Story = {
           <p>• Uses Cally calendar-range component</p>
           <p>• Supports date range selection</p>
           <p>• Visual feedback for selected ranges</p>
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const MonthYearSelection: Story = {
+  render: () => ({
+    components: { Calendar },
+    setup() {
+      const dates = ref({
+        both: null,
+        monthOnly: null,
+        yearOnly: null,
+        none: null,
+      });
+      
+      const handleMonthChange = (month: number, year: number) => {
+        console.log('Month/Year changed:', { month, year });
+      };
+      
+      return { dates, handleMonthChange };
+    },
+    template: `
+      <div class="space-y-8">
+        <div class="text-center">
+          <h3 class="font-semibold mb-2">Month and Year Selection</h3>
+          <Calendar 
+            v-model="dates.both" 
+            mode="calendar" 
+            variant="bordered"
+            :allow-month-select="true"
+            :allow-year-select="true"
+            @month-change="handleMonthChange"
+          />
+          <p class="text-sm mt-2 opacity-70">Both month and year selectors enabled</p>
+        </div>
+        
+        <div class="text-center">
+          <h3 class="font-semibold mb-2">Month Selection Only</h3>
+          <Calendar 
+            v-model="dates.monthOnly" 
+            mode="calendar" 
+            variant="bordered"
+            :allow-month-select="true"
+            :allow-year-select="false"
+            @month-change="handleMonthChange"
+          />
+          <p class="text-sm mt-2 opacity-70">Only month selector enabled</p>
+        </div>
+        
+        <div class="text-center">
+          <h3 class="font-semibold mb-2">Year Selection Only</h3>
+          <Calendar 
+            v-model="dates.yearOnly" 
+            mode="calendar" 
+            variant="bordered"
+            :allow-month-select="false"
+            :allow-year-select="true"
+            @month-change="handleMonthChange"
+          />
+          <p class="text-sm mt-2 opacity-70">Only year selector enabled</p>
+        </div>
+        
+        <div class="text-center">
+          <h3 class="font-semibold mb-2">No Selectors</h3>
+          <Calendar 
+            v-model="dates.none" 
+            mode="calendar" 
+            variant="bordered"
+            :allow-month-select="false"
+            :allow-year-select="false"
+          />
+          <p class="text-sm mt-2 opacity-70">No month/year selectors (default navigation only)</p>
         </div>
       </div>
     `,
