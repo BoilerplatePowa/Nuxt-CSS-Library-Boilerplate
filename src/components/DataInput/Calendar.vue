@@ -1,167 +1,113 @@
 <template>
-  <div :class="containerClasses">
-    <!-- Date Picker Mode -->
-    <div v-if="isDatePicker" class="relative">
-      <button 
-        :popovertarget="popoverId"
-        :class="inputClasses"
-        :id="buttonId"
-        :disabled="disabled"
-        :style="{ 'anchor-name': `--${buttonId}` } as any"
-      >
-        {{ displayValue }}
-      </button>
-      
-      <div 
-        :popover="true"
-        :id="popoverId"
-        :class="dropdownClasses"
-        :style="{ 'position-anchor': `--${buttonId}` } as any"
-      >
-        <!-- Month and Year Selectors -->
-        <div v-if="allowMonthSelect || allowYearSelect" class="calendar-header p-3 border-b border-base-300">
-          <div class="flex items-center justify-between gap-2">
-            <!-- Month Selector -->
-            <select 
-              v-if="allowMonthSelect"
-              :value="currentMonth"
-              @change="handleMonthChange"
-              :class="selectClasses"
-              :disabled="disabled"
-            >
-              <option 
-                v-for="(month, index) in monthNames" 
-                :key="index" 
-                :value="index"
-              >
-                {{ month }}
-              </option>
-            </select>
-            
-            <!-- Year Selector -->
-            <select 
-              v-if="allowYearSelect"
-              :value="currentYear"
-              @change="handleYearChange"
-              :class="selectClasses"
-              :disabled="disabled"
-            >
-              <option 
-                v-for="year in availableYears" 
-                :key="year" 
-                :value="year"
-              >
-                {{ year }}
-              </option>
-            </select>
-          </div>
+  <div :class="containerClasses" ref="calendarRef">
+    <!-- Input Mode -->
+    <div v-if="mode === 'input'" class="relative">
+      <div class="relative">
+        <input
+          ref="inputRef"
+          :value="displayValue"
+          @input="handleInput"
+          @focus="handleFocus"
+          @blur="handleBlur"
+          @keydown="handleKeydown"
+          :class="inputClasses"
+          :placeholder="placeholder"
+          :disabled="disabled"
+          :readonly="readonly"
+          :aria-label="ariaLabel"
+          :aria-describedby="ariaDescribedby"
+          :aria-invalid="hasError"
+          role="combobox"
+          :aria-expanded="isOpen"
+          :aria-haspopup="true"
+          :aria-controls="popoverId"
+        />
+        
+        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+          <CalendarIcon class="w-4 h-4 text-base-content opacity-70" />
         </div>
         
-        <component 
-          :is="calendarComponent"
-          :key="`${currentMonth}-${currentYear}`"
-          :class="callyClasses"
-          :onchange="`document.getElementById('${buttonId}').innerText = this.value`"
+        <button
+          @click="toggleCalendar"
+          :class="buttonClasses"
+          :disabled="disabled"
+          :aria-label="`${isOpen ? 'Close' : 'Open'} calendar`"
+          type="button"
         >
-          <svg 
-            aria-label="Previous" 
-            class="fill-current size-4" 
-            slot="previous" 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 24 24"
-          >
-            <path fill="currentColor" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
-          </svg>
-          <svg 
-            aria-label="Next" 
-            class="fill-current size-4" 
-            slot="next" 
-            xmlns="http://www.w3.org/2000/svg" 
-            viewBox="0 0 24 24"
-          >
-            <path fill="currentColor" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
-          </svg>
-          <calendar-month></calendar-month>
-        </component>
+          <span class="sr-only">Open calendar</span>
+        </button>
+      </div>
+
+      <!-- Calendar Popover -->
+      <div
+        v-if="isOpen"
+        :id="popoverId"
+        :class="popoverClasses"
+        role="dialog"
+        :aria-label="`Calendar popover`"
+        :aria-modal="true"
+      >
+        <CalendarContent
+          v-model="selectedDate"
+          :range="range"
+          :min-date="minDate"
+          :max-date="maxDate"
+          :disabled-dates="disabledDates"
+          :locale="locale"
+          :format="format"
+          :show-time="showTime"
+          :time-step="timeStep"
+          :size="size"
+          :variant="variant"
+          :allow-month-select="allowMonthSelect"
+          :allow-year-select="allowYearSelect"
+          :year-range="yearRange"
+          @update:model-value="handleDateSelect"
+          @close="closeCalendar"
+        />
       </div>
     </div>
 
-    <!-- Calendar Display Mode -->
-    <div v-else class="calendar-wrapper">
-      <!-- Month and Year Selectors -->
-      <div v-if="allowMonthSelect || allowYearSelect" class="calendar-header p-3 border-b border-base-300">
-        <div class="flex items-center justify-between gap-2">
-          <!-- Month Selector -->
-          <select 
-            v-if="allowMonthSelect"
-            :value="currentMonth"
-            @change="handleMonthChange"
-            :class="selectClasses"
-            :disabled="disabled"
-          >
-            <option 
-              v-for="(month, index) in monthNames" 
-              :key="index" 
-              :value="index"
-            >
-              {{ month }}
-            </option>
-          </select>
-          
-          <!-- Year Selector -->
-          <select 
-            v-if="allowYearSelect"
-            :value="currentYear"
-            @change="handleYearChange"
-            :class="selectClasses"
-            :disabled="disabled"
-          >
-            <option 
-              v-for="year in availableYears" 
-              :key="year" 
-              :value="year"
-            >
-              {{ year }}
-            </option>
-          </select>
-        </div>
-      </div>
-      
-      <component 
-        :is="calendarComponent"
-        :key="`${currentMonth}-${currentYear}`"
-        :class="callyClasses"
-      >
-        <svg 
-          aria-label="Previous" 
-          class="fill-current size-4" 
-          slot="previous" 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 24 24"
-        >
-          <path fill="currentColor" d="M15.75 19.5 8.25 12l7.5-7.5"></path>
-        </svg>
-        <svg 
-          aria-label="Next" 
-          class="fill-current size-4" 
-          slot="next" 
-          xmlns="http://www.w3.org/2000/svg" 
-          viewBox="0 0 24 24"
-        >
-          <path fill="currentColor" d="m8.25 4.5 7.5 7.5-7.5 7.5"></path>
-        </svg>
-        <calendar-month></calendar-month>
-      </component>
+    <!-- Inline Mode -->
+    <div v-else class="calendar-inline">
+      <CalendarContent
+        v-model="selectedDate"
+        :range="range"
+        :min-date="minDate"
+        :max-date="maxDate"
+        :disabled-dates="disabledDates"
+        :locale="locale"
+        :format="format"
+        :show-time="showTime"
+        :time-step="timeStep"
+        :size="size"
+        :variant="variant"
+        :allow-month-select="allowMonthSelect"
+        :allow-year-select="allowYearSelect"
+        :year-range="yearRange"
+        @update:model-value="handleDateSelect"
+      />
+    </div>
+
+    <!-- Error Message -->
+    <div v-if="hasError && errorMessage" :class="errorClasses" role="alert">
+      {{ errorMessage }}
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
-import 'cally';
+import { computed, ref, watch, nextTick, onMounted, onUnmounted } from 'vue';
+import { CalendarIcon } from 'lucide-vue-next';
+import CalendarContent from './CalendarContent.vue';
 
 interface Props {
-  modelValue?: Date | string | null;
+  modelValue?: Date | Date[] | string | null;
+  mode?: 'input' | 'inline';
+  range?: boolean;
+  placeholder?: string;
+  format?: string;
+  locale?: string;
   size?: 'sm' | 'md' | 'lg';
   variant?: 'default' | 'bordered' | 'filled';
   disabled?: boolean;
@@ -169,66 +115,52 @@ interface Props {
   minDate?: Date | string;
   maxDate?: Date | string;
   disabledDates?: Date[] | string[];
-  events?: Record<string, any[]>;
+  showTime?: boolean;
+  timeStep?: number;
   allowMonthSelect?: boolean;
   allowYearSelect?: boolean;
-  showToday?: boolean;
   yearRange?: [number, number];
-  locale?: string;
-  mode?: 'calendar' | 'datepicker';
-  placeholder?: string;
-  range?: boolean;
+  errorMessage?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  mode: 'input',
+  range: false,
+  placeholder: 'Select date...',
+  format: 'YYYY-MM-DD',
+  locale: 'en-US',
   size: 'md',
   variant: 'default',
   disabled: false,
   readonly: false,
+  showTime: false,
+  timeStep: 15,
   allowMonthSelect: true,
   allowYearSelect: true,
-  showToday: true,
   yearRange: () => [new Date().getFullYear() - 10, new Date().getFullYear() + 10],
-  locale: 'en-US',
-  mode: 'calendar',
-  placeholder: 'Pick a date',
-  range: false,
 });
 
 const emit = defineEmits<{
-  'update:modelValue': [value: Date | null];
-  dayClick: [day: any];
-  monthChange: [month: number, year: number];
+  'update:modelValue': [value: Date | Date[] | null];
+  'select': [date: Date | Date[]];
+  'focus': [event: FocusEvent];
+  'blur': [event: FocusEvent];
+  'close': [];
+  'error': [error: string];
 }>();
 
-// State for current month/year
-const currentMonth = ref(new Date().getMonth());
-const currentYear = ref(new Date().getFullYear());
+// Refs
+const calendarRef = ref<HTMLElement>();
+const inputRef = ref<HTMLInputElement>();
+const isOpen = ref(false);
+const selectedDate = ref<Date | Date[] | null>(null);
+const hasError = ref(false);
 
-// Computed properties
-const isDatePicker = computed(() => props.mode === 'datepicker');
-
-const buttonId = computed(() => `calendar-button-${Math.random().toString(36).substr(2, 9)}`);
+// Computed
 const popoverId = computed(() => `calendar-popover-${Math.random().toString(36).substr(2, 9)}`);
 
-const calendarComponent = computed(() => props.range ? 'calendar-range' : 'calendar-date');
-
-// Month names for the current locale
-const monthNames = computed(() => {
-  const formatter = new Intl.DateTimeFormat(props.locale, { month: 'long' });
-  return Array.from({ length: 12 }, (_, i) => 
-    formatter.format(new Date(2024, i, 1))
-  );
-});
-
-// Available years based on yearRange prop
-const availableYears = computed(() => {
-  const [start, end] = props.yearRange;
-  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
-});
-
 const containerClasses = computed(() => {
-  const baseClasses = ['calendar-container'];
+  const baseClasses = ['calendar-container', 'relative'];
   
   if (props.disabled) {
     baseClasses.push('opacity-60', 'pointer-events-none');
@@ -238,7 +170,7 @@ const containerClasses = computed(() => {
 });
 
 const inputClasses = computed(() => {
-  const baseClasses = ['input', 'input-border', 'w-full', 'cursor-pointer'];
+  const baseClasses = ['input', 'w-full', 'pr-10'];
   
   // Size
   if (props.size === 'sm') {
@@ -250,114 +182,210 @@ const inputClasses = computed(() => {
   }
   
   // Variant
-  if (props.variant === 'filled') {
+  if (props.variant === 'bordered') {
+    baseClasses.push('input-bordered');
+  } else if (props.variant === 'filled') {
     baseClasses.push('bg-base-200');
   }
   
-  return baseClasses.join(' ');
-});
-
-const dropdownClasses = computed(() => {
-  return ['dropdown', 'bg-base-100', 'rounded-box', 'shadow-lg'];
-});
-
-const selectClasses = computed(() => {
-  const baseClasses = ['select', 'select-bordered'];
-  
-  // Size
-  if (props.size === 'sm') {
-    baseClasses.push('select-sm');
-  } else if (props.size === 'md') {
-    baseClasses.push('select-md');
-  } else if (props.size === 'lg') {
-    baseClasses.push('select-lg');
+  // Error state
+  if (hasError.value) {
+    baseClasses.push('input-error');
   }
   
   return baseClasses.join(' ');
 });
 
-const callyClasses = computed(() => {
-  const baseClasses = ['cally', 'bg-base-100'];
-  
-  // Variant
-  if (props.variant === 'bordered') {
-    baseClasses.push('border', 'border-base-300', 'rounded-box');
-  } else if (props.variant === 'filled') {
-    baseClasses.push('bg-base-200', 'rounded-box');
-  } else {
-    baseClasses.push('rounded-box');
-  }
-  
-  // Size
-  if (props.size === 'sm') {
-    baseClasses.push('text-sm');
-  } else if (props.size === 'md') {
-    baseClasses.push('text-md');
-  } else if (props.size === 'lg') {
-    baseClasses.push('text-lg');
-  }
+const buttonClasses = computed(() => {
+  const baseClasses = ['absolute', 'inset-0', 'w-full', 'h-full', 'bg-transparent', 'border-0', 'p-0', 'cursor-pointer'];
   
   return baseClasses.join(' ');
+});
+
+const popoverClasses = computed(() => {
+  return [
+    'absolute',
+    'top-full',
+    'left-0',
+    'z-50',
+    'mt-1',
+    'bg-base-100',
+    'border',
+    'border-base-300',
+    'rounded-lg',
+    'shadow-lg',
+    'p-4',
+    'min-w-[320px]'
+  ];
+});
+
+const errorClasses = computed(() => {
+  return ['text-error', 'text-sm', 'mt-1'];
 });
 
 const displayValue = computed(() => {
-  if (!props.modelValue) {
-    return props.placeholder;
+  if (!selectedDate.value) return '';
+  
+  if (Array.isArray(selectedDate.value)) {
+    if (selectedDate.value.length === 0) return '';
+    if (selectedDate.value.length === 1) {
+      return formatDate(selectedDate.value[0]);
+    }
+    return `${formatDate(selectedDate.value[0])} - ${formatDate(selectedDate.value[1])}`;
   }
   
-  const date = new Date(props.modelValue);
-  if (isNaN(date.getTime())) {
-    return props.placeholder;
-  }
-  
-  return date.toLocaleDateString(props.locale);
+  return formatDate(selectedDate.value);
+});
+
+const ariaLabel = computed(() => {
+  return props.range ? 'Select date range' : 'Select date';
+});
+
+const ariaDescribedby = computed(() => {
+  return hasError.value ? `${popoverId.value}-error` : undefined;
 });
 
 // Methods
-const handleMonthChange = (event: Event) => {
-  const target = event.target as HTMLSelectElement;
-  currentMonth.value = parseInt(target.value);
-  emit('monthChange', currentMonth.value, currentYear.value);
+const formatDate = (date: Date): string => {
+  if (!date) return '';
+  
+  const formatter = new Intl.DateTimeFormat(props.locale, {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    ...(props.showTime && {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false
+    })
+  });
+  
+  return formatter.format(date);
 };
 
-const handleYearChange = (event: Event) => {
-  const target = event.target as HTMLSelectElement;
-  currentYear.value = parseInt(target.value);
-  emit('monthChange', currentMonth.value, currentYear.value);
+const parseDate = (value: string): Date | null => {
+  if (!value) return null;
+  
+  const date = new Date(value);
+  return isNaN(date.getTime()) ? null : date;
 };
 
-const isDateValid = (date: Date) => {
-  // Check min/max date constraints
-  if (props.minDate && date < new Date(props.minDate)) {
-    return false;
-  }
+const handleInput = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const value = target.value;
   
-  if (props.maxDate && date > new Date(props.maxDate)) {
-    return false;
-  }
-  
-  // Check disabled dates
-  if (props.disabledDates) {
-    const dateString = date.toISOString().split('T')[0];
-    return !props.disabledDates.some(disabledDate => {
-      const disabledDateString = new Date(disabledDate).toISOString().split('T')[0];
-      return dateString === disabledDateString;
-    });
-  }
-  
-  return true;
-};
-
-// Watch for modelValue changes to update current month/year
-watch(() => props.modelValue, (newValue) => {
-  if (newValue) {
-    const date = new Date(newValue);
-    if (!isNaN(date.getTime())) {
-      currentMonth.value = date.getMonth();
-      currentYear.value = date.getFullYear();
+  if (props.range) {
+    // Handle range input parsing
+    const dates = value.split('-').map(d => d.trim()).filter(d => d);
+    if (dates.length === 1) {
+      const date = parseDate(dates[0]);
+      if (date) {
+        selectedDate.value = [date];
+        emit('update:modelValue', [date]);
+      }
+    } else if (dates.length === 2) {
+      const startDate = parseDate(dates[0]);
+      const endDate = parseDate(dates[1]);
+      if (startDate && endDate) {
+        selectedDate.value = [startDate, endDate];
+        emit('update:modelValue', [startDate, endDate]);
+      }
+    }
+  } else {
+    const date = parseDate(value);
+    if (date) {
+      selectedDate.value = date;
+      emit('update:modelValue', date);
     }
   }
+};
+
+const handleFocus = (event: FocusEvent) => {
+  emit('focus', event);
+  if (props.mode === 'input') {
+    nextTick(() => {
+      isOpen.value = true;
+    });
+  }
+};
+
+const handleBlur = (event: FocusEvent) => {
+  emit('blur', event);
+  // Delay closing to allow for date selection
+  setTimeout(() => {
+    if (!calendarRef.value?.contains(event.relatedTarget as Node)) {
+      closeCalendar();
+    }
+  }, 150);
+};
+
+const handleKeydown = (event: KeyboardEvent) => {
+  switch (event.key) {
+    case 'Enter':
+      event.preventDefault();
+      toggleCalendar();
+      break;
+    case 'Escape':
+      event.preventDefault();
+      closeCalendar();
+      break;
+    case 'ArrowDown':
+      if (!isOpen.value) {
+        event.preventDefault();
+        toggleCalendar();
+      }
+      break;
+  }
+};
+
+const toggleCalendar = () => {
+  if (props.disabled || props.readonly) return;
+  isOpen.value = !isOpen.value;
+  if (isOpen.value) {
+    nextTick(() => {
+      inputRef.value?.focus();
+    });
+  }
+};
+
+const closeCalendar = () => {
+  isOpen.value = false;
+  emit('close');
+};
+
+const handleDateSelect = (date: Date | Date[]) => {
+  selectedDate.value = date;
+  emit('update:modelValue', date);
+  emit('select', date);
+  
+  if (props.mode === 'input' && !props.range) {
+    closeCalendar();
+  }
+};
+
+// Watchers
+watch(() => props.modelValue, (newValue) => {
+  if (typeof newValue === 'string') {
+    const date = new Date(newValue);
+    selectedDate.value = isNaN(date.getTime()) ? null : date;
+  } else {
+    selectedDate.value = newValue || null;
+  }
 }, { immediate: true });
+
+// Click outside handler
+const handleClickOutside = (event: Event) => {
+  if (calendarRef.value && !calendarRef.value.contains(event.target as Node)) {
+    closeCalendar();
+  }
+};
+
+// Lifecycle
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 </script>
-
-

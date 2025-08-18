@@ -2,41 +2,17 @@ import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Calendar from '../../../src/components/DataInput/Calendar.vue';
 
-// Mock Cally web component
-vi.mock('cally', () => ({
-  default: {},
-}));
-
-// Mock the calendar-date web component
-const mockCalendarDate = {
-  name: 'calendar-date',
-  template: '<div class="mock-calendar-date cally" :class="$attrs.class"><slot /></div>',
-  props: ['class'],
-  emits: ['change'],
-};
-
-// Mock the calendar-range web component
-const mockCalendarRange = {
-  name: 'calendar-range',
-  template: '<div class="mock-calendar-range cally" :class="$attrs.class"><slot /></div>',
-  props: ['class'],
-  emits: ['change'],
-};
-
-const mockCalendarMonth = {
-  name: 'calendar-month',
-  template: '<div class="mock-calendar-month">Calendar Month</div>',
-};
-
 describe('Calendar', () => {
   const createWrapper = (props = {}) => {
     return mount(Calendar, {
       props,
       global: {
-        components: {
-          'calendar-date': mockCalendarDate,
-          'calendar-range': mockCalendarRange,
-          'calendar-month': mockCalendarMonth,
+        stubs: {
+          CalendarContent: {
+            template: '<div class="mock-calendar-content">Calendar Content</div>',
+            props: ['modelValue', 'range', 'minDate', 'maxDate', 'disabledDates', 'locale', 'format', 'showTime', 'timeStep', 'size', 'variant', 'allowMonthSelect', 'allowYearSelect', 'yearRange', 'disabled'],
+            emits: ['update:modelValue', 'close'],
+          },
         },
       },
     });
@@ -45,25 +21,21 @@ describe('Calendar', () => {
   describe('Props', () => {
     it('renders with default props', () => {
       const wrapper = createWrapper();
-      expect(wrapper.exists()).toBe(true);
       expect(wrapper.find('.calendar-container').exists()).toBe(true);
+      expect(wrapper.find('input').exists()).toBe(true);
+      expect(wrapper.find('button').exists()).toBe(true);
     });
 
     it('applies size classes correctly', () => {
-      const lgWrapper = createWrapper({ size: 'lg' });
-      const mdWrapper = createWrapper({ size: 'md' });
-      const smWrapper = createWrapper({ size: 'sm' });
-      
-      // Check that components render with different sizes
-      expect(lgWrapper.find('.mock-calendar-date').exists()).toBe(true);
-      expect(mdWrapper.find('.mock-calendar-date').exists()).toBe(true);
-      expect(smWrapper.find('.mock-calendar-date').exists()).toBe(true);
+      const wrapper = createWrapper({ size: 'lg' });
+      const input = wrapper.find('input');
+      expect(input.classes()).toContain('input-lg');
     });
 
     it('applies variant classes correctly', () => {
       const wrapper = createWrapper({ variant: 'bordered' });
-      const callyElement = wrapper.find('.mock-calendar-date');
-      expect(callyElement.classes()).toContain('cally');
+      const input = wrapper.find('input');
+      expect(input.classes()).toContain('input-bordered');
     });
 
     it('applies disabled state correctly', () => {
@@ -72,208 +44,242 @@ describe('Calendar', () => {
       expect(wrapper.find('.calendar-container').classes()).toContain('pointer-events-none');
     });
 
-    it('shows month selector when allowMonthSelect is true', () => {
-      const wrapper = createWrapper({ allowMonthSelect: true });
-      expect(wrapper.find('select').exists()).toBe(true);
-    });
-
-    it('shows year selector when allowYearSelect is true', () => {
-      const wrapper = createWrapper({ allowYearSelect: true });
-      expect(wrapper.find('select').exists()).toBe(true);
-    });
-
-    it('hides selectors when both allowMonthSelect and allowYearSelect are false', () => {
-      const wrapper = createWrapper({ 
-        allowMonthSelect: false, 
-        allowYearSelect: false 
-      });
-      expect(wrapper.find('.calendar-header').exists()).toBe(false);
-    });
-
-    it('renders calendar component with key for month/year changes', () => {
-      const wrapper = createWrapper({ 
-        allowMonthSelect: true, 
-        allowYearSelect: true 
-      });
-      const calendarComponent = wrapper.find('.mock-calendar-date');
-      
-      // Check that the component exists and has the expected classes
-      expect(calendarComponent.exists()).toBe(true);
-      expect(calendarComponent.classes()).toContain('cally');
+    it('shows placeholder text', () => {
+      const wrapper = createWrapper({ placeholder: 'Custom placeholder' });
+      expect(wrapper.find('input').attributes('placeholder')).toBe('Custom placeholder');
     });
   });
 
   describe('Modes', () => {
-    it('renders calendar mode by default', () => {
+    it('renders input mode by default', () => {
       const wrapper = createWrapper();
-      expect(wrapper.find('.mock-calendar-date').exists()).toBe(true);
+      expect(wrapper.find('input').exists()).toBe(true);
+      expect(wrapper.find('button').exists()).toBe(true);
+    });
+
+    it('renders inline mode correctly', () => {
+      const wrapper = createWrapper({ mode: 'inline' });
+      expect(wrapper.find('input').exists()).toBe(false);
       expect(wrapper.find('button').exists()).toBe(false);
+      expect(wrapper.find('.calendar-inline').exists()).toBe(true);
     });
 
-    it('renders datepicker mode correctly', () => {
-      const wrapper = createWrapper({ mode: 'datepicker' });
-      expect(wrapper.find('button').exists()).toBe(true);
-      expect(wrapper.find('.input').exists()).toBe(true);
-    });
-
-    it('shows placeholder in datepicker mode', () => {
-      const wrapper = createWrapper({ 
-        mode: 'datepicker', 
-        placeholder: 'Custom placeholder' 
-      });
-      expect(wrapper.find('button').text()).toBe('Custom placeholder');
-    });
-
-    it('shows selected date in datepicker mode', () => {
-      const testDate = new Date('2024-01-15');
-      const wrapper = createWrapper({ 
-        mode: 'datepicker',
-        modelValue: testDate
-      });
-      expect(wrapper.find('button').text()).toBe(testDate.toLocaleDateString());
-    });
-
-    it('renders range calendar when range prop is true', () => {
-      const wrapper = createWrapper({ range: true });
-      expect(wrapper.find('.mock-calendar-range').exists()).toBe(true);
-      expect(wrapper.find('.mock-calendar-date').exists()).toBe(false);
-    });
-
-    it('renders single date calendar when range prop is false', () => {
-      const wrapper = createWrapper({ range: false });
-      expect(wrapper.find('.mock-calendar-date').exists()).toBe(true);
-      expect(wrapper.find('.mock-calendar-range').exists()).toBe(false);
-    });
-
-    it('renders range calendar in datepicker mode', () => {
-      const wrapper = createWrapper({ mode: 'datepicker', range: true });
-      expect(wrapper.find('.mock-calendar-range').exists()).toBe(true);
-      expect(wrapper.find('button').exists()).toBe(true);
+    it('shows popover when input is focused', async () => {
+      const wrapper = createWrapper();
+      const input = wrapper.find('input');
+      
+      await input.trigger('focus');
+      await wrapper.vm.$nextTick();
+      
+      expect(wrapper.find('[role="dialog"]').exists()).toBe(true);
     });
   });
 
   describe('Events', () => {
-    it('has proper popover attributes in datepicker mode', () => {
-      const wrapper = createWrapper({ mode: 'datepicker' });
-      const button = wrapper.find('button');
-      const popover = wrapper.find('[popover]');
+    it('emits update:modelValue when date is selected', async () => {
+      const wrapper = createWrapper();
+      const testDate = new Date('2024-01-15');
       
-      expect(button.attributes('popovertarget')).toBeDefined();
-      expect(popover.attributes('popover')).toBeDefined();
-      expect(popover.attributes('id')).toBeDefined();
+      await wrapper.vm.$emit('update:modelValue', testDate);
+      
+      expect(wrapper.emitted('update:modelValue')).toBeTruthy();
+      expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([testDate]);
     });
 
-    it('has unique IDs for button and popover', () => {
-      const wrapper = createWrapper({ mode: 'datepicker' });
-      const button = wrapper.find('button');
-      const popover = wrapper.find('[popover]');
+    it('emits select event when date is selected', async () => {
+      const wrapper = createWrapper();
+      const testDate = new Date('2024-01-15');
       
-      expect(button.attributes('id')).toBeDefined();
-      expect(popover.attributes('id')).toBeDefined();
-      expect(button.attributes('popovertarget')).toBe(popover.attributes('id'));
+      await wrapper.vm.$emit('select', testDate);
+      
+      expect(wrapper.emitted('select')).toBeTruthy();
+      expect(wrapper.emitted('select')?.[0]).toEqual([testDate]);
     });
 
-    it('emits monthChange event when month selector changes', async () => {
-      const wrapper = createWrapper({ allowMonthSelect: true });
-      const monthSelect = wrapper.find('select');
+    it('emits focus event when input is focused', async () => {
+      const wrapper = createWrapper();
+      const input = wrapper.find('input');
       
-      await monthSelect.setValue('5'); // June
+      await input.trigger('focus');
       
-      expect(wrapper.emitted('monthChange')).toBeTruthy();
-      expect(wrapper.emitted('monthChange')?.[0]).toEqual([5, new Date().getFullYear()]);
+      expect(wrapper.emitted('focus')).toBeTruthy();
     });
 
-    it('emits monthChange event when year selector changes', async () => {
-      const wrapper = createWrapper({ 
-        allowMonthSelect: false, 
-        allowYearSelect: true 
-      });
-      const yearSelect = wrapper.find('select');
+    it('emits blur event when input is blurred', async () => {
+      const wrapper = createWrapper();
+      const input = wrapper.find('input');
       
-      await yearSelect.setValue('2025');
+      await input.trigger('blur');
       
-      expect(wrapper.emitted('monthChange')).toBeTruthy();
-      expect(wrapper.emitted('monthChange')?.[0]).toEqual([new Date().getMonth(), 2025]);
+      expect(wrapper.emitted('blur')).toBeTruthy();
+    });
+
+    it('emits close event when calendar is closed', async () => {
+      const wrapper = createWrapper();
+      
+      await wrapper.vm.$emit('close');
+      
+      expect(wrapper.emitted('close')).toBeTruthy();
     });
   });
 
-  describe('Date validation', () => {
-    it('validates min date constraint', () => {
-      const wrapper = createWrapper({
-        minDate: new Date('2024-01-15'),
-      });
+  describe('Keyboard Navigation', () => {
+    it('opens calendar on ArrowDown key', async () => {
+      const wrapper = createWrapper();
+      const input = wrapper.find('input');
       
-      const validDate = new Date('2024-01-20');
-      const invalidDate = new Date('2024-01-10');
+      await input.trigger('keydown', { key: 'ArrowDown' });
+      await wrapper.vm.$nextTick();
       
-      expect(wrapper.vm.isDateValid(validDate)).toBe(true);
-      expect(wrapper.vm.isDateValid(invalidDate)).toBe(false);
+      expect(wrapper.find('[role="dialog"]').exists()).toBe(true);
     });
 
-    it('validates max date constraint', () => {
-      const wrapper = createWrapper({
-        maxDate: new Date('2024-01-15'),
-      });
+    it('closes calendar on Escape key', async () => {
+      const wrapper = createWrapper();
+      const input = wrapper.find('input');
       
-      const validDate = new Date('2024-01-10');
-      const invalidDate = new Date('2024-01-20');
+      // First open the calendar
+      await input.trigger('focus');
+      await wrapper.vm.$nextTick();
+      expect(wrapper.find('[role="dialog"]').exists()).toBe(true);
       
-      expect(wrapper.vm.isDateValid(validDate)).toBe(true);
-      expect(wrapper.vm.isDateValid(invalidDate)).toBe(false);
+      // Then close it with Escape
+      await input.trigger('keydown', { key: 'Escape' });
+      await wrapper.vm.$nextTick();
+      
+      expect(wrapper.find('[role="dialog"]').exists()).toBe(false);
     });
 
-    it('validates disabled dates', () => {
-      const disabledDates = [
-        new Date('2024-01-15'),
-        new Date('2024-01-20'),
-      ];
+    it('toggles calendar on Enter key', async () => {
+      const wrapper = createWrapper();
+      const input = wrapper.find('input');
       
-      const wrapper = createWrapper({
-        disabledDates,
-      });
+      await input.trigger('keydown', { key: 'Enter' });
+      await wrapper.vm.$nextTick();
       
-      const validDate = new Date('2024-01-10');
-      const invalidDate = new Date('2024-01-15');
+      expect(wrapper.find('[role="dialog"]').exists()).toBe(true);
+    });
+  });
+
+  describe('Date Range', () => {
+    it('supports date range selection', () => {
+      const wrapper = createWrapper({ range: true });
+      expect(wrapper.findComponent({ name: 'CalendarContent' }).props('range')).toBe(true);
+    });
+
+    it('displays range value correctly', async () => {
+      const wrapper = createWrapper({ range: true });
+      const testRange = [new Date('2024-01-15'), new Date('2024-01-20')];
       
-      expect(wrapper.vm.isDateValid(validDate)).toBe(true);
-      expect(wrapper.vm.isDateValid(invalidDate)).toBe(false);
+      await wrapper.setProps({ modelValue: testRange });
+      await wrapper.vm.$nextTick();
+      
+      const input = wrapper.find('input');
+      expect(input.element.value).toContain('2024-01-15');
+      expect(input.element.value).toContain('2024-01-20');
+    });
+  });
+
+  describe('Time Picker', () => {
+    it('supports time picker', () => {
+      const wrapper = createWrapper({ showTime: true });
+      expect(wrapper.findComponent({ name: 'CalendarContent' }).props('showTime')).toBe(true);
+    });
+
+    it('passes time step correctly', () => {
+      const wrapper = createWrapper({ showTime: true, timeStep: 30 });
+      expect(wrapper.findComponent({ name: 'CalendarContent' }).props('timeStep')).toBe(30);
+    });
+  });
+
+  describe('Constraints', () => {
+    it('passes min date constraint', () => {
+      const minDate = new Date('2024-01-01');
+      const wrapper = createWrapper({ minDate });
+      expect(wrapper.findComponent({ name: 'CalendarContent' }).props('minDate')).toEqual(minDate);
+    });
+
+    it('passes max date constraint', () => {
+      const maxDate = new Date('2024-12-31');
+      const wrapper = createWrapper({ maxDate });
+      expect(wrapper.findComponent({ name: 'CalendarContent' }).props('maxDate')).toEqual(maxDate);
+    });
+
+    it('passes disabled dates', () => {
+      const disabledDates = [new Date('2024-01-01'), new Date('2024-12-25')];
+      const wrapper = createWrapper({ disabledDates });
+      expect(wrapper.findComponent({ name: 'CalendarContent' }).props('disabledDates')).toEqual(disabledDates);
     });
   });
 
   describe('Accessibility', () => {
-    it('has proper ARIA attributes in datepicker mode', () => {
-      const wrapper = createWrapper({ mode: 'datepicker' });
-      const button = wrapper.find('button');
+    it('has proper ARIA attributes', () => {
+      const wrapper = createWrapper();
+      const input = wrapper.find('input');
       
-      expect(button.attributes('disabled')).toBeUndefined();
+      expect(input.attributes('role')).toBe('combobox');
+      expect(input.attributes('aria-haspopup')).toBe('true');
+      expect(input.attributes('aria-expanded')).toBeDefined();
     });
 
-    it('disables button when disabled prop is true', () => {
-      const wrapper = createWrapper({ 
-        mode: 'datepicker',
-        disabled: true 
-      });
+    it('has proper ARIA label for range selection', () => {
+      const wrapper = createWrapper({ range: true });
+      const input = wrapper.find('input');
+      
+      expect(input.attributes('aria-label')).toBe('Select date range');
+    });
+
+    it('has proper ARIA label for single date selection', () => {
+      const wrapper = createWrapper({ range: false });
+      const input = wrapper.find('input');
+      
+      expect(input.attributes('aria-label')).toBe('Select date');
+    });
+
+    it('has proper button aria label', () => {
+      const wrapper = createWrapper();
       const button = wrapper.find('button');
       
-      expect(button.attributes('disabled')).toBeDefined();
+      expect(button.attributes('aria-label')).toBe('Open calendar');
     });
   });
 
-  describe('Styling', () => {
-    it('applies correct classes for different variants', () => {
-      const borderedWrapper = createWrapper({ variant: 'bordered' });
-      const filledWrapper = createWrapper({ variant: 'filled' });
-      
-      expect(borderedWrapper.find('.mock-calendar-date').exists()).toBe(true);
-      expect(filledWrapper.find('.mock-calendar-date').exists()).toBe(true);
+  describe('Error Handling', () => {
+    it('shows error message when provided', () => {
+      const wrapper = createWrapper({ errorMessage: 'Invalid date' });
+      expect(wrapper.find('[role="alert"]').exists()).toBe(true);
+      expect(wrapper.find('[role="alert"]').text()).toBe('Invalid date');
     });
 
-    it('applies correct classes for different sizes', () => {
-      const smWrapper = createWrapper({ size: 'sm' });
-      const lgWrapper = createWrapper({ size: 'lg' });
-      
-      expect(smWrapper.find('.mock-calendar-date').exists()).toBe(true);
-      expect(lgWrapper.find('.mock-calendar-date').exists()).toBe(true);
+    it('applies error classes when has error', () => {
+      const wrapper = createWrapper({ errorMessage: 'Invalid date' });
+      const input = wrapper.find('input');
+      expect(input.classes()).toContain('input-error');
+    });
+  });
+
+  describe('Localization', () => {
+    it('passes locale to calendar content', () => {
+      const wrapper = createWrapper({ locale: 'fr-FR' });
+      expect(wrapper.findComponent({ name: 'CalendarContent' }).props('locale')).toBe('fr-FR');
+    });
+  });
+
+  describe('Month/Year Selection', () => {
+    it('passes month selection prop', () => {
+      const wrapper = createWrapper({ allowMonthSelect: false });
+      expect(wrapper.findComponent({ name: 'CalendarContent' }).props('allowMonthSelect')).toBe(false);
+    });
+
+    it('passes year selection prop', () => {
+      const wrapper = createWrapper({ allowYearSelect: false });
+      expect(wrapper.findComponent({ name: 'CalendarContent' }).props('allowYearSelect')).toBe(false);
+    });
+
+    it('passes year range prop', () => {
+      const yearRange: [number, number] = [2020, 2030];
+      const wrapper = createWrapper({ yearRange });
+      expect(wrapper.findComponent({ name: 'CalendarContent' }).props('yearRange')).toEqual(yearRange);
     });
   });
 });

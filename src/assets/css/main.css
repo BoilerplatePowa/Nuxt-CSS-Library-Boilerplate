@@ -11,7 +11,6 @@
 @import './list.css';
 @import './statusbox.css';
 @import './timeline.css';
-@import './calendar.css';
 
 /* Boilerplate Light Theme */
 @plugin "daisyui/theme" {
