@@ -1,216 +1,149 @@
 <template>
   <div :class="wrapperClasses">
-    <label v-if="label" :for="inputId" :class="labelClasses">
-      {{ label }}
-      <span v-if="required" class="text-error ml-1" aria-label="required">*</span>
+    <!-- Label -->
+    <label v-if="label" :for="inputId" class="label">
+      <span class="label-text">{{ label }}</span>
+      <span v-if="required" class="label-text-alt text-error">*</span>
     </label>
 
-    <div :class="inputContainerClasses">
-      <div v-if="$slots.prefix" class="flex items-center pl-3 text-base-content/70">
-        <slot name="prefix" />
+    <!-- Input wrapper with icon support -->
+    <div class="relative">
+      <!-- Left icon -->
+      <div v-if="leftIcon" class="absolute left-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+        <Icon 
+          :name="leftIcon" 
+          :size="iconSize" 
+          class="opacity-50"
+          :aria-hidden="true"
+        />
       </div>
 
-      <input
-        ref="inputRef"
-        :id="inputId"
+      <!-- VeeValidate Field component -->
+      <Field
+        :name="name"
         :value="modelValue"
-        :type="computedType"
-        :placeholder="placeholder"
-        :disabled="disabled"
-        :readonly="readonly"
-        :required="required"
-        :min="min"
-        :max="max"
-        :step="step"
-        :pattern="pattern"
-        :maxlength="maxlength"
-        :minlength="minlength"
-        :autocomplete="autocomplete"
-        :aria-invalid="hasError"
-        :aria-describedby="computedAriaDescribedby"
-        :class="inputClasses"
-        v-bind="$attrs"
-        @input="handleInput"
-        @change="handleChange"
-        @focus="handleFocus"
-        @blur="handleBlur"
-        @keydown="handleKeydown"
-        @paste="handlePaste"
-      />
-
-      <!-- Password visibility toggle -->
-      <button
-        v-if="type === 'password' && showPasswordToggle"
-        type="button"
-        :class="toggleButtonClasses"
-        :aria-label="showPassword ? 'Hide password' : 'Show password'"
-        @click="togglePasswordVisibility"
+        v-slot="{ field, errorMessage, meta }"
       >
-        <svg v-if="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-        </svg>
-        <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L12 12m-3.122-3.122L8.465 8.465M21 21l-6.535-6.535" />
-        </svg>
-      </button>
+        <div>
+          <input
+            :id="inputId"
+            v-bind="field"
+            :type="type"
+            :class="inputClasses"
+            :placeholder="placeholder"
+            :disabled="disabled"
+            :readonly="readonly"
+            :required="required"
+            :maxlength="maxlength"
+            :aria-describedby="ariaDescribedby"
+            :aria-invalid="meta.touched && !meta.valid"
+            @input="handleInput"
+            @change="handleChange"
+            @focus="handleFocus"
+            @blur="handleBlur"
+          />
 
-      <!-- Clear button -->
-      <button
-        v-if="clearable && modelValue && !disabled && !readonly"
-        type="button"
-        :class="clearButtonClasses"
-        aria-label="Clear input"
-        @click="clearInput"
-      >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
+          <!-- Right icon -->
+          <div v-if="rightIcon" class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+            <Icon 
+              :name="rightIcon" 
+              :size="iconSize" 
+              class="opacity-50"
+              :aria-hidden="true"
+            />
+          </div>
 
-      <div v-if="$slots.suffix" class="flex items-center pr-3 text-base-content/70">
-        <slot name="suffix" />
-      </div>
-    </div>
+          <!-- Character count -->
+          <div v-if="showCharCount && maxlength" class="absolute bottom-2 right-2 text-xs opacity-60">
+            {{ characterCount }}/{{ maxlength }}
+          </div>
 
-    <!-- Character count -->
-    <div v-if="showCharCount && maxlength" class="mt-1 text-xs text-base-content/60 text-right">
-      {{ characterCount }}/{{ maxlength }}
-    </div>
+          <!-- Help text -->
+          <p v-if="helpText" :id="`${inputId}-help`" class="text-xs text-base-content/70 mt-1">
+            {{ helpText }}
+          </p>
 
-    <p v-if="helpText && !errorMessage" :id="`${inputId}-help`" class="mt-1 text-sm text-base-content/70">
-      {{ helpText }}
-    </p>
-
-    <p v-if="errorMessage" :id="`${inputId}-error`" class="mt-1 text-sm text-error" role="alert">
-      {{ errorMessage }}
-    </p>
-
-    <!-- Validation feedback -->
-    <div v-if="showValidation && !errorMessage" class="mt-1 text-sm text-success">
-      ✓ {{ validationMessage || 'Looks good!' }}
+          <!-- Error message from VeeValidate -->
+          <p v-if="errorMessage" :id="`${inputId}-error`" class="text-xs text-error mt-1" role="alert">
+            {{ errorMessage }}
+          </p>
+        </div>
+      </Field>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted, nextTick } from 'vue';
+import { computed } from 'vue';
+import { Field } from 'vee-validate';
+import Icon from '../Icons/Icon.vue';
 
-// Simple ID generator for compatibility
+// Simple ID generator
 let idCounter = 0;
 const generateId = () => `input-${++idCounter}`;
 
+// Icon name type from Icon component
+type IconName = 'search' | 'info' | 'link' | 'map' | 'filter' | 'heart' | 'star' | 'settings' | 'user' | 'home' | 'mail' | 'phone' | 'calendar' | 'clock' | 'map-pin' | 'download' | 'upload' | 'edit' | 'delete' | 'plus' | 'minus' | 'check' | 'x' | 'arrow-left' | 'arrow-right' | 'arrow-up' | 'arrow-down' | 'menu' | 'close' | 'alert-circle' | 'check-circle' | 'x-circle' | 'help-circle' | 'eye' | 'eye-off' | 'lock' | 'unlock' | 'zap' | 'chevron-down' | 'chevron-up' | 'chevron-left' | 'chevron-right' | 'sort-asc' | 'sort-desc' | 'refresh-cw' | 'rotate-ccw' | 'rotate-cw' | 'zoom-in' | 'zoom-out' | 'maximize' | 'minimize' | 'external-link' | 'copy' | 'share' | 'bookmark' | 'flag' | 'thumbs-up' | 'thumbs-down' | 'message-circle' | 'message-square' | 'bell' | 'shield' | 'award' | 'gift' | 'shopping-cart' | 'credit-card' | 'dollar-sign' | 'percent' | 'trending-up' | 'trending-down' | 'activity' | 'bar-chart' | 'pie-chart' | 'line-chart' | 'database' | 'server' | 'monitor' | 'smartphone' | 'tablet' | 'laptop' | 'printer' | 'camera' | 'video' | 'music' | 'file' | 'folder' | 'archive' | 'trash-2' | 'save' | 'download-cloud' | 'upload-cloud' | 'cloud' | 'wifi' | 'bluetooth' | 'battery' | 'power' | 'volume' | 'volume1' | 'volume2' | 'volume-x' | 'mic' | 'mic-off' | 'headphones' | 'speaker' | 'radio' | 'tv' | 'gamepad-2' | 'mouse' | 'keyboard' | 'hard-drive' | 'cpu' | 'thermometer' | 'droplets' | 'sun' | 'moon' | 'cloud-rain' | 'cloud-snow' | 'wind' | 'umbrella' | 'snowflake' | 'flame' | 'sparkles' | 'ice-cream' | 'heart-off' | 'star-off' | 'settings-2' | 'users' | 'building' | 'navigation' | 'globe' | 'mail-open' | 'phone-call' | 'phone-incoming' | 'phone-outgoing' | 'calendar-days' | 'calendar-range' | 'clock-1' | 'clock-2' | 'clock-3' | 'clock-4' | 'clock-5' | 'clock-6' | 'clock-7' | 'clock-8' | 'clock-9' | 'clock-10' | 'clock-11' | 'clock-12' | 'map-pin-off' | 'navigation-2' | 'navigation-off' | 'edit-2' | 'edit-3' | 'trash' | 'plus-circle' | 'minus-circle' | 'x-square' | 'alert-triangle' | 'alert-octagon';
+
 interface Props {
-  modelValue?: string | number;
-  type?: 'text' | 'email' | 'password' | 'number' | 'tel' | 'url' | 'search' | 'date' | 'time' | 'datetime-local';
+  modelValue?: string;
+  name?: string;
   label?: string;
   placeholder?: string;
   helpText?: string;
-  errorMessage?: string;
-  validationMessage?: string;
+  type?: 'text' | 'email' | 'password' | 'url' | 'tel' | 'number' | 'search' | 'date' | 'time' | 'datetime-local' | 'month' | 'week';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+  variant?: 'bordered' | 'ghost' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error' | 'neutral';
+  leftIcon?: IconName;
+  rightIcon?: IconName;
   disabled?: boolean;
   readonly?: boolean;
   required?: boolean;
-  invalid?: boolean;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
-  variant?: 'bordered' | 'ghost' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
-  ariaDescribedby?: string;
-  min?: string | number;
-  max?: string | number;
-  step?: string | number;
-  pattern?: string;
   maxlength?: number;
-  minlength?: number;
-  autocomplete?: string;
-  showPasswordToggle?: boolean;
-  clearable?: boolean;
   showCharCount?: boolean;
-  showValidation?: boolean;
-  autoFocus?: boolean;
-  debounceMs?: number;
-  validateOnBlur?: boolean;
-  validateOnInput?: boolean;
+  ariaDescribedby?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  type: 'text',
+  modelValue: '',
+  name: '',
   disabled: false,
   readonly: false,
   required: false,
-  invalid: false,
+  type: 'text',
   size: 'md',
   variant: 'bordered',
-  showPasswordToggle: true,
-  clearable: false,
   showCharCount: false,
-  showValidation: false,
-  autoFocus: false,
-  debounceMs: 0,
-  validateOnBlur: true,
-  validateOnInput: false,
 });
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string | number];
+  'update:modelValue': [value: string];
   input: [event: Event];
   change: [event: Event];
   focus: [event: FocusEvent];
   blur: [event: FocusEvent];
-  keydown: [event: KeyboardEvent];
-  paste: [event: ClipboardEvent];
-  clear: [];
-  validate: [isValid: boolean];
 }>();
 
 const inputId = generateId();
-const inputRef = ref<HTMLInputElement>();
-const showPassword = ref(false);
-let debounceTimer: ReturnType<typeof setTimeout> | null = null;
-
-// Computed properties
-const computedType = computed(() => {
-  if (props.type === 'password' && showPassword.value) {
-    return 'text';
-  }
-  return props.type;
-});
-
-const hasError = computed(() => props.invalid || !!props.errorMessage);
-
-const characterCount = computed(() => {
-  return String(props.modelValue || '').length;
-});
 
 const wrapperClasses = computed(() => ['form-control', 'w-full']);
 
-const labelClasses = computed(() => [
-  'label',
-  'text-sm',
-  'font-medium',
-  props.required && 'required',
-]);
-
-const inputContainerClasses = computed(() => [
-  'relative', 
-  'flex', 
-  'items-center',
-  'input-group',
-  hasError.value && 'input-group-error'
-]);
-
 const inputClasses = computed(() => {
-  const baseClasses = ['input', 'w-full', 'transition-all', 'duration-200'];
+  const baseClasses = ['input', 'w-full'];
 
-  // Size
+  // Size classes
   if (props.size === 'xs') {
     baseClasses.push('input-xs');
   } else if (props.size === 'sm') {
     baseClasses.push('input-sm');
   } else if (props.size === 'lg') {
     baseClasses.push('input-lg');
+  } else if (props.size === 'xl') {
+    baseClasses.push('input-xl');
   }
+  // 'md' is default, no class needed
 
-  // Variant
+  // Variant classes
   if (props.variant === 'bordered') {
     baseClasses.push('input-bordered');
   } else if (props.variant === 'ghost') {
@@ -229,120 +162,50 @@ const inputClasses = computed(() => {
     baseClasses.push('input-warning');
   } else if (props.variant === 'error') {
     baseClasses.push('input-error');
+  } else if (props.variant === 'neutral') {
+    baseClasses.push('input-neutral');
   }
 
-  // Error state override
-  if (hasError.value) {
-    baseClasses.push('input-error');
+  // Icon padding
+  if (props.leftIcon) {
+    baseClasses.push('pl-10');
   }
-
-  // Success state
-  if (props.showValidation && !hasError.value && props.modelValue) {
-    baseClasses.push('input-success');
-  }
-
-  // Disabled state
-  if (props.disabled) {
-    baseClasses.push('input-disabled');
-  }
-
-  // Readonly state
-  if (props.readonly) {
-    baseClasses.push('cursor-not-allowed', 'bg-base-200');
-  }
-
-  // Padding adjustments for buttons
-  if (props.type === 'password' && props.showPasswordToggle) {
+  if (props.rightIcon) {
     baseClasses.push('pr-10');
-  }
-  if (props.clearable) {
-    baseClasses.push('pr-8');
   }
 
   return baseClasses.join(' ');
 });
 
-const toggleButtonClasses = computed(() => [
-  'absolute',
-  'right-2',
-  'top-1/2',
-  'transform',
-  '-translate-y-1/2',
-  'p-1',
-  'text-base-content/60',
-  'hover:text-base-content',
-  'transition-colors',
-  'duration-200',
-  'focus:outline-none',
-  'focus:ring-2',
-  'focus:ring-primary',
-  'focus:ring-offset-1',
-  'rounded',
-]);
+const iconSize = computed(() => {
+  const sizeMap: Record<string, 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'> = {
+    xs: 'sm',
+    sm: 'sm',
+    md: 'md',
+    lg: 'lg',
+    xl: 'lg',
+  };
+  return sizeMap[props.size] || 'md';
+});
 
-const clearButtonClasses = computed(() => [
-  'absolute',
-  'right-2',
-  'top-1/2',
-  'transform',
-  '-translate-y-1/2',
-  'p-1',
-  'text-base-content/60',
-  'hover:text-base-content',
-  'transition-colors',
-  'duration-200',
-  'focus:outline-none',
-  'focus:ring-2',
-  'focus:ring-primary',
-  'focus:ring-offset-1',
-  'rounded',
-]);
+const characterCount = computed(() => {
+  return props.modelValue?.length || 0;
+});
 
-const computedAriaDescribedby = computed(() => {
+const ariaDescribedby = computed(() => {
   const ids = [];
   if (props.helpText) ids.push(`${inputId}-help`);
-  if (props.errorMessage) ids.push(`${inputId}-error`);
   if (props.ariaDescribedby) ids.push(props.ariaDescribedby);
   return ids.length > 0 ? ids.join(' ') : undefined;
 });
 
-// Event handlers
-const validateInput = (value: string | number): boolean => {
-  // Basic validation - can be extended
-  const isValid = !props.required || (value !== '' && value !== null && value !== undefined);
-  emit('validate', isValid);
-  return isValid;
-};
-
-const debouncedEmit = (value: string | number) => {
-  if (debounceTimer) clearTimeout(debounceTimer);
-  
-  if (props.debounceMs > 0) {
-    debounceTimer = setTimeout(() => {
-      emit('update:modelValue', value);
-      if (props.validateOnInput) {
-        validateInput(value);
-      }
-    }, props.debounceMs);
-  } else {
-    emit('update:modelValue', value);
-    if (props.validateOnInput) {
-      validateInput(value);
-    }
-  }
-};
-
 const handleInput = (event: Event) => {
   const target = event.target as HTMLInputElement;
-  debouncedEmit(target.value);
+  emit('update:modelValue', target.value);
   emit('input', event);
 };
 
 const handleChange = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  if (props.debounceMs === 0) {
-    emit('update:modelValue', target.value);
-  }
   emit('change', event);
 };
 
@@ -351,126 +214,10 @@ const handleFocus = (event: FocusEvent) => {
 };
 
 const handleBlur = (event: FocusEvent) => {
-  if (props.validateOnBlur) {
-    validateInput(props.modelValue || '');
-  }
   emit('blur', event);
 };
-
-const handleKeydown = (event: KeyboardEvent) => {
-  emit('keydown', event);
-  
-  // Clear on Ctrl+A and Delete/Backspace
-  if (props.clearable && event.ctrlKey && event.key === 'a') {
-    event.preventDefault();
-    nextTick(() => {
-      inputRef.value?.select();
-    });
-  }
-};
-
-const handlePaste = (event: ClipboardEvent) => {
-  emit('paste', event);
-};
-
-const togglePasswordVisibility = () => {
-  showPassword.value = !showPassword.value;
-  nextTick(() => {
-    inputRef.value?.focus();
-  });
-};
-
-const clearInput = () => {
-  emit('update:modelValue', '');
-  emit('clear');
-  nextTick(() => {
-    inputRef.value?.focus();
-  });
-};
-
-// Auto focus functionality
-onMounted(() => {
-  if (props.autoFocus && inputRef.value) {
-    nextTick(() => {
-      inputRef.value?.focus();
-    });
-  }
-});
-
-// Expose methods for parent component access
-defineExpose({
-  focus: () => inputRef.value?.focus(),
-  blur: () => inputRef.value?.blur(),
-  select: () => inputRef.value?.select(),
-  clear: clearInput,
-  validate: () => validateInput(props.modelValue || ''),
-});
 </script>
 
 <style scoped lang="postcss">
 /* DaisyUI handles most input styling */
-.form-control {
-  @apply space-y-1;
-}
-
-/* Enhanced focus styles */
-.input:focus-visible {
-  @apply ring-2 ring-primary ring-offset-2;
-}
-
-/* Input group styling */
-.input-group {
-  @apply relative w-full;
-}
-
-.input-group-error {
-  @apply animate-pulse;
-}
-
-/* Required field indicator */
-.label.required::after {
-  content: '*';
-  @apply text-error ml-1;
-}
-
-/* Disabled input styling */
-.input:disabled {
-  @apply cursor-not-allowed opacity-60;
-}
-
-/* Readonly input styling */
-.input[readonly] {
-  @apply cursor-not-allowed bg-base-200;
-}
-
-/* Character count warning */
-.char-count-warning {
-  @apply text-warning;
-}
-
-.char-count-error {
-  @apply text-error;
-}
-
-/* Animation for validation feedback */
-.validation-feedback {
-  animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Improved button focus states */
-.toggle-button:focus,
-.clear-button:focus {
-  @apply ring-2 ring-primary ring-offset-1;
-}
 </style>
