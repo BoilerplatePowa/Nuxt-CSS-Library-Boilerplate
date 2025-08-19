@@ -271,6 +271,35 @@ describe('Input', () => {
     expect(wrapper.findComponent(Field).exists()).toBe(true);
   });
 
+  it('passes rules prop to Field component', () => {
+    const rules = yup.string().required('This field is required');
+    
+    const wrapper = mount(Input, {
+      props: {
+        name: 'test',
+        rules,
+      },
+    });
+
+    const field = wrapper.findComponent(Field);
+    expect(field.props('rules')).toBe(rules);
+  });
+
+  it('works with inline validation rules', () => {
+    const emailRules = yup.string().email('Invalid email').required('Required');
+    
+    const wrapper = mount(Input, {
+      props: {
+        name: 'email',
+        type: 'email',
+        rules: emailRules,
+      },
+    });
+
+    const field = wrapper.findComponent(Field);
+    expect(field.props('rules')).toBe(emailRules);
+  });
+
   it('handles different icon sizes correctly', () => {
     const sizeMap = {
       xs: 'sm',

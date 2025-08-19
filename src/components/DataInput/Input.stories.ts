@@ -76,6 +76,10 @@ const meta: Meta<typeof Input> = {
       control: 'boolean',
       description: 'Show character count',
     },
+    rules: {
+      control: 'object',
+      description: 'Yup validation rules',
+    },
   },
 };
 
@@ -137,6 +141,48 @@ export const WithValidation: Story = {
           <button type="submit" class="btn btn-primary w-full">Submit</button>
         </form>
       </Form>
+    `,
+  }),
+};
+
+// Input with inline rules
+export const WithInlineRules: Story = {
+  render: () => ({
+    components: { Input },
+    setup() {
+      const emailRules = yup.string().email('Please enter a valid email').required('Email is required');
+      const passwordRules = yup.string().min(8, 'Password must be at least 8 characters').required('Password is required');
+      const phoneRules = yup.string().matches(/^\+?[\d\s-()]+$/, 'Please enter a valid phone number');
+
+      return { emailRules, passwordRules, phoneRules };
+    },
+    template: `
+      <div class="space-y-4 w-80">
+        <Input
+          name="email"
+          label="Email"
+          placeholder="Enter your email"
+          type="email"
+          left-icon="mail"
+          :rules="emailRules"
+        />
+        <Input
+          name="password"
+          label="Password"
+          placeholder="Enter your password"
+          type="password"
+          left-icon="lock"
+          :rules="passwordRules"
+        />
+        <Input
+          name="phone"
+          label="Phone"
+          placeholder="+1 (555) 123-4567"
+          type="tel"
+          left-icon="phone"
+          :rules="phoneRules"
+        />
+      </div>
     `,
   }),
 };

@@ -204,8 +204,10 @@ const iconMap = {
   'alert-octagon': AlertOctagon
 } as const;
 
+export type IconName = keyof typeof iconMap;
+
 interface Props {
-  name: keyof typeof iconMap;
+  name: IconName;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl' | number;
   strokeWidth?: number;
   fill?: string;
