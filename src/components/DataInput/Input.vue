@@ -18,8 +18,8 @@
                 <!-- Left icon -->
                 <Icon 
                     v-if="leftIcon"
-                    :name="leftIcon" 
-                    :size="size" 
+                    :name="leftIcon as any" 
+                    :size="size as any" 
                     class="opacity-50"
                     :aria-hidden="true"
                 />
@@ -44,8 +44,8 @@
                 <!-- Right icon -->
                 <Icon 
                     v-if="rightIcon"
-                    :name="rightIcon" 
-                    :size="size" 
+                    :name="rightIcon as any" 
+                    :size="size as any" 
                     class="opacity-50"
                     :aria-hidden="true"
                 />
@@ -80,44 +80,112 @@
 import { computed } from 'vue';
 import { Field } from 'vee-validate';
 import Icon from '../Icons/Icon.vue';
-import type { IconName } from '../Icons/Icon.vue';
 import * as yup from 'yup';
 
 // Simple ID generator
 let idCounter = 0;
 const generateId = () => `input-${++idCounter}`;
 
-interface Props {
-  name?: string;
-  label?: string;
-  placeholder?: string;
-  helpText?: string;
-  type?: 'text' | 'email' | 'password' | 'url' | 'tel' | 'number' | 'search' | 'date' | 'time' | 'datetime-local' | 'month' | 'week';
-  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
-  variant?: 'bordered' | 'ghost' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error' | 'neutral';
-  leftIcon?: IconName;
-  rightIcon?: IconName;
-  disabled?: boolean;
-  readonly?: boolean;
-  required?: boolean;
-  maxlength?: number;
-  showCharCount?: boolean;
-  ariaDescribedby?: string;
-  rules?: any; // Yup validation rules
-}
-
 const model = defineModel<string>('', { default: '' });
 
-const props = withDefaults(defineProps<Props>(), {
-  name: '',
-  disabled: false,
-  readonly: false,
-  required: false,
-  type: 'text',
-  size: 'md',
-  variant: 'bordered',
-  showCharCount: false,
-  rules: undefined,
+const props = defineProps({
+  // Field name for VeeValidate
+  name: {
+    type: String,
+    default: ''
+  },
+  // Input label
+  label: {
+    type: String,
+    default: ''
+  },
+  // Input placeholder
+  placeholder: {
+    type: String,
+    default: ''
+  },
+  // Help text displayed below input
+  helpText: {
+    type: String,
+    default: ''
+  },
+  // Input type
+  type: {
+    type: String,
+    default: 'text',
+    validator(value: string) {
+      return ['text', 'email', 'password', 'url', 'tel', 'number', 'search', 'date', 'time', 'datetime-local', 'month', 'week'].includes(value)
+    }
+  },
+  // Input size
+  size: {
+    type: String,
+    default: 'md',
+    validator(value: string) {
+      return ['xs', 'sm', 'md', 'lg', 'xl'].includes(value)
+    }
+  },
+  // Input variant/style
+  variant: {
+    type: String,
+    default: 'bordered',
+    validator(value: string) {
+      return ['bordered', 'ghost', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error', 'neutral'].includes(value)
+    }
+  },
+  // Left icon name
+  leftIcon: {
+    type: String,
+    default: '',
+    validator(value: string) {
+      // This would need to be updated with actual icon names from Icon component
+      return !value || ['search', 'mail', 'phone', 'user', 'lock', 'eye', 'eye-off', 'calendar', 'map-pin', 'settings'].includes(value)
+    }
+  },
+  // Right icon name
+  rightIcon: {
+    type: String,
+    default: '',
+    validator(value: string) {
+      // This would need to be updated with actual icon names from Icon component
+      return !value || ['search', 'mail', 'phone', 'user', 'lock', 'eye', 'eye-off', 'calendar', 'map-pin', 'settings'].includes(value)
+    }
+  },
+  // Whether input is disabled
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  // Whether input is readonly
+  readonly: {
+    type: Boolean,
+    default: false
+  },
+  // Whether input is required
+  required: {
+    type: Boolean,
+    default: false
+  },
+  // Maximum character length
+  maxlength: {
+    type: Number,
+    default: undefined
+  },
+  // Show character count
+  showCharCount: {
+    type: Boolean,
+    default: false
+  },
+  // Additional aria-describedby IDs
+  ariaDescribedby: {
+    type: String,
+    default: ''
+  },
+  // Yup validation rules
+  rules: {
+    type: [Object, Function],
+    default: undefined
+  }
 });
 
 const emit = defineEmits<{
