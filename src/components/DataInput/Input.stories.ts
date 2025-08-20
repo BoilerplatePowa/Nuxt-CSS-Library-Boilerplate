@@ -11,10 +11,6 @@ const meta: Meta<typeof Input> = {
   },
   tags: ['autodocs'],
   argTypes: {
-    modelValue: {
-      control: 'text',
-      description: 'The input value (v-model)',
-    },
     name: {
       control: 'text',
       description: 'Field name for VeeValidate',
@@ -38,7 +34,7 @@ const meta: Meta<typeof Input> = {
     },
     size: {
       control: 'select',
-      options: ['xs', 'sm', 'md', 'lg', 'xl'],
+      options: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
       description: 'Input size',
     },
     variant: {

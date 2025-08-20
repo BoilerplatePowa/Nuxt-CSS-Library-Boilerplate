@@ -27,10 +27,6 @@ const meta: Meta<typeof Icon> = {
       control: { type: 'number', min: 0.5, max: 3, step: 0.5 },
       description: 'Stroke width of the icon',
     },
-    fill: {
-      control: { type: 'text' },
-      description: 'Fill color of the icon',
-    },
     color: {
       control: { type: 'select' },
       options: ['primary', 'secondary', 'accent', 'neutral', 'info', 'success', 'warning', 'error'],
@@ -111,7 +107,7 @@ export const CustomStroke: Story = {
   args: {
     name: 'zap',
     size: 'lg',
-    strokeWidth: 1.5,
+    strokeWidth: 2,
   },
   render: args => ({
     components: { Icon },

@@ -81,6 +81,8 @@ import { computed } from 'vue';
 import { Field } from 'vee-validate';
 import Icon from '../Icons/Icon.vue';
 import * as yup from 'yup';
+import type { InputType, Size, Variant, IconName } from '@/shared/types.d';
+import { inputTypesMap, sizeMap, variantMap, iconMap } from '@/shared/map';
 
 // Simple ID generator
 let idCounter = 0;
@@ -113,43 +115,46 @@ const props = defineProps({
   type: {
     type: String,
     default: 'text',
-    validator(value: string) {
-      return ['text', 'email', 'password', 'url', 'tel', 'number', 'search', 'date', 'time', 'datetime-local', 'month', 'week'].includes(value)
+    validator(value: InputType) {
+      return inputTypesMap.includes(value)
     }
   },
   // Input size
   size: {
     type: String,
     default: 'md',
-    validator(value: string) {
-      return ['xs', 'sm', 'md', 'lg', 'xl'].includes(value)
+    validator(value: Size) {
+      return (Object.keys(sizeMap) as Size[]).includes(value)
     }
   },
   // Input variant/style
   variant: {
     type: String,
     default: 'bordered',
-    validator(value: string) {
-      return ['bordered', 'ghost', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error', 'neutral'].includes(value)
+    validator(value: Variant) {
+      return variantMap.includes(value)
     }
   },
   // Left icon name
   leftIcon: {
     type: String,
     default: '',
-    validator(value: string) {
+    validator(value: IconName | '') {
       // This would need to be updated with actual icon names from Icon component
-      return !value || ['search', 'mail', 'phone', 'user', 'lock', 'eye', 'eye-off', 'calendar', 'map-pin', 'settings'].includes(value)
+      if (value === '') return true
+
+      return (Object.keys(iconMap) as IconName[]).includes(value)
     }
   },
   // Right icon name
   rightIcon: {
     type: String,
     default: '',
-    validator(value: string) {
+    validator(value: IconName | '') {
       // This would need to be updated with actual icon names from Icon component
-      return !value || ['search', 'mail', 'phone', 'user', 'lock', 'eye', 'eye-off', 'calendar', 'map-pin', 'settings'].includes(value)
-    }
+      if (value === '') return true
+      
+      return (Object.keys(iconMap) as IconName[]).includes(value)}
   },
   // Whether input is disabled
   disabled: {
