@@ -25,6 +25,7 @@
                 />
 
                 <input
+                    ref="inputRef"
                     :id="inputId"
                     v-bind="field"
                     :type="type === 'password' ? (showPassword ? 'text' : 'password') : type"
@@ -92,11 +93,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted, onUnmounted, watch } from 'vue';
 import { Field } from 'vee-validate';
 import Icon from '../Icons/Icon.vue';
 import Swap from '../Actions/Swap.vue';
-import type { InputType, Size, Variant, IconName } from '@/shared/types.d';
+import type { InputType, Size, Variant, IconName, MaskType } from '@/shared/types.d';
+import IMask from 'imask';
 
 // Simple ID generator
 let idCounter = 0;
@@ -107,37 +109,63 @@ const model = defineModel<string>('', { default: '' });
 // Password visibility state
 const showPassword = ref(false);
 
-// Map Input size to Swap size
-const getSwapSize = (inputSize: Size): 'xs' | 'sm' | 'md' | 'lg' => {
-  switch (inputSize) {
-    case 'xs':
-    case 'sm':
-      return 'sm';
-    case 'md':
-      return 'md';
-    case 'lg':
-    case 'xl':
-    case '2xl':
-      return 'lg';
-    default:
-      return 'md';
-  }
-};
+// Input element reference
+const inputRef = ref<HTMLInputElement>();
 
-// Map Input size to Icon size
-const getIconSize = (inputSize: Size): Size => {
-  switch (inputSize) {
-    case 'xs':
-      return 'sm';
-    case 'sm':
-    case 'md':
-      return 'md';
-    case 'lg':
-    case 'xl':
-    case '2xl':
-      return 'lg';
-    default:
-      return 'md';
+// IMask instance
+let maskInstance: any = null;
+
+// Predefined mask configurations
+const maskConfigs = {
+  phone: {
+    mask: '+{33} 0 00 00 00 00',
+    lazy: false
+  },
+  'credit-card': {
+    mask: '0000 0000 0000 0000',
+    lazy: false
+  },
+  date: {
+    mask: '00/00/0000',
+    lazy: false
+  },
+  time: {
+    mask: '00:00',
+    lazy: false
+  },
+  currency: {
+    mask: Number,
+    scale: 2,
+    thousandsSeparator: ',',
+    radix: '.',
+    mapToRadix: ['.'],
+    normalizeZeros: true,
+    padFractionalZeros: true,
+    min: 0,
+    lazy: false
+  },
+  number: {
+    mask: Number,
+    scale: 0,
+    thousandsSeparator: ',',
+    radix: '.',
+    mapToRadix: ['.'],
+    normalizeZeros: true,
+    padFractionalZeros: false,
+    min: 0,
+    lazy: false
+  },
+  email: {
+    mask: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+    lazy: false
+  },
+  zip: {
+    mask: '00000-0000',
+    lazy: false
+  },
+  ssn: {
+    mask: '000-00-0000',
+    lazy: false
   }
 };
 
@@ -174,6 +202,10 @@ interface InputProps {
   ariaDescribedby?: string;
   // Yup validation rules
   rules?: any;
+  // IMask configuration
+  mask?: any;
+  // Predefined mask type
+  maskType?: MaskType;
 }
 
 const props = withDefaults(defineProps<InputProps>(), {
@@ -192,7 +224,9 @@ const props = withDefaults(defineProps<InputProps>(), {
   maxlength: undefined,
   showCharCount: false,
   ariaDescribedby: '',
-  rules: undefined
+  rules: undefined,
+  mask: undefined,
+  maskType: undefined
 });
 
 const emit = defineEmits<{
@@ -203,6 +237,51 @@ const emit = defineEmits<{
 }>();
 
 const inputId = generateId();
+
+// Initialize IMask
+const initMask = (element: HTMLInputElement) => {
+  if (maskInstance) {
+    maskInstance.destroy();
+  }
+
+  const maskConfig = props.maskType && props.maskType in maskConfigs 
+    ? maskConfigs[props.maskType as MaskType] 
+    : props.mask;
+  
+  if (maskConfig && element) {
+    maskInstance = IMask(element, {
+      ...maskConfig,
+      onAccept: (value: string) => {
+        model.value = value;
+      },
+      onComplete: (value: string) => {
+        model.value = value;
+      }
+    });
+  }
+};
+
+// Cleanup mask on unmount
+onUnmounted(() => {
+  if (maskInstance) {
+    maskInstance.destroy();
+    maskInstance = null;
+  }
+});
+
+// Initialize mask on mount
+onMounted(() => {
+  if (inputRef.value && (props.mask || props.maskType)) {
+    initMask(inputRef.value);
+  }
+});
+
+// Watch for mask changes
+watch(() => [props.mask, props.maskType], () => {
+  if (inputRef.value) {
+    initMask(inputRef.value);
+  }
+});
 
 const wrapperClasses = computed(() => ['form-control', 'w-full']);
 

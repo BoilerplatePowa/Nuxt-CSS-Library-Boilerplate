@@ -22,7 +22,6 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import type { Size } from '@/shared/types.d';
 
 interface Props {
   modelValue?: boolean;

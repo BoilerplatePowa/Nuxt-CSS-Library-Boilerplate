@@ -67,6 +67,7 @@
     "@nuxt/kit": "^4.0.3",
     "autoprefixer": "^10.4.21",
     "daisyui": "^5.0.50",
+    "imask": "^7.6.1",
     "lucide-vue-next": "^0.540.0",
     "nuxt": "^4.0.0",
     "postcss": "^8.5.6",

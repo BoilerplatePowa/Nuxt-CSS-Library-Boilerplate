@@ -30,3 +30,4 @@ export type ThemeColor = 'primary'
   | 'warning-content'
   | 'error'
   | 'error-content';
+export type MaskType = 'phone' | 'credit-card' | 'date' | 'time' | 'currency' | 'number' | 'email' | 'zip' | 'ssn';

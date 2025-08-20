@@ -76,6 +76,15 @@ const meta: Meta<typeof Input> = {
       control: 'object',
       description: 'Yup validation rules',
     },
+    mask: {
+      control: 'object',
+      description: 'IMask configuration object',
+    },
+    maskType: {
+      control: 'select',
+      options: ['phone', 'credit-card', 'date', 'time', 'currency', 'number', 'email', 'zip', 'ssn'],
+      description: 'Predefined mask type',
+    },
   },
 };
 
@@ -258,6 +267,58 @@ export const PasswordWithToggle: Story = {
   },
 };
 
+// Phone number with mask
+export const PhoneWithMask: Story = {
+  args: {
+    label: 'Phone Number',
+    placeholder: 'Enter phone number',
+    type: 'tel',
+    leftIcon: 'phone',
+    maskType: 'phone',
+    required: true,
+    helpText: 'Format: +1(555)123-4567',
+  },
+};
+
+// Credit card with mask
+export const CreditCardWithMask: Story = {
+  args: {
+    label: 'Credit Card',
+    placeholder: 'Enter card number',
+    type: 'text',
+    leftIcon: 'credit-card',
+    maskType: 'credit-card',
+    required: true,
+    helpText: 'Format: 1234 5678 9012 3456',
+  },
+};
+
+// Date with mask
+export const DateWithMask: Story = {
+  args: {
+    label: 'Date',
+    placeholder: 'MM/DD/YYYY',
+    type: 'text',
+    leftIcon: 'calendar',
+    maskType: 'date',
+    required: true,
+    helpText: 'Format: MM/DD/YYYY',
+  },
+};
+
+// Currency with mask
+export const CurrencyWithMask: Story = {
+  args: {
+    label: 'Amount',
+    placeholder: '0.00',
+    type: 'text',
+    leftIcon: 'dollar-sign',
+    maskType: 'currency',
+    required: true,
+    helpText: 'Enter amount in dollars',
+  },
+};
+
 // Different input types
 export const InputTypes: Story = {
   render: () => ({
@@ -273,6 +334,25 @@ export const InputTypes: Story = {
         <Input label="Search" placeholder="search..." type="search" left-icon="search" />
         <Input label="Date" type="date" />
         <Input label="Time" type="time" />
+      </div>
+    `,
+  }),
+};
+
+// All mask types example
+export const AllMaskTypes: Story = {
+  render: () => ({
+    components: { Input },
+    template: `
+      <div class="space-y-4 w-80">
+        <Input label="Phone Number" placeholder="+1(555)123-4567" mask-type="phone" left-icon="phone" />
+        <Input label="Credit Card" placeholder="1234 5678 9012 3456" mask-type="credit-card" left-icon="credit-card" />
+        <Input label="Date" placeholder="MM/DD/YYYY" mask-type="date" left-icon="calendar" />
+        <Input label="Time" placeholder="HH:MM" mask-type="time" left-icon="clock" />
+        <Input label="Currency" placeholder="0.00" mask-type="currency" left-icon="dollar-sign" />
+        <Input label="Number" placeholder="1,234" mask-type="number" left-icon="hash" />
+        <Input label="ZIP Code" placeholder="12345-6789" mask-type="zip" left-icon="map-pin" />
+        <Input label="SSN" placeholder="123-45-6789" mask-type="ssn" left-icon="user" />
       </div>
     `,
   }),
