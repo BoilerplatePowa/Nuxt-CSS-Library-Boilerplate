@@ -1,5 +1,5 @@
 <template>
-  <div :class="wrapperClasses" class="max-w-[200px]">
+  <div :class="wrapperClasses">
     <!-- Label -->
     <label v-if="label" :for="inputId" class="label">
       <span :class="`label-text text-${size}`">{{ label }}</span>
@@ -10,7 +10,7 @@
     <Field
         :name="name"
         :value="model"
-        :rules="yup.string().required('Email is required')"
+        :rules="rules"
         v-slot="{ field, errorMessage, meta }"
     >
         <div>
@@ -18,8 +18,8 @@
                 <!-- Left icon -->
                 <Icon 
                     v-if="leftIcon"
-                    :name="leftIcon as any" 
-                    :size="size as any" 
+                    :name="leftIcon" 
+                    :size="size" 
                     class="opacity-50"
                     :aria-hidden="true"
                 />
@@ -27,7 +27,7 @@
                 <input
                     :id="inputId"
                     v-bind="field"
-                    :type="type"
+                    :type="type === 'password' ? (showPassword ? 'text' : 'password') : type"
                     :placeholder="placeholder"
                     :disabled="disabled"
                     :readonly="readonly"
@@ -41,11 +41,26 @@
                     @blur="handleBlur"
                 />
 
-                <!-- Right icon -->
+                <!-- Password toggle swap button -->
+                <Swap
+                    v-if="type === 'password'"
+                    v-model="showPassword"
+                    variant="rotate"
+                    :aria-label="showPassword ? 'Hide password' : 'Show password'"
+                >
+                    <template #on>
+                        <Icon name="eye" :size="size" class="text-base-content/50" />
+                    </template>
+                    <template #off>
+                        <Icon name="eye-off" :size="size" class="text-base-content/50" />
+                    </template>
+                </Swap>
+
+                <!-- Right icon (only show if not password type or if no swap button) -->
                 <Icon 
-                    v-if="rightIcon"
-                    :name="rightIcon as any" 
-                    :size="size as any" 
+                    v-if="rightIcon && type !== 'password'"
+                    :name="rightIcon" 
+                    :size="size" 
                     class="opacity-50"
                     :aria-hidden="true"
                 />
@@ -77,12 +92,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import { Field } from 'vee-validate';
 import Icon from '../Icons/Icon.vue';
-import * as yup from 'yup';
+import Swap from '../Actions/Swap.vue';
 import type { InputType, Size, Variant, IconName } from '@/shared/types.d';
-import { inputTypesMap, sizeMap, variantMap, iconMap } from '@/shared/map';
 
 // Simple ID generator
 let idCounter = 0;
@@ -90,107 +104,95 @@ const generateId = () => `input-${++idCounter}`;
 
 const model = defineModel<string>('', { default: '' });
 
-const props = defineProps({
-  // Field name for VeeValidate
-  name: {
-    type: String,
-    default: ''
-  },
-  // Input label
-  label: {
-    type: String,
-    default: ''
-  },
-  // Input placeholder
-  placeholder: {
-    type: String,
-    default: ''
-  },
-  // Help text displayed below input
-  helpText: {
-    type: String,
-    default: ''
-  },
-  // Input type
-  type: {
-    type: String,
-    default: 'text',
-    validator(value: InputType) {
-      return inputTypesMap.includes(value)
-    }
-  },
-  // Input size
-  size: {
-    type: String,
-    default: 'md',
-    validator(value: Size) {
-      return (Object.keys(sizeMap) as Size[]).includes(value)
-    }
-  },
-  // Input variant/style
-  variant: {
-    type: String,
-    default: 'bordered',
-    validator(value: Variant) {
-      return variantMap.includes(value)
-    }
-  },
-  // Left icon name
-  leftIcon: {
-    type: String,
-    default: '',
-    validator(value: IconName | '') {
-      // This would need to be updated with actual icon names from Icon component
-      if (value === '') return true
+// Password visibility state
+const showPassword = ref(false);
 
-      return (Object.keys(iconMap) as IconName[]).includes(value)
-    }
-  },
-  // Right icon name
-  rightIcon: {
-    type: String,
-    default: '',
-    validator(value: IconName | '') {
-      // This would need to be updated with actual icon names from Icon component
-      if (value === '') return true
-      
-      return (Object.keys(iconMap) as IconName[]).includes(value)}
-  },
-  // Whether input is disabled
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  // Whether input is readonly
-  readonly: {
-    type: Boolean,
-    default: false
-  },
-  // Whether input is required
-  required: {
-    type: Boolean,
-    default: false
-  },
-  // Maximum character length
-  maxlength: {
-    type: Number,
-    default: undefined
-  },
-  // Show character count
-  showCharCount: {
-    type: Boolean,
-    default: false
-  },
-  // Additional aria-describedby IDs
-  ariaDescribedby: {
-    type: String,
-    default: ''
-  },
-  // Yup validation rules
-  rules: {
-    type: [Object, Function],
-    default: undefined
+// Map Input size to Swap size
+const getSwapSize = (inputSize: Size): 'xs' | 'sm' | 'md' | 'lg' => {
+  switch (inputSize) {
+    case 'xs':
+    case 'sm':
+      return 'sm';
+    case 'md':
+      return 'md';
+    case 'lg':
+    case 'xl':
+    case '2xl':
+      return 'lg';
+    default:
+      return 'md';
   }
+};
+
+// Map Input size to Icon size
+const getIconSize = (inputSize: Size): Size => {
+  switch (inputSize) {
+    case 'xs':
+      return 'sm';
+    case 'sm':
+    case 'md':
+      return 'md';
+    case 'lg':
+    case 'xl':
+    case '2xl':
+      return 'lg';
+    default:
+      return 'md';
+  }
+};
+
+interface InputProps {
+  // Field name for VeeValidate
+  name?: string;
+  // Input label
+  label?: string;
+  // Input placeholder
+  placeholder?: string;
+  // Help text displayed below input
+  helpText?: string;
+  // Input type
+  type?: InputType;
+  // Input size
+  size?: Size;
+  // Input variant/style
+  variant?: Variant;
+  // Left icon name
+  leftIcon?: IconName | undefined;
+  // Right icon name
+  rightIcon?: IconName | undefined;
+  // Whether input is disabled
+  disabled?: boolean;
+  // Whether input is readonly
+  readonly?: boolean;
+  // Whether input is required
+  required?: boolean;
+  // Maximum character length
+  maxlength?: number;
+  // Show character count
+  showCharCount?: boolean;
+  // Additional aria-describedby IDs
+  ariaDescribedby?: string;
+  // Yup validation rules
+  rules?: any;
+}
+
+const props = withDefaults(defineProps<InputProps>(), {
+  name: '',
+  label: '',
+  placeholder: '',
+  helpText: '',
+  type: 'text',
+  size: 'md',
+  variant: 'bordered',
+  leftIcon: undefined,
+  rightIcon: undefined,
+  disabled: false,
+  readonly: false,
+  required: false,
+  maxlength: undefined,
+  showCharCount: false,
+  ariaDescribedby: '',
+  rules: undefined
 });
 
 const emit = defineEmits<{

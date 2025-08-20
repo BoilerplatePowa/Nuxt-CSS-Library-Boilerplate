@@ -8,28 +8,13 @@
       :disabled="disabled"
       @change="handleChange"
     />
-    
-    <div v-if="variant === 'rotate'" class="swap-on">
-      <slot name="on">{{ onContent }}</slot>
-    </div>
-    <div v-if="variant === 'rotate'" class="swap-off">
-      <slot name="off">{{ offContent }}</slot>
-    </div>
-    
-    <div v-if="variant === 'flip'" class="swap-on">
-      <slot name="on">{{ onContent }}</slot>
-    </div>
-    <div v-if="variant === 'flip'" class="swap-off">
-      <slot name="off">{{ offContent }}</slot>
-    </div>
-    
     <div v-if="variant === 'indeterminate'" class="swap-indeterminate">
       <slot name="indeterminate">{{ indeterminateContent }}</slot>
     </div>
-    <div v-if="variant === 'indeterminate'" class="swap-on">
+    <div class="swap-on">
       <slot name="on">{{ onContent }}</slot>
     </div>
-    <div v-if="variant === 'indeterminate'" class="swap-off">
+    <div class="swap-off">
       <slot name="off">{{ offContent }}</slot>
     </div>
   </label>
@@ -37,11 +22,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { Size } from '@/shared/types.d';
 
 interface Props {
   modelValue?: boolean;
   variant?: 'rotate' | 'flip' | 'indeterminate';
-  size?: 'xs' | 'sm' | 'md' | 'lg';
   onContent?: string;
   offContent?: string;
   indeterminateContent?: string;
@@ -54,7 +39,6 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   modelValue: false,
   variant: 'rotate',
-  size: 'md',
   onContent: '🌞',
   offContent: '🌚',
   indeterminateContent: '🌤️',
@@ -70,27 +54,14 @@ const emit = defineEmits<{
 
 const isSwapped = computed(() => props.modelValue);
 
-const inputId = computed(() => props.id || `swap-${Math.random().toString(36).substr(2, 9)}`);
+const inputId = computed(() => props.id || `swap-${Math.random().toString(36).slice(2, 11)}`);
 
 const swapClasses = computed(() => {
   const baseClasses = ['swap'];
 
   // Variant classes
-  if (props.variant === 'rotate') {
-    baseClasses.push('swap-rotate');
-  } else if (props.variant === 'flip') {
-    baseClasses.push('swap-flip');
-  } else if (props.variant === 'indeterminate') {
-    baseClasses.push('swap-indeterminate');
-  }
-
-  // Size classes
-  if (props.size === 'xs') {
-    baseClasses.push('text-xs');
-  } else if (props.size === 'sm') {
-    baseClasses.push('text-sm');
-  } else if (props.size === 'lg') {
-    baseClasses.push('text-lg');
+  if (props.variant) {
+    baseClasses.push(`swap-${props.variant}`);
   }
 
   if (props.disabled) {
@@ -113,19 +84,4 @@ const handleChange = (event: Event) => {
 
 <style scoped lang="postcss">
 /* DaisyUI handles most swap styling */
-
-/* Disable animations when disabled */
-.swap-disabled {
-  transition: none !important;
-}
-
-.swap-disabled * {
-  transition: none !important;
-  animation: none !important;
-}
-
-/* Ensure disabled state is visually distinct */
-.swap-disabled {
-  filter: grayscale(50%);
-}
 </style>

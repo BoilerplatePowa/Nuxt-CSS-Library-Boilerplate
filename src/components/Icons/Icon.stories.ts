@@ -107,7 +107,7 @@ export const CustomStroke: Story = {
   args: {
     name: 'zap',
     size: 'lg',
-    strokeWidth: 2,
+    strokeWidth: 1.5,
   },
   render: args => ({
     components: { Icon },
