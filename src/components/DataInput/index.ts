@@ -6,6 +6,7 @@ export { default as FileInput } from './FileInput.vue';
 export { default as Filter } from './Filter.vue';
 export { default as Input } from './Input.vue';
 export { default as Label } from './Label.vue';
+export { default as PhoneInput } from './PhoneInput.vue';
 export { default as Radio } from './Radio.vue';
 export { default as Range } from './Range.vue';
 export { default as Rating } from './Rating.vue';
