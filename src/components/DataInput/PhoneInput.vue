@@ -113,7 +113,7 @@ countries.registerLocale(enLocale);
 let idCounter = 0;
 const generateId = () => `phone-input-${++idCounter}`;
 
-const model = defineModel<string>('', { default: '' });
+const model = defineModel<string>({ default: '' });
 
 // Input element reference
 const inputRef = ref<HTMLInputElement>();

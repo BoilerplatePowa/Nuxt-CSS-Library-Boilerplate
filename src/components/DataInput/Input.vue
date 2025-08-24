@@ -104,7 +104,7 @@ import IMask from 'imask';
 let idCounter = 0;
 const generateId = () => `input-${++idCounter}`;
 
-const model = defineModel<string>('', { default: '' });
+const model = defineModel<string>({ default: '' });
 
 // Password visibility state
 const showPassword = ref(false);
