@@ -82,11 +82,6 @@
   @apply text-lg;
 }
 
-/* Avatar styling */
-.avatar {
-  @apply rounded-full overflow-hidden bg-base-300 flex items-center justify-center;
-}
-
 /* Interactive states */
 .list-item.cursor-pointer {
   @apply cursor-pointer;

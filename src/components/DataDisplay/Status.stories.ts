@@ -6,22 +6,32 @@ const meta: Meta<typeof Status> = {
   component: Status,
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component: 'A status indicator component for showing online/offline states and other status information.',
+      },
+    },
   },
+  tags: ['autodocs'],
   argTypes: {
     variant: {
       control: { type: 'select' },
       options: ['primary', 'secondary', 'accent', 'neutral', 'info', 'success', 'warning', 'error'],
+      description: 'Status variant color',
     },
     animation: {
       control: { type: 'select' },
       options: ['pulse', 'bounce', 'none'],
+      description: 'Animation type',
     },
     size: {
       control: { type: 'select' },
       options: ['xs', 'sm', 'md', 'lg', 'xl'],
+      description: 'Status size',
     },
     ariaLabel: {
       control: { type: 'text' },
+      description: 'Accessibility label',
     },
   },
 };

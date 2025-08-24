@@ -5,9 +5,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { Variant } from '~/shared/types.d';
 
 interface StatusProps {
-  variant?: 'primary' | 'secondary' | 'accent' | 'neutral' | 'info' | 'success' | 'warning' | 'error';
+  variant?: Variant;
   animation?: 'pulse' | 'bounce' | 'none';
   size?: 'xs' | 'sm' | 'md'| 'lg' | 'xl';
   ariaLabel?: string;

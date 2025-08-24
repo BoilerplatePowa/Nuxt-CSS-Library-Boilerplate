@@ -12,10 +12,11 @@ describe('Badge', () => {
 
     expect(wrapper.classes()).toContain('badge');
     expect(wrapper.text()).toBe('New');
+    expect(wrapper.element.tagName).toBe('SPAN');
   });
 
   it('applies variant classes correctly', () => {
-    const variants = ['primary', 'secondary', 'accent', 'ghost', 'info', 'success', 'warning', 'error'] as const;
+    const variants = ['neutral', 'primary', 'secondary', 'accent', 'ghost', 'info', 'success', 'warning', 'error'] as const;
 
     variants.forEach(variant => {
       const wrapper = mount(Badge, {
@@ -67,8 +68,20 @@ describe('Badge', () => {
       slots: { default: 'Div Badge' },
     });
 
+    const pWrapper = mount(Badge, {
+      props: { tag: 'p' },
+      slots: { default: 'P Badge' },
+    });
+
+    const labelWrapper = mount(Badge, {
+      props: { tag: 'label' },
+      slots: { default: 'Label Badge' },
+    });
+
     expect(spanWrapper.element.tagName).toBe('SPAN');
     expect(divWrapper.element.tagName).toBe('DIV');
+    expect(pWrapper.element.tagName).toBe('P');
+    expect(labelWrapper.element.tagName).toBe('LABEL');
   });
 
   it('renders slot content correctly', () => {
@@ -88,6 +101,7 @@ describe('Badge', () => {
         variant: 'success',
         size: 'lg',
         outline: true,
+        tag: 'div',
       },
       slots: {
         default: 'Large Success',
@@ -98,6 +112,7 @@ describe('Badge', () => {
     expect(wrapper.classes()).toContain('badge-success');
     expect(wrapper.classes()).toContain('badge-lg');
     expect(wrapper.classes()).toContain('badge-outline');
+    expect(wrapper.element.tagName).toBe('DIV');
   });
 
   it('handles empty content gracefully', () => {
@@ -119,5 +134,32 @@ describe('Badge', () => {
 
     expect(wrapper.classes()).toContain('badge');
     expect(wrapper.classes()).toContain('custom-badge-class');
+  });
+
+  it('defaults to span tag when no tag is provided', () => {
+    const wrapper = mount(Badge, {
+      slots: { default: 'Default' },
+    });
+
+    expect(wrapper.element.tagName).toBe('SPAN');
+  });
+
+  it('defaults to neutral variant when no variant is provided', () => {
+    const wrapper = mount(Badge, {
+      slots: { default: 'Default' },
+    });
+
+    expect(wrapper.classes()).toContain('badge-neutral');
+  });
+
+  it('defaults to md size when no size is provided', () => {
+    const wrapper = mount(Badge, {
+      slots: { default: 'Default' },
+    });
+
+    // md size doesn't add a specific class, so we just check it doesn't have other size classes
+    expect(wrapper.classes()).not.toContain('badge-xs');
+    expect(wrapper.classes()).not.toContain('badge-sm');
+    expect(wrapper.classes()).not.toContain('badge-lg');
   });
 });

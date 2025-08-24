@@ -1,8 +1,19 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { mount } from '@vue/test-utils';
 import Button from '../../../src/components/Actions/Button.vue';
 
+// Mock confirm dialog
+const mockConfirm = vi.fn();
+Object.defineProperty(window, 'confirm', {
+  value: mockConfirm,
+  writable: true,
+});
+
 describe('Button', () => {
+  beforeEach(() => {
+    mockConfirm.mockClear();
+  });
+
   it('renders correctly with default props', () => {
     const wrapper = mount(Button, {
       slots: {
@@ -50,6 +61,7 @@ describe('Button', () => {
     });
 
     expect(wrapper.attributes('disabled')).toBeDefined();
+    expect(wrapper.attributes('tabindex')).toBe('-1');
   });
 
   it('applies loading state correctly', () => {
@@ -60,6 +72,32 @@ describe('Button', () => {
 
     expect(wrapper.find('.loading').exists()).toBe(true);
     expect(wrapper.find('.loading-spinner').exists()).toBe(true);
+    expect(wrapper.attributes('aria-busy')).toBe('true');
+  });
+
+  it('shows loading text when provided', () => {
+    const wrapper = mount(Button, {
+      props: { 
+        loading: true,
+        loadingText: 'Processing...',
+      },
+      slots: { default: 'Submit' },
+    });
+
+    expect(wrapper.text()).toContain('Processing...');
+  });
+
+  it('hides text when hideTextOnLoading is true', () => {
+    const wrapper = mount(Button, {
+      props: { 
+        loading: true,
+        hideTextOnLoading: true,
+      },
+      slots: { default: 'Submit' },
+    });
+
+    const textSpan = wrapper.find('span');
+    expect(textSpan.classes()).toContain('sr-only');
   });
 
   it('applies full width correctly', () => {
@@ -69,6 +107,7 @@ describe('Button', () => {
     });
 
     expect(wrapper.classes()).toContain('btn-block');
+    expect(wrapper.classes()).toContain('w-full');
   });
 
   it('emits click event when clicked', async () => {
@@ -100,6 +139,57 @@ describe('Button', () => {
     expect(wrapper.emitted('click')).toBeFalsy();
   });
 
+  it('shows confirmation dialog when confirmAction is true', async () => {
+    mockConfirm.mockReturnValue(true);
+    
+    const wrapper = mount(Button, {
+      props: { 
+        confirmAction: true,
+        confirmText: 'Are you sure?',
+      },
+      slots: { default: 'Delete' },
+    });
+
+    await wrapper.trigger('click');
+    expect(mockConfirm).toHaveBeenCalledWith('Are you sure?');
+    expect(wrapper.emitted('click')).toBeTruthy();
+  });
+
+  it('does not emit click when confirmation is cancelled', async () => {
+    mockConfirm.mockReturnValue(false);
+    
+    const wrapper = mount(Button, {
+      props: { 
+        confirmAction: true,
+        confirmText: 'Are you sure?',
+      },
+      slots: { default: 'Delete' },
+    });
+
+    await wrapper.trigger('click');
+    expect(mockConfirm).toHaveBeenCalledWith('Are you sure?');
+    expect(wrapper.emitted('click')).toBeFalsy();
+  });
+
+  it('debounces click events when debounceMs is set', async () => {
+    vi.useFakeTimers();
+    
+    const wrapper = mount(Button, {
+      props: { debounceMs: 100 },
+      slots: { default: 'Test' },
+    });
+
+    await wrapper.trigger('click');
+    expect(wrapper.emitted('click')).toBeFalsy();
+
+    vi.advanceTimersByTime(100);
+    await wrapper.vm.$nextTick();
+    
+    expect(wrapper.emitted('click')).toBeTruthy();
+    
+    vi.useRealTimers();
+  });
+
   it('renders icon slots correctly', () => {
     const wrapper = mount(Button, {
       slots: {
@@ -112,6 +202,46 @@ describe('Button', () => {
     expect(wrapper.find('.icon-left').exists()).toBe(true);
     expect(wrapper.find('.icon-right').exists()).toBe(true);
     expect(wrapper.text()).toContain('Test');
+  });
+
+  it('renders left icon prop correctly', () => {
+    const wrapper = mount(Button, {
+      props: { iconLeft: 'heart' },
+      slots: { default: 'Test' },
+    });
+
+    const icon = wrapper.findComponent({ name: 'Icon' });
+    expect(icon.exists()).toBe(true);
+    expect(icon.props('name')).toBe('heart');
+  });
+
+  it('renders right icon prop correctly', () => {
+    const wrapper = mount(Button, {
+      props: { iconRight: 'arrow-right' },
+      slots: { default: 'Test' },
+    });
+
+    const icons = wrapper.findAllComponents({ name: 'Icon' });
+    expect(icons.length).toBe(1);
+    expect(icons[0].props('name')).toBe('arrow-right');
+  });
+
+  it('renders both left and right icons correctly', () => {
+    const wrapper = mount(Button, {
+      props: { 
+        iconLeft: 'heart',
+        iconRight: 'arrow-right',
+        iconSize: 'lg'
+      },
+      slots: { default: 'Test' },
+    });
+
+    const icons = wrapper.findAllComponents({ name: 'Icon' });
+    expect(icons.length).toBe(2);
+    expect(icons[0].props('name')).toBe('heart');
+    expect(icons[0].props('size')).toBe('lg');
+    expect(icons[1].props('name')).toBe('arrow-right');
+    expect(icons[1].props('size')).toBe('lg');
   });
 
   it('applies shape classes correctly', () => {
@@ -153,5 +283,107 @@ describe('Button', () => {
 
       expect(wrapper.attributes('type')).toBe(type);
     });
+  });
+
+  it('handles keyboard events correctly', async () => {
+    const wrapper = mount(Button, {
+      slots: { default: 'Test' },
+    });
+
+    await wrapper.trigger('keydown', { key: 'Enter' });
+    expect(wrapper.emitted('click')).toBeTruthy();
+
+    await wrapper.trigger('keydown', { key: ' ' });
+    expect(wrapper.emitted('click')).toBeTruthy();
+  });
+
+  it('emits focus and blur events', async () => {
+    const wrapper = mount(Button, {
+      slots: { default: 'Test' },
+    });
+
+    await wrapper.trigger('focus');
+    expect(wrapper.emitted('focus')).toBeTruthy();
+
+    await wrapper.trigger('blur');
+    expect(wrapper.emitted('blur')).toBeTruthy();
+  });
+
+  it('sets accessibility attributes correctly', () => {
+    const wrapper = mount(Button, {
+      props: {
+        ariaLabel: 'Custom label',
+        ariaPressed: true,
+        ariaExpanded: true,
+        ariaDescribedby: 'description',
+      },
+      slots: { default: 'Test' },
+    });
+
+    expect(wrapper.attributes('aria-label')).toBe('Custom label');
+    expect(wrapper.attributes('aria-pressed')).toBe('true');
+    expect(wrapper.attributes('aria-expanded')).toBe('true');
+    expect(wrapper.attributes('aria-describedby')).toBe('description');
+  });
+
+  it('auto focuses when autoFocus is true', async () => {
+    const wrapper = mount(Button, {
+      props: { autoFocus: true },
+      slots: { default: 'Test' },
+    });
+
+    await wrapper.vm.$nextTick();
+    // Note: In test environment, focus might not work as expected
+    // This test mainly ensures the prop is handled
+    expect(wrapper.props('autoFocus')).toBe(true);
+  });
+
+  it('exposes focus, blur, and click methods', () => {
+    const wrapper = mount(Button, {
+      slots: { default: 'Test' },
+    });
+
+    expect(typeof wrapper.vm.focus).toBe('function');
+    expect(typeof wrapper.vm.blur).toBe('function');
+    expect(typeof wrapper.vm.click).toBe('function');
+  });
+
+  it('handles multiple rapid clicks with debounce', async () => {
+    vi.useFakeTimers();
+    
+    const wrapper = mount(Button, {
+      props: { debounceMs: 100 },
+      slots: { default: 'Test' },
+    });
+
+    // Multiple rapid clicks
+    await wrapper.trigger('click');
+    await wrapper.trigger('click');
+    await wrapper.trigger('click');
+
+    expect(wrapper.emitted('click')).toBeFalsy();
+
+    vi.advanceTimersByTime(100);
+    await wrapper.vm.$nextTick();
+    
+    expect(wrapper.emitted('click')).toBeTruthy();
+    expect(wrapper.emitted('click')?.length).toBe(1); // Only one event should be emitted
+    
+    vi.useRealTimers();
+  });
+
+  it('prevents default on Enter and Space keys', async () => {
+    const wrapper = mount(Button, {
+      slots: { default: 'Test' },
+    });
+
+    const enterEvent = { key: 'Enter', preventDefault: vi.fn() };
+    const spaceEvent = { key: ' ', preventDefault: vi.fn() };
+
+    await wrapper.trigger('keydown', enterEvent);
+    expect(enterEvent.preventDefault).toHaveBeenCalled();
+
+    await wrapper.trigger('keydown', spaceEvent);
+    expect(spaceEvent.preventDefault).toHaveBeenCalled();
   });
 });

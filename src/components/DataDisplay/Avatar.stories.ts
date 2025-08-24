@@ -8,7 +8,7 @@ const meta: Meta<typeof Avatar> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A flexible avatar component with support for images, placeholders, and presence indicators.',
+        component: 'A flexible avatar component with support for images, placeholders, presence indicators, badges, and loading states.',
       },
     },
   },
@@ -49,10 +49,6 @@ const meta: Meta<typeof Avatar> = {
       options: ['online', 'offline', 'away', 'busy'],
       description: 'Presence status',
     },
-    online: {
-      control: { type: 'boolean' },
-      description: 'Online presence indicator',
-    },
     showPresence: {
       control: { type: 'boolean' },
       description: 'Show presence indicator',
@@ -69,6 +65,11 @@ const meta: Meta<typeof Avatar> = {
     badge: {
       control: { type: 'text' },
       description: 'Badge text to display',
+    },
+    badgeVariant: {
+      control: { type: 'select' },
+      options: ['primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error'],
+      description: 'Badge variant',
     },
     count: {
       control: { type: 'number' },
@@ -124,7 +125,7 @@ export const Online: Story = {
   args: {
     src: 'https://i.pravatar.cc/150?img=2',
     alt: 'Online user',
-    online: true,
+    presence: 'online',
   },
   render: args => ({
     components: { Avatar },
@@ -139,7 +140,37 @@ export const Offline: Story = {
   args: {
     src: 'https://i.pravatar.cc/150?img=3',
     alt: 'Offline user',
-    online: false,
+    presence: 'offline',
+  },
+  render: args => ({
+    components: { Avatar },
+    setup() {
+      return { args };
+    },
+    template: '<Avatar v-bind="args" />',
+  }),
+};
+
+export const Away: Story = {
+  args: {
+    src: 'https://i.pravatar.cc/150?img=4',
+    alt: 'Away user',
+    presence: 'away',
+  },
+  render: args => ({
+    components: { Avatar },
+    setup() {
+      return { args };
+    },
+    template: '<Avatar v-bind="args" />',
+  }),
+};
+
+export const Busy: Story = {
+  args: {
+    src: 'https://i.pravatar.cc/150?img=5',
+    alt: 'Busy user',
+    presence: 'busy',
   },
   render: args => ({
     components: { Avatar },
@@ -152,7 +183,7 @@ export const Offline: Story = {
 
 export const WithRing: Story = {
   args: {
-    src: 'https://i.pravatar.cc/150?img=4',
+    src: 'https://i.pravatar.cc/150?img=6',
     alt: 'User with ring',
     ring: true,
     ringColor: 'primary',
@@ -168,7 +199,7 @@ export const WithRing: Story = {
 
 export const Square: Story = {
   args: {
-    src: 'https://i.pravatar.cc/150?img=5',
+    src: 'https://i.pravatar.cc/150?img=7',
     alt: 'Square avatar',
     shape: 'square',
   },
@@ -183,7 +214,7 @@ export const Square: Story = {
 
 export const Large: Story = {
   args: {
-    src: 'https://i.pravatar.cc/150?img=6',
+    src: 'https://i.pravatar.cc/150?img=8',
     alt: 'Large avatar',
     size: 'xl',
   },
@@ -198,7 +229,7 @@ export const Large: Story = {
 
 export const Small: Story = {
   args: {
-    src: 'https://i.pravatar.cc/150?img=7',
+    src: 'https://i.pravatar.cc/150?img=9',
     alt: 'Small avatar',
     size: 'xs',
   },
@@ -226,9 +257,10 @@ export const WithName: Story = {
 
 export const WithBadge: Story = {
   args: {
-    src: 'https://i.pravatar.cc/150?img=8',
+    src: 'https://i.pravatar.cc/150?img=10',
     alt: 'User with badge',
     badge: '3',
+    badgeVariant: 'primary',
   },
   render: args => ({
     components: { Avatar },
@@ -241,9 +273,26 @@ export const WithBadge: Story = {
 
 export const WithCount: Story = {
   args: {
-    src: 'https://i.pravatar.cc/150?img=9',
+    src: 'https://i.pravatar.cc/150?img=11',
     alt: 'User with count',
     count: 42,
+    badgeVariant: 'success',
+  },
+  render: args => ({
+    components: { Avatar },
+    setup() {
+      return { args };
+    },
+    template: '<Avatar v-bind="args" />',
+  }),
+};
+
+export const WithLargeCount: Story = {
+  args: {
+    src: 'https://i.pravatar.cc/150?img=12',
+    alt: 'User with large count',
+    count: 999,
+    badgeVariant: 'warning',
   },
   render: args => ({
     components: { Avatar },
@@ -264,6 +313,23 @@ export const Loading: Story = {
       return { args };
     },
     template: '<Avatar v-bind="args" />',
+  }),
+};
+
+export const WithFallbackColors: Story = {
+  render: () => ({
+    components: { Avatar },
+    template: `
+      <div class="space-y-4">
+        <div class="flex flex-wrap gap-4 items-center">
+          <Avatar name="John Doe" fallbackColor="primary" />
+          <Avatar name="Jane Smith" fallbackColor="secondary" />
+          <Avatar name="Bob Wilson" fallbackColor="accent" />
+          <Avatar name="Alice Brown" fallbackColor="neutral" />
+          <Avatar name="Charlie Davis" fallbackColor="random" />
+        </div>
+      </div>
+    `,
   }),
 };
 
@@ -330,6 +396,16 @@ export const AllVariants: Story = {
             <Avatar src="https://i.pravatar.cc/150?img=21" badge="3" alt="With Badge" />
             <Avatar src="https://i.pravatar.cc/150?img=22" :count="42" alt="With Count" />
             <Avatar src="https://i.pravatar.cc/150?img=23" :count="999" alt="Large Count" />
+            <Avatar src="https://i.pravatar.cc/150?img=24" badge="VIP" badgeVariant="warning" alt="VIP Badge" />
+            <Avatar src="https://i.pravatar.cc/150?img=25" :count="5" badgeVariant="error" alt="Error Count" />
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-3">Loading States</h3>
+          <div class="flex flex-wrap gap-4 items-center">
+            <Avatar loading size="xs" />
+            <Avatar loading size="md" />
+            <Avatar loading size="xl" />
           </div>
         </div>
       </div>

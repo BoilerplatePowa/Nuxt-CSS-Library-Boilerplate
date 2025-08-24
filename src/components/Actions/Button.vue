@@ -2,7 +2,6 @@
   <button
     ref="buttonRef"
     :class="buttonClasses"
-    :disabled="disabled || loading"
     :type="type"
     :aria-label="computedAriaLabel"
     :aria-pressed="ariaPressed"
@@ -16,17 +15,24 @@
     @blur="handleBlur"
   >
     <span v-if="loading" class="loading loading-spinner loading-sm mr-2" aria-hidden="true"></span>
-    <slot name="icon-left" />
+    <slot name="icon-left">
+      <Icon v-if="iconLeft" :name="iconLeft" :size="iconSize" />
+    </slot>
     <span v-if="$slots.default" :class="{ 'sr-only': loading && hideTextOnLoading }">
       <slot />
     </span>
     <span v-if="loading && loadingText" class="ml-1">{{ loadingText }}</span>
-    <slot name="icon-right" />
+    <slot name="icon-right">
+      <Icon v-if="iconRight" :name="iconRight" :size="iconSize" />
+    </slot>
   </button>
 </template>
 
 <script setup lang="ts">
 import { computed, ref, nextTick, onMounted, onUnmounted } from 'vue';
+import type { IconName, Size } from '@/shared/types.d';
+import Icon from '../Icons/Icon.vue';
+
 
 interface Props {
   variant?: 'primary' | 'secondary' | 'accent' | 'neutral' | 'ghost' | 'outline' | 'link' | 'info' | 'success' | 'warning' | 'error';
@@ -49,6 +55,9 @@ interface Props {
   confirmAction?: boolean;
   confirmText?: string;
   autoFocus?: boolean;
+  iconLeft?: IconName;
+  iconRight?: IconName;
+  iconSize?: Size | number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -68,6 +77,7 @@ const props = withDefaults(defineProps<Props>(), {
   confirmAction: false,
   confirmText: 'Are you sure?',
   autoFocus: false,
+  iconSize: 'sm',
 });
 
 const emit = defineEmits<{
@@ -81,54 +91,15 @@ const buttonRef = ref<HTMLButtonElement>();
 let debounceTimer: ReturnType<typeof setTimeout> | null = null;
 
 const buttonClasses = computed(() => {
-  const baseClasses = ['btn'];
+  const baseClasses = ['btn', 'flex', 'items-center', 'justify-center'];
 
-  // Variant classes
-  switch (props.variant) {
-    case 'primary':
-      baseClasses.push('btn-primary');
-      break;
-    case 'secondary':
-      baseClasses.push('btn-secondary');
-      break;
-    case 'accent':
-      baseClasses.push('btn-accent');
-      break;
-    case 'neutral':
-      baseClasses.push('btn-neutral');
-      break;
-    case 'ghost':
-      baseClasses.push('btn-ghost');
-      break;
-    case 'outline':
-      baseClasses.push('btn-outline');
-      break;
-    case 'link':
-      baseClasses.push('btn-link');
-      break;
-    case 'info':
-      baseClasses.push('btn-info');
-      break;
-    case 'success':
-      baseClasses.push('btn-success');
-      break;
-    case 'warning':
-      baseClasses.push('btn-warning');
-      break;
-    case 'error':
-      baseClasses.push('btn-error');
-      break;
+  if (props.variant) {
+    baseClasses.push(`btn-${props.variant}`);
   }
 
-  // Size classes
-  if (props.size === 'xs') {
-    baseClasses.push('btn-xs');
-  } else if (props.size === 'sm') {
-    baseClasses.push('btn-sm');
-  } else if (props.size === 'lg') {
-    baseClasses.push('btn-lg');
+  if (props.size) {
+    baseClasses.push(`btn-${props.size}`);
   }
-  // 'md' is default, no class needed
 
   // Shape classes
   if (props.circle) {

@@ -6,10 +6,11 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { Size, Variant } from '~/shared/types.d';
 
 interface Props {
-  variant?: 'neutral' | 'primary' | 'secondary' | 'accent' | 'ghost' | 'info' | 'success' | 'warning' | 'error';
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  variant?: Variant;
+  size?: Size
   outline?: boolean;
   tag?: 'span' | 'div' | 'p' | 'label';
 }
@@ -25,35 +26,14 @@ const badgeClasses = computed(() => {
   const baseClasses = ['badge'];
 
   // Variant classes
-  if (props.variant === 'primary') {
-    baseClasses.push('badge-primary');
-  } else if (props.variant === 'secondary') {
-    baseClasses.push('badge-secondary');
-  } else if (props.variant === 'accent') {
-    baseClasses.push('badge-accent');
-  } else if (props.variant === 'ghost') {
-    baseClasses.push('badge-ghost');
-  } else if (props.variant === 'info') {
-    baseClasses.push('badge-info');
-  } else if (props.variant === 'success') {
-    baseClasses.push('badge-success');
-  } else if (props.variant === 'warning') {
-    baseClasses.push('badge-warning');
-  } else if (props.variant === 'error') {
-    baseClasses.push('badge-error');
-  } else if (props.variant === 'neutral') {
-    baseClasses.push('badge-neutral');
+  if (props.variant) {
+    baseClasses.push(`badge-${props.variant}`);
   }
 
   // Size classes
-  if (props.size === 'xs') {
-    baseClasses.push('badge-xs');
-  } else if (props.size === 'sm') {
-    baseClasses.push('badge-sm');
-  } else if (props.size === 'lg') {
-    baseClasses.push('badge-lg');
+  if (props.size) {
+    baseClasses.push(`badge-${props.size}`);
   }
-  // 'md' is default, no class needed
 
   // Outline
   if (props.outline) {
@@ -63,7 +43,3 @@ const badgeClasses = computed(() => {
   return baseClasses.join(' ');
 });
 </script>
-
-<style scoped lang="postcss">
-/* DaisyUI handles most badge styling */
-</style>

@@ -28,6 +28,11 @@ const meta: Meta<typeof Badge> = {
       control: { type: 'boolean' },
       description: 'Outline style',
     },
+    tag: {
+      control: { type: 'select' },
+      options: ['span', 'div', 'p', 'label'],
+      description: 'HTML element to render',
+    },
   },
 };
 
@@ -139,6 +144,25 @@ export const Small: Story = {
   }),
 };
 
+export const DifferentTags: Story = {
+  render: () => ({
+    components: { Badge },
+    template: `
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-lg font-semibold mb-3">Different HTML Elements</h3>
+          <div class="flex flex-wrap gap-4 items-center">
+            <Badge tag="span">Span Badge</Badge>
+            <Badge tag="div">Div Badge</Badge>
+            <Badge tag="p">Paragraph Badge</Badge>
+            <Badge tag="label">Label Badge</Badge>
+          </div>
+        </div>
+      </div>
+    `,
+  }),
+};
+
 export const AllVariants: Story = {
   render: () => ({
     components: { Badge },
@@ -180,6 +204,15 @@ export const AllVariants: Story = {
             <Badge variant="accent" outline>Accent</Badge>
             <Badge variant="success" outline>Success</Badge>
             <Badge variant="error" outline>Error</Badge>
+          </div>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold mb-3">HTML Elements</h3>
+          <div class="flex flex-wrap gap-2">
+            <Badge tag="span">Span</Badge>
+            <Badge tag="div">Div</Badge>
+            <Badge tag="p">Paragraph</Badge>
+            <Badge tag="label">Label</Badge>
           </div>
         </div>
       </div>
