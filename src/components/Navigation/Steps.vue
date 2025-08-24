@@ -27,6 +27,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import type { Size, Variant } from '~/shared/types.d';
 
 interface Step {
   title?: string;
@@ -42,9 +43,9 @@ interface Props {
   steps?: Step[];
   currentStep?: number;
   variant?: 'default' | 'vertical';
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: Size;
   showNumbers?: boolean;
-  color?: 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
+  color?: Variant;
 }
 
 const props = withDefaults(defineProps<Props>(), {

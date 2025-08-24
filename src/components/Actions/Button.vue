@@ -1,6 +1,7 @@
 <template>
   <button
     ref="buttonRef"
+    :disabled="disabled || loading"
     :class="buttonClasses"
     :type="type"
     :aria-label="computedAriaLabel"
@@ -151,7 +152,15 @@ const executeAction = (event: MouseEvent | KeyboardEvent) => {
 };
 
 const handleClick = (event: MouseEvent) => {
+  console.log('Button: handleClick called, type:', props.type, 'disabled:', props.disabled, 'loading:', props.loading);
+  
   if (props.disabled || props.loading) return;
+
+  // Don't interfere with submit buttons - let them handle form submission naturally
+  if (props.type === 'submit') {
+    console.log('Button: Submit button clicked, letting form handle submission');
+    return;
+  }
 
   if (props.debounceMs > 0) {
     if (debounceTimer) clearTimeout(debounceTimer);

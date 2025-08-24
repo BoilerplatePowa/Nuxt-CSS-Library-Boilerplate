@@ -1,12 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3';
-import { ref } from 'vue';
+import { ref, nextTick } from 'vue';
 import * as yup from 'yup';
 import FormWizard from './FormWizard.vue';
 import Input from './Input.vue';
 import Select from './Select.vue';
 import Textarea from './Textarea.vue';
 import Checkbox from './Checkbox.vue';
-import Radio from './Radio.vue';
 import Toggle from './Toggle.vue';
 import Avatar from '../DataDisplay/Avatar.vue';
 import Icon from '../Icons/Icon.vue';
@@ -820,11 +819,12 @@ export const NoValidation: Story = {
 
 export const InteractiveWizard: Story = {
   render: () => ({
-    components: { FormWizard, Input, Checkbox, Select, Avatar },
+    components: { FormWizard, Input, Checkbox, Select, Avatar, Icon },
     setup() {
       const currentStep = ref(0);
       const stepData = ref<Record<string, any>>({});
       const isCompleted = ref(false);
+      const isAutoAdvancing = ref(false);
 
       const interactiveSteps = [
         {
@@ -859,6 +859,20 @@ export const InteractiveWizard: Story = {
       const handleStepComplete = (step: number, data: any) => {
         stepData.value[`step_${step}`] = data;
         console.log(`Step ${step} completed:`, data);
+        
+        // Auto-advance to step 2 when step 1 is completed
+        if (step === 0) {
+          isAutoAdvancing.value = true;
+          // Use nextTick to ensure the step data is updated before navigation
+          nextTick(() => {
+            currentStep.value = 1;
+            console.log('Auto-advancing to step 2!');
+            // Reset the auto-advancing flag after a short delay
+            setTimeout(() => {
+              isAutoAdvancing.value = false;
+            }, 1000);
+          });
+        }
       };
 
       const handleWizardComplete = (data: any) => {
@@ -867,15 +881,16 @@ export const InteractiveWizard: Story = {
         alert('Wizard completed successfully! Check the console for data.');
       };
 
-      return {
-        currentStep,
-        stepData,
-        isCompleted,
-        interactiveSteps,
-        handleStepChange,
-        handleStepComplete,
-        handleWizardComplete
-      };
+              return {
+          currentStep,
+          stepData,
+          isCompleted,
+          isAutoAdvancing,
+          interactiveSteps,
+          handleStepChange,
+          handleStepComplete,
+          handleWizardComplete
+        };
     },
     template: `
       <div class="w-full max-w-2xl mx-auto">
@@ -883,6 +898,15 @@ export const InteractiveWizard: Story = {
           <div class="text-center mb-8">
             <h2 class="text-2xl font-bold mb-2">Interactive Form Wizard</h2>
             <p class="text-base-content/70">Try navigating through the steps and filling out the forms.</p>
+            <div class="alert alert-info mt-4">
+              <Icon name="user" size="sm" />
+              <span><strong>Auto-advance feature:</strong> Step 1 will automatically advance to Step 2 when valid and submitted!</span>
+            </div>
+            
+            <div v-if="isAutoAdvancing" class="alert alert-success mt-4">
+              <Icon name="loading" size="sm" class="animate-spin" />
+              <span><strong>Auto-advancing to step 2...</strong></span>
+            </div>
           </div>
 
           <FormWizard
@@ -900,7 +924,7 @@ export const InteractiveWizard: Story = {
             <!-- Step 0: Personal Info -->
             <template #step-0="{ errors, meta }">
               <div class="space-y-6">
-                <div class="text-center">
+                <div class="flex items-center flex-col text-center">
                   <Avatar 
                     size="lg" 
                     fallback-color="primary" 
@@ -939,6 +963,11 @@ export const InteractiveWizard: Story = {
                   <pre class="text-xs">Valid: {{ meta.valid }}, Dirty: {{ meta.dirty }}, Touched: {{ meta.touched }}</pre>
                   <h4 class="font-semibold mb-2 mt-4">Errors:</h4>
                   <pre class="text-xs">{{ JSON.stringify(errors, null, 2) }}</pre>
+                  
+                  <div v-if="meta.valid && meta.dirty" class="alert alert-success mt-4">
+                    <Icon name="check-circle" size="sm" />
+                    <span>Form is valid! Click "Next" to auto-advance to step 2.</span>
+                  </div>
                 </div>
               </div>
             </template>

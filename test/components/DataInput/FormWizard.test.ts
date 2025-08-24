@@ -2,9 +2,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mount } from '@vue/test-utils';
 import { nextTick } from 'vue';
 import * as yup from 'yup';
-import FormWizard from '@/src/components/DataInput/FormWizard.vue';
-import Input from '@/src/components/DataInput/Input.vue';
-import Checkbox from '@/src/components/DataInput/Checkbox.vue';
+import FormWizard from '@/components/DataInput/FormWizard.vue';
+import Input from '@/components/DataInput/Input.vue';
+import Checkbox from '@/components/DataInput/Checkbox.vue';
 
 // Mock VeeValidate components
 vi.mock('vee-validate', () => ({

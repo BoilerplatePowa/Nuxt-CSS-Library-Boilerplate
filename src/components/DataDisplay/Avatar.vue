@@ -47,7 +47,7 @@
             <span v-if="initials" class="font-semibold">{{ initials }}</span>
             <span v-else-if="name" class="font-semibold">{{ generateInitials(name) }}</span>
             <span v-else-if="placeholder" class="opacity-60">{{ placeholder }}</span>
-            <Icon v-else name="user" :size="size"/>
+            <Icon v-else :name="fallbackIcon" :size="size"/>
           </slot>
         </div>
       </div>
@@ -58,7 +58,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import Badge from './Badge.vue';
-import type { Variant } from '~/shared/types.d';
+import type { Variant, IconName } from '~/shared/types.d';
 import Status from '../DataDisplay/Status.vue';
 import Icon from '../Icons/Icon.vue';
 
@@ -80,6 +80,7 @@ interface Props {
   loading?: boolean;
   lazy?: boolean;
   fallbackColor?: 'primary' | 'secondary' | 'accent' | 'neutral' | 'random';
+  fallbackIcon?: IconName;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -92,6 +93,7 @@ const props = withDefaults(defineProps<Props>(), {
   loading: false,
   lazy: true,
   fallbackColor: 'neutral',
+  fallbackIcon: 'user',
 });
 
 const emit = defineEmits<{

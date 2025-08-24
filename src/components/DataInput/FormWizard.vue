@@ -1,7 +1,7 @@
 <template>
   <div :class="wrapperClasses">
     <!-- Wizard Header with Steps -->
-    <div v-if="showSteps" class="mb-8">
+    <div v-if="showSteps" class="flex justify-center">
       <Steps
         :steps="wizardSteps"
         :current-step="currentStep"
@@ -17,27 +17,24 @@
       :validation-schema="currentStepSchema"
       @submit="handleStepSubmit"
       v-slot="{ handleSubmit, errors, meta }"
+      :validate-on-mount="false"
     >
-      <form @submit="handleSubmit">
+      <form @submit="handleSubmit" novalidate>
         <!-- Step Content -->
         <div class="step-content">
           <slot
             :name="`step-${currentStep}`"
             :step="currentStep"
-            :step-data="stepData"
-            :errors="errors"
-            :meta="meta"
+            :step-data="safeStepData"
+            :errors="errors || {}"
+            :meta="meta || { valid: true, dirty: false, touched: false }"
             :is-first-step="isFirstStep"
             :is-last-step="isLastStep"
             :total-steps="totalSteps"
           >
             <!-- Default step content -->
             <div class="default-step-content">
-              <div class="avatar placeholder mb-6">
-                <div class="bg-neutral text-neutral-content rounded-full w-16">
-                  <Icon name="settings" size="lg" />
-                </div>
-              </div>
+              <Avatar name="settings" size="lg" />
               <h3 class="default-step-title">
                 Step {{ currentStep + 1 }}: {{ currentStepTitle }}
               </h3>
@@ -134,6 +131,7 @@ import Button from '../Actions/Button.vue';
 import Icon from '../Icons/Icon.vue';
 import Progress from '../Feedback/Progress.vue';
 import type { Size, Variant } from '@/shared/types.d';
+import Avatar from '../DataDisplay/Avatar.vue';
 
 interface WizardStep {
   title: string;
@@ -146,8 +144,6 @@ interface WizardStep {
 interface FormWizardProps {
   // Steps configuration
   steps: WizardStep[];
-  // Current step (0-based index)
-  modelValue?: number;
   // Step data for each step
   stepData?: Record<string, any>;
   // Steps display options
@@ -170,8 +166,6 @@ interface FormWizardProps {
 }
 
 const props = withDefaults(defineProps<FormWizardProps>(), {
-  steps: () => [],
-  modelValue: 0,
   stepData: () => ({}),
   showSteps: true,
   stepsVariant: 'default',
@@ -187,6 +181,11 @@ const props = withDefaults(defineProps<FormWizardProps>(), {
   ariaLabel: 'Multi-step form wizard'
 });
 
+// Ensure stepData is always an object
+const safeStepData = computed(() => {
+  return props.stepData && typeof props.stepData === 'object' ? props.stepData : {};
+});
+
 const emit = defineEmits<{
   'update:modelValue': [step: number];
   'step-change': [step: number, previousStep: number];
@@ -195,11 +194,8 @@ const emit = defineEmits<{
   'wizard-cancel': [];
 }>();
 
-// Current step state
-const currentStep = computed({
-  get: () => props.modelValue,
-  set: (value: number) => emit('update:modelValue', value)
-});
+// Current step state using defineModel (Vue 3.4+)
+const currentStep = defineModel<number>({ default: 0 });
 
 // Navigation state
 const isNavigating = ref(false);
@@ -220,9 +216,31 @@ const currentStepDescription = computed(() =>
   props.steps[currentStep.value]?.description || ''
 );
 
-const currentStepSchema = computed(() => 
-  props.steps[currentStep.value]?.schema || yup.object({})
-);
+const currentStepSchema = computed(() => {
+  const step = props.steps[currentStep.value];
+  console.log('FormWizard: Computing schema for step', currentStep.value, 'step:', step);
+  
+  if (!step || !step.schema) {
+    console.log('FormWizard: No schema found, using default schema');
+    // Return a schema that allows any data when no validation is needed
+    return yup.object().shape({}).noUnknown();
+  }
+  
+  // Ensure the schema is valid
+  try {
+    // Validate that the schema is a proper Yup schema
+    if (typeof step.schema === 'object' && step.schema && 'validate' in step.schema) {
+      console.log('FormWizard: Using valid schema for step', currentStep.value);
+      return step.schema;
+    } else {
+      console.warn('FormWizard: Invalid schema for step', currentStep.value, 'schema is not a valid Yup schema');
+      return yup.object().shape({}).noUnknown();
+    }
+  } catch (error) {
+    console.warn('FormWizard: Invalid schema for step', currentStep.value, error);
+    return yup.object().shape({}).noUnknown();
+  }
+});
 
 const wizardSteps = computed(() => 
   props.steps.map((step, index) => ({
@@ -256,7 +274,7 @@ const goToNextStep = async () => {
   
   try {
     // Emit step complete event
-    emit('step-complete', currentStep.value, props.stepData);
+    emit('step-complete', currentStep.value, safeStepData.value);
     
     // Move to next step
     const nextStep = currentStep.value + 1;
@@ -289,15 +307,10 @@ const goToStep = (stepIndex: number) => {
 
 // Form submission handlers
 const handleStepSubmit = async (values: any) => {
+  console.log('FormWizard: handleStepSubmit called with values:', values);
   isNavigating.value = true;
   
   try {
-    // Store step data
-    const updatedStepData = {
-      ...props.stepData,
-      [`step_${currentStep.value}`]: values
-    };
-    
     // Emit step complete event
     emit('step-complete', currentStep.value, values);
     
@@ -311,7 +324,7 @@ const handleStepSubmit = async (values: any) => {
 const handleWizardComplete = async () => {
   // Collect all step data
   const allData = {
-    ...props.stepData,
+    ...safeStepData.value,
     completedAt: new Date().toISOString()
   };
   
@@ -319,7 +332,7 @@ const handleWizardComplete = async () => {
 };
 
 // Watch for external step changes
-watch(() => props.modelValue, (newStep, oldStep) => {
+watch(currentStep, (newStep, oldStep) => {
   if (newStep !== oldStep && oldStep !== undefined) {
     emit('step-change', newStep, oldStep);
   }
