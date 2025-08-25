@@ -220,10 +220,8 @@ const currentStepDescription = computed(() =>
 
 const currentStepSchema = computed(() => {
   const step = props.steps[currentStep.value];
-  console.log('FormWizard: Computing schema for step', currentStep.value, 'step:', step);
   
   if (!step || !step.schema) {
-    console.log('FormWizard: No schema found, using default schema');
     // Return a schema that allows any data when no validation is needed
     return yup.object().shape({}).noUnknown();
   }
@@ -232,7 +230,6 @@ const currentStepSchema = computed(() => {
   try {
     // Validate that the schema is a proper Yup schema
     if (typeof step.schema === 'object' && step.schema && 'validate' in step.schema) {
-      console.log('FormWizard: Using valid schema for step', currentStep.value);
       return step.schema;
     } else {
       console.warn('FormWizard: Invalid schema for step', currentStep.value, 'schema is not a valid Yup schema');
@@ -300,7 +297,6 @@ const goToPreviousStep = () => {
 };
 
 const goToStep = (stepIndex: number) => {
-  console.log('go to step', stepIndex);
   if (stepIndex === currentStep.value) return;
   
   const previousStep = currentStep.value;

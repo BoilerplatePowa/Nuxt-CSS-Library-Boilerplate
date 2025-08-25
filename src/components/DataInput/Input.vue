@@ -100,9 +100,12 @@ import Swap from '../Actions/Swap.vue';
 import type { InputType, Size, Variant, IconName, MaskType } from '@/shared/types.d';
 import IMask from 'imask';
 
-// Simple ID generator
-let idCounter = 0;
-const generateId = () => `input-${++idCounter}`;
+// Unique ID generator with timestamp and random component
+const generateId = () => {
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(2, 8);
+  return `input-${timestamp}-${random}`;
+};
 
 const model = defineModel<string>({ default: '' });
 

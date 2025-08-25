@@ -208,16 +208,14 @@ export const Default: Story = {
       const stepData = ref<Record<string, any>>({});
 
       const handleStepChange = (step: number, previousStep: number) => {
-        console.log(`Step changed from ${previousStep} to ${step}`);
+        // Step change handled silently
       };
 
       const handleStepComplete = (step: number, data: any) => {
         stepData.value[`step_${step}`] = data;
-        console.log(`Step ${step} completed:`, data);
       };
 
       const handleWizardComplete = (data: any) => {
-        console.log('Wizard completed:', data);
         alert('Form wizard completed successfully!');
       };
 
@@ -370,7 +368,6 @@ export const AccountSetup: Story = {
       ];
 
       const handleWizardComplete = (data: any) => {
-        console.log('Account setup completed:', data);
         alert('Account created successfully!');
       };
 
@@ -575,7 +572,6 @@ export const CheckoutProcess: Story = {
       ];
 
       const handleWizardComplete = (data: any) => {
-        console.log('Checkout completed:', data);
         alert('Order placed successfully!');
       };
 
@@ -867,11 +863,9 @@ export const EnhancedSteps: Story = {
         }));
         
         stepData.value[`step_${step}`] = cleanData;
-        console.log(`Step ${step} completed:`, cleanData);
       };
 
       const handleWizardComplete = (data: any) => {
-        console.log('Wizard completed:', data);
         alert('Enhanced wizard completed successfully!');
       };
 
@@ -1123,7 +1117,7 @@ export const InteractiveWizard: Story = {
       ];
 
       const handleStepChange = (step: number, previousStep: number) => {
-        console.log(`Step changed from ${previousStep} to ${step}`);
+        // Step change handled silently
       };
 
       const handleStepComplete = (step: number, data: any) => {
@@ -1142,7 +1136,6 @@ export const InteractiveWizard: Story = {
         
         // Store data directly without step key prefix to avoid nesting
         stepData.value[`step_${step}`] = cleanData;
-        console.log(`Step ${step} completed:`, cleanData);
         
         // Auto-advance to step 2 when step 1 is completed
         if (step === 0) {
@@ -1150,7 +1143,6 @@ export const InteractiveWizard: Story = {
           // Use nextTick to ensure the step data is updated before navigation
           nextTick(() => {
             currentStep.value = 1;
-            console.log('Auto-advancing to step 2!');
             // Reset the auto-advancing flag after a short delay
             setTimeout(() => {
               isAutoAdvancing.value = false;
@@ -1160,7 +1152,6 @@ export const InteractiveWizard: Story = {
       };
 
       const handleWizardComplete = (data: any) => {
-        console.log('Wizard completed:', data);
         isCompleted.value = true;
         alert('Wizard completed successfully! Check the console for data.');
       };
