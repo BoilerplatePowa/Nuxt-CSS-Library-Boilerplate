@@ -94,7 +94,6 @@ let idCounter = 0;
 const generateId = () => `file-input-${++idCounter}`;
 
 interface Props {
-  modelValue?: File | File[];
   label?: string;
   helpText?: string;
   errorMessage?: string;
@@ -124,8 +123,9 @@ const props = withDefaults(defineProps<Props>(), {
   dropZoneText: 'PNG, JPG, GIF up to 10MB',
 });
 
+const model = defineModel<File | File[]>();
+
 const emit = defineEmits<{
-  'update:modelValue': [value: File | File[]];
   change: [files: File[]];
   error: [message: string];
 }>();
@@ -219,24 +219,26 @@ const processFiles = (fileList: FileList | null) => {
     }
   }
 
-  selectedFiles.value = files;
-
   if (props.multiple) {
-    emit('update:modelValue', files);
+    // Append new files to existing selection
+    selectedFiles.value = [...selectedFiles.value, ...files];
+    model.value = selectedFiles.value;
   } else {
-    emit('update:modelValue', files[0] || null);
+    // Single file mode - replace the selection
+    selectedFiles.value = files;
+    model.value = files[0] || null;
   }
 
-  emit('change', files);
+  emit('change', selectedFiles.value);
 };
 
 const removeFile = (index: number) => {
   selectedFiles.value.splice(index, 1);
   
   if (props.multiple) {
-    emit('update:modelValue', selectedFiles.value);
+    model.value = selectedFiles.value;
   } else {
-    emit('update:modelValue', selectedFiles.value[0] || null);
+    model.value = selectedFiles.value[0] || null;
   }
 
   emit('change', selectedFiles.value);
