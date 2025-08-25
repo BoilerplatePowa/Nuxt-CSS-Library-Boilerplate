@@ -22,18 +22,29 @@ const meta: Meta<typeof Swap> = {
       options: ['rotate', 'flip', 'indeterminate'],
       description: 'Swap animation variant',
     },
-    size: {
-      control: { type: 'select' },
-      options: ['xs', 'sm', 'md', 'lg'],
-      description: 'Swap size',
-    },
-    onContent: {
+    swapOnContent: {
       control: 'text',
       description: 'Content for on state',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: '🌞' },
+      },
     },
-    offContent: {
+    swapOffContent: {
       control: 'text',
       description: 'Content for off state',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: '🌚' },
+      },
+    },
+    indeterminateContent: {
+      control: 'text',
+      description: 'Content for indeterminate state',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: '🌤️' },
+      },
     },
     disabled: {
       control: 'boolean',
@@ -57,8 +68,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     modelValue: false,
-    onContent: '🌞',
-    offContent: '🌙',
+    swapOnContent: '🌞',
+    swapOffContent: '🌙',
   },
   render: (args) => ({
     components: { Swap },
@@ -66,7 +77,7 @@ export const Default: Story = {
       return { args };
     },
     template: `
-      <Swap v-bind="args" />
+      <Swap v-model="args.modelValue" v-bind="args" />
     `,
   }),
 };
@@ -82,7 +93,7 @@ export const WithRotation: Story = {
       return { args };
     },
     template: `
-      <Swap v-bind="args">
+      <Swap v-model="args.modelValue" v-bind="args">
         <template #on>
           <div class="text-4xl">▶️</div>
         </template>
@@ -105,7 +116,7 @@ export const WithFlip: Story = {
       return { args };
     },
     template: `
-      <Swap v-bind="args">
+      <Swap v-model="args.modelValue" v-bind="args">
         <template #on>
           <div class="text-4xl">😊</div>
         </template>
@@ -127,7 +138,7 @@ export const LikeButton: Story = {
       return { args };
     },
     template: `
-      <Swap v-bind="args">
+      <Swap v-model="args.modelValue" v-bind="args">
         <template #on>
           <div class="text-4xl text-red-500">❤️</div>
         </template>
@@ -152,7 +163,7 @@ export const VolumeControl: Story = {
     template: `
       <div class="flex items-center gap-4">
         <span class="text-sm">Volume:</span>
-        <Swap v-bind="args">
+        <Swap v-model="args.modelValue" v-bind="args">
           <template #on>
             <div class="text-2xl">🔊</div>
           </template>
@@ -255,20 +266,18 @@ export const Disabled: Story = {
           <h3 class="text-lg font-semibold mb-2">Disabled with Props</h3>
           <Swap 
             v-bind="args"
-            on-content="🌞"
-            off-content="🌙"
+            swap-on-content="🌞"
+            swap-off-content="🌙"
           />
         </div>
         
         <div>
           <h3 class="text-lg font-semibold mb-2">Enabled for Comparison</h3>
           <Swap 
-            :model-value="args.modelValue"
-            :variant="args.variant"
-            :size="args.size"
+            v-model="args.modelValue"
             :disabled="false"
-            on-content="🌞"
-            off-content="🌙"
+            swap-on-content="🌞"
+            swap-off-content="🌙"
           />
         </div>
         
@@ -293,7 +302,7 @@ export const Accessible: Story = {
       <div class="space-y-4">
         <div>
           <h3 class="text-lg font-semibold mb-2">Accessible Swap with ID and Name</h3>
-          <Swap v-bind="args">
+          <Swap v-model="args.modelValue" v-bind="args">
             <template #on>
               <div class="text-4xl">🌞</div>
             </template>

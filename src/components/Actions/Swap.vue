@@ -4,7 +4,7 @@
       type="checkbox"
       :id="inputId"
       :name="name"
-      :checked="isSwapped"
+      :checked="model"
       :disabled="disabled"
       @change="handleChange"
     />
@@ -12,10 +12,10 @@
       <slot name="indeterminate">{{ indeterminateContent }}</slot>
     </div>
     <div class="swap-on">
-      <slot name="on">{{ onContent }}</slot>
+      <slot name="on">{{ swapOnContent }}</slot>
     </div>
     <div class="swap-off">
-      <slot name="off">{{ offContent }}</slot>
+      <slot name="off">{{ swapOffContent }}</slot>
     </div>
   </label>
 </template>
@@ -24,34 +24,30 @@
 import { computed } from 'vue';
 
 interface Props {
-  modelValue?: boolean;
   variant?: 'rotate' | 'flip' | 'indeterminate';
-  onContent?: string;
-  offContent?: string;
+  swapOnContent?: string;
+  swapOffContent?: string;
   indeterminateContent?: string;
   disabled?: boolean;
   name?: string;
   id?: string;
-
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: false,
   variant: 'rotate',
-  onContent: '🌞',
-  offContent: '🌚',
+  swapOnContent: '🌞',
+  swapOffContent: '🌚',
   indeterminateContent: '🌤️',
   disabled: false,
   name: undefined,
   id: undefined,
 });
 
+const model = defineModel<boolean>({ default: false });
+
 const emit = defineEmits<{
-  'update:modelValue': [value: boolean];
   change: [value: boolean];
 }>();
-
-const isSwapped = computed(() => props.modelValue);
 
 const inputId = computed(() => props.id || `swap-${Math.random().toString(36).slice(2, 11)}`);
 
@@ -76,7 +72,7 @@ const handleChange = (event: Event) => {
   const target = event.target as HTMLInputElement;
   const value = target.checked;
   
-  emit('update:modelValue', value);
+  model.value = value;
   emit('change', value);
 };
 </script>
