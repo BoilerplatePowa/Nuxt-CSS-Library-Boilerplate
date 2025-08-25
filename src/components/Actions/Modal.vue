@@ -1,104 +1,85 @@
 <template>
   <Teleport to="body" :disabled="!canTeleport">
-    <Transition
-      name="modal"
-      @enter="onEnter"
-      @after-enter="onAfterEnter"
-      @leave="onLeave"
-      @after-leave="onAfterLeave"
+    <dialog 
+      ref="dialogRef"
+      :class="modalClasses"
+      :open="model"
+      @click="handleOverlayClick"
+      @keydown="handleKeyDown"
     >
-      <div
-        v-if="modelValue"
-        ref="overlayRef"
-        :class="overlayClasses"
-        role="dialog"
-        :aria-modal="true"
-        :aria-labelledby="titleId"
-        :aria-describedby="descriptionId"
-        :aria-hidden="!modelValue"
-        @click="handleOverlayClick"
-        @keydown="handleKeyDown"
+      <div 
+        ref="modalRef" 
+        :class="modalBoxClasses" 
+        tabindex="-1"
+        @click.stop
       >
+        <!-- Focus trap elements -->
         <div 
-          ref="modalRef" 
-          :class="modalClasses" 
-          tabindex="-1"
-          @click.stop
+          ref="firstFocusableElement" 
+          tabindex="0" 
+          @focus="focusLastElement"
+          class="sr-only"
+          data-focus-trap="first"
         >
-          <!-- Focus trap elements -->
-          <div 
-            ref="firstFocusableElement" 
-            tabindex="0" 
-            @focus="focusLastElement"
-            class="sr-only"
-            data-focus-trap="first"
-          >
-            Start of modal
-          </div>
+          Start of modal
+        </div>
 
-          <!-- Close button - positioned absolutely in top right corner -->
-          <button
+        <!-- Header -->
+        <header v-if="$slots.header || title" :class="headerClasses">
+          <slot name="header">
+            <h2 :id="titleId" :class="titleClasses">
+              {{ title }}
+            </h2>
+          </slot>
+
+          <Button
             v-if="closable"
             ref="closeButtonRef"
-            type="button"
-            :class="closeButtonClasses"
+            variant="ghost"
+            size="xs"
+            circle
             aria-label="Close modal"
             @click="close"
           >
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+            <Icon name="x" size="sm" />
+          </Button>
+        </header>
 
-          <!-- Header -->
-          <header v-if="$slots.header || title" :class="headerClasses">
-            <slot name="header">
-              <h2 :id="titleId" :class="titleClasses">
-                {{ title }}
-              </h2>
-            </slot>
-          </header>
+        <!-- Body -->
+        <div :id="descriptionId" :class="bodyClasses">
+          <slot />
+        </div>
 
-          <!-- Body -->
-          <div :id="descriptionId" :class="bodyClasses">
-            <slot />
-          </div>
+        <!-- Footer -->
+        <footer v-if="$slots.footer" :class="footerClasses">
+          <slot name="footer" />
+        </footer>
 
-          <!-- Footer -->
-          <footer v-if="$slots.footer" :class="footerClasses">
-            <slot name="footer" />
-          </footer>
-
-          <!-- Focus trap elements -->
-          <div 
-            ref="lastFocusableElement" 
-            tabindex="0" 
-            @focus="focusFirstElement"
-            class="sr-only"
-            data-focus-trap="last"
-          >
-            End of modal
-          </div>
+        <!-- Focus trap elements -->
+        <div 
+          ref="lastFocusableElement" 
+          tabindex="0" 
+          @focus="focusFirstElement"
+          class="sr-only"
+          data-focus-trap="last"
+        >
+          End of modal
         </div>
       </div>
-    </Transition>
+    </dialog>
   </Teleport>
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch, onUnmounted } from 'vue';
+import { computed, nextTick, ref, watch, onUnmounted, Teleport } from 'vue';
+import Button from './Button.vue';
+import Icon from '../Icons/Icon.vue';
 
 // Simple ID generator for compatibility
 let idCounter = 0;
 const generateId = () => `modal-${++idCounter}`;
 
 interface Props {
-  modelValue: boolean;
   title?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
   closable?: boolean;
@@ -110,6 +91,9 @@ interface Props {
   autoFocus?: boolean;
   zIndex?: number;
 }
+
+// Use defineModel() for v-model (Vue 3.5+ best practice)
+const model = defineModel<boolean>({ default: false });
 
 const props = withDefaults(defineProps<Props>(), {
   size: 'md',
@@ -124,7 +108,6 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-  'update:modelValue': [value: boolean];
   close: [];
   open: [];
   escape: [];
@@ -134,8 +117,8 @@ const emit = defineEmits<{
   'after-close': [];
 }>();
 
+const dialogRef = ref<HTMLDialogElement>();
 const modalRef = ref<HTMLElement>();
-const overlayRef = ref<HTMLElement>();
 const closeButtonRef = ref<HTMLElement>();
 const firstFocusableElement = ref<HTMLElement>();
 const lastFocusableElement = ref<HTMLElement>();
@@ -150,19 +133,9 @@ const canTeleport = computed(() => {
   return document.body !== null;
 });
 
-
-const overlayClasses = computed(() => {
-  const classes = [
-    'fixed',
-    'inset-0',
-    'flex',
-    'items-center',
-    'justify-center',
-    'bg-black/50',
-    'backdrop-blur-sm',
-    'overscroll-contain',
-  ];
-
+const modalClasses = computed(() => {
+  const classes = ['modal'];
+  
   // Handle z-index properly with Tailwind classes
   if (props.zIndex >= 50) {
     classes.push('z-50');
@@ -179,18 +152,18 @@ const overlayClasses = computed(() => {
   return classes;
 });
 
-const modalClasses = computed(() => {
+const modalBoxClasses = computed(() => {
   const baseClasses = [
     'modal-box',
     'bg-base-100',
     'text-base-content',
-    'rounded-lg',
-    'shadow-xl',
     'max-h-[90vh]',
     'overflow-hidden',
     'flex',
     'flex-col',
     'relative',
+    'overscroll-contain',
+    'focus:outline-none',
   ];
 
   // Size
@@ -212,6 +185,9 @@ const modalClasses = computed(() => {
       break;
   }
 
+  // Responsive improvements
+  baseClasses.push('mx-4', 'md:mx-0', 'max-h-[calc(100vh-2rem)]', 'md:max-h-[90vh]');
+
   return baseClasses.join(' ');
 });
 
@@ -219,37 +195,21 @@ const headerClasses = computed(() => [
   'flex',
   'items-center',
   'justify-between',
-  'p-6',
+  'p-4',
   'border-b',
   'border-base-200',
 ]);
 
 const titleClasses = computed(() => ['text-lg', 'font-semibold', 'text-base-content']);
 
-const closeButtonClasses = computed(() => [
-  'absolute',
-  'top-4',
-  'right-4',
-  'z-10',
-  'btn',
-  'btn-sm',
-  'btn-ghost',
-  'btn-circle',
-  'text-base-content/70',
-  'hover:text-base-content',
-  'hover:bg-base-200',
-  'transition-all',
-  'duration-200',
-]);
-
-const bodyClasses = computed(() => ['flex-1', 'p-6', 'overflow-y-auto']);
+const bodyClasses = computed(() => ['flex-1', 'p-4', 'overflow-y-auto']);
 
 const footerClasses = computed(() => [
   'flex',
   'items-center',
   'justify-end',
   'gap-3',
-  'p-6',
+  'p-4',
   'border-t',
   'border-base-200',
 ]);
@@ -307,14 +267,14 @@ const focusLastElement = () => {
 const open = () => {
   emit('before-open');
   previousActiveElement = document.activeElement;
-  emit('update:modelValue', true);
+  model.value = true;
   emit('open');
 };
 
 const close = () => {
   if (!props.persistent) {
     emit('before-close');
-    emit('update:modelValue', false);
+    model.value = false;
     emit('close');
   }
 };
@@ -326,8 +286,9 @@ defineExpose({
   focus: focusFirstElement,
 });
 
-const handleOverlayClick = () => {
-  if (props.closeOnOverlay) {
+const handleOverlayClick = (event: Event) => {
+  // DaisyUI modal backdrop click handling
+  if (props.closeOnOverlay && event.target === dialogRef.value) {
     close();
   }
 };
@@ -361,47 +322,9 @@ const handleKeyDown = (event: KeyboardEvent) => {
   }
 };
 
-const onEnter = () => {
-  document.body.style.overflow = 'hidden';
-  document.body.style.paddingRight = getScrollbarWidth() + 'px';
-};
-
-const onAfterEnter = () => {
-  nextTick(() => {
-    if (props.autoFocus) {
-      focusFirstElement();
-    }
-  });
-  emit('after-open');
-};
-
-const onLeave = () => {
-  document.body.style.overflow = '';
-  document.body.style.paddingRight = '';
-};
-
-const onAfterLeave = () => {
-  if (props.returnFocus && previousActiveElement instanceof HTMLElement) {
-    previousActiveElement.focus();
-  }
-  emit('after-close');
-};
-
-// Utility function to prevent layout shift
-const getScrollbarWidth = (): number => {
-  if (typeof window === 'undefined') return 0;
-  
-  const scrollDiv = document.createElement('div');
-  scrollDiv.style.cssText = 'width: 100px; height: 100px; overflow: scroll; position: absolute; top: -9999px;';
-  document.body.appendChild(scrollDiv);
-  const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth;
-  document.body.removeChild(scrollDiv);
-  return scrollbarWidth;
-};
-
 // Focus management
 watch(
-  () => props.modelValue,
+  () => model.value,
   (isOpen) => {
     if (isOpen) {
       nextTick(() => {
@@ -409,84 +332,18 @@ watch(
           focusFirstElement();
         }
       });
+      emit('after-open');
+    } else {
+      if (props.returnFocus && previousActiveElement instanceof HTMLElement) {
+        previousActiveElement.focus();
+      }
+      emit('after-close');
     }
   }
 );
 
 // Cleanup on component unmount
 onUnmounted(() => {
-  document.body.style.overflow = '';
-  document.body.style.paddingRight = '';
+  // DaisyUI handles body scroll management automatically
 });
 </script>
-
-<style scoped>
-/* Screen reader only class */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* Modal overlay transitions */
-.modal-enter-active {
-  transition: opacity 0.3s ease;
-}
-
-.modal-enter-active .modal-box {
-  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.modal-leave-active {
-  transition: opacity 0.25s ease;
-}
-
-.modal-leave-active .modal-box {
-  transition: all 0.25s ease-in;
-}
-
-.modal-enter-from {
-  opacity: 0;
-}
-
-.modal-enter-from .modal-box {
-  opacity: 0;
-  transform: scale(0.9) translateY(-20px);
-}
-
-.modal-leave-to {
-  opacity: 0;
-}
-
-.modal-leave-to .modal-box {
-  opacity: 0;
-  transform: scale(0.95) translateY(-10px);
-}
-
-/* Modal box default state */
-.modal-box {
-  transform-origin: center;
-  transform: scale(1) translateY(0);
-  opacity: 1;
-  overscroll-behavior: contain;
-}
-
-/* Improved focus styles */
-.modal-box:focus {
-  outline: none;
-}
-
-/* Responsive improvements */
-@media (max-width: 768px) {
-  .modal-box {
-    margin: 1rem;
-    max-height: calc(100vh - 2rem);
-  }
-}
-</style>
