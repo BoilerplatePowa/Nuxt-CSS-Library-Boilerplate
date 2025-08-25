@@ -3,7 +3,7 @@
     <label v-if="label" :class="labelClasses">
       <input
         :id="inputId"
-        v-model="checked"
+        v-model="checkboxValue"
         type="checkbox"
         :class="checkboxClasses"
         :disabled="disabled"
@@ -11,13 +11,14 @@
         :aria-describedby="ariaDescribedby"
         :indeterminate="indeterminate"
         @change="handleChange"
+        @blur="handleBlurEvent"
       />
       <span class="label-text">{{ label }}</span>
     </label>
     <input
       v-else
       :id="inputId"
-      v-model="checked"
+      v-model="checkboxValue"
       type="checkbox"
       :class="checkboxClasses"
       :disabled="disabled"
@@ -25,6 +26,7 @@
       :aria-describedby="ariaDescribedby"
       :indeterminate="indeterminate"
       @change="handleChange"
+      @blur="handleBlurEvent"
     />
     
     <p v-if="helpText && !errorMessage" :id="`${inputId}-help`" class="text-xs text-base-content/70 mt-1">
@@ -39,6 +41,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useField } from 'vee-validate';
 
 // Simple ID generator
 let idCounter = 0;
@@ -46,6 +49,7 @@ const generateId = () => `checkbox-${++idCounter}`;
 
 interface Props {
   modelValue?: boolean;
+  name?: string; // Field name for VeeValidate
   label?: string;
   helpText?: string;
   errorMessage?: string;
@@ -55,6 +59,10 @@ interface Props {
   size?: 'xs' | 'sm' | 'md' | 'lg';
   variant?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'info' | 'error';
   ariaDescribedby?: string;
+  // VeeValidate options
+  validateOnValueUpdate?: boolean;
+  validateOnBlur?: boolean;
+  validateOnChange?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -64,6 +72,9 @@ const props = withDefaults(defineProps<Props>(), {
   indeterminate: false,
   size: 'md',
   variant: 'primary',
+  validateOnValueUpdate: true,
+  validateOnBlur: true,
+  validateOnChange: true,
 });
 
 const emit = defineEmits<{
@@ -73,9 +84,46 @@ const emit = defineEmits<{
 
 const inputId = generateId();
 
-const checked = computed({
-  get: () => props.modelValue,
-  set: (value: boolean) => emit('update:modelValue', value),
+// Use VeeValidate field if name is provided
+const { value: fieldValue, errorMessage, handleBlur } = useField<boolean>(
+  () => props.name || '',
+  undefined,
+  {
+    type: 'checkbox',
+    initialValue: props.modelValue,
+    validateOnValueUpdate: props.validateOnValueUpdate,
+    checkedValue: true,
+    uncheckedValue: false,
+  }
+);
+
+// Computed value that works with both VeeValidate and v-model
+const checkboxValue = computed({
+  get: () => {
+    // If using VeeValidate (name is provided), use field value
+    if (props.name) {
+      return Boolean(fieldValue.value);
+    }
+    // Otherwise use v-model
+    return Boolean(props.modelValue);
+  },
+  set: (value: any) => {
+    const booleanValue = Boolean(value);
+    if (props.name) {
+      // Update VeeValidate field
+      fieldValue.value = booleanValue;
+    }
+    // Always emit for v-model compatibility
+    emit('update:modelValue', booleanValue);
+  },
+});
+
+// Error message from VeeValidate or props
+const displayErrorMessage = computed(() => {
+  if (props.name && errorMessage.value) {
+    return errorMessage.value;
+  }
+  return props.errorMessage;
 });
 
 const labelClasses = computed(() => ['label', 'cursor-pointer', 'flex', 'items-center', 'gap-2']);
@@ -111,7 +159,7 @@ const checkboxClasses = computed(() => {
   }
 
   // Error state override
-  if (props.errorMessage) {
+  if (displayErrorMessage.value) {
     baseClasses.push('checkbox-error');
   }
 
@@ -126,13 +174,27 @@ const checkboxClasses = computed(() => {
 const ariaDescribedby = computed(() => {
   const ids = [];
   if (props.helpText) ids.push(`${inputId}-help`);
-  if (props.errorMessage) ids.push(`${inputId}-error`);
+  if (displayErrorMessage.value) ids.push(`${inputId}-error`);
   if (props.ariaDescribedby) ids.push(props.ariaDescribedby);
   return ids.length > 0 ? ids.join(' ') : undefined;
 });
 
 const handleChange = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  const booleanValue = target.checked;
+  
+  if (props.name) {
+    // Update VeeValidate field with boolean value
+    fieldValue.value = booleanValue;
+  }
   emit('change', event);
+};
+
+const handleBlurEvent = (event: Event) => {
+  if (props.name) {
+    // Use VeeValidate handler
+    handleBlur(event);
+  }
 };
 </script>
 

@@ -16,77 +16,76 @@
     <Form
       :validation-schema="currentStepSchema"
       @submit="handleStepSubmit"
-      v-slot="{ handleSubmit, errors, meta }"
+      v-slot="{ errors, meta }"
       :validate-on-mount="false"
     >
-      <form @submit="handleSubmit" novalidate>
         <!-- Step Content -->
         <div class="step-content">
-          <slot
+            <slot
             :name="`step-${currentStep}`"
             :step="currentStep"
-            :step-data="safeStepData"
+            :step-data="currentStepData"
+            :all-step-data="safeStepData"
             :errors="errors || {}"
             :meta="meta || { valid: true, dirty: false, touched: false }"
             :is-first-step="isFirstStep"
             :is-last-step="isLastStep"
             :total-steps="totalSteps"
-          >
+            >
             <!-- Default step content -->
             <div class="default-step-content">
-              <Avatar name="settings" size="lg" />
-              <h3 class="default-step-title">
+                <Avatar name="settings" size="lg" />
+                <h3 class="default-step-title">
                 Step {{ currentStep + 1 }}: {{ currentStepTitle }}
-              </h3>
-              <p class="default-step-description">
+                </h3>
+                <p class="default-step-description">
                 {{ currentStepDescription }}
-              </p>
+                </p>
             </div>
-          </slot>
+            </slot>
         </div>
 
         <!-- Navigation Buttons -->
         <div class="navigation-buttons">
-          <!-- Previous Button -->
-          <Button
+            <!-- Previous Button -->
+            <Button
             v-if="!isFirstStep"
             type="button"
             variant="outline"
             size="sm"
             :disabled="isNavigating"
             @click="goToPreviousStep"
-          >
+            >
             <Icon name="chevron-left" size="sm" />
             <span class="hidden sm:inline">{{ previousButtonText }}</span>
-          </Button>
-          <div v-else class="flex-1"></div>
+            </Button>
+            <div v-else class="flex-1"></div>
 
-          <!-- Next/Submit Button -->
-          <Button
+            <!-- Next/Submit Button -->
+            <Button
             type="submit"
             :variant="isLastStep ? 'success' : 'primary'"
             size="sm"
-            :disabled="isNavigating || !meta.valid"
+            :disabled="isNavigating || (meta.valid === false)"
             :loading="isNavigating"
             :icon-right="isLastStep ? 'check' : 'chevron-right'"
-          >
+            >
             <span>{{ isLastStep ? submitButtonText : nextButtonText }}</span>
-          </Button>
+            </Button>
         </div>
 
         <!-- Step Progress Info -->
         <div v-if="showProgress" class="progress-info">
-          <div class="text-sm text-base-content/60 mb-2">
+            <div class="text-sm text-base-content/60 mb-2">
             Step {{ currentStep + 1 }} of {{ totalSteps }}
-          </div>
-          <Progress 
+            </div>
+            <Progress 
             :value="progressPercentage" 
             :max="100" 
             size="sm" 
             class="progress-bar"
-          />
+            />
         </div>
-      </form>
     </Form>
 
     <!-- Step Summary (Optional) -->
@@ -186,6 +185,12 @@ const safeStepData = computed(() => {
   return props.stepData && typeof props.stepData === 'object' ? props.stepData : {};
 });
 
+// Get current step data only
+const currentStepData = computed(() => {
+  const stepKey = `step_${currentStep.value}`;
+  return safeStepData.value[stepKey] || {};
+});
+
 const emit = defineEmits<{
   'update:modelValue': [step: number];
   'step-change': [step: number, previousStep: number];
@@ -273,9 +278,6 @@ const goToNextStep = async () => {
   isNavigating.value = true;
   
   try {
-    // Emit step complete event
-    emit('step-complete', currentStep.value, safeStepData.value);
-    
     // Move to next step
     const nextStep = currentStep.value + 1;
     const previousStep = currentStep.value;
@@ -298,6 +300,7 @@ const goToPreviousStep = () => {
 };
 
 const goToStep = (stepIndex: number) => {
+  console.log('go to step', stepIndex);
   if (stepIndex === currentStep.value) return;
   
   const previousStep = currentStep.value;
@@ -307,11 +310,10 @@ const goToStep = (stepIndex: number) => {
 
 // Form submission handlers
 const handleStepSubmit = async (values: any) => {
-  console.log('FormWizard: handleStepSubmit called with values:', values);
   isNavigating.value = true;
   
   try {
-    // Emit step complete event
+    // Emit step complete event with the current step's form values
     emit('step-complete', currentStep.value, values);
     
     // Move to next step or complete wizard

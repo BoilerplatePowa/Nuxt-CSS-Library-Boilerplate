@@ -818,13 +818,59 @@ export const NoValidation: Story = {
 };
 
 export const InteractiveWizard: Story = {
-  render: () => ({
-    components: { FormWizard, Input, Checkbox, Select, Avatar, Icon },
+      render: () => ({
+      components: { FormWizard, Input, Checkbox, Select, Avatar, Icon },
     setup() {
       const currentStep = ref(0);
       const stepData = ref<Record<string, any>>({});
       const isCompleted = ref(false);
       const isAutoAdvancing = ref(false);
+
+      // Safe JSON stringify function to handle circular references
+      const safeStringify = (obj: any, space?: number) => {
+        try {
+          // First try to create a clean copy
+          const cleanObj = JSON.parse(JSON.stringify(obj, (key, value) => {
+            // Skip functions, undefined, and non-serializable objects
+            if (typeof value === 'function' || value === undefined) {
+              return undefined;
+            }
+            // Skip DOM elements and other non-serializable objects
+            if (value && typeof value === 'object' && value.nodeType) {
+              return undefined;
+            }
+            // Skip objects that might cause circular references
+            if (value && typeof value === 'object' && value.$el) {
+              return '[Vue Component]';
+            }
+            return value;
+          }));
+          
+          return JSON.stringify(cleanObj, null, space);
+        } catch (error) {
+          // If that fails, try a more aggressive approach
+          try {
+            const simpleObj: Record<string, any> = {};
+            if (obj && typeof obj === 'object') {
+              Object.keys(obj).forEach(key => {
+                const value = obj[key];
+                if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+                  simpleObj[key] = value;
+                } else if (Array.isArray(value)) {
+                  simpleObj[key] = value.map(item => 
+                    typeof item === 'object' ? '[Object]' : item
+                  );
+                } else if (value && typeof value === 'object') {
+                  simpleObj[key] = '[Object]';
+                }
+              });
+            }
+            return JSON.stringify(simpleObj, null, space);
+          } catch (fallbackError) {
+            return `[Serialization Error: ${error instanceof Error ? error.message : 'Unknown error'}]`;
+          }
+        }
+      };
 
       const interactiveSteps = [
         {
@@ -857,8 +903,22 @@ export const InteractiveWizard: Story = {
       };
 
       const handleStepComplete = (step: number, data: any) => {
-        stepData.value[`step_${step}`] = data;
-        console.log(`Step ${step} completed:`, data);
+        // Create a clean copy of the data to avoid circular references
+        const cleanData = JSON.parse(JSON.stringify(data, (key, value) => {
+          // Skip functions, undefined, and non-serializable objects
+          if (typeof value === 'function' || value === undefined) {
+            return undefined;
+          }
+          // Skip DOM elements and other non-serializable objects
+          if (value && typeof value === 'object' && value.nodeType) {
+            return undefined;
+          }
+          return value;
+        }));
+        
+        // Store data directly without step key prefix to avoid nesting
+        stepData.value[`step_${step}`] = cleanData;
+        console.log(`Step ${step} completed:`, cleanData);
         
         // Auto-advance to step 2 when step 1 is completed
         if (step === 0) {
@@ -881,12 +941,13 @@ export const InteractiveWizard: Story = {
         alert('Wizard completed successfully! Check the console for data.');
       };
 
-              return {
+        return {
           currentStep,
           stepData,
           isCompleted,
           isAutoAdvancing,
           interactiveSteps,
+          safeStringify,
           handleStepChange,
           handleStepComplete,
           handleWizardComplete
@@ -922,7 +983,7 @@ export const InteractiveWizard: Story = {
             @wizard-complete="handleWizardComplete"
           >
             <!-- Step 0: Personal Info -->
-            <template #step-0="{ errors, meta }">
+            <template #step-0="{ errors, meta, allStepData }">
               <div class="space-y-6">
                 <div class="flex items-center flex-col text-center">
                   <Avatar 
@@ -958,11 +1019,13 @@ export const InteractiveWizard: Story = {
 
                 <div class="bg-base-200 p-4 rounded-lg">
                   <h4 class="font-semibold mb-2">Current Step Data:</h4>
-                  <pre class="text-xs">{{ JSON.stringify(stepData['step_0'] || {}, null, 2) }}</pre>
+                  <pre class="text-xs">{{ safeStringify(stepData, 2) }}</pre>
+                  <h4 class="font-semibold mb-2 mt-4">All Steps Data:</h4>
+                  <pre class="text-xs">{{ safeStringify(allStepData || {}, 2) }}</pre>
                   <h4 class="font-semibold mb-2 mt-4">Validation State:</h4>
                   <pre class="text-xs">Valid: {{ meta.valid }}, Dirty: {{ meta.dirty }}, Touched: {{ meta.touched }}</pre>
                   <h4 class="font-semibold mb-2 mt-4">Errors:</h4>
-                  <pre class="text-xs">{{ JSON.stringify(errors, null, 2) }}</pre>
+                  <pre class="text-xs">{{ safeStringify(errors, 2) }}</pre>
                   
                   <div v-if="meta.valid && meta.dirty" class="alert alert-success mt-4">
                     <Icon name="check-circle" size="sm" />
@@ -973,7 +1036,7 @@ export const InteractiveWizard: Story = {
             </template>
 
             <!-- Step 1: Preferences -->
-            <template #step-1="{ errors, meta }">
+            <template #step-1="{ errors, meta, allStepData }">
               <div class="space-y-6">
                 <div class="text-center">
                   <Avatar 
@@ -1003,17 +1066,19 @@ export const InteractiveWizard: Story = {
 
                 <div class="bg-base-200 p-4 rounded-lg">
                   <h4 class="font-semibold mb-2">Current Step Data:</h4>
-                  <pre class="text-xs">{{ JSON.stringify(stepData['step_1'] || {}, null, 2) }}</pre>
+                  <pre class="text-xs">{{ safeStringify(stepData, 2) }}</pre>
+                  <h4 class="font-semibold mb-2 mt-4">All Steps Data:</h4>
+                  <pre class="text-xs">{{ safeStringify(allStepData || {}, 2) }}</pre>
                   <h4 class="font-semibold mb-2 mt-4">Validation State:</h4>
                   <pre class="text-xs">Valid: {{ meta.valid }}, Dirty: {{ meta.dirty }}, Touched: {{ meta.touched }}</pre>
                   <h4 class="font-semibold mb-2 mt-4">Errors:</h4>
-                  <pre class="text-xs">{{ JSON.stringify(errors, null, 2) }}</pre>
+                  <pre class="text-xs">{{ safeStringify(errors, 2) }}</pre>
                 </div>
               </div>
             </template>
 
             <!-- Step 2: Confirmation -->
-            <template #step-2="{ errors, meta }">
+            <template #step-2="{ errors, meta, allStepData }">
               <div class="space-y-6">
                 <div class="text-center">
                   <Avatar 
@@ -1050,7 +1115,9 @@ export const InteractiveWizard: Story = {
                   <h4 class="font-semibold mb-2">Validation State:</h4>
                   <pre class="text-xs">Valid: {{ meta.valid }}, Dirty: {{ meta.dirty }}, Touched: {{ meta.touched }}</pre>
                   <h4 class="font-semibold mb-2 mt-4">Errors:</h4>
-                  <pre class="text-xs">{{ JSON.stringify(errors, null, 2) }}</pre>
+                  <pre class="text-xs">{{ safeStringify(errors, 2) }}</pre>
+                  <h4 class="font-semibold mb-2 mt-4">All Steps Data:</h4>
+                  <pre class="text-xs">{{ safeStringify(allStepData || {}, 2) }}</pre>
                 </div>
               </div>
             </template>
@@ -1071,7 +1138,7 @@ export const InteractiveWizard: Story = {
           <div class="card bg-base-200 shadow-sm">
             <div class="card-body">
               <h4 class="font-semibold mb-3">Final Data:</h4>
-              <pre class="text-xs overflow-auto">{{ JSON.stringify(stepData, null, 2) }}</pre>
+              <pre class="text-xs overflow-auto">{{ safeStringify(stepData, 2) }}</pre>
             </div>
           </div>
 
