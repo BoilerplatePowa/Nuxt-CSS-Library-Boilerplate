@@ -212,34 +212,6 @@
   margin: 0 auto;
 }
 
-/* Step content styling */
-.step-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.step-header {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.step-icon {
-  margin: 0 auto 1rem;
-  color: hsl(var(--p));
-}
-
-.step-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: hsl(var(--bc));
-}
-
-.step-description {
-  color: hsl(var(--bc) / 0.7);
-}
-
 /* Form grid layouts */
 .form-grid-2 {
   display: grid;

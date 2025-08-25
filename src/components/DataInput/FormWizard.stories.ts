@@ -108,7 +108,7 @@ const accountSetupSteps = [
   {
     title: 'Account Details',
     description: 'Create your account',
-    icon: 'user',
+    icon: 'user' as const,
     schema: yup.object({
       username: yup.string().min(3, 'Username must be at least 3 characters').required('Username is required'),
       email: yup.string().email('Please enter a valid email').required('Email is required'),
@@ -119,7 +119,7 @@ const accountSetupSteps = [
   {
     title: 'Profile Information',
     description: 'Tell us about yourself',
-    icon: 'settings',
+    icon: 'settings' as const,
     schema: yup.object({
       firstName: yup.string().required('First name is required'),
       lastName: yup.string().required('Last name is required'),
@@ -130,7 +130,7 @@ const accountSetupSteps = [
   {
     title: 'Preferences',
     description: 'Set your account preferences',
-    icon: 'settings-2',
+    icon: 'settings-2' as const,
     schema: yup.object({
       language: yup.string().required('Please select a language'),
       timezone: yup.string().required('Please select a timezone'),
@@ -141,7 +141,7 @@ const accountSetupSteps = [
   {
     title: 'Verification',
     description: 'Verify your account',
-    icon: 'check-circle',
+    icon: 'check-circle' as const,
     schema: yup.object({
       terms: yup.boolean().oneOf([true], 'You must accept the terms and conditions'),
       privacy: yup.boolean().oneOf([true], 'You must accept the privacy policy')
@@ -154,7 +154,7 @@ const checkoutSteps = [
   {
     title: 'Cart Review',
     description: 'Review your items',
-    icon: 'shopping-cart',
+    icon: 'shopping-cart' as const,
     schema: yup.object({
       items: yup.array().min(1, 'Please select at least one item')
     })
@@ -162,7 +162,7 @@ const checkoutSteps = [
   {
     title: 'Shipping',
     description: 'Enter shipping details',
-    icon: 'map-pin',
+    icon: 'map-pin' as const,
     schema: yup.object({
       address: yup.string().required('Address is required'),
       city: yup.string().required('City is required'),
@@ -174,7 +174,7 @@ const checkoutSteps = [
   {
     title: 'Payment',
     description: 'Enter payment information',
-    icon: 'credit-card',
+    icon: 'credit-card' as const,
     schema: yup.object({
       cardNumber: yup.string().required('Card number is required'),
       expiryDate: yup.string().required('Expiry date is required'),
@@ -185,7 +185,7 @@ const checkoutSteps = [
   {
     title: 'Confirmation',
     description: 'Review and confirm order',
-    icon: 'check',
+    icon: 'check' as const,
     schema: yup.object({
       confirmOrder: yup.boolean().oneOf([true], 'Please confirm your order')
     })
@@ -815,6 +815,230 @@ export const NoValidation: Story = {
     showSteps: true,
     stepsColor: 'success'
   }
+};
+
+export const EnhancedSteps: Story = {
+  args: {
+    steps: [
+      {
+        title: 'Account Setup',
+        description: 'Create your account',
+        icon: 'user' as const
+      },
+      {
+        title: 'Profile',
+        description: 'Complete your profile',
+        icon: 'settings' as const
+      },
+      {
+        title: 'Preferences',
+        description: 'Set your preferences',
+        icon: 'heart' as const
+      },
+      {
+        title: 'Verification',
+        description: 'Verify your account',
+        icon: 'check-circle' as const
+      }
+    ],
+    modelValue: 0,
+    showSteps: true,
+    stepsVariant: 'vertical',
+    stepsColor: 'accent',
+    showProgress: true,
+    showSummary: true
+  },
+  render: (args) => ({
+    components: { FormWizard, Input, Checkbox, Avatar, Icon },
+    setup() {
+      const currentStep = ref(args.modelValue);
+      const stepData = ref<Record<string, any>>({});
+
+      const handleStepComplete = (step: number, data: any) => {
+        // Create a clean copy of the data to avoid circular references
+        const cleanData = JSON.parse(JSON.stringify(data, (key, value) => {
+          if (typeof value === 'function' || value === undefined) {
+            return undefined;
+          }
+          if (value && typeof value === 'object' && value.nodeType) {
+            return undefined;
+          }
+          return value;
+        }));
+        
+        stepData.value[`step_${step}`] = cleanData;
+        console.log(`Step ${step} completed:`, cleanData);
+      };
+
+      const handleWizardComplete = (data: any) => {
+        console.log('Wizard completed:', data);
+        alert('Enhanced wizard completed successfully!');
+      };
+
+      return {
+        args,
+        currentStep,
+        stepData,
+        handleStepComplete,
+        handleWizardComplete
+      };
+    },
+    template: `
+      <div class="w-full max-w-4xl">
+        <FormWizard
+          v-bind="args"
+          v-model="currentStep"
+          :step-data="stepData"
+          @step-complete="handleStepComplete"
+          @wizard-complete="handleWizardComplete"
+        >
+          <!-- Step 0: Account Setup -->
+          <template #step-0="{ errors, meta }">
+            <div class="space-y-6">
+              <div class="text-center">
+                <Avatar size="lg" fallback-color="primary" class="mx-auto mb-4">
+                  <Icon name="user" size="lg" />
+                </Avatar>
+                <h3 class="text-xl font-bold mb-2">Account Setup</h3>
+                <p class="text-base-content/70">Create your account to get started.</p>
+              </div>
+              
+              <div class="space-y-4">
+                <Input
+                  name="username"
+                  label="Username"
+                  placeholder="johndoe"
+                  left-icon="user"
+                  required
+                />
+                
+                <Input
+                  name="email"
+                  label="Email"
+                  type="email"
+                  placeholder="john.doe@example.com"
+                  left-icon="mail"
+                  required
+                />
+                
+                <Input
+                  name="password"
+                  label="Password"
+                  type="password"
+                  placeholder="••••••••"
+                  left-icon="lock"
+                  required
+                />
+              </div>
+            </div>
+          </template>
+
+          <!-- Step 1: Profile -->
+          <template #step-1="{ errors, meta }">
+            <div class="space-y-6">
+              <div class="text-center">
+                <Avatar size="lg" fallback-color="secondary" class="mx-auto mb-4">
+                  <Icon name="settings" size="lg" />
+                </Avatar>
+                <h3 class="text-xl font-bold mb-2">Profile Information</h3>
+                <p class="text-base-content/70">Tell us about yourself.</p>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-4">
+                <Input
+                  name="firstName"
+                  label="First Name"
+                  placeholder="John"
+                  left-icon="user"
+                  required
+                />
+                <Input
+                  name="lastName"
+                  label="Last Name"
+                  placeholder="Doe"
+                  left-icon="user"
+                  required
+                />
+              </div>
+              
+              <Input
+                name="bio"
+                label="Bio"
+                placeholder="Tell us about yourself..."
+                left-icon="message-circle"
+              />
+            </div>
+          </template>
+
+          <!-- Step 2: Preferences -->
+          <template #step-2="{ errors, meta }">
+            <div class="space-y-6">
+              <div class="text-center">
+                <Avatar size="lg" fallback-color="accent" class="mx-auto mb-4">
+                  <Icon name="heart" size="lg" />
+                </Avatar>
+                <h3 class="text-xl font-bold mb-2">Preferences</h3>
+                <p class="text-base-content/70">Set your communication preferences.</p>
+              </div>
+              
+              <div class="space-y-4">
+                <Checkbox
+                  name="newsletter"
+                  label="Subscribe to Newsletter"
+                  description="Receive updates about new features"
+                />
+                
+                <Checkbox
+                  name="notifications"
+                  label="Enable Notifications"
+                  description="Get notified about important updates"
+                />
+                
+                <Checkbox
+                  name="marketing"
+                  label="Marketing Communications"
+                  description="Receive promotional emails"
+                />
+              </div>
+            </div>
+          </template>
+
+          <!-- Step 3: Verification -->
+          <template #step-3="{ errors, meta }">
+            <div class="space-y-6">
+              <div class="text-center">
+                <Avatar size="lg" fallback-color="success" class="mx-auto mb-4">
+                  <Icon name="check-circle" size="lg" />
+                </Avatar>
+                <h3 class="text-xl font-bold mb-2">Verification</h3>
+                <p class="text-base-content/70">Review and confirm your information.</p>
+              </div>
+              
+              <div class="card bg-base-200 shadow-sm">
+                <div class="card-body">
+                  <h4 class="card-title">Account Summary</h4>
+                  <div class="space-y-2 text-sm">
+                    <div><strong>Username:</strong> {{ stepData['step_0']?.username || 'Not provided' }}</div>
+                    <div><strong>Email:</strong> {{ stepData['step_0']?.email || 'Not provided' }}</div>
+                    <div><strong>Name:</strong> {{ stepData['step_1']?.firstName }} {{ stepData['step_1']?.lastName }}</div>
+                    <div><strong>Newsletter:</strong> {{ stepData['step_2']?.newsletter ? 'Yes' : 'No' }}</div>
+                    <div><strong>Notifications:</strong> {{ stepData['step_2']?.notifications ? 'Yes' : 'No' }}</div>
+                  </div>
+                </div>
+              </div>
+              
+              <Checkbox
+                name="terms"
+                label="I accept the terms and conditions"
+                description="You must accept the terms to continue"
+                required
+              />
+            </div>
+          </template>
+        </FormWizard>
+      </div>
+    `
+  })
 };
 
 export const InteractiveWizard: Story = {

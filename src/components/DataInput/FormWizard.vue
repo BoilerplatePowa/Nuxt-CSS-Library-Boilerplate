@@ -6,7 +6,6 @@
         :steps="wizardSteps"
         :current-step="currentStep"
         :variant="stepsVariant"
-        :size="stepsSize"
         :show-numbers="showStepNumbers"
         :color="stepsColor"
       />
@@ -21,7 +20,7 @@
     >
         <!-- Step Content -->
         <div class="step-content">
-            <slot
+          <slot
             :name="`step-${currentStep}`"
             :step="currentStep"
             :step-data="currentStepData"
@@ -42,7 +41,7 @@
                 {{ currentStepDescription }}
                 </p>
             </div>
-            </slot>
+          </slot>
         </div>
 
         <!-- Navigation Buttons -->
@@ -129,14 +128,14 @@ import Steps from '../Navigation/Steps.vue';
 import Button from '../Actions/Button.vue';
 import Icon from '../Icons/Icon.vue';
 import Progress from '../Feedback/Progress.vue';
-import type { Size, Variant } from '@/shared/types.d';
+import type { IconName, Size, Variant } from '@/shared/types.d';
 import Avatar from '../DataDisplay/Avatar.vue';
 
 interface WizardStep {
   title: string;
   description?: string;
   schema?: any;
-  icon?: string;
+  icon?: IconName;
   value?: string | number;
 }
 
@@ -148,7 +147,6 @@ interface FormWizardProps {
   // Steps display options
   showSteps?: boolean;
   stepsVariant?: 'default' | 'vertical';
-  stepsSize?: Size;
   stepsColor?: Variant;
   showStepNumbers?: boolean;
   // Navigation options
@@ -168,7 +166,6 @@ const props = withDefaults(defineProps<FormWizardProps>(), {
   stepData: () => ({}),
   showSteps: true,
   stepsVariant: 'default',
-  stepsSize: 'md',
   stepsColor: 'primary',
   showStepNumbers: true,
   nextButtonText: 'Next',
@@ -265,7 +262,10 @@ const wrapperClasses = computed(() => [
   'form-wizard',
   'w-full',
   'max-w-4xl',
-  'mx-auto'
+  'mx-auto',
+  'flex',
+  'flex-col',
+  'gap-12',
 ]);
 
 // Navigation methods
