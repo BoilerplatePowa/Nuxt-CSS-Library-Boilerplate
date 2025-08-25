@@ -1,6 +1,11 @@
 <template>
   <div class="form-control">
-    <label v-if="label" :class="labelClasses">
+    <!-- Checkbox with label -->
+    <label 
+      v-if="label" 
+      :class="labelClasses"
+      :for="inputId"
+    >
       <input
         :id="inputId"
         v-model="checkboxValue"
@@ -9,12 +14,15 @@
         :disabled="disabled"
         :required="required"
         :aria-describedby="ariaDescribedby"
+        :aria-invalid="hasError"
         :indeterminate="indeterminate"
         @change="handleChange"
         @blur="handleBlurEvent"
       />
-      <span class="label-text">{{ label }}</span>
+      <span class="text-sm leading-tight text-base-content">{{ label }}</span>
     </label>
+
+    <!-- Checkbox without label -->
     <input
       v-else
       :id="inputId"
@@ -24,49 +32,60 @@
       :disabled="disabled"
       :required="required"
       :aria-describedby="ariaDescribedby"
+      :aria-invalid="hasError"
       :indeterminate="indeterminate"
       @change="handleChange"
       @blur="handleBlurEvent"
     />
     
-    <p v-if="helpText && !errorMessage" :id="`${inputId}-help`" class="text-xs text-base-content/70 mt-1">
+    <!-- Help text -->
+    <p 
+      v-if="helpText && !hasError" 
+      :id="`${inputId}-help`" 
+      class="text-xs text-base-content/70 mt-1"
+    >
       {{ helpText }}
     </p>
     
-    <p v-if="errorMessage" :id="`${inputId}-error`" class="text-xs text-error mt-1" role="alert">
-      {{ errorMessage }}
+    <!-- Error message -->
+    <p 
+      v-if="hasError" 
+      :id="`${inputId}-error`" 
+      class="text-xs text-error mt-1" 
+      role="alert"
+      aria-live="polite"
+    >
+      {{ displayErrorMessage }}
     </p>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useField } from 'vee-validate';
+import { computed, nextTick, watch } from 'vue'
+import { useField } from 'vee-validate'
+import type { Size, Variant } from '~/shared/types.d'
 
-// Simple ID generator
-let idCounter = 0;
-const generateId = () => `checkbox-${++idCounter}`;
+// Simple ID generator with better uniqueness
+let idCounter = 0
+const generateId = () => `checkbox-${Date.now()}-${++idCounter}`
 
 interface Props {
-  modelValue?: boolean;
-  name?: string; // Field name for VeeValidate
-  label?: string;
-  helpText?: string;
-  errorMessage?: string;
-  disabled?: boolean;
-  required?: boolean;
-  indeterminate?: boolean;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
-  variant?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'info' | 'error';
-  ariaDescribedby?: string;
-  // VeeValidate options
-  validateOnValueUpdate?: boolean;
-  validateOnBlur?: boolean;
-  validateOnChange?: boolean;
+  name?: string // Field name for VeeValidate
+  label?: string
+  helpText?: string
+  errorMessage?: string
+  disabled?: boolean
+  required?: boolean
+  indeterminate?: boolean
+  size?: Size
+  variant?: Variant
+  ariaDescribedby?: string
+  validateOnValueUpdate?: boolean
+  validateOnBlur?: boolean
+  validateOnChange?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: false,
   disabled: false,
   required: false,
   indeterminate: false,
@@ -75,129 +94,152 @@ const props = withDefaults(defineProps<Props>(), {
   validateOnValueUpdate: true,
   validateOnBlur: true,
   validateOnChange: true,
-});
+})
+
+// Use defineModel() for v-model (Vue 3.4+)
+const model = defineModel<boolean>({ default: false })
 
 const emit = defineEmits<{
-  'update:modelValue': [value: boolean];
-  change: [event: Event];
-}>();
+  change: [event: Event, value: boolean]
+  blur: [event: Event]
+}>()
 
-const inputId = generateId();
+const inputId = generateId()
 
 // Use VeeValidate field if name is provided
-const { value: fieldValue, errorMessage, handleBlur } = useField<boolean>(
+const { value: fieldValue, errorMessage, handleBlur, setValue } = useField<boolean>(
   () => props.name || '',
   undefined,
   {
     type: 'checkbox',
-    initialValue: props.modelValue,
+    initialValue: model.value,
     validateOnValueUpdate: props.validateOnValueUpdate,
     checkedValue: true,
     uncheckedValue: false,
   }
-);
+)
 
 // Computed value that works with both VeeValidate and v-model
 const checkboxValue = computed({
   get: () => {
     // If using VeeValidate (name is provided), use field value
     if (props.name) {
-      return Boolean(fieldValue.value);
+      return Boolean(fieldValue.value)
     }
     // Otherwise use v-model
-    return Boolean(props.modelValue);
+    return Boolean(model.value)
   },
-  set: (value: any) => {
-    const booleanValue = Boolean(value);
+  set: (value: unknown) => {
+    const booleanValue = Boolean(value)
+    
     if (props.name) {
       // Update VeeValidate field
-      fieldValue.value = booleanValue;
+      setValue(booleanValue)
     }
-    // Always emit for v-model compatibility
-    emit('update:modelValue', booleanValue);
+    
+    // Always update v-model
+    model.value = booleanValue
   },
-});
+})
 
-// Error message from VeeValidate or props
+// Error handling
+const hasError = computed(() => Boolean(displayErrorMessage.value))
+
 const displayErrorMessage = computed(() => {
   if (props.name && errorMessage.value) {
-    return errorMessage.value;
+    return errorMessage.value
   }
-  return props.errorMessage;
-});
+  return props.errorMessage
+})
 
-const labelClasses = computed(() => ['label', 'cursor-pointer', 'flex', 'items-center', 'gap-2']);
+// CSS classes using DaisyUI and Tailwind
+const labelClasses = computed(() => [
+  'label',
+  'cursor-pointer',
+  'flex',
+  'items-center',
+  'gap-2',
+  'select-none',
+  {
+    'opacity-50': props.disabled
+  }
+])
 
 const checkboxClasses = computed(() => {
-  const baseClasses = ['checkbox'];
+  const baseClasses = ['checkbox']
 
-  // Size classes
-  if (props.size === 'xs') {
-    baseClasses.push('checkbox-xs');
-  } else if (props.size === 'sm') {
-    baseClasses.push('checkbox-sm');
-  } else if (props.size === 'lg') {
-    baseClasses.push('checkbox-lg');
-  }
-  // 'md' is default, no class needed
-
-  // Variant classes
-  if (props.variant === 'primary') {
-    baseClasses.push('checkbox-primary');
-  } else if (props.variant === 'secondary') {
-    baseClasses.push('checkbox-secondary');
-  } else if (props.variant === 'accent') {
-    baseClasses.push('checkbox-accent');
-  } else if (props.variant === 'success') {
-    baseClasses.push('checkbox-success');
-  } else if (props.variant === 'warning') {
-    baseClasses.push('checkbox-warning');
-  } else if (props.variant === 'info') {
-    baseClasses.push('checkbox-info');
-  } else if (props.variant === 'error') {
-    baseClasses.push('checkbox-error');
+  // DaisyUI size classes
+  if (props.size) {
+    baseClasses.push(`checkbox-${props.size}`)
   }
 
-  // Error state override
-  if (displayErrorMessage.value) {
-    baseClasses.push('checkbox-error');
+  // DaisyUI variant classes
+  if (props.variant) {
+    baseClasses.push(`checkbox-${props.variant}`)
   }
 
-  // Disabled state
-  if (props.disabled) {
-    baseClasses.push('checkbox-disabled');
+  // Error state
+  if (hasError.value) {
+    baseClasses.push('checkbox-error')
   }
 
-  return baseClasses.join(' ');
-});
+  return baseClasses
+})
 
+// Accessibility
 const ariaDescribedby = computed(() => {
-  const ids = [];
-  if (props.helpText) ids.push(`${inputId}-help`);
-  if (displayErrorMessage.value) ids.push(`${inputId}-error`);
-  if (props.ariaDescribedby) ids.push(props.ariaDescribedby);
-  return ids.length > 0 ? ids.join(' ') : undefined;
-});
-
-const handleChange = (event: Event) => {
-  const target = event.target as HTMLInputElement;
-  const booleanValue = target.checked;
+  const ids: string[] = []
   
-  if (props.name) {
-    // Update VeeValidate field with boolean value
-    fieldValue.value = booleanValue;
+  if (props.helpText && !hasError.value) {
+    ids.push(`${inputId}-help`)
   }
-  emit('change', event);
-};
+  
+  if (hasError.value) {
+    ids.push(`${inputId}-error`)
+  }
+  
+  if (props.ariaDescribedby) {
+    ids.push(props.ariaDescribedby)
+  }
+  
+  return ids.length > 0 ? ids.join(' ') : undefined
+})
+
+// Event handlers
+const handleChange = (event: Event) => {
+  const target = event.target as HTMLInputElement
+  const booleanValue = target.checked
+  
+  // Update indeterminate state if needed
+  if (props.indeterminate) {
+    nextTick(() => {
+      target.indeterminate = props.indeterminate
+    })
+  }
+  
+  emit('change', event, booleanValue)
+}
 
 const handleBlurEvent = (event: Event) => {
   if (props.name) {
     // Use VeeValidate handler
-    handleBlur(event);
+    handleBlur(event)
   }
-};
+  
+  emit('blur', event)
+}
+
+// Watch for indeterminate prop changes
+watch(() => props.indeterminate, (newValue: boolean | undefined) => {
+  if (newValue !== undefined) {
+    nextTick(() => {
+      const input = document.getElementById(inputId) as HTMLInputElement
+      if (input) {
+        input.indeterminate = newValue
+      }
+    })
+  }
+}, { immediate: true })
 </script>
 
-<style scoped lang="postcss">
-/* DaisyUI handles most checkbox styling */
-</style>
+
