@@ -234,7 +234,7 @@ const emit = defineEmits<{
 const collapsed = ref(false);
 
 const filterClasses = computed(() => {
-  const baseClasses = ['filter'];
+  const baseClasses = ['filter', 'flex', 'flex-col', 'gap-2'];
 
   // Variant styling
   if (props.variant === 'bordered') {
@@ -472,13 +472,3 @@ const clearAllFilters = () => {
   emit('filterChange', {});
 };
 </script>
-
-<style scoped lang="postcss">
-.filter {
-  @apply relative;
-}
-
-.filter-control .label {
-  @apply pb-1;
-}
-</style>

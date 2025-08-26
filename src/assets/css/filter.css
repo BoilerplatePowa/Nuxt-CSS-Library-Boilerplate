@@ -1,0 +1,11 @@
+.filter {
+  position: relative;
+}
+
+.filter-control .label {
+  padding-bottom: 0.25rem;
+}
+
+.active-filters {
+  margin-bottom: 1rem;
+}

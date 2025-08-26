@@ -13,6 +13,7 @@
 @import './statusbox.css';
 @import './timeline.css';
 @import './form-wizard.css';
+@import './filter.css';
 
 /* Boilerplate Light Theme */
 @plugin "daisyui/theme" {
