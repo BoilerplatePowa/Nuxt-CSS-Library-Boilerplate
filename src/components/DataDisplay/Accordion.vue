@@ -9,7 +9,7 @@
       >
         <input
           :id="`accordion-${accordionId}-${index}`"
-          type="radio"
+          :type="multiple ? 'checkbox' : 'radio'"
           :name="radioGroupName"
           :checked="isItemOpen(item, index)"
           class="collapse-checkbox"
@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
 
 // Generate unique ID for each accordion instance
 const generateAccordionId = () => `accordion-${Math.random().toString(36).substr(2, 9)}`;
@@ -55,7 +55,6 @@ interface AccordionItem {
 
 interface Props {
   items?: AccordionItem[];
-  modelValue?: string | number;
   multiple?: boolean;
   variant?: 'default' | 'bordered' | 'compact';
   size?: 'sm' | 'md' | 'lg';
@@ -72,46 +71,24 @@ const props = withDefaults(defineProps<Props>(), {
   id: undefined,
 });
 
+// Use defineModel for Vue 3.4 best practices
+const modelValue = defineModel<string | number | null>({ default: null });
+
 const emit = defineEmits<{
-  'update:modelValue': [value: string | number | null];
   'item-toggle': [item: AccordionItem, index: number, isOpen: boolean];
 }>();
 
 const accordionId = props.id || generateAccordionId();
 const openItems = ref(new Set<number>());
 
-// Initialize open items based on defaultOpen or modelValue
-const initializeOpenItems = () => {
-  if (props.modelValue !== undefined) {
-    const index = props.items.findIndex(item => getItemValue(item) === props.modelValue);
-    if (index >= 0) {
-      openItems.value.add(index);
-    }
-  } else {
-    props.items.forEach((item, index) => {
-      if (item.defaultOpen) {
-        openItems.value.add(index);
-      }
-    });
-  }
+// Helper functions - define these before using them
+const getItemValue = (item: AccordionItem): string | number => {
+  return item.value !== undefined ? item.value : item.title;
 };
 
-// Initialize on mount
-initializeOpenItems();
-
-const radioGroupName = computed(() => `accordion-${accordionId}`);
-
-const accordionClasses = computed(() => {
-  const baseClasses = ['space-y-2'];
-
-  if (props.variant === 'bordered') {
-    baseClasses.push('border', 'border-base-300', 'rounded-box', 'p-2');
-  } else if (props.variant === 'compact') {
-    baseClasses.push('space-y-1');
-  }
-
-  return baseClasses.join(' ');
-});
+const getItemKey = (item: AccordionItem, index: number): string => {
+  return getItemValue(item).toString() || index.toString();
+};
 
 const getItemClasses = (item: AccordionItem) => {
   const classes = ['bg-base-200'];
@@ -127,27 +104,55 @@ const getItemClasses = (item: AccordionItem) => {
   return classes.join(' ');
 };
 
-const getItemKey = (item: AccordionItem, index: number): string => {
-  return getItemValue(item).toString() || index.toString();
-};
-
-const getItemValue = (item: AccordionItem): string | number => {
-  return item.value !== undefined ? item.value : item.title;
-};
-
 const isItemOpen = (item: AccordionItem, index: number): boolean => {
   if (props.multiple) {
     return openItems.value.has(index);
   }
   
-  if (props.modelValue !== undefined) {
-    return getItemValue(item) === props.modelValue;
+  if (modelValue.value !== null) {
+    return getItemValue(item) === modelValue.value;
   }
   
   return openItems.value.has(index);
 };
 
-const handleItemToggle = (item: AccordionItem, index: number, event: Event) => {
+// Initialize open items based on defaultOpen or modelValue
+const initializeOpenItems = () => {
+  openItems.value.clear();
+  
+  if (modelValue.value !== null) {
+    const index = props.items.findIndex(item => getItemValue(item) === modelValue.value);
+    if (index >= 0) {
+      openItems.value.add(index);
+    }
+  } else {
+    props.items.forEach((item, index) => {
+      if (item.defaultOpen) {
+        openItems.value.add(index);
+      }
+    });
+  }
+};
+
+// Watch for changes in items and modelValue to reinitialize
+watch(() => props.items, initializeOpenItems, { immediate: true });
+watch(() => modelValue.value, initializeOpenItems);
+
+const radioGroupName = computed(() => `accordion-${accordionId}`);
+
+const accordionClasses = computed(() => {
+  const baseClasses = ['space-y-2'];
+
+  if (props.variant === 'bordered') {
+    baseClasses.push('border', 'border-base-300', 'rounded-box', 'p-2');
+  } else if (props.variant === 'compact') {
+    baseClasses.push('space-y-1');
+  }
+
+  return baseClasses.join(' ');
+});
+
+const handleItemToggle = async (item: AccordionItem, index: number, event: Event) => {
   if (item.disabled || props.disabled) {
     event.preventDefault();
     return;
@@ -166,14 +171,21 @@ const handleItemToggle = (item: AccordionItem, index: number, event: Event) => {
     openItems.value.clear();
     if (isOpen) {
       openItems.value.add(index);
-      emit('update:modelValue', getItemValue(item));
+      modelValue.value = getItemValue(item);
     } else {
-      emit('update:modelValue', null);
+      modelValue.value = null;
     }
   }
 
+  // Wait for next tick to ensure DOM updates
+  await nextTick();
   emit('item-toggle', item, index, isOpen);
 };
+
+// Expose modelValue for testing
+defineExpose({
+  modelValue,
+});
 </script>
 
 <style scoped lang="postcss">

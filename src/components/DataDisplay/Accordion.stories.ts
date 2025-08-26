@@ -8,7 +8,7 @@ const meta: Meta<typeof Accordion> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Collapsible content component with customizable panels and smooth animations.',
+        component: 'Collapsible content component with customizable panels and smooth animations. Supports v-model for controlled state management.',
       },
     },
   },
@@ -68,6 +68,55 @@ export const Default: Story = {
   args: {
     items: sampleItems,
   },
+};
+
+export const WithVModel: Story = {
+  render: () => ({
+    components: { Accordion },
+    data() {
+      return {
+        selectedValue: '2',
+        items: sampleItems,
+      };
+    },
+    template: `
+      <div class="space-y-4">
+        <div class="text-sm">
+          <strong>Selected value:</strong> {{ selectedValue || 'None' }}
+        </div>
+        <Accordion 
+          v-model="selectedValue"
+          :items="items"
+        />
+        <div class="flex gap-2">
+          <button 
+            class="btn btn-sm btn-outline"
+            @click="selectedValue = '1'"
+          >
+            Select Item 1
+          </button>
+          <button 
+            class="btn btn-sm btn-outline"
+            @click="selectedValue = '2'"
+          >
+            Select Item 2
+          </button>
+          <button 
+            class="btn btn-sm btn-outline"
+            @click="selectedValue = '3'"
+          >
+            Select Item 3
+          </button>
+          <button 
+            class="btn btn-sm btn-outline"
+            @click="selectedValue = null"
+          >
+            Close All
+          </button>
+        </div>
+      </div>
+    `,
+  }),
 };
 
 export const Multiple: Story = {
@@ -161,12 +210,19 @@ export const Large: Story = {
 export const MultipleAccordions: Story = {
   render: () => ({
     components: { Accordion },
+    data() {
+      return {
+        faqValue: 'faq-1',
+        productValue: 'product-1',
+      };
+    },
     template: `
       <div class="space-y-8">
         <div>
           <h3 class="text-lg font-semibold mb-4">FAQ Section</h3>
           <Accordion 
             id="faq-accordion"
+            v-model="faqValue"
             :items="[
               {
                 value: 'faq-1',
@@ -180,12 +236,16 @@ export const MultipleAccordions: Story = {
               }
             ]"
           />
+          <div class="mt-2 text-sm text-gray-600">
+            Selected FAQ: {{ faqValue || 'None' }}
+          </div>
         </div>
         
         <div>
           <h3 class="text-lg font-semibold mb-4">Product Information</h3>
           <Accordion 
             id="product-accordion"
+            v-model="productValue"
             variant="bordered"
             :items="[
               {
@@ -200,6 +260,9 @@ export const MultipleAccordions: Story = {
               }
             ]"
           />
+          <div class="mt-2 text-sm text-gray-600">
+            Selected Product: {{ productValue || 'None' }}
+          </div>
         </div>
         
         <div>
@@ -226,6 +289,41 @@ export const MultipleAccordions: Story = {
               }
             ]"
           />
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const WithEventHandling: Story = {
+  render: () => ({
+    components: { Accordion },
+    data() {
+      return {
+        selectedValue: null,
+        lastEvent: null,
+        items: sampleItems,
+      };
+    },
+    methods: {
+      handleItemToggle(item, index, isOpen) {
+        this.lastEvent = { item: item.title, index, isOpen };
+      },
+    },
+    template: `
+      <div class="space-y-4">
+        <div class="text-sm">
+          <strong>Selected value:</strong> {{ selectedValue || 'None' }}
+        </div>
+        <Accordion 
+          v-model="selectedValue"
+          :items="items"
+          @item-toggle="handleItemToggle"
+        />
+        <div v-if="lastEvent" class="alert alert-info">
+          <span>
+            Last event: {{ lastEvent.item }} (index: {{ lastEvent.index }}) - {{ lastEvent.isOpen ? 'Opened' : 'Closed' }}
+          </span>
         </div>
       </div>
     `,
