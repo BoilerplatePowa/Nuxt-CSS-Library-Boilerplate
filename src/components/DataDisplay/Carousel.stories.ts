@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
+import { ref } from 'vue';
 import Carousel from './Carousel.vue';
 
 const meta: Meta<typeof Carousel> = {
@@ -8,7 +9,7 @@ const meta: Meta<typeof Carousel> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Interactive carousel component for displaying images and content with flexible navigation controls. Supports multiple arrow positions (bottom, sides), pagination types (numbers, dots, line), and style variants for both indicators and arrows. Side arrows are transparent by default and appear on hover.',
+        component: 'Interactive carousel component for displaying images and content with flexible navigation controls. Supports multiple arrow positions (bottom, sides), pagination types (numbers, dots, line), and style variants for both indicators and arrows. Side arrows are transparent by default and appear on hover. Uses Vue 3.4 defineModel() for v-model support.',
       },
     },
   },
@@ -99,6 +100,55 @@ export const Default: Story = {
     paginationType: 'dots',
     showIndicators: true,
     showArrows: true,
+  },
+};
+
+export const WithVModel: Story = {
+  args: {
+    items: imageItems,
+    controllerPosition: 'bottom',
+    paginationType: 'dots',
+    showIndicators: true,
+    showArrows: true,
+  },
+  render: (args) => ({
+    components: { Carousel },
+    setup() {
+      const currentSlide = ref(0);
+      return { args, currentSlide };
+    },
+    template: `
+      <div class="space-y-4">
+        <div class="text-center">
+          <p class="text-lg">Current slide: {{ currentSlide + 1 }}</p>
+          <div class="flex gap-2 justify-center mt-2">
+            <button 
+              v-for="(item, index) in args.items" 
+              :key="index"
+              @click="currentSlide = index"
+              :class="[
+                'btn btn-sm',
+                currentSlide === index ? 'btn-primary' : 'btn-outline'
+              ]"
+            >
+              {{ index + 1 }}
+            </button>
+          </div>
+        </div>
+        <Carousel 
+          v-model="currentSlide"
+          v-bind="args"
+          @slide-change="(index) => console.log('Slide changed to:', index + 1)"
+        />
+      </div>
+    `,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Demonstrates v-model usage with the carousel. The current slide is controlled by the parent component and can be changed via the buttons above the carousel.',
+      },
+    },
   },
 };
 

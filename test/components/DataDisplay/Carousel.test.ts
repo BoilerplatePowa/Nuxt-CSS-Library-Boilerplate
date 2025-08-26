@@ -15,7 +15,6 @@ describe('Carousel', () => {
     wrapper = mount(Carousel, {
       props: {
         items: mockItems,
-        modelValue: 0,
       },
     });
   });
@@ -39,12 +38,37 @@ describe('Carousel', () => {
       expect(wrapper.emitted('slide-change')[0]).toEqual([1, mockItems[1]]);
     });
 
-    it('emits update:modelValue when navigating', async () => {
+    it('updates v-model when navigating', async () => {
       const nextButton = wrapper.find('.carousel-nav.next');
       await nextButton.trigger('click');
       
-      expect(wrapper.emitted('update:modelValue')).toBeTruthy();
-      expect(wrapper.emitted('update:modelValue')[0]).toEqual([1]);
+      // With defineModel(), the component should update its internal value
+      expect(wrapper.vm.currentIndex).toBe(1);
+    });
+  });
+
+  describe('v-model Integration', () => {
+    it('accepts initial v-model value', async () => {
+      const wrapperWithModel = mount(Carousel, {
+        props: {
+          items: mockItems,
+          modelValue: 2,
+        },
+      });
+      
+      expect(wrapperWithModel.vm.currentIndex).toBe(2);
+    });
+
+    it('updates when v-model changes externally', async () => {
+      const wrapperWithModel = mount(Carousel, {
+        props: {
+          items: mockItems,
+          modelValue: 0,
+        },
+      });
+      
+      await wrapperWithModel.setProps({ modelValue: 2 });
+      expect(wrapperWithModel.vm.currentIndex).toBe(2);
     });
   });
 
@@ -52,8 +76,6 @@ describe('Carousel', () => {
     it('shows bottom controls by default', () => {
       expect(wrapper.find('.carousel-controls').exists()).toBe(true);
     });
-
-
 
     it('shows side controls when controllerPosition is sides', async () => {
       await wrapper.setProps({ controllerPosition: 'sides' });
@@ -106,8 +128,6 @@ describe('Carousel', () => {
       await wrapper.setProps({ showIndicators: false });
       expect(wrapper.find('.carousel-pagination-between').exists()).toBe(false);
     });
-
-
 
     it('shows pagination external for sides controller position', async () => {
       await wrapper.setProps({ controllerPosition: 'sides' });

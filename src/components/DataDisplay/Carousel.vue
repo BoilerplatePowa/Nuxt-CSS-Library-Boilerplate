@@ -151,7 +151,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
+import { computed, onMounted, onUnmounted, watch } from 'vue';
 
 interface CarouselItem {
   image?: string;
@@ -162,7 +162,6 @@ interface CarouselItem {
 
 interface Props {
   items: CarouselItem[];
-  modelValue?: number;
   autoplay?: boolean;
   autoplayInterval?: number;
   loop?: boolean;
@@ -178,7 +177,6 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: 0,
   autoplay: false,
   autoplayInterval: 3000,
   loop: true,
@@ -193,13 +191,14 @@ const props = withDefaults(defineProps<Props>(), {
   gap: '0',
 });
 
+// Use defineModel() for v-model support with default value
+const currentIndex = defineModel<number>({ default: 0 });
+
 const emit = defineEmits<{
-  'update:modelValue': [value: number];
   'slide-change': [index: number, item: CarouselItem];
   'item-click': [item: CarouselItem, index: number, event: Event];
 }>();
 
-const currentIndex = ref(props.modelValue);
 let autoplayTimer: NodeJS.Timeout | null = null;
 
 const wrapperClasses = computed(() => {
@@ -406,7 +405,6 @@ const goToSlide = (index: number) => {
   if (index < 0 || index >= props.items.length) return;
 
   currentIndex.value = index;
-  emit('update:modelValue', index);
   emit('slide-change', index, props.items[index]);
   
   resetAutoplay();
@@ -482,11 +480,6 @@ onMounted(() => {
 onUnmounted(() => {
   stopAutoplay();
   window.removeEventListener('keydown', handleKeydown);
-});
-
-// Watch for modelValue changes
-watch(() => props.modelValue, (newValue) => {
-  currentIndex.value = newValue;
 });
 
 // Watch for currentIndex changes to update URL hash
