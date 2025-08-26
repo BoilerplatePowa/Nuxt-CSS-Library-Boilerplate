@@ -71,8 +71,8 @@ const props = withDefaults(defineProps<Props>(), {
   id: undefined,
 });
 
-// Use defineModel for Vue 3.4 best practices
-const modelValue = defineModel<string | number | null>({ default: null });
+// Use defineModel for Vue 3.4 best practices - renamed to openItem for clarity
+const openItem = defineModel<string | number | null>({ default: null });
 
 const emit = defineEmits<{
   'item-toggle': [item: AccordionItem, index: number, isOpen: boolean];
@@ -109,19 +109,19 @@ const isItemOpen = (item: AccordionItem, index: number): boolean => {
     return openItems.value.has(index);
   }
   
-  if (modelValue.value !== null) {
-    return getItemValue(item) === modelValue.value;
+  if (openItem.value !== null) {
+    return getItemValue(item) === openItem.value;
   }
   
   return openItems.value.has(index);
 };
 
-// Initialize open items based on defaultOpen or modelValue
+// Initialize open items based on defaultOpen or openItem
 const initializeOpenItems = () => {
   openItems.value.clear();
   
-  if (modelValue.value !== null) {
-    const index = props.items.findIndex(item => getItemValue(item) === modelValue.value);
+  if (openItem.value !== null) {
+    const index = props.items.findIndex(item => getItemValue(item) === openItem.value);
     if (index >= 0) {
       openItems.value.add(index);
     }
@@ -134,9 +134,9 @@ const initializeOpenItems = () => {
   }
 };
 
-// Watch for changes in items and modelValue to reinitialize
+// Watch for changes in items and openItem to reinitialize
 watch(() => props.items, initializeOpenItems, { immediate: true });
-watch(() => modelValue.value, initializeOpenItems);
+watch(() => openItem.value, initializeOpenItems);
 
 const radioGroupName = computed(() => `accordion-${accordionId}`);
 
@@ -171,9 +171,9 @@ const handleItemToggle = async (item: AccordionItem, index: number, event: Event
     openItems.value.clear();
     if (isOpen) {
       openItems.value.add(index);
-      modelValue.value = getItemValue(item);
+      openItem.value = getItemValue(item);
     } else {
-      modelValue.value = null;
+      openItem.value = null;
     }
   }
 
@@ -182,9 +182,9 @@ const handleItemToggle = async (item: AccordionItem, index: number, event: Event
   emit('item-toggle', item, index, isOpen);
 };
 
-// Expose modelValue for testing
+// Expose openItem for testing
 defineExpose({
-  modelValue,
+  openItem,
 });
 </script>
 

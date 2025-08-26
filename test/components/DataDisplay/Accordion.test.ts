@@ -71,7 +71,7 @@ describe('Accordion', () => {
       expect((inputs[2].element as HTMLInputElement).checked).toBe(false);
     });
 
-    it('handles null modelValue correctly', async () => {
+    it('handles null openItem correctly', async () => {
       const wrapper = mount(Accordion, {
         props: {
           items: sampleItems,
@@ -267,7 +267,7 @@ describe('Accordion', () => {
       expect((inputs[2].element as HTMLInputElement).checked).toBe(true);
     });
 
-    it('prioritizes modelValue over defaultOpen', () => {
+    it('prioritizes openItem over defaultOpen', () => {
       const itemsWithDefault = [
         { ...sampleItems[0], defaultOpen: true },
         sampleItems[1],

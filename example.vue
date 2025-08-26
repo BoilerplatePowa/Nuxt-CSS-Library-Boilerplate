@@ -1,57 +1,63 @@
 <template>
   <div class="p-8 space-y-8">
-    <h1 class="text-3xl font-bold">Carousel v-model Example</h1>
+    <h1 class="text-3xl font-bold">Accordion openItem Example</h1>
     
     <div class="space-y-4">
-      <h2 class="text-xl font-semibold">Current slide: {{ currentSlide + 1 }}</h2>
+      <h2 class="text-xl font-semibold">Currently open item: {{ openItem || 'None' }}</h2>
       
       <div class="flex gap-2">
         <button 
-          v-for="(item, index) in carouselItems" 
-          :key="index"
-          @click="currentSlide = index"
+          v-for="item in accordionItems" 
+          :key="item.value"
+          @click="openItem = item.value"
           :class="[
             'btn btn-sm',
-            currentSlide === index ? 'btn-primary' : 'btn-outline'
+            openItem === item.value ? 'btn-primary' : 'btn-outline'
           ]"
         >
-          {{ index + 1 }}
+          {{ item.title }}
+        </button>
+        <button 
+          @click="openItem = null"
+          class="btn btn-sm btn-ghost"
+        >
+          Close All
         </button>
       </div>
       
-      <Carousel 
-        v-model="currentSlide"
-        :items="carouselItems"
-        @slide-change="handleSlideChange"
+      <Accordion 
+        v-model="openItem"
+        :items="accordionItems"
+        @item-toggle="handleItemToggle"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import Carousel from './src/components/DataDisplay/Carousel.vue';
+import Accordion from './src/components/DataDisplay/Accordion.vue';
 
-const currentSlide = ref(0);
+const openItem = ref('1');
 
-const carouselItems = [
+const accordionItems = [
   {
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=400&fit=crop',
-    alt: 'Mountain landscape',
     value: '1',
+    title: 'What is your return policy?',
+    content: 'We offer a 30-day return policy for all unused items in original packaging. Return shipping is free for defective items.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1518837695005-2083093ee35b?w=800&h=400&fit=crop',
-    alt: 'Ocean waves',
     value: '2',
+    title: 'How long does shipping take?',
+    content: 'Standard shipping takes 3-5 business days. Express shipping is available for 1-2 day delivery.',
   },
   {
-    image: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=400&fit=crop',
-    alt: 'Forest path',
     value: '3',
+    title: 'Do you ship internationally?',
+    content: 'Yes, we ship to over 50 countries worldwide. International shipping times vary by location.',
   },
 ];
 
-const handleSlideChange = (index: number, item: any) => {
-  console.log('Slide changed to:', index + 1, 'Item:', item);
+const handleItemToggle = (item: any, index: number, isOpen: boolean) => {
+  console.log('Item toggled:', item.title, 'Index:', index, 'Is open:', isOpen);
 };
 </script>

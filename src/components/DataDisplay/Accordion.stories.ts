@@ -8,7 +8,7 @@ const meta: Meta<typeof Accordion> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Collapsible content component with customizable panels and smooth animations. Supports v-model for controlled state management.',
+        component: 'Collapsible content component with customizable panels and smooth animations. Supports v-model for controlled state management with explicit openItem naming.',
       },
     },
   },
@@ -306,7 +306,7 @@ export const WithEventHandling: Story = {
       };
     },
     methods: {
-      handleItemToggle(item, index, isOpen) {
+      handleItemToggle(item: any, index: number, isOpen: boolean) {
         this.lastEvent = { item: item.title, index, isOpen };
       },
     },
