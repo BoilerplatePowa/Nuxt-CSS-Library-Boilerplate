@@ -14,13 +14,13 @@
         v-slot="{ field, errorMessage, meta }"
     >
         <div>
-            <label :class="[inputClasses, errorMessage ? 'input-error' : undefined]">
+            <div class="relative">
                 <!-- Left icon -->
                 <Icon 
                     v-if="leftIcon"
                     :name="leftIcon" 
                     :size="size" 
-                    class="opacity-50"
+                    class="absolute left-3 top-1/2 transform -translate-y-1/2 opacity-50"
                     :aria-hidden="true"
                 />
 
@@ -28,6 +28,7 @@
                     ref="inputRef"
                     :id="inputId"
                     v-bind="field"
+                    :class="[inputClasses, errorMessage ? 'input-error' : undefined, leftIcon ? 'pl-10' : '', (rightIcon && type !== 'password') || type === 'password' ? 'pr-10' : '']"
                     :type="type === 'password' ? (showPassword ? 'text' : 'password') : type"
                     :placeholder="placeholder"
                     :disabled="disabled"
@@ -47,6 +48,7 @@
                     v-if="type === 'password'"
                     v-model="showPassword"
                     variant="rotate"
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2"
                     :aria-label="showPassword ? 'Hide password' : 'Show password'"
                 >
                     <template #on>
@@ -62,10 +64,10 @@
                     v-if="rightIcon && type !== 'password'"
                     :name="rightIcon" 
                     :size="size" 
-                    class="opacity-50"
+                    class="absolute right-3 top-1/2 transform -translate-y-1/2 opacity-50"
                     :aria-hidden="true"
                 />
-            </label>
+            </div>
 
             <div class="flex">
                 <div>
