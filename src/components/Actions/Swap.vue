@@ -43,18 +43,16 @@ const props = withDefaults(defineProps<Props>(), {
   id: undefined,
 });
 
+// Using defineModel with proper typing and default value
 const model = defineModel<boolean>({ default: false });
 
-const emit = defineEmits<{
-  change: [value: boolean];
-}>();
-
+// Generate unique ID if not provided
 const inputId = computed(() => props.id || `swap-${Math.random().toString(36).slice(2, 11)}`);
 
+// Compute swap classes
 const swapClasses = computed(() => {
   const baseClasses = ['swap'];
 
-  // Variant classes
   if (props.variant) {
     baseClasses.push(`swap-${props.variant}`);
   }
@@ -66,14 +64,15 @@ const swapClasses = computed(() => {
   return baseClasses.join(' ');
 });
 
+// Handle change event
 const handleChange = (event: Event) => {
   if (props.disabled) return;
   
   const target = event.target as HTMLInputElement;
   const value = target.checked;
   
+  // Update the model value directly - defineModel handles the two-way binding
   model.value = value;
-  emit('change', value);
 };
 </script>
 

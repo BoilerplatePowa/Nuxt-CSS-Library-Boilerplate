@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
+import { ref } from 'vue';
 import Swap from './Swap.vue';
 
 const meta: Meta<typeof Swap> = {
@@ -8,14 +9,14 @@ const meta: Meta<typeof Swap> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Animated swap component for toggling between two states with smooth transitions.',
+        component: 'Animated swap component for toggling between two states with smooth transitions using Vue 3.4 defineModel.',
       },
     },
   },
   argTypes: {
     modelValue: {
       control: 'boolean',
-      description: 'Current swap state',
+      description: 'Current swap state (handled by v-model)',
     },
     variant: {
       control: { type: 'select' },
@@ -66,111 +67,111 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {
-    modelValue: false,
-    swapOnContent: '🌞',
-    swapOffContent: '🌙',
-  },
-  render: (args) => ({
+  render: () => ({
     components: { Swap },
     setup() {
-      return { args };
+      const modelValue = ref(false);
+      return { modelValue };
     },
     template: `
-      <Swap v-model="args.modelValue" v-bind="args" />
+      <div class="space-y-4">
+        <Swap v-model="modelValue" />
+        <p class="text-sm text-gray-600">Current state: {{ modelValue ? 'On' : 'Off' }}</p>
+      </div>
     `,
   }),
 };
 
 export const WithRotation: Story = {
-  args: {
-    modelValue: false,
-    variant: 'rotate',
-  },
-  render: (args) => ({
+  render: () => ({
     components: { Swap },
     setup() {
-      return { args };
+      const modelValue = ref(false);
+      return { modelValue };
     },
     template: `
-      <Swap v-model="args.modelValue" v-bind="args">
-        <template #on>
-          <div class="text-4xl">▶️</div>
-        </template>
-        <template #off>
-          <div class="text-4xl">⏸️</div>
-        </template>
-      </Swap>
+      <div class="space-y-4">
+        <Swap v-model="modelValue" variant="rotate">
+          <template #on>
+            <div class="text-4xl">▶️</div>
+          </template>
+          <template #off>
+            <div class="text-4xl">⏸️</div>
+          </template>
+        </Swap>
+        <p class="text-sm text-gray-600">Current state: {{ modelValue ? 'Playing' : 'Paused' }}</p>
+      </div>
     `,
   }),
 };
 
 export const WithFlip: Story = {
-  args: {
-    modelValue: false,
-    variant: 'flip',
-  },
-  render: (args) => ({
+  render: () => ({
     components: { Swap },
     setup() {
-      return { args };
+      const modelValue = ref(false);
+      return { modelValue };
     },
     template: `
-      <Swap v-model="args.modelValue" v-bind="args">
-        <template #on>
-          <div class="text-4xl">😊</div>
-        </template>
-        <template #off>
-          <div class="text-4xl">😴</div>
-        </template>
-      </Swap>
+      <div class="space-y-4">
+        <Swap v-model="modelValue" variant="flip">
+          <template #on>
+            <div class="text-4xl">😊</div>
+          </template>
+          <template #off>
+            <div class="text-4xl">😴</div>
+          </template>
+        </Swap>
+        <p class="text-sm text-gray-600">Current state: {{ modelValue ? 'Awake' : 'Sleeping' }}</p>
+      </div>
     `,
   }),
 };
 
 export const LikeButton: Story = {
-  args: {
-    modelValue: false,
-  },
-  render: (args) => ({
+  render: () => ({
     components: { Swap },
     setup() {
-      return { args };
+      const modelValue = ref(false);
+      return { modelValue };
     },
     template: `
-      <Swap v-model="args.modelValue" v-bind="args">
-        <template #on>
-          <div class="text-4xl text-red-500">❤️</div>
-        </template>
-        <template #off>
-          <div class="text-4xl text-gray-400">🤍</div>
-        </template>
-      </Swap>
+      <div class="space-y-4">
+        <Swap v-model="modelValue">
+          <template #on>
+            <div class="text-4xl text-red-500">❤️</div>
+          </template>
+          <template #off>
+            <div class="text-4xl text-gray-400">🤍</div>
+          </template>
+        </Swap>
+        <p class="text-sm text-gray-600">Liked: {{ modelValue ? 'Yes' : 'No' }}</p>
+      </div>
     `,
   }),
 };
 
 export const VolumeControl: Story = {
-  args: {
-    modelValue: false,
-    variant: 'rotate',
-  },
-  render: (args) => ({
+  render: () => ({
     components: { Swap },
     setup() {
-      return { args };
+      const modelValue = ref(false);
+      return { modelValue };
     },
     template: `
-      <div class="flex items-center gap-4">
-        <span class="text-sm">Volume:</span>
-        <Swap v-model="args.modelValue" v-bind="args">
-          <template #on>
-            <div class="text-2xl">🔊</div>
-          </template>
-          <template #off>
-            <div class="text-2xl">🔇</div>
-          </template>
-        </Swap>
+      <div class="space-y-4">
+        <div class="flex items-center gap-4">
+          <span class="text-sm">Volume:</span>
+          <Swap v-model="modelValue" variant="rotate">
+            <template #on>
+              <div class="text-2xl">🔊</div>
+            </template>
+            <template #off>
+              <div class="text-2xl">🔇</div>
+            </template>
+          </Swap>
+        </div>
+        <p class="text-sm text-gray-600">Volume: {{ modelValue ? 'On' : 'Muted' }}</p>
       </div>
     `,
   }),
@@ -179,59 +180,67 @@ export const VolumeControl: Story = {
 export const Multiple: Story = {
   render: () => ({
     components: { Swap },
-    data() {
-      return {
-        states: [false, false, false, false],
-      };
+    setup() {
+      const states = ref([false, false, false, false]);
+      return { states };
     },
     template: `
-      <div class="flex gap-6 items-center">
-        <div class="text-center">
-          <div class="mb-2 text-sm">Theme</div>
-          <Swap v-model="states[0]">
-            <template #on>
-              <div class="text-3xl">🌞</div>
-            </template>
-            <template #off>
-              <div class="text-3xl">🌙</div>
-            </template>
-          </Swap>
+      <div class="space-y-6">
+        <div class="flex gap-6 items-center">
+          <div class="text-center">
+            <div class="mb-2 text-sm">Theme</div>
+            <Swap v-model="states[0]">
+              <template #on>
+                <div class="text-3xl">🌞</div>
+              </template>
+              <template #off>
+                <div class="text-3xl">🌙</div>
+              </template>
+            </Swap>
+          </div>
+          
+          <div class="text-center">
+            <div class="mb-2 text-sm">Sound</div>
+            <Swap v-model="states[1]" variant="rotate">
+              <template #on>
+                <div class="text-3xl">🔊</div>
+              </template>
+              <template #off>
+                <div class="text-3xl">🔇</div>
+              </template>
+            </Swap>
+          </div>
+          
+          <div class="text-center">
+            <div class="mb-2 text-sm">Notifications</div>
+            <Swap v-model="states[2]" variant="flip">
+              <template #on>
+                <div class="text-3xl">🔔</div>
+              </template>
+              <template #off>
+                <div class="text-3xl">🔕</div>
+              </template>
+            </Swap>
+          </div>
+          
+          <div class="text-center">
+            <div class="mb-2 text-sm">Favorite</div>
+            <Swap v-model="states[3]">
+              <template #on>
+                <div class="text-3xl text-yellow-500">⭐</div>
+              </template>
+              <template #off>
+                <div class="text-3xl text-gray-400">☆</div>
+              </template>
+            </Swap>
+          </div>
         </div>
         
-        <div class="text-center">
-          <div class="mb-2 text-sm">Sound</div>
-          <Swap v-model="states[1]" variant="rotate">
-            <template #on>
-              <div class="text-3xl">🔊</div>
-            </template>
-            <template #off>
-              <div class="text-3xl">🔇</div>
-            </template>
-          </Swap>
-        </div>
-        
-        <div class="text-center">
-          <div class="mb-2 text-sm">Notifications</div>
-          <Swap v-model="states[2]" variant="flip">
-            <template #on>
-              <div class="text-3xl">🔔</div>
-            </template>
-            <template #off>
-              <div class="text-3xl">🔕</div>
-            </template>
-          </Swap>
-        </div>
-        
-        <div class="text-center">
-          <div class="mb-2 text-sm">Favorite</div>
-          <Swap v-model="states[3]">
-            <template #on>
-              <div class="text-3xl text-yellow-500">⭐</div>
-            </template>
-            <template #off>
-              <div class="text-3xl text-gray-400">☆</div>
-            </template>
-          </Swap>
+        <div class="text-sm text-gray-600">
+          <p>States: Theme: {{ states[0] ? 'Light' : 'Dark' }} | 
+          Sound: {{ states[1] ? 'On' : 'Off' }} | 
+          Notifications: {{ states[2] ? 'On' : 'Off' }} | 
+          Favorite: {{ states[3] ? 'Yes' : 'No' }}</p>
         </div>
       </div>
     `,
@@ -239,20 +248,17 @@ export const Multiple: Story = {
 };
 
 export const Disabled: Story = {
-  args: {
-    modelValue: false,
-    disabled: true,
-  },
-  render: (args) => ({
+  render: () => ({
     components: { Swap },
     setup() {
-      return { args };
+      const modelValue = ref(false);
+      return { modelValue };
     },
     template: `
       <div class="space-y-4">
         <div>
           <h3 class="text-lg font-semibold mb-2">Disabled with Slots</h3>
-          <Swap v-bind="args">
+          <Swap v-model="modelValue" :disabled="true">
             <template #on>
               <div class="text-4xl">🌞</div>
             </template>
@@ -265,7 +271,8 @@ export const Disabled: Story = {
         <div>
           <h3 class="text-lg font-semibold mb-2">Disabled with Props</h3>
           <Swap 
-            v-bind="args"
+            v-model="modelValue"
+            :disabled="true"
             swap-on-content="🌞"
             swap-off-content="🌙"
           />
@@ -274,7 +281,7 @@ export const Disabled: Story = {
         <div>
           <h3 class="text-lg font-semibold mb-2">Enabled for Comparison</h3>
           <Swap 
-            v-model="args.modelValue"
+            v-model="modelValue"
             :disabled="false"
             swap-on-content="🌞"
             swap-off-content="🌙"
@@ -282,27 +289,25 @@ export const Disabled: Story = {
         </div>
         
         <p class="text-sm text-gray-600">Try clicking on the disabled swaps - they should not animate or change state.</p>
+        <p class="text-sm text-gray-600">Current state: {{ modelValue ? 'On' : 'Off' }}</p>
       </div>
     `,
   }),
 };
 
 export const Accessible: Story = {
-  args: {
-    modelValue: false,
-    name: 'theme-toggle',
-    id: 'theme-swap',
-  },
-  render: (args) => ({
+  render: () => ({
     components: { Swap },
     setup() {
-      return { args };
+      const themeValue = ref(false);
+      const notificationsValue = ref(false);
+      return { themeValue, notificationsValue };
     },
     template: `
-      <div class="space-y-4">
+      <div class="space-y-6">
         <div>
           <h3 class="text-lg font-semibold mb-2">Accessible Swap with ID and Name</h3>
-          <Swap v-model="args.modelValue" v-bind="args">
+          <Swap v-model="themeValue" name="theme-toggle" id="theme-swap">
             <template #on>
               <div class="text-4xl">🌞</div>
             </template>
@@ -310,6 +315,7 @@ export const Accessible: Story = {
               <div class="text-4xl">🌙</div>
             </template>
           </Swap>
+          <p class="text-sm text-gray-600">Theme: {{ themeValue ? 'Light' : 'Dark' }}</p>
         </div>
         
         <div>
@@ -319,7 +325,7 @@ export const Accessible: Story = {
               Enable Notifications
             </label>
             <Swap 
-              v-model="args.modelValue"
+              v-model="notificationsValue"
               name="notifications"
               id="notifications-swap"
             >
@@ -331,11 +337,50 @@ export const Accessible: Story = {
               </template>
             </Swap>
           </form>
+          <p class="text-sm text-gray-600">Notifications: {{ notificationsValue ? 'Enabled' : 'Disabled' }}</p>
         </div>
         
         <p class="text-sm text-gray-600">
           These swaps have proper id and name attributes for accessibility and form integration.
         </p>
+      </div>
+    `,
+  }),
+};
+
+export const WithModifiers: Story = {
+  render: () => ({
+    components: { Swap },
+    setup() {
+      const modelValue = ref(false);
+      return { modelValue };
+    },
+    template: `
+      <div class="space-y-4">
+        <h3 class="text-lg font-semibold">Swap with v-model modifiers example</h3>
+        <p class="text-sm text-gray-600 mb-4">
+          This demonstrates how the component works with v-model. 
+          The component uses defineModel() which automatically handles the two-way binding.
+        </p>
+        
+        <Swap v-model="modelValue">
+          <template #on>
+            <div class="text-4xl">✅</div>
+          </template>
+          <template #off>
+            <div class="text-4xl">❌</div>
+          </template>
+        </Swap>
+        
+        <div class="space-y-2">
+          <p class="text-sm text-gray-600">Current state: {{ modelValue ? 'Active' : 'Inactive' }}</p>
+          <button 
+            @click="modelValue = !modelValue"
+            class="btn btn-sm btn-outline"
+          >
+            Toggle from parent
+          </button>
+        </div>
       </div>
     `,
   }),
