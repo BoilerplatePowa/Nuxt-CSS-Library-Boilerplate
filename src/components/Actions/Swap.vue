@@ -4,7 +4,7 @@
       type="checkbox"
       :id="inputId"
       :name="name"
-      :checked="model"
+      :checked="isOn"
       :disabled="disabled"
       @change="handleChange"
     />
@@ -43,8 +43,8 @@ const props = withDefaults(defineProps<Props>(), {
   id: undefined,
 });
 
-// Using defineModel with proper typing and default value
-const model = defineModel<boolean>({ default: false });
+// Using defineModel with proper typing and default value - renamed to isOn for clarity
+const isOn = defineModel<boolean>({ default: false });
 
 // Generate unique ID if not provided
 const inputId = computed(() => props.id || `swap-${Math.random().toString(36).slice(2, 11)}`);
@@ -71,8 +71,8 @@ const handleChange = (event: Event) => {
   const target = event.target as HTMLInputElement;
   const value = target.checked;
   
-  // Update the model value directly - defineModel handles the two-way binding
-  model.value = value;
+  // Update the isOn value directly - defineModel handles the two-way binding
+  isOn.value = value;
 };
 </script>
 

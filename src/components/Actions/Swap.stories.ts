@@ -9,7 +9,7 @@ const meta: Meta<typeof Swap> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Animated swap component for toggling between two states with smooth transitions using Vue 3.4 defineModel.',
+        component: 'Animated swap component for toggling between two states with smooth transitions using Vue 3.4 defineModel with explicit isOn naming.',
       },
     },
   },
@@ -70,13 +70,13 @@ export const Default: Story = {
   render: () => ({
     components: { Swap },
     setup() {
-      const modelValue = ref(false);
-      return { modelValue };
+      const isOn = ref(false);
+      return { isOn };
     },
     template: `
       <div class="space-y-4">
-        <Swap v-model="modelValue" />
-        <p class="text-sm text-gray-600">Current state: {{ modelValue ? 'On' : 'Off' }}</p>
+        <Swap v-model="isOn" />
+        <p class="text-sm text-gray-600">Current state: {{ isOn ? 'On' : 'Off' }}</p>
       </div>
     `,
   }),
@@ -86,12 +86,12 @@ export const WithRotation: Story = {
   render: () => ({
     components: { Swap },
     setup() {
-      const modelValue = ref(false);
-      return { modelValue };
+      const isOn = ref(false);
+      return { isOn };
     },
     template: `
       <div class="space-y-4">
-        <Swap v-model="modelValue" variant="rotate">
+        <Swap v-model="isOn" variant="rotate">
           <template #on>
             <div class="text-4xl">▶️</div>
           </template>
@@ -99,7 +99,7 @@ export const WithRotation: Story = {
             <div class="text-4xl">⏸️</div>
           </template>
         </Swap>
-        <p class="text-sm text-gray-600">Current state: {{ modelValue ? 'Playing' : 'Paused' }}</p>
+        <p class="text-sm text-gray-600">Current state: {{ isOn ? 'Playing' : 'Paused' }}</p>
       </div>
     `,
   }),
@@ -109,12 +109,12 @@ export const WithFlip: Story = {
   render: () => ({
     components: { Swap },
     setup() {
-      const modelValue = ref(false);
-      return { modelValue };
+      const isOn = ref(false);
+      return { isOn };
     },
     template: `
       <div class="space-y-4">
-        <Swap v-model="modelValue" variant="flip">
+        <Swap v-model="isOn" variant="flip">
           <template #on>
             <div class="text-4xl">😊</div>
           </template>
@@ -122,7 +122,7 @@ export const WithFlip: Story = {
             <div class="text-4xl">😴</div>
           </template>
         </Swap>
-        <p class="text-sm text-gray-600">Current state: {{ modelValue ? 'Awake' : 'Sleeping' }}</p>
+        <p class="text-sm text-gray-600">Current state: {{ isOn ? 'Awake' : 'Sleeping' }}</p>
       </div>
     `,
   }),
@@ -132,12 +132,12 @@ export const LikeButton: Story = {
   render: () => ({
     components: { Swap },
     setup() {
-      const modelValue = ref(false);
-      return { modelValue };
+      const isOn = ref(false);
+      return { isOn };
     },
     template: `
       <div class="space-y-4">
-        <Swap v-model="modelValue">
+        <Swap v-model="isOn">
           <template #on>
             <div class="text-4xl text-red-500">❤️</div>
           </template>
@@ -145,7 +145,7 @@ export const LikeButton: Story = {
             <div class="text-4xl text-gray-400">🤍</div>
           </template>
         </Swap>
-        <p class="text-sm text-gray-600">Liked: {{ modelValue ? 'Yes' : 'No' }}</p>
+        <p class="text-sm text-gray-600">Liked: {{ isOn ? 'Yes' : 'No' }}</p>
       </div>
     `,
   }),
@@ -155,14 +155,14 @@ export const VolumeControl: Story = {
   render: () => ({
     components: { Swap },
     setup() {
-      const modelValue = ref(false);
-      return { modelValue };
+      const isOn = ref(false);
+      return { isOn };
     },
     template: `
       <div class="space-y-4">
         <div class="flex items-center gap-4">
           <span class="text-sm">Volume:</span>
-          <Swap v-model="modelValue" variant="rotate">
+          <Swap v-model="isOn" variant="rotate">
             <template #on>
               <div class="text-2xl">🔊</div>
             </template>
@@ -171,7 +171,7 @@ export const VolumeControl: Story = {
             </template>
           </Swap>
         </div>
-        <p class="text-sm text-gray-600">Volume: {{ modelValue ? 'On' : 'Muted' }}</p>
+        <p class="text-sm text-gray-600">Volume: {{ isOn ? 'On' : 'Muted' }}</p>
       </div>
     `,
   }),
@@ -251,14 +251,14 @@ export const Disabled: Story = {
   render: () => ({
     components: { Swap },
     setup() {
-      const modelValue = ref(false);
-      return { modelValue };
+      const isOn = ref(false);
+      return { isOn };
     },
     template: `
       <div class="space-y-4">
         <div>
           <h3 class="text-lg font-semibold mb-2">Disabled with Slots</h3>
-          <Swap v-model="modelValue" :disabled="true">
+          <Swap v-model="isOn" :disabled="true">
             <template #on>
               <div class="text-4xl">🌞</div>
             </template>
@@ -271,7 +271,7 @@ export const Disabled: Story = {
         <div>
           <h3 class="text-lg font-semibold mb-2">Disabled with Props</h3>
           <Swap 
-            v-model="modelValue"
+            v-model="isOn"
             :disabled="true"
             swap-on-content="🌞"
             swap-off-content="🌙"
@@ -281,7 +281,7 @@ export const Disabled: Story = {
         <div>
           <h3 class="text-lg font-semibold mb-2">Enabled for Comparison</h3>
           <Swap 
-            v-model="modelValue"
+            v-model="isOn"
             :disabled="false"
             swap-on-content="🌞"
             swap-off-content="🌙"
@@ -289,7 +289,7 @@ export const Disabled: Story = {
         </div>
         
         <p class="text-sm text-gray-600">Try clicking on the disabled swaps - they should not animate or change state.</p>
-        <p class="text-sm text-gray-600">Current state: {{ modelValue ? 'On' : 'Off' }}</p>
+        <p class="text-sm text-gray-600">Current state: {{ isOn ? 'On' : 'Off' }}</p>
       </div>
     `,
   }),
@@ -352,8 +352,8 @@ export const WithModifiers: Story = {
   render: () => ({
     components: { Swap },
     setup() {
-      const modelValue = ref(false);
-      return { modelValue };
+      const isOn = ref(false);
+      return { isOn };
     },
     template: `
       <div class="space-y-4">
@@ -363,7 +363,7 @@ export const WithModifiers: Story = {
           The component uses defineModel() which automatically handles the two-way binding.
         </p>
         
-        <Swap v-model="modelValue">
+        <Swap v-model="isOn">
           <template #on>
             <div class="text-4xl">✅</div>
           </template>
@@ -373,9 +373,9 @@ export const WithModifiers: Story = {
         </Swap>
         
         <div class="space-y-2">
-          <p class="text-sm text-gray-600">Current state: {{ modelValue ? 'Active' : 'Inactive' }}</p>
+          <p class="text-sm text-gray-600">Current state: {{ isOn ? 'Active' : 'Inactive' }}</p>
           <button 
-            @click="modelValue = !modelValue"
+            @click="isOn = !isOn"
             class="btn btn-sm btn-outline"
           >
             Toggle from parent

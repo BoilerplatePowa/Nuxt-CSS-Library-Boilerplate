@@ -19,7 +19,7 @@ describe('Swap', () => {
     expect(wrapper.find('.off-content').exists()).toBe(true);
   });
 
-  it('shows correct content based on modelValue', async () => {
+  it('shows correct content based on isOn state', async () => {
     const wrapper = mount(Swap, {
       props: {
         modelValue: false,
@@ -59,7 +59,7 @@ describe('Swap', () => {
     });
   });
 
-  it('updates modelValue when checkbox is clicked', async () => {
+  it('updates isOn state when checkbox is clicked', async () => {
     const wrapper = mount(Swap, {
       props: {
         modelValue: false,
@@ -248,7 +248,7 @@ describe('Swap', () => {
     expect(wrapper.text()).toContain('🌚'); // Initially off
   });
 
-  it('updates content when modelValue changes', async () => {
+  it('updates content when isOn state changes', async () => {
     const wrapper = mount(Swap, {
       props: {
         modelValue: false,
