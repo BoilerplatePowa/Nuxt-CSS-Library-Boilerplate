@@ -48,7 +48,7 @@
         :aria-modal="true"
       >
         <CalendarContent
-          v-model="selectedDate"
+          v-model="model"
           :range="range"
           :min-date="minDate"
           :max-date="maxDate"
@@ -62,7 +62,6 @@
           :allow-month-select="allowMonthSelect"
           :allow-year-select="allowYearSelect"
           :year-range="yearRange"
-          @update:model-value="handleDateSelect"
           @close="closeCalendar"
         />
       </div>
@@ -71,7 +70,7 @@
     <!-- Inline Mode -->
     <div v-else class="calendar-inline">
       <CalendarContent
-        v-model="selectedDate"
+        v-model="model"
         :range="range"
         :min-date="minDate"
         :max-date="maxDate"
@@ -85,7 +84,6 @@
         :allow-month-select="allowMonthSelect"
         :allow-year-select="allowYearSelect"
         :year-range="yearRange"
-        @update:model-value="handleDateSelect"
       />
     </div>
 
@@ -102,7 +100,6 @@ import { CalendarIcon } from 'lucide-vue-next';
 import CalendarContent from './CalendarContent.vue';
 
 interface Props {
-  modelValue?: Date | Date[] | string | null;
   mode?: 'input' | 'inline';
   range?: boolean;
   placeholder?: string;
@@ -140,8 +137,10 @@ const props = withDefaults(defineProps<Props>(), {
   yearRange: () => [new Date().getFullYear() - 10, new Date().getFullYear() + 10],
 });
 
+// Use defineModel() for Vue 3.4 best practices
+const model = defineModel<Date | Date[] | null>();
+
 const emit = defineEmits<{
-  'update:modelValue': [value: Date | Date[] | null];
   'select': [date: Date | Date[]];
   'focus': [event: FocusEvent];
   'blur': [event: FocusEvent];
@@ -154,7 +153,7 @@ const calendarRef = ref<HTMLElement>();
 const inputRef = ref<HTMLInputElement>();
 const isOpen = ref(false);
 const selectedDate = ref<Date | Date[] | null>(null);
-const hasError = ref(false);
+const hasError = computed(() => !!props.errorMessage);
 
 // Computed
 const popoverId = computed(() => `calendar-popover-${Math.random().toString(36).substr(2, 9)}`);
@@ -281,21 +280,21 @@ const handleInput = (event: Event) => {
       const date = parseDate(dates[0]);
       if (date) {
         selectedDate.value = [date];
-        emit('update:modelValue', [date]);
+        model.value = [date];
       }
     } else if (dates.length === 2) {
       const startDate = parseDate(dates[0]);
       const endDate = parseDate(dates[1]);
       if (startDate && endDate) {
         selectedDate.value = [startDate, endDate];
-        emit('update:modelValue', [startDate, endDate]);
+        model.value = [startDate, endDate];
       }
     }
   } else {
     const date = parseDate(value);
     if (date) {
       selectedDate.value = date;
-      emit('update:modelValue', date);
+      model.value = date;
     }
   }
 };
@@ -353,9 +352,8 @@ const closeCalendar = () => {
   emit('close');
 };
 
+// Handle date selection from CalendarContent
 const handleDateSelect = (date: Date | Date[]) => {
-  selectedDate.value = date;
-  emit('update:modelValue', date);
   emit('select', date);
   
   if (props.mode === 'input' && !props.range) {
@@ -364,12 +362,17 @@ const handleDateSelect = (date: Date | Date[]) => {
 };
 
 // Watchers
-watch(() => props.modelValue, (newValue) => {
+watch(() => model.value, (newValue) => {
   if (typeof newValue === 'string') {
     const date = new Date(newValue);
     selectedDate.value = isNaN(date.getTime()) ? null : date;
   } else {
     selectedDate.value = newValue || null;
+  }
+  
+  // Handle date selection logic when model changes
+  if (newValue && (newValue instanceof Date || Array.isArray(newValue))) {
+    handleDateSelect(newValue);
   }
 }, { immediate: true });
 

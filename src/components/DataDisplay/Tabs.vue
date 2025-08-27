@@ -66,7 +66,7 @@ const getTabKey = (tab: Tab, index: number): string => {
   return getTabValue(tab).toString() || index.toString();
 };
 
-// Set default value to first tab if no modelValue is provided
+// Set default value to first tab if no model value is provided
 watch(() => props.tabs, (newTabs) => {
   if (newTabs.length > 0 && activeTabValue.value === undefined) {
     activeTabValue.value = getTabValue(newTabs[0]);

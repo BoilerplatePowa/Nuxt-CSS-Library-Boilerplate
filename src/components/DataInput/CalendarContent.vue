@@ -155,7 +155,6 @@ import { computed, ref, watch } from 'vue';
 import { ChevronLeftIcon, ChevronRightIcon, ClockIcon, XIcon, CheckIcon } from 'lucide-vue-next';
 
 interface Props {
-  modelValue?: Date | Date[] | null;
   range?: boolean;
   minDate?: Date | string;
   maxDate?: Date | string;
@@ -186,8 +185,10 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 });
 
+// Use defineModel() for Vue 3.4 best practices
+const model = defineModel<Date | Date[] | null>();
+
 const emit = defineEmits<{
-  'update:modelValue': [value: Date | Date[] | null];
   'close': [];
 }>();
 
@@ -323,9 +324,9 @@ const calendarDays = computed(() => {
 });
 
 const timeValue = computed(() => {
-  if (!props.modelValue) return selectedTime.value;
+  if (!model.value) return selectedTime.value;
   
-  const date = Array.isArray(props.modelValue) ? props.modelValue[0] : props.modelValue;
+  const date = Array.isArray(model.value) ? model.value[0] : model.value;
   if (!date) return selectedTime.value;
   
   return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
@@ -346,29 +347,29 @@ const isNextDisabled = computed(() => {
 });
 
 const isSelectionComplete = computed(() => {
-  if (!props.range || !Array.isArray(props.modelValue)) return true;
-  return props.modelValue.length === 2;
+  if (!props.range || !Array.isArray(model.value)) return true;
+  return model.value.length === 2;
 });
 
 // Methods
 const isDateSelected = (date: Date): boolean => {
-  if (!props.modelValue) return false;
+  if (!model.value) return false;
   
   const dateTime = date.getTime();
   
-  if (Array.isArray(props.modelValue)) {
-    return props.modelValue.some(d => d.getTime() === dateTime);
+  if (Array.isArray(model.value)) {
+    return model.value.some((d: Date) => d.getTime() === dateTime);
   }
   
-  return props.modelValue.getTime() === dateTime;
+  return model.value.getTime() === dateTime;
 };
 
 const isDateInRange = (date: Date): boolean => {
-  if (!props.range || !Array.isArray(props.modelValue) || props.modelValue.length !== 2) {
+  if (!props.range || !Array.isArray(model.value) || model.value.length !== 2) {
     return false;
   }
   
-  const [start, end] = props.modelValue;
+  const [start, end] = model.value;
   const dateTime = date.getTime();
   const startTime = start.getTime();
   const endTime = end.getTime();
@@ -428,10 +429,10 @@ const selectDate = (date: Date) => {
   let newValue: Date | Date[] | null;
   
   if (props.range) {
-    if (!Array.isArray(props.modelValue) || props.modelValue.length === 0) {
+    if (!Array.isArray(model.value) || model.value.length === 0) {
       newValue = [date];
-    } else if (props.modelValue.length === 1) {
-      const [firstDate] = props.modelValue;
+    } else if (model.value.length === 1) {
+      const [firstDate] = model.value;
       if (date < firstDate) {
         newValue = [date, firstDate];
       } else {
@@ -444,7 +445,7 @@ const selectDate = (date: Date) => {
     newValue = date;
   }
   
-  emit('update:modelValue', newValue);
+  model.value = newValue;
 };
 
 const handleDayKeydown = (event: KeyboardEvent, date: Date) => {
@@ -471,15 +472,15 @@ const handleTimeInput = (event: Event) => {
   const target = event.target as HTMLInputElement;
   selectedTime.value = target.value;
   
-  if (props.modelValue) {
+  if (model.value) {
     const [hours, minutes] = target.value.split(':').map(Number);
-    const newDate = new Date(Array.isArray(props.modelValue) ? props.modelValue[0] : props.modelValue);
+    const newDate = new Date(Array.isArray(model.value) ? model.value[0] : model.value);
     newDate.setHours(hours, minutes);
     
-    if (props.range && Array.isArray(props.modelValue)) {
-      emit('update:modelValue', [newDate, props.modelValue[1]]);
+    if (props.range && Array.isArray(model.value)) {
+      model.value = [newDate, model.value[1]];
     } else {
-      emit('update:modelValue', newDate);
+      model.value = newDate;
     }
   }
 };
@@ -503,7 +504,7 @@ const nextMonth = () => {
 };
 
 const clearSelection = () => {
-  emit('update:modelValue', null);
+  model.value = null;
 };
 
 const applySelection = () => {
@@ -511,7 +512,7 @@ const applySelection = () => {
 };
 
 // Watchers
-watch(() => props.modelValue, (newValue) => {
+watch(() => model.value, (newValue) => {
   if (newValue) {
     const date = Array.isArray(newValue) ? newValue[0] : newValue;
     currentMonth.value = date.getMonth();

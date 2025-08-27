@@ -9,7 +9,7 @@ const meta: Meta<typeof Calendar> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A comprehensive calendar component with date selection, range selection, time picker, and full accessibility support. Built with DaisyUI and Tailwind CSS.',
+        component: 'A comprehensive calendar component with date selection, range selection, time picker, and full accessibility support. Built with DaisyUI and Tailwind CSS. Uses Vue 3.4 defineModel() for optimal v-model handling.',
       },
     },
   },
@@ -77,6 +77,7 @@ export const Default: Story = {
     size: 'md',
     variant: 'default',
     placeholder: 'Select a date...',
+    locale: 'fr-FR',
     allowMonthSelect: true,
     allowYearSelect: true,
   },
@@ -100,6 +101,11 @@ export const Default: Story = {
         />
         <div v-if="selectedDate" class="text-sm text-center opacity-70">
           Selected: {{ selectedDate.toLocaleDateString() }}
+        </div>
+        <div class="text-sm text-center opacity-70">
+          <p>• Uses Vue 3.4 defineModel() for v-model</p>
+          <p>• Two-way binding with parent component</p>
+          <p>• Automatic prop/emit handling</p>
         </div>
       </div>
     `,
@@ -429,6 +435,79 @@ export const Localization: Story = {
             variant="bordered"
             placeholder="Seleccionar fecha..."
           />
+        </div>
+      </div>
+    `,
+  }),
+};
+
+export const Vue34DefineModel: Story = {
+  render: () => ({
+    components: { Calendar },
+    setup() {
+      const date1 = ref<Date | null>(null);
+      const date2 = ref<Date | null>(null);
+      const date3 = ref<Date | null>(null);
+      
+      const handleDateChange = (value: Date | null, label: string) => {
+        console.log(`${label} changed to:`, value);
+      };
+      
+      return { date1, date2, date3, handleDateChange };
+    },
+    template: `
+      <div class="space-y-6">
+        <div class="text-center">
+          <h3 class="font-semibold mb-2">Vue 3.4 defineModel() Demo</h3>
+          <p class="text-sm opacity-70 mb-4">Demonstrating automatic two-way binding with defineModel()</p>
+        </div>
+        
+        <div class="text-center">
+          <h4 class="font-medium mb-2">Calendar 1</h4>
+          <Calendar 
+            v-model="date1" 
+            mode="input" 
+            variant="bordered"
+            placeholder="Select date 1..."
+            @select="(date) => handleDateChange(date, 'Calendar 1')"
+          />
+          <div v-if="date1" class="text-xs mt-1 opacity-70">
+            Value: {{ date1.toLocaleDateString() }}
+          </div>
+        </div>
+        
+        <div class="text-center">
+          <h4 class="font-medium mb-2">Calendar 2</h4>
+          <Calendar 
+            v-model="date2" 
+            mode="input" 
+            variant="bordered"
+            placeholder="Select date 2..."
+            @select="(date) => handleDateChange(date, 'Calendar 2')"
+          />
+          <div v-if="date2" class="text-xs mt-1 opacity-70">
+            Value: {{ date2.toLocaleDateString() }}
+          </div>
+        </div>
+        
+        <div class="text-center">
+          <h4 class="font-medium mb-2">Calendar 3 (Inline)</h4>
+          <Calendar 
+            v-model="date3" 
+            mode="inline" 
+            variant="bordered"
+            @select="(date) => handleDateChange(date, 'Calendar 3')"
+          />
+          <div v-if="date3" class="text-xs mt-1 opacity-70">
+            Value: {{ date3.toLocaleDateString() }}
+          </div>
+        </div>
+        
+        <div class="text-sm text-center opacity-70">
+          <p>• Each calendar uses defineModel() for automatic v-model handling</p>
+          <p>• No manual prop/emit setup required</p>
+          <p>• Type-safe two-way binding</p>
+          <p>• Check console for change events</p>
         </div>
       </div>
     `,
