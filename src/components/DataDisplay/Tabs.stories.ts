@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import { Tabs } from '.';
+import { ref } from 'vue';
 
 const meta: Meta<typeof Tabs> = {
   title: 'Data Display/Tabs',
@@ -8,7 +9,7 @@ const meta: Meta<typeof Tabs> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A flexible tabs component with multiple variants and content support.',
+        component: 'A flexible tabs component with multiple variants and content support using Vue 3.4 defineModel().',
       },
     },
   },
@@ -20,7 +21,7 @@ const meta: Meta<typeof Tabs> = {
     },
     modelValue: {
       control: { type: 'text' },
-      description: 'Active tab value',
+      description: 'Active tab value (v-model) - represents the currently selected tab',
     },
     variant: {
       control: { type: 'select' },
@@ -111,6 +112,40 @@ export const Controlled: Story = {
     tabs: sampleTabs,
     modelValue: 'Tab 2',
   },
+};
+
+export const WithVModel: Story = {
+  render: () => ({
+    components: { Tabs },
+    setup() {
+      const activeTab = ref('Tab 1');
+      const simpleTabs = [
+        { label: 'Tab 1', content: '<p>Welcome to the first tab!</p>' },
+        { label: 'Tab 2', content: '<p>This is the second tab content.</p>' },
+        { label: 'Tab 3', content: '<p>Third tab content here.</p>' },
+      ];
+      
+      return { 
+        activeTab, 
+        simpleTabs,
+        onTabChange: (value: string) => {
+          console.log('Tab changed to:', value);
+        }
+      };
+    },
+    template: `
+      <div class="space-y-4 w-full max-w-2xl">
+        <div class="p-4 bg-base-200 rounded-lg">
+          <p class="text-sm mb-2">Current active tab: <strong>{{ activeTab }}</strong></p>
+        </div>
+        <Tabs 
+          :tabs="simpleTabs" 
+          v-model="activeTab"
+          @tab-change="onTabChange"
+        />
+      </div>
+    `,
+  }),
 };
 
 export const AllVariants: Story = {

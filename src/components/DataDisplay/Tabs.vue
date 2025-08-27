@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { computed, watch } from 'vue';
 
 interface Tab {
   label: string;
@@ -38,7 +38,6 @@ interface Tab {
 
 interface Props {
   tabs?: Tab[];
-  modelValue?: string | number;
   variant?: 'default' | 'bordered' | 'lifted' | 'boxed';
   size?: 'xs' | 'sm' | 'md' | 'lg';
   disabled?: boolean;
@@ -51,12 +50,12 @@ const props = withDefaults(defineProps<Props>(), {
   disabled: false,
 });
 
+// Use defineModel for v-model support (Vue 3.4+)
+const activeTabValue = defineModel<string | number>();
+
 const emit = defineEmits<{
-  'update:modelValue': [value: string | number];
   'tab-change': [value: string | number];
 }>();
-
-const activeIndex = ref(0);
 
 // Helper functions
 const getTabValue = (tab: Tab): string | number => {
@@ -67,19 +66,14 @@ const getTabKey = (tab: Tab, index: number): string => {
   return getTabValue(tab).toString() || index.toString();
 };
 
-// Watch for external model value changes
-watch(
-  () => props.modelValue,
-  (newValue) => {
-    if (newValue !== undefined) {
-      const index = props.tabs.findIndex(tab => getTabValue(tab) === newValue);
-      if (index >= 0) {
-        activeIndex.value = index;
-      }
-    }
-  },
-  { immediate: true }
-);
+// Computed active index based on model value
+const activeIndex = computed(() => {
+  if (activeTabValue.value !== undefined) {
+    const index = props.tabs.findIndex(tab => getTabValue(tab) === activeTabValue.value);
+    return index >= 0 ? index : 0;
+  }
+  return 0;
+});
 
 const tabsClasses = computed(() => {
   const baseClasses = ['tabs'];
@@ -120,8 +114,8 @@ const getTabClasses = (tab: Tab, index: number) => {
 };
 
 const isActiveTab = (tab: Tab, index: number): boolean => {
-  if (props.modelValue !== undefined) {
-    return getTabValue(tab) === props.modelValue;
+  if (activeTabValue.value !== undefined) {
+    return getTabValue(tab) === activeTabValue.value;
   }
   return index === activeIndex.value;
 };
@@ -132,10 +126,12 @@ const selectTab = (tab: Tab, index: number, event: Event) => {
     return;
   }
 
-  activeIndex.value = index;
   const tabValue = getTabValue(tab);
   
-  emit('update:modelValue', tabValue);
+  // Update the model value using defineModel
+  activeTabValue.value = tabValue;
+  
+  // Emit the tab-change event
   emit('tab-change', tabValue);
 };
 </script>

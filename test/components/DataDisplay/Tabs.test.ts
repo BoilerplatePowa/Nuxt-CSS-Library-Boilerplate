@@ -68,7 +68,7 @@ describe('Tabs', () => {
     });
   });
 
-  it('emits update:modelValue when tab is clicked', async () => {
+  it('updates modelValue when tab is clicked', async () => {
     const wrapper = mount(Tabs, {
       props: {
         tabs: sampleTabs,
@@ -79,6 +79,7 @@ describe('Tabs', () => {
     const secondTab = wrapper.findAll('.tab')[1];
     await secondTab.trigger('click');
 
+    // With defineModel, the activeTabValue should be updated
     expect(wrapper.emitted('update:modelValue')).toBeTruthy();
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['Tab 2']);
   });
@@ -183,9 +184,77 @@ describe('Tabs', () => {
 
       const tabsContainer = wrapper.find('.tabs');
       expect(tabsContainer.classes()).toContain(`tabs-${variant}`);
-      
-      // Verify that the variant class is applied
-      expect(tabsContainer.classes()).toContain(`tabs-${variant}`);
     });
+  });
+
+  it('works with v-model binding', async () => {
+    const wrapper = mount(Tabs, {
+      props: {
+        tabs: sampleTabs,
+        modelValue: 'Tab 1',
+      },
+    });
+
+    // Click on second tab
+    const secondTab = wrapper.findAll('.tab')[1];
+    await secondTab.trigger('click');
+
+    // Should emit update:modelValue with new activeTabValue
+    expect(wrapper.emitted('update:modelValue')).toBeTruthy();
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['Tab 2']);
+  });
+
+  it('handles tabs with custom values', () => {
+    const tabsWithValues = [
+      { label: 'First Tab', value: 'first', content: 'First content' },
+      { label: 'Second Tab', value: 'second', content: 'Second content' },
+    ];
+
+    const wrapper = mount(Tabs, {
+      props: {
+        tabs: tabsWithValues,
+        modelValue: 'first',
+      },
+    });
+
+    const tabs = wrapper.findAll('.tab');
+    expect(tabs[0].classes()).toContain('tab-active');
+    expect(tabs[1].classes()).not.toContain('tab-active');
+  });
+
+  it('prevents click on disabled tabs', async () => {
+    const tabsWithDisabled = [
+      { label: 'Tab 1', content: 'Content 1' },
+      { label: 'Tab 2', content: 'Content 2', disabled: true },
+    ];
+
+    const wrapper = mount(Tabs, {
+      props: {
+        tabs: tabsWithDisabled,
+        modelValue: 'Tab 1',
+      },
+    });
+
+    const disabledTab = wrapper.findAll('.tab')[1];
+    await disabledTab.trigger('click');
+
+    // Should not emit update:modelValue for disabled tab
+    expect(wrapper.emitted('update:modelValue')).toBeFalsy();
+  });
+
+  it('prevents click when component is disabled', async () => {
+    const wrapper = mount(Tabs, {
+      props: {
+        tabs: sampleTabs,
+        modelValue: 'Tab 1',
+        disabled: true,
+      },
+    });
+
+    const secondTab = wrapper.findAll('.tab')[1];
+    await secondTab.trigger('click');
+
+    // Should not emit update:modelValue when component is disabled
+    expect(wrapper.emitted('update:modelValue')).toBeFalsy();
   });
 });

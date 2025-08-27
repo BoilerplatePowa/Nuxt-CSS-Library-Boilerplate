@@ -1,12 +1,12 @@
 // Export Nuxt plugin
 export { default } from './plugin/index.js';
 
-// Export components
-export { default as Button } from './components/Button.vue';
-export { default as Card } from './components/Card.vue';
-export { default as Input } from './components/Input.vue';
-export { default as Modal } from './components/Modal.vue';
-export { default as Toast } from './components/Toast.vue';
+// Export components from their respective directories
+export { default as Button } from './components/Actions/Button.vue';
+export { default as Card } from './components/DataDisplay/Card.vue';
+export { default as Input } from './components/DataInput/Input.vue';
+export { default as Modal } from './components/Actions/Modal.vue';
+export { default as Toast } from './components/Feedback/Toast.vue';
 
 // Export types
 export type { ModuleOptions } from './plugin/index.js';
