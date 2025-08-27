@@ -47,7 +47,6 @@ let idCounter = 0;
 const generateId = () => `radio-${++idCounter}`;
 
 interface Props {
-  modelValue?: string | number | boolean;
   value: string | number | boolean;
   name: string;
   label?: string;
@@ -67,14 +66,16 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
 });
 
+// Use defineModel for Vue 3.4 best practices
+const model = defineModel<string | number | boolean>();
+
 const emit = defineEmits<{
-  'update:modelValue': [value: string | number | boolean];
   change: [event: Event];
 }>();
 
 const inputId = generateId();
 
-const isChecked = computed(() => props.modelValue === props.value);
+const isChecked = computed(() => model.value === props.value);
 
 const labelClasses = computed(() => ['label', 'cursor-pointer', 'flex', 'items-center', 'gap-2']);
 
@@ -127,7 +128,7 @@ const ariaDescribedby = computed(() => {
 const handleChange = (event: Event) => {
   const target = event.target as HTMLInputElement;
   if (target.checked) {
-    emit('update:modelValue', props.value);
+    model.value = props.value;
   }
   emit('change', event);
 };

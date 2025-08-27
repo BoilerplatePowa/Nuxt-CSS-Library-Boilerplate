@@ -15,7 +15,7 @@ const meta: Meta<typeof Radio> = {
     },
     variant: {
       control: { type: 'select' },
-      options: ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'error'],
+      options: ['primary', 'secondary', 'accent', 'success', 'warning', 'info', 'error'],
     },
     disabled: {
       control: { type: 'boolean' },
@@ -38,12 +38,21 @@ export const Default: Story = {
 };
 
 export const Checked: Story = {
-  args: {
-    label: 'Checked Radio',
-    value: 'checked',
-    name: 'checked-radio',
-    modelValue: 'checked',
-  },
+  render: () => ({
+    components: { Radio },
+    setup() {
+      const selectedValue = ref('checked');
+      return { selectedValue };
+    },
+    template: `
+      <Radio 
+        v-model="selectedValue"
+        label="Checked Radio" 
+        value="checked" 
+        name="checked-radio" 
+      />
+    `,
+  }),
 };
 
 export const RadioGroup: Story = {
@@ -185,6 +194,10 @@ export const Sizes: Story = {
 export const Disabled: Story = {
   render: () => ({
     components: { Radio },
+    setup() {
+      const selectedValue = ref('disabled2');
+      return { selectedValue };
+    },
     template: `
       <div class="space-y-2">
         <Radio 
@@ -194,10 +207,10 @@ export const Disabled: Story = {
           disabled
         />
         <Radio 
+          v-model="selectedValue"
           label="Disabled Checked" 
           value="disabled2" 
           name="disabled-group"
-          modelValue="disabled2"
           disabled
         />
       </div>
@@ -209,5 +222,32 @@ export const NoLabel: Story = {
   args: {
     value: 'no-label',
     name: 'no-label-radio',
+  },
+};
+
+export const WithHelpText: Story = {
+  args: {
+    label: 'Radio with help text',
+    value: 'help-text',
+    name: 'help-text-radio',
+    helpText: 'This is some helpful text to guide the user.',
+  },
+};
+
+export const WithError: Story = {
+  args: {
+    label: 'Radio with error',
+    value: 'error',
+    name: 'error-radio',
+    errorMessage: 'This field is required.',
+  },
+};
+
+export const Required: Story = {
+  args: {
+    label: 'Required Radio',
+    value: 'required',
+    name: 'required-radio',
+    required: true,
   },
 };
