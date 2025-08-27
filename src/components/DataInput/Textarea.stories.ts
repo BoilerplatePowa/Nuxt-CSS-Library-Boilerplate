@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
+import { ref } from 'vue';
 import Textarea from './Textarea.vue';
 
 const meta: Meta<typeof Textarea> = {
@@ -14,7 +15,7 @@ const meta: Meta<typeof Textarea> = {
     },
     variant: {
       control: { type: 'select' },
-      options: ['default', 'bordered', 'ghost'],
+      options: ['bordered', 'ghost', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'],
     },
     disabled: {
       control: { type: 'boolean' },
@@ -27,10 +28,6 @@ const meta: Meta<typeof Textarea> = {
     },
     showCharCount: {
       control: { type: 'boolean' },
-    },
-    resize: {
-      control: { type: 'select' },
-      options: ['none', 'both', 'horizontal', 'vertical'],
     },
   },
 };
@@ -72,7 +69,6 @@ export const WithError: Story = {
     label: 'Message',
     placeholder: 'Enter your message...',
     errorMessage: 'This field is required',
-    modelValue: '',
   },
 };
 
@@ -87,9 +83,16 @@ export const Disabled: Story = {
 export const Readonly: Story = {
   args: {
     label: 'Read Only',
-    modelValue: 'This content cannot be edited',
     readonly: true,
   },
+  render: (args) => ({
+    components: { Textarea },
+    setup() {
+      const value = ref('This content cannot be edited');
+      return { args, value };
+    },
+    template: '<Textarea v-model="value" v-bind="args" />',
+  }),
 };
 
 export const SmallSize: Story = {
@@ -124,14 +127,29 @@ export const Ghost: Story = {
   },
 };
 
+export const Primary: Story = {
+  args: {
+    label: 'Primary',
+    placeholder: 'Primary variant',
+    variant: 'primary',
+  },
+};
+
 export const WithCharacterCount: Story = {
   args: {
     label: 'Message',
     placeholder: 'Type your message...',
     maxlength: 200,
     showCharCount: true,
-    modelValue: 'This textarea shows character count',
   },
+  render: (args) => ({
+    components: { Textarea },
+    setup() {
+      const value = ref('This textarea shows character count');
+      return { args, value };
+    },
+    template: '<Textarea v-model="value" v-bind="args" />',
+  }),
 };
 
 export const CustomRows: Story = {
@@ -142,10 +160,26 @@ export const CustomRows: Story = {
   },
 };
 
-export const NoResize: Story = {
-  args: {
-    label: 'No Resize',
-    placeholder: 'This textarea cannot be resized',
-    resize: 'none',
-  },
+export const Interactive: Story = {
+  render: () => ({
+    components: { Textarea },
+    setup() {
+      const value = ref('');
+      return { value };
+    },
+    template: `
+      <div class="space-y-4">
+        <Textarea 
+          v-model="value" 
+          label="Interactive Textarea" 
+          placeholder="Type something here..."
+          helpText="This textarea uses v-model for two-way binding"
+        />
+        <div class="p-4 bg-base-200 rounded-lg">
+          <p class="text-sm font-medium mb-2">Current value:</p>
+          <p class="text-sm">{{ value || '(empty)' }}</p>
+        </div>
+      </div>
+    `,
+  }),
 };

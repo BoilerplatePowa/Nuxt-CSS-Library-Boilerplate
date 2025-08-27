@@ -7,7 +7,7 @@
 
     <textarea
       :id="textareaId"
-      :value="modelValue"
+      v-model="model"
       :class="textareaClasses"
       :placeholder="placeholder"
       :disabled="disabled"
@@ -44,10 +44,9 @@ import { computed } from 'vue';
 
 // Simple ID generator
 let idCounter = 0;
-const generateId = () => `textarea-${++idCounter}`;
+const generateId = () => `textarea-${Date.now()}-${++idCounter}`;
 
 interface Props {
-  modelValue?: string;
   label?: string;
   placeholder?: string;
   helpText?: string;
@@ -64,7 +63,6 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: '',
   disabled: false,
   readonly: false,
   required: false,
@@ -74,8 +72,10 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'bordered',
 });
 
+// Use defineModel for Vue 3.4 best practices
+const model = defineModel<string>({ default: '' });
+
 const emit = defineEmits<{
-  'update:modelValue': [value: string];
   input: [event: Event];
   change: [event: Event];
   focus: [event: FocusEvent];
@@ -129,7 +129,7 @@ const textareaClasses = computed(() => {
 });
 
 const characterCount = computed(() => {
-  return props.modelValue?.length || 0;
+  return model.value?.length || 0;
 });
 
 const ariaDescribedby = computed(() => {
@@ -141,8 +141,6 @@ const ariaDescribedby = computed(() => {
 });
 
 const handleInput = (event: Event) => {
-  const target = event.target as HTMLTextAreaElement;
-  emit('update:modelValue', target.value);
   emit('input', event);
 };
 
