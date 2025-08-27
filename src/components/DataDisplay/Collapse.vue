@@ -2,7 +2,7 @@
   <div :class="collapseClasses">
     <input
       :id="collapseId"
-      v-model="isOpen"
+      v-model="model"
       type="checkbox"
       :class="checkboxClasses"
       :disabled="disabled"
@@ -24,13 +24,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { computed } from 'vue';
 
 // Generate unique ID for each collapse instance
 const generateCollapseId = () => `collapse-${Math.random().toString(36).substr(2, 9)}`;
 
 interface Props {
-  modelValue?: boolean;
   title?: string;
   variant?: 'default' | 'arrow' | 'plus' | 'bordered' | 'ghost';
   disabled?: boolean;
@@ -39,34 +38,20 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: false,
   variant: 'default',
   disabled: false,
   forceOpen: false,
   id: undefined,
 });
 
+// Use defineModel for v-model support (Vue 3.4+)
+const model = defineModel<boolean>({ default: false });
+
 const emit = defineEmits<{
-  'update:modelValue': [value: boolean];
   toggle: [isOpen: boolean];
 }>();
 
 const collapseId = props.id || generateCollapseId();
-const isOpen = ref(props.modelValue);
-
-// Watch for external model value changes
-watch(
-  () => props.modelValue,
-  (newValue) => {
-    isOpen.value = newValue;
-  }
-);
-
-// Watch internal state changes
-watch(isOpen, (newValue) => {
-  emit('update:modelValue', newValue);
-  emit('toggle', newValue);
-});
 
 const collapseClasses = computed(() => {
   const baseClasses = ['collapse'];
@@ -113,7 +98,8 @@ const contentClasses = computed(() => ['collapse-content']);
 
 const toggle = () => {
   if (props.disabled) return;
-  isOpen.value = !isOpen.value;
+  model.value = !model.value;
+  emit('toggle', model.value);
 };
 
 const handleKeydown = (event: KeyboardEvent) => {

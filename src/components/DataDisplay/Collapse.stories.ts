@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
+import { ref } from 'vue';
 import Collapse from './Collapse.vue';
 
 const meta: Meta<typeof Collapse> = {
@@ -8,7 +9,7 @@ const meta: Meta<typeof Collapse> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Expandable content container with smooth animations and customizable styling.',
+        component: 'Expandable content container with smooth animations and customizable styling. Uses Vue 3.4 defineModel for v-model support.',
       },
     },
   },
@@ -19,7 +20,7 @@ const meta: Meta<typeof Collapse> = {
     },
     modelValue: {
       control: 'boolean',
-      description: 'Whether the collapse is open by default',
+      description: 'Whether the collapse is open (v-model)',
     },
     forceOpen: {
       control: 'boolean',
@@ -34,7 +35,6 @@ const meta: Meta<typeof Collapse> = {
       options: ['default', 'arrow', 'plus', 'bordered', 'ghost'],
       description: 'Visual style variant',
     },
-
   },
   tags: ['autodocs'],
 };
@@ -87,6 +87,36 @@ export const OpenByDefault: Story = {
   }),
 };
 
+export const ReactiveVModel: Story = {
+  render: () => ({
+    components: { Collapse },
+    setup() {
+      const isOpen = ref(false);
+      return { isOpen };
+    },
+    template: `
+      <div class="w-96 space-y-4">
+        <div class="flex gap-2">
+          <button class="btn btn-primary btn-sm" @click="isOpen = !isOpen">
+            {{ isOpen ? 'Close' : 'Open' }} Programmatically
+          </button>
+          <span class="badge badge-neutral">State: {{ isOpen ? 'Open' : 'Closed' }}</span>
+        </div>
+        
+        <Collapse v-model="isOpen" title="Reactive v-model Example">
+          <div class="space-y-2">
+            <p>This collapse uses Vue 3.4's defineModel for reactive v-model binding.</p>
+            <p>Current state: <strong>{{ isOpen ? 'Open' : 'Closed' }}</strong></p>
+            <div class="alert alert-success">
+              <span>The state is synchronized between the button and the collapse!</span>
+            </div>
+          </div>
+        </Collapse>
+      </div>
+    `,
+  }),
+};
+
 export const Variants: Story = {
   render: () => ({
     components: { Collapse },
@@ -107,8 +137,6 @@ export const Variants: Story = {
     `,
   }),
 };
-
-
 
 export const NestedCollapses: Story = {
   render: () => ({
