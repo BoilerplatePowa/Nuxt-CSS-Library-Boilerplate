@@ -10,7 +10,7 @@
         type="radio"
         name="rating"
         :value="0"
-        :checked="modelValue === 0"
+        :checked="model === 0"
         class="rating-hidden"
         @change="updateRating(0)"
       />
@@ -21,7 +21,7 @@
         type="radio"
         :name="name || 'rating'"
         :value="star"
-        :checked="modelValue === star"
+        :checked="model === star"
         :class="starClasses"
         :disabled="disabled || readonly"
         @change="updateRating(star)"
@@ -42,7 +42,6 @@
 import { computed } from 'vue';
 
 interface Props {
-  modelValue?: number;
   maxRating?: number;
   label?: string;
   helpText?: string;
@@ -56,7 +55,6 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: 0,
   maxRating: 5,
   disabled: false,
   readonly: false,
@@ -65,8 +63,10 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'star',
 });
 
+// Use defineModel() for Vue 3.4+ best practices
+const model = defineModel<number>({ default: 0 });
+
 const emit = defineEmits<{
-  'update:modelValue': [value: number];
   change: [value: number];
 }>();
 
@@ -107,7 +107,7 @@ const starClasses = computed(() => {
 const updateRating = (value: number) => {
   if (props.disabled || props.readonly) return;
   
-  emit('update:modelValue', value);
+  model.value = value;
   emit('change', value);
 };
 </script>

@@ -15,7 +15,7 @@ const meta: Meta<typeof Rating> = {
     },
     variant: {
       control: { type: 'select' },
-      options: ['default', 'primary', 'secondary', 'accent', 'warning'],
+      options: ['star', 'heart', 'mask'],
     },
     disabled: {
       control: { type: 'boolean' },
@@ -24,9 +24,6 @@ const meta: Meta<typeof Rating> = {
       control: { type: 'boolean' },
     },
     allowEmpty: {
-      control: { type: 'boolean' },
-    },
-    allowHalf: {
       control: { type: 'boolean' },
     },
   },
@@ -94,11 +91,9 @@ export const Variants: Story = {
     components: { Rating },
     template: `
       <div class="space-y-4">
-        <Rating label="Default" :model-value="4" variant="default" readonly />
-        <Rating label="Primary" :model-value="4" variant="primary" readonly />
-        <Rating label="Secondary" :model-value="4" variant="secondary" readonly />
-        <Rating label="Accent" :model-value="4" variant="accent" readonly />
-        <Rating label="Warning" :model-value="4" variant="warning" readonly />
+        <Rating label="Star" :model-value="4" variant="star" readonly />
+        <Rating label="Heart" :model-value="4" variant="heart" readonly />
+        <Rating label="Mask" :model-value="4" variant="mask" readonly />
       </div>
     `,
   }),
@@ -183,7 +178,7 @@ export const ProductRating: Story = {
         <div class="space-y-3">
           <div class="flex items-center justify-between">
             <span class="text-sm">Overall</span>
-            <Rating :model-value="4.5" size="sm" readonly />
+            <Rating :model-value="4" size="sm" readonly />
           </div>
           
           <div class="flex items-center justify-between">
