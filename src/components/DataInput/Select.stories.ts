@@ -8,16 +8,12 @@ const meta: Meta<typeof Select> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A flexible select component with multiple variants and support for options.',
+        component: 'A flexible select component with multiple variants and support for options. Uses Vue 3.4 defineModel() for v-model support.',
       },
     },
   },
   tags: ['autodocs'],
   argTypes: {
-    modelValue: {
-      control: { type: 'text' },
-      description: 'Selected value(s)',
-    },
     options: {
       control: { type: 'object' },
       description: 'Array of options',
@@ -90,9 +86,20 @@ export const Default: Story = {
 export const WithValue: Story = {
   args: {
     label: 'Pre-selected option',
-    modelValue: '2',
     options: sampleOptions,
   },
+  render: (args) => ({
+    components: { Select },
+    setup() {
+      return { args };
+    },
+    template: '<Select v-model="value" v-bind="args" />',
+    data() {
+      return {
+        value: '2',
+      };
+    },
+  }),
 };
 
 export const Required: Story = {
@@ -132,9 +139,20 @@ export const Multiple: Story = {
   args: {
     label: 'Multiple selection',
     multiple: true,
-    modelValue: ['1', '3'],
     options: sampleOptions,
   },
+  render: (args) => ({
+    components: { Select },
+    setup() {
+      return { args };
+    },
+    template: '<Select v-model="value" v-bind="args" />',
+    data() {
+      return {
+        value: ['1', '3'],
+      };
+    },
+  }),
 };
 
 export const Small: Story = {

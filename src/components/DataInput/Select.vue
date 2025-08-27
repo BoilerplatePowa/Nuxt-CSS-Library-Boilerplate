@@ -9,7 +9,6 @@
       <select
         ref="selectRef"
         :id="selectId"
-        :value="modelValue"
         :class="selectClasses"
         :disabled="disabled"
         :required="required"
@@ -68,7 +67,7 @@
     </p>
 
     <!-- Validation feedback -->
-    <div v-if="showValidation && !errorMessage && modelValue" class="mt-1 text-sm text-success">
+    <div v-if="showValidation && !errorMessage && model" class="mt-1 text-sm text-success">
       ✓ {{ validationMessage || 'Selection valid!' }}
     </div>
   </div>
@@ -95,7 +94,6 @@ interface OptionGroup {
 }
 
 interface Props {
-  modelValue?: string | number | string[] | number[];
   options?: Option[];
   label?: string;
   placeholder?: string;
@@ -125,8 +123,10 @@ const props = withDefaults(defineProps<Props>(), {
   autoFocus: false,
 });
 
+// Use defineModel() for v-model support
+const model = defineModel<string | number | string[] | number[]>();
+
 const emit = defineEmits<{
-  'update:modelValue': [value: string | number | string[] | number[]];
   change: [event: Event];
   focus: [event: FocusEvent];
   blur: [event: FocusEvent];
@@ -211,7 +211,7 @@ const selectClasses = computed(() => {
   }
 
   // Success state
-  if (props.showValidation && !hasError.value && props.modelValue) {
+  if (props.showValidation && !hasError.value && model.value) {
     baseClasses.push('select-success');
   }
 
@@ -268,12 +268,12 @@ const handleChange = (event: Event) => {
       const value = option.value;
       return /^\d+$/.test(value) ? Number(value) : value;
     });
-    emit('update:modelValue', values as string[] | number[]);
+    model.value = values as string[] | number[];
     validateSelection(values);
   } else {
     const value = target.value;
     const parsedValue = /^\d+$/.test(value) ? Number(value) : value;
-    emit('update:modelValue', parsedValue);
+    model.value = parsedValue;
     validateSelection(parsedValue);
   }
   
@@ -301,7 +301,7 @@ onMounted(() => {
 defineExpose({
   focus: () => selectRef.value?.focus(),
   blur: () => selectRef.value?.blur(),
-  validate: () => validateSelection(props.modelValue),
+  validate: () => validateSelection(model.value),
 });
 </script>
 
