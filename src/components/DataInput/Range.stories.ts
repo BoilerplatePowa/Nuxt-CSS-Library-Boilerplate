@@ -15,7 +15,7 @@ const meta: Meta<typeof Range> = {
     },
     variant: {
       control: { type: 'select' },
-      options: ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'error'],
+      options: ['primary', 'secondary', 'accent', 'success', 'warning', 'info', 'error'],
     },
     disabled: {
       control: { type: 'boolean' },
@@ -62,7 +62,6 @@ export const PriceRange: Story = {
     max: 1000,
     step: 50,
     showValue: true,
-    valuePrefix: '$',
     helpText: 'Select your budget range',
   },
 };
@@ -75,7 +74,6 @@ export const Percentage: Story = {
     max: 100,
     step: 5,
     showValue: true,
-    valueSuffix: '%',
   },
 };
 
@@ -98,7 +96,6 @@ export const Interactive: Story = {
           :max="100"
           :step="1"
           show-value
-          value-suffix="%"
           variant="primary"
         />
         
@@ -109,7 +106,6 @@ export const Interactive: Story = {
           :max="100"
           :step="5"
           show-value
-          value-suffix="%"
           variant="accent"
         />
         
@@ -120,7 +116,6 @@ export const Interactive: Story = {
           :max="30"
           :step="1"
           show-value
-          value-suffix="°C"
           variant="warning"
         />
         
@@ -140,12 +135,12 @@ export const Variants: Story = {
     components: { Range },
     template: `
       <div class="space-y-4">
-        <Range label="Default" :model-value="50" variant="default" show-value />
         <Range label="Primary" :model-value="60" variant="primary" show-value />
         <Range label="Secondary" :model-value="40" variant="secondary" show-value />
         <Range label="Accent" :model-value="70" variant="accent" show-value />
         <Range label="Success" :model-value="80" variant="success" show-value />
         <Range label="Warning" :model-value="30" variant="warning" show-value />
+        <Range label="Info" :model-value="45" variant="info" show-value />
         <Range label="Error" :model-value="20" variant="error" show-value />
       </div>
     `,

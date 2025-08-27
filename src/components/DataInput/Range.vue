@@ -7,7 +7,7 @@
 
     <input
       :id="rangeId"
-      :value="modelValue"
+      :value="model"
       type="range"
       :min="min"
       :max="max"
@@ -41,7 +41,6 @@ let idCounter = 0;
 const generateId = () => `range-${++idCounter}`;
 
 interface Props {
-  modelValue?: number;
   min?: number;
   max?: number;
   step?: number;
@@ -58,7 +57,6 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: 0,
   min: 0,
   max: 100,
   step: 1,
@@ -70,8 +68,10 @@ const props = withDefaults(defineProps<Props>(), {
   variant: 'primary',
 });
 
+// Use defineModel() for Vue 3.4 best practices
+const model = defineModel<number>({ default: 0 });
+
 const emit = defineEmits<{
-  'update:modelValue': [value: number];
   input: [event: Event];
   change: [event: Event];
 }>();
@@ -112,7 +112,7 @@ const rangeClasses = computed(() => {
 });
 
 const displayValue = computed(() => {
-  return props.modelValue?.toString() || '0';
+  return model.value?.toString() || '0';
 });
 
 const ticks = computed(() => {
@@ -141,7 +141,7 @@ const ariaDescribedby = computed(() => {
 const handleInput = (event: Event) => {
   const target = event.target as HTMLInputElement;
   const value = Number(target.value);
-  emit('update:modelValue', value);
+  model.value = value;
   emit('input', event);
 };
 
