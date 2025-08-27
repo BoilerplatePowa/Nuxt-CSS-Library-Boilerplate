@@ -66,9 +66,16 @@ const getTabKey = (tab: Tab, index: number): string => {
   return getTabValue(tab).toString() || index.toString();
 };
 
+// Set default value to first tab if no modelValue is provided
+watch(() => props.tabs, (newTabs) => {
+  if (newTabs.length > 0 && activeTabValue.value === undefined) {
+    activeTabValue.value = getTabValue(newTabs[0]);
+  }
+}, { immediate: true });
+
 // Computed active index based on model value
 const activeIndex = computed(() => {
-  if (activeTabValue.value !== undefined) {
+  if (activeTabValue.value !== undefined && activeTabValue.value !== '') {
     const index = props.tabs.findIndex(tab => getTabValue(tab) === activeTabValue.value);
     return index >= 0 ? index : 0;
   }
@@ -114,7 +121,7 @@ const getTabClasses = (tab: Tab, index: number) => {
 };
 
 const isActiveTab = (tab: Tab, index: number): boolean => {
-  if (activeTabValue.value !== undefined) {
+  if (activeTabValue.value !== undefined && activeTabValue.value !== '') {
     return getTabValue(tab) === activeTabValue.value;
   }
   return index === activeIndex.value;

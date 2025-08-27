@@ -79,7 +79,7 @@ describe('Tabs', () => {
     const secondTab = wrapper.findAll('.tab')[1];
     await secondTab.trigger('click');
 
-    // With defineModel, the activeTabValue should be updated
+    // With defineModel, the update:modelValue event should be emitted
     expect(wrapper.emitted('update:modelValue')).toBeTruthy();
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['Tab 2']);
   });
@@ -199,7 +199,7 @@ describe('Tabs', () => {
     const secondTab = wrapper.findAll('.tab')[1];
     await secondTab.trigger('click');
 
-    // Should emit update:modelValue with new activeTabValue
+    // Should emit update:modelValue with new value
     expect(wrapper.emitted('update:modelValue')).toBeTruthy();
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['Tab 2']);
   });
@@ -256,5 +256,44 @@ describe('Tabs', () => {
 
     // Should not emit update:modelValue when component is disabled
     expect(wrapper.emitted('update:modelValue')).toBeFalsy();
+  });
+
+  it('sets default value to first tab when no modelValue provided', () => {
+    const wrapper = mount(Tabs, {
+      props: {
+        tabs: sampleTabs,
+      },
+    });
+
+    // First tab should be active by default
+    const tabs = wrapper.findAll('.tab');
+    expect(tabs[0].classes()).toContain('tab-active');
+    expect(tabs[1].classes()).not.toContain('tab-active');
+    expect(tabs[2].classes()).not.toContain('tab-active');
+  });
+
+  it('handles modelValue with custom tab values', async () => {
+    const tabsWithValues = [
+      { label: 'First Tab', value: 'first', content: 'First content' },
+      { label: 'Second Tab', value: 'second', content: 'Second content' },
+    ];
+
+    const wrapper = mount(Tabs, {
+      props: {
+        tabs: tabsWithValues,
+        modelValue: 'second',
+      },
+    });
+
+    // Second tab should be active
+    const tabs = wrapper.findAll('.tab');
+    expect(tabs[0].classes()).not.toContain('tab-active');
+    expect(tabs[1].classes()).toContain('tab-active');
+
+    // Click first tab
+    await tabs[0].trigger('click');
+
+    // Should emit the custom value
+    expect(wrapper.emitted('update:modelValue')?.[0]).toEqual(['first']);
   });
 });
