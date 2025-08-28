@@ -26,9 +26,6 @@ const meta: Meta<typeof Validator> = {
       control: 'select',
       options: ['default', 'bordered', 'ghost', 'filled'],
     },
-    modelValue: {
-      control: 'text',
-    },
     validateOnInput: {
       control: 'boolean',
     },

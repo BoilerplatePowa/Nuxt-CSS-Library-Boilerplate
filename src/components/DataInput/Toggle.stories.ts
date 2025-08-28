@@ -8,14 +8,14 @@ const meta: Meta<typeof Toggle> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Toggle switch component for binary on/off states with customizable styling.',
+        component: 'Toggle switch component for binary on/off states with customizable styling. Uses Vue 3.4+ `defineModel()` for optimal v-model support.',
       },
     },
   },
   argTypes: {
     modelValue: {
       control: 'boolean',
-      description: 'Toggle state (on/off)',
+      description: 'Toggle state (on/off) - uses Vue 3.4 defineModel()',
     },
     label: {
       control: 'text',
@@ -39,6 +39,10 @@ const meta: Meta<typeof Toggle> = {
       control: 'text',
       description: 'Error message to display',
     },
+    helpText: {
+      control: 'text',
+      description: 'Help text to display below the toggle',
+    },
   },
   tags: ['autodocs'],
 };
@@ -57,6 +61,14 @@ export const On: Story = {
   args: {
     label: 'This toggle is on',
     modelValue: true,
+  },
+};
+
+export const WithHelpText: Story = {
+  args: {
+    label: 'Enable dark mode',
+    modelValue: false,
+    helpText: 'Switch between light and dark themes',
   },
 };
 
@@ -141,6 +153,54 @@ export const WithError: Story = {
     errorMessage: 'This field is required',
     variant: 'error',
   },
+};
+
+export const DefineModelExample: Story = {
+  render: () => ({
+    components: { Toggle },
+    data() {
+      return {
+        // Demonstrates the Vue 3.4 defineModel() behavior
+        simpleToggle: false,
+        requiredToggle: true,
+        defaultToggle: undefined, // Will use the default value from defineModel
+      };
+    },
+    template: `
+      <div class="space-y-6">
+        <div class="p-4 bg-base-200 rounded-lg">
+          <h3 class="font-semibold mb-3">Vue 3.4 defineModel() Examples</h3>
+          
+          <div class="space-y-4">
+            <div>
+              <Toggle v-model="simpleToggle" label="Simple toggle" />
+              <p class="text-sm text-base-content/60 mt-1">Value: {{ simpleToggle }}</p>
+            </div>
+            
+            <div>
+              <Toggle v-model="requiredToggle" label="Required toggle" />
+              <p class="text-sm text-base-content/60 mt-1">Value: {{ requiredToggle }}</p>
+            </div>
+            
+            <div>
+              <Toggle v-model="defaultToggle" label="Toggle with default value" />
+              <p class="text-sm text-base-content/60 mt-1">Value: {{ defaultToggle }} (uses defineModel default)</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="p-4 bg-base-200 rounded-lg">
+          <h3 class="font-semibold mb-3">Benefits of defineModel()</h3>
+          <ul class="text-sm space-y-1">
+            <li>• Automatic two-way binding without manual prop/emit setup</li>
+            <li>• Cleaner component code with less boilerplate</li>
+            <li>• Better TypeScript support</li>
+            <li>• Default values handled automatically</li>
+          </ul>
+        </div>
+      </div>
+    `,
+  }),
 };
 
 export const SettingsPanel: Story = {

@@ -4,7 +4,7 @@
       <span class="label-text">{{ label }}</span>
       <input
         :id="inputId"
-        v-model="checked"
+        v-model="model"
         type="checkbox"
         :class="toggleClasses"
         :disabled="disabled"
@@ -16,7 +16,7 @@
     <input
       v-else
       :id="inputId"
-      v-model="checked"
+      v-model="model"
       type="checkbox"
       :class="toggleClasses"
       :disabled="disabled"
@@ -43,7 +43,6 @@ let idCounter = 0;
 const generateId = () => `toggle-${++idCounter}`;
 
 interface Props {
-  modelValue?: boolean;
   label?: string;
   helpText?: string;
   errorMessage?: string;
@@ -55,24 +54,20 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: false,
   disabled: false,
   required: false,
   size: 'md',
   variant: 'primary',
 });
 
+// Use defineModel() for Vue 3.4+ v-model support
+const model = defineModel<boolean>({ default: false });
+
 const emit = defineEmits<{
-  'update:modelValue': [value: boolean];
   change: [event: Event];
 }>();
 
 const inputId = generateId();
-
-const checked = computed({
-  get: () => props.modelValue,
-  set: (value: boolean) => emit('update:modelValue', value),
-});
 
 const labelClasses = computed(() => ['label', 'cursor-pointer', 'flex', 'justify-between', 'items-center']);
 

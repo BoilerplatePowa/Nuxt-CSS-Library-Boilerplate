@@ -16,7 +16,7 @@
         <input
           v-if="type !== 'textarea'"
           :type="type"
-          v-model="inputValue"
+          v-model="model"
           :class="inputClasses"
           :placeholder="placeholder"
           :disabled="disabled"
@@ -30,7 +30,7 @@
         <!-- Textarea -->
         <textarea
           v-else
-          v-model="inputValue"
+          v-model="model"
           :class="textareaClasses"
           :placeholder="placeholder"
           :disabled="disabled"
@@ -57,7 +57,7 @@
 
         <!-- Character count -->
         <div v-if="showCharCount && maxLength" class="absolute bottom-2 right-2 text-xs opacity-60">
-          {{ inputValue.length }}/{{ maxLength }}
+          {{ model.length }}/{{ maxLength }}
         </div>
       </div>
 
@@ -112,7 +112,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue';
+import { computed, ref } from 'vue';
 
 interface ValidationRule {
   name: string;
@@ -121,7 +121,6 @@ interface ValidationRule {
 }
 
 interface Props {
-  modelValue?: string;
   label?: string;
   placeholder?: string;
   helperText?: string;
@@ -164,21 +163,17 @@ const props = withDefaults(defineProps<Props>(), {
   showSummary: false,
 });
 
+// Use defineModel for Vue 3.4 v-model implementation
+const model = defineModel<string>({ default: '' });
+
 const emit = defineEmits<{
-  'update:modelValue': [value: string];
   validate: [isValid: boolean, errors: string[]];
   focus: [];
   blur: [];
 }>();
 
-const inputValue = ref(props.modelValue || '');
 const hasBeenValidated = ref(false);
 const isFocused = ref(false);
-
-// Watch for external changes to modelValue
-watch(() => props.modelValue, (newValue) => {
-  inputValue.value = newValue || '';
-});
 
 // Built-in validation rules
 const builtInRules = computed(() => {
@@ -236,7 +231,7 @@ const builtInRules = computed(() => {
     rules.push({
       name: 'custom',
       test: (value) => props.customValidator!(value) === null,
-      message: props.customValidator!(inputValue.value) || 'Invalid value',
+      message: props.customValidator!(model.value) || 'Invalid value',
     });
   }
 
@@ -250,7 +245,7 @@ const allRules = computed(() => [
 
 const validationErrors = computed(() => {
   const errors: string[] = [];
-  const inputVal = inputValue.value;
+  const inputVal = model.value;
 
   for (const rule of allRules.value) {
     if (!rule.test(inputVal)) {
@@ -374,8 +369,6 @@ const summaryClasses = computed(() => {
 });
 
 const handleInput = () => {
-  emit('update:modelValue', inputValue.value);
-  
   if (props.validateOnInput) {
     validate();
   }
@@ -408,8 +401,7 @@ defineExpose({
   errors: computed(() => validationErrors.value),
   reset: () => {
     hasBeenValidated.value = false;
-    inputValue.value = '';
-    emit('update:modelValue', '');
+    model.value = '';
   },
 });
 </script>

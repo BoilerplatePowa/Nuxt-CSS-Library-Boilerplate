@@ -181,4 +181,32 @@ describe('Toggle', () => {
     const toggle = wrapper.find('input[type="checkbox"]');
     expect(toggle.attributes('aria-describedby')).toBeTruthy();
   });
+
+  it('uses default value when no modelValue is provided', () => {
+    const wrapper = mount(Toggle, {
+      props: {
+        label: 'Test toggle',
+      },
+    });
+
+    const toggle = wrapper.find('input[type="checkbox"]');
+    expect(toggle.element.checked).toBe(false);
+  });
+
+  it('handles v-model binding correctly with defineModel', async () => {
+    const wrapper = mount(Toggle, {
+      props: {
+        modelValue: false,
+        label: 'Test toggle',
+      },
+    });
+
+    // Test that the component properly binds to the modelValue prop
+    const toggle = wrapper.find('input[type="checkbox"]');
+    expect(toggle.element.checked).toBe(false);
+
+    // Update the prop and verify the input reflects the change
+    await wrapper.setProps({ modelValue: true });
+    expect(toggle.element.checked).toBe(true);
+  });
 });
