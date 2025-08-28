@@ -5,7 +5,6 @@ interface Option {
     group?: string;
 }
 interface Props {
-    modelValue?: string | number | string[] | number[];
     options?: Option[];
     label?: string;
     placeholder?: string;
@@ -22,6 +21,10 @@ interface Props {
     ariaDescribedby?: string;
     autoFocus?: boolean;
 }
+type __VLS_Props = Props;
+type __VLS_PublicProps = {
+    modelValue?: string | number | string[] | number[];
+} & __VLS_Props;
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: {
@@ -33,7 +36,7 @@ declare function __VLS_template(): {
     rootEl: HTMLDivElement;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
-declare const __VLS_component: import('vue').DefineComponent<Props, {
+declare const __VLS_component: import('vue').DefineComponent<__VLS_PublicProps, {
     focus: () => void | undefined;
     blur: () => void | undefined;
     validate: () => boolean;
@@ -43,19 +46,19 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {
     "update:modelValue": (value: string | number | number[] | string[]) => any;
     change: (event: Event) => any;
     validate: (isValid: boolean) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
+}, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
     onFocus?: ((event: FocusEvent) => any) | undefined;
     onBlur?: ((event: FocusEvent) => any) | undefined;
     "onUpdate:modelValue"?: ((value: string | number | number[] | string[]) => any) | undefined;
     onChange?: ((event: Event) => any) | undefined;
     onValidate?: ((isValid: boolean) => any) | undefined;
 }>, {
-    variant: "bordered" | "ghost" | "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";
     size: "xs" | "sm" | "md" | "lg";
+    required: boolean;
+    variant: "bordered" | "ghost" | "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";
     disabled: boolean;
     loading: boolean;
     autoFocus: boolean;
-    required: boolean;
     multiple: boolean;
     showValidation: boolean;
     options: Option[];

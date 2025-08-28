@@ -50,13 +50,13 @@ declare const _default: __VLS_WithTemplateSlots<import('vue').DefineComponent<{
     "onBefore-close"?: (() => any) | undefined;
     "onAfter-close"?: (() => any) | undefined;
 }>, {
+    fixed: boolean;
     type: "success" | "error" | "warning" | "info";
     autoFocus: boolean;
-    fixed: boolean;
-    position: "top-right" | "top-left" | "bottom-right" | "bottom-left" | "top-center" | "bottom-center";
     closable: boolean;
     persistent: boolean;
     duration: number;
+    position: "top-right" | "top-left" | "bottom-right" | "bottom-left" | "top-center" | "bottom-center";
     showProgress: boolean;
     pauseOnHover: boolean;
     announceToScreenReader: boolean;

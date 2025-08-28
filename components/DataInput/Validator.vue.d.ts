@@ -4,7 +4,6 @@ interface ValidationRule {
     message: string;
 }
 interface Props {
-    modelValue?: string;
     label?: string;
     placeholder?: string;
     helperText?: string;
@@ -29,7 +28,11 @@ interface Props {
     pattern?: RegExp;
     customValidator?: (value: string) => string | null;
 }
-declare const _default: import('vue').DefineComponent<Props, {
+type __VLS_Props = Props;
+type __VLS_PublicProps = {
+    modelValue?: string;
+} & __VLS_Props;
+declare const _default: import('vue').DefineComponent<__VLS_PublicProps, {
     validate: () => boolean;
     isValid: import('vue').ComputedRef<boolean>;
     errors: import('vue').ComputedRef<string[]>;
@@ -39,24 +42,24 @@ declare const _default: import('vue').DefineComponent<Props, {
     blur: () => any;
     "update:modelValue": (value: string) => any;
     validate: (isValid: boolean, errors: string[]) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
+}, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
     onFocus?: (() => any) | undefined;
     onBlur?: (() => any) | undefined;
     "onUpdate:modelValue"?: ((value: string) => any) | undefined;
     onValidate?: ((isValid: boolean, errors: string[]) => any) | undefined;
 }>, {
-    variant: "default" | "bordered" | "ghost" | "filled";
     size: "sm" | "md" | "lg";
-    disabled: boolean;
     type: "text" | "email" | "password" | "url" | "tel" | "number" | "textarea";
     required: boolean;
+    variant: "default" | "bordered" | "ghost" | "filled";
+    disabled: boolean;
     readonly: boolean;
     showCharCount: boolean;
+    rules: ValidationRule[];
     validateOnBlur: boolean;
     validateOnInput: boolean;
-    rows: number;
-    rules: ValidationRule[];
-    showValidationIcon: boolean;
     showSummary: boolean;
+    rows: number;
+    showValidationIcon: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 export default _default;

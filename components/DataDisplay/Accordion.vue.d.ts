@@ -7,13 +7,16 @@ interface AccordionItem {
 }
 interface Props {
     items?: AccordionItem[];
-    modelValue?: string | number;
     multiple?: boolean;
     variant?: 'default' | 'bordered' | 'compact';
     size?: 'sm' | 'md' | 'lg';
     disabled?: boolean;
     id?: string;
 }
+type __VLS_Props = Props;
+type __VLS_PublicProps = {
+    modelValue?: string | number | null;
+} & __VLS_Props;
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: Partial<Record<`item-${number}`, (_: {
@@ -27,18 +30,20 @@ declare function __VLS_template(): {
     rootEl: HTMLDivElement;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
-declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+declare const __VLS_component: import('vue').DefineComponent<__VLS_PublicProps, {
+    openItem: import('vue').ModelRef<string | number | null, string, string | number | null, string | number | null>;
+}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "update:modelValue": (value: string | number | null) => any;
     "item-toggle": (item: AccordionItem, index: number, isOpen: boolean) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
+}, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
     "onUpdate:modelValue"?: ((value: string | number | null) => any) | undefined;
     "onItem-toggle"?: ((item: AccordionItem, index: number, isOpen: boolean) => any) | undefined;
 }>, {
-    variant: "default" | "bordered" | "compact";
     size: "sm" | "md" | "lg";
+    id: string;
+    variant: "default" | "bordered" | "compact";
     disabled: boolean;
     items: AccordionItem[];
-    id: string;
     multiple: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;

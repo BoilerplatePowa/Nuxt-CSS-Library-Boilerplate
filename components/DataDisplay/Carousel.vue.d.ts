@@ -6,7 +6,6 @@ interface CarouselItem {
 }
 interface Props {
     items: CarouselItem[];
-    modelValue?: number;
     autoplay?: boolean;
     autoplayInterval?: number;
     loop?: boolean;
@@ -20,6 +19,10 @@ interface Props {
     itemHeight?: string;
     gap?: string;
 }
+type __VLS_Props = Props;
+type __VLS_PublicProps = {
+    modelValue?: number;
+} & __VLS_Props;
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: Partial<Record<`carousel-item-${number}`, (_: {
@@ -37,17 +40,16 @@ declare function __VLS_template(): {
     rootEl: HTMLDivElement;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
-declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
-    "item-click": (item: CarouselItem, index: number, event: Event) => any;
+declare const __VLS_component: import('vue').DefineComponent<__VLS_PublicProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "update:modelValue": (value: number) => any;
+    "item-click": (item: CarouselItem, index: number, event: Event) => any;
     "slide-change": (index: number, item: CarouselItem) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
-    "onItem-click"?: ((item: CarouselItem, index: number, event: Event) => any) | undefined;
+}, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
     "onUpdate:modelValue"?: ((value: number) => any) | undefined;
+    "onItem-click"?: ((item: CarouselItem, index: number, event: Event) => any) | undefined;
     "onSlide-change"?: ((index: number, item: CarouselItem) => any) | undefined;
 }>, {
     variant: "default" | "full-width" | "center" | "vertical";
-    modelValue: number;
     autoplay: boolean;
     autoplayInterval: number;
     loop: boolean;

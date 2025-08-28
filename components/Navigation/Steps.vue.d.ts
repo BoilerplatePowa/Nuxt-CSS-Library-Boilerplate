@@ -1,8 +1,9 @@
+import { IconName, Variant } from '../../../../../../../../src/shared/types.d';
 interface Step {
     title?: string;
     description?: string;
     value?: string | number;
-    icon?: string;
+    icon?: IconName;
     content?: string;
     completed?: boolean;
     disabled?: boolean;
@@ -11,9 +12,8 @@ interface Props {
     steps?: Step[];
     currentStep?: number;
     variant?: 'default' | 'vertical';
-    size?: 'xs' | 'sm' | 'md' | 'lg';
     showNumbers?: boolean;
-    color?: 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
+    color?: Variant;
 }
 declare function __VLS_template(): {
     attrs: Partial<{}>;
@@ -30,9 +30,8 @@ declare function __VLS_template(): {
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{}>, {
+    color: Variant;
     variant: "default" | "vertical";
-    size: "xs" | "sm" | "md" | "lg";
-    color: "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";
     steps: Step[];
     currentStep: number;
     showNumbers: boolean;

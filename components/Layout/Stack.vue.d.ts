@@ -17,9 +17,9 @@ declare function __VLS_template(): {
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{}>, {
     reverse: boolean;
-    align: "start" | "center" | "end" | "stretch";
     direction: "horizontal" | "vertical";
     spacing: "none" | "xs" | "sm" | "md" | "lg" | "xl";
+    align: "start" | "center" | "end" | "stretch";
     justify: "start" | "center" | "end" | "between" | "around" | "evenly";
     wrap: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;

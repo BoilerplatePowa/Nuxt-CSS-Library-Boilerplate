@@ -16,8 +16,8 @@ declare function __VLS_template(): {
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{}>, {
-    variant: "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";
     size: "xs" | "sm" | "md" | "lg";
+    variant: "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";
     position: "top-start" | "top-center" | "top-end" | "middle-start" | "middle-center" | "middle-end" | "bottom-start" | "bottom-center" | "bottom-end";
     showIndicator: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;

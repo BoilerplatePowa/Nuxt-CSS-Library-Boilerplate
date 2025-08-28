@@ -50,8 +50,8 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
     onActionClick?: ((action: ListAction, item: ListItem, index: number, event: Event) => any) | undefined;
     onItemClick?: ((item: ListItem, index: number, event: Event) => any) | undefined;
 }>, {
-    variant: "default" | "bordered" | "hover" | "zebra";
     size: "sm" | "md" | "lg";
+    variant: "default" | "bordered" | "hover" | "zebra";
     selectable: boolean;
     clickable: boolean;
     showEmpty: boolean;

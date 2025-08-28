@@ -1,5 +1,4 @@
 interface Props {
-    modelValue?: number;
     maxRating?: number;
     label?: string;
     helpText?: string;
@@ -11,17 +10,20 @@ interface Props {
     variant?: 'star' | 'heart' | 'mask';
     name?: string;
 }
-declare const _default: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+type __VLS_Props = Props;
+type __VLS_PublicProps = {
+    modelValue?: number;
+} & __VLS_Props;
+declare const _default: import('vue').DefineComponent<__VLS_PublicProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "update:modelValue": (value: number) => any;
     change: (value: number) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
+}, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
     "onUpdate:modelValue"?: ((value: number) => any) | undefined;
     onChange?: ((value: number) => any) | undefined;
 }>, {
-    variant: "star" | "heart" | "mask";
     size: "xs" | "sm" | "md" | "lg";
+    variant: "star" | "heart" | "mask";
     disabled: boolean;
-    modelValue: number;
     readonly: boolean;
     maxRating: number;
     allowEmpty: boolean;

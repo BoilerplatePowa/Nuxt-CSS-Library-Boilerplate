@@ -1,19 +1,9 @@
-interface CalendarEvent {
-    title: string;
-    color?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'error' | 'info';
-    [key: string]: unknown;
-}
-interface CalendarDay {
-    day: number;
-    date: Date;
-    isCurrentMonth: boolean;
-    isToday: boolean;
-    isSelected: boolean;
-    isDisabled: boolean;
-    events?: CalendarEvent[];
-}
 interface Props {
-    modelValue?: Date | string | null;
+    mode?: 'input' | 'inline';
+    range?: boolean;
+    placeholder?: string;
+    format?: string;
+    locale?: string;
     size?: 'sm' | 'md' | 'lg';
     variant?: 'default' | 'bordered' | 'filled';
     disabled?: boolean;
@@ -21,45 +11,48 @@ interface Props {
     minDate?: Date | string;
     maxDate?: Date | string;
     disabledDates?: Date[] | string[];
-    events?: Record<string, CalendarEvent[]>;
+    showTime?: boolean;
+    timeStep?: number;
     allowMonthSelect?: boolean;
     allowYearSelect?: boolean;
-    showToday?: boolean;
     yearRange?: [number, number];
-    locale?: string;
+    errorMessage?: string;
 }
-declare function __VLS_template(): {
-    attrs: Partial<{}>;
-    slots: {
-        footer?(_: {}): any;
-    };
-    refs: {};
-    rootEl: HTMLDivElement;
-};
-type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
-declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
-    "update:modelValue": (value: Date | null) => any;
-    dayClick: (day: CalendarDay) => any;
-    monthChange: (month: number, year: number) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
-    "onUpdate:modelValue"?: ((value: Date | null) => any) | undefined;
-    onDayClick?: ((day: CalendarDay) => any) | undefined;
-    onMonthChange?: ((month: number, year: number) => any) | undefined;
+type __VLS_Props = Props;
+type __VLS_PublicProps = {
+    modelValue?: Date | Date[] | null;
+} & __VLS_Props;
+declare const _default: import('vue').DefineComponent<__VLS_PublicProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+    error: (error: string) => any;
+    close: () => any;
+    focus: (event: FocusEvent) => any;
+    blur: (event: FocusEvent) => any;
+    select: (date: Date | Date[]) => any;
+    "update:modelValue": (value: Date | Date[] | null) => any;
+}, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
+    onError?: ((error: string) => any) | undefined;
+    onClose?: (() => any) | undefined;
+    onFocus?: ((event: FocusEvent) => any) | undefined;
+    onBlur?: ((event: FocusEvent) => any) | undefined;
+    onSelect?: ((date: Date | Date[]) => any) | undefined;
+    "onUpdate:modelValue"?: ((value: Date | Date[] | null) => any) | undefined;
 }>, {
-    variant: "default" | "bordered" | "filled";
+    mode: "input" | "inline";
+    range: boolean;
     size: "sm" | "md" | "lg";
+    format: string;
+    variant: "default" | "bordered" | "filled";
     disabled: boolean;
+    placeholder: string;
     readonly: boolean;
+    locale: string;
+    showTime: boolean;
+    timeStep: number;
     allowMonthSelect: boolean;
     allowYearSelect: boolean;
-    showToday: boolean;
     yearRange: [number, number];
-    locale: string;
-}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
-declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
+}, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
+    calendarRef: HTMLDivElement;
+    inputRef: HTMLInputElement;
+}, HTMLDivElement>;
 export default _default;
-type __VLS_WithTemplateSlots<T, S> = T & {
-    new (): {
-        $slots: S;
-    };
-};

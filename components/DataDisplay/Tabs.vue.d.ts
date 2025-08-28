@@ -7,11 +7,14 @@ interface Tab {
 }
 interface Props {
     tabs?: Tab[];
-    modelValue?: string | number;
     variant?: 'default' | 'bordered' | 'lifted' | 'boxed';
     size?: 'xs' | 'sm' | 'md' | 'lg';
     disabled?: boolean;
 }
+type __VLS_Props = Props;
+type __VLS_PublicProps = {
+    modelValue?: string | number;
+} & __VLS_Props;
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: {
@@ -21,15 +24,15 @@ declare function __VLS_template(): {
     rootEl: HTMLDivElement;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
-declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+declare const __VLS_component: import('vue').DefineComponent<__VLS_PublicProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "update:modelValue": (value: string | number) => any;
     "tab-change": (value: string | number) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
+}, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
     "onUpdate:modelValue"?: ((value: string | number) => any) | undefined;
     "onTab-change"?: ((value: string | number) => any) | undefined;
 }>, {
-    variant: "default" | "bordered" | "lifted" | "boxed";
     size: "xs" | "sm" | "md" | "lg";
+    variant: "default" | "bordered" | "lifted" | "boxed";
     disabled: boolean;
     tabs: Tab[];
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;

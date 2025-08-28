@@ -34,8 +34,8 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
 }, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
     "onPage-change"?: ((page: number) => any) | undefined;
 }>, {
-    variant: "default" | "outline" | "ghost";
     size: "xs" | "sm" | "md" | "lg";
+    variant: "default" | "outline" | "ghost";
     disabled: boolean;
     showLabels: boolean;
     itemsPerPage: number;

@@ -1,5 +1,4 @@
 interface Props {
-    modelValue?: string | number | boolean;
     value: string | number | boolean;
     name: string;
     label?: string;
@@ -11,16 +10,20 @@ interface Props {
     variant?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'info' | 'error';
     ariaDescribedby?: string;
 }
-declare const _default: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+type __VLS_Props = Props;
+type __VLS_PublicProps = {
+    modelValue?: string | number | boolean;
+} & __VLS_Props;
+declare const _default: import('vue').DefineComponent<__VLS_PublicProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "update:modelValue": (value: string | number | boolean) => any;
     change: (event: Event) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
+}, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
     "onUpdate:modelValue"?: ((value: string | number | boolean) => any) | undefined;
     onChange?: ((event: Event) => any) | undefined;
 }>, {
-    variant: "primary" | "secondary" | "accent" | "success" | "warning" | "info" | "error";
     size: "xs" | "sm" | "md" | "lg";
-    disabled: boolean;
     required: boolean;
+    variant: "primary" | "secondary" | "accent" | "success" | "warning" | "info" | "error";
+    disabled: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 export default _default;

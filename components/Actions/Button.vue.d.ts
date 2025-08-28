@@ -1,3 +1,4 @@
+import { IconName, Size } from '../../../../../../../../src/shared/types.d';
 interface Props {
     variant?: 'primary' | 'secondary' | 'accent' | 'neutral' | 'ghost' | 'outline' | 'link' | 'info' | 'success' | 'warning' | 'error';
     size?: 'xs' | 'sm' | 'md' | 'lg';
@@ -19,6 +20,9 @@ interface Props {
     confirmAction?: boolean;
     confirmText?: string;
     autoFocus?: boolean;
+    iconLeft?: IconName;
+    iconRight?: IconName;
+    iconSize?: Size | number;
 }
 declare function __VLS_template(): {
     attrs: Partial<{}>;
@@ -48,13 +52,13 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {
     onFocus?: ((event: FocusEvent) => any) | undefined;
     onBlur?: ((event: FocusEvent) => any) | undefined;
 }>, {
-    variant: "primary" | "secondary" | "accent" | "neutral" | "ghost" | "outline" | "link" | "info" | "success" | "warning" | "error";
     size: "xs" | "sm" | "md" | "lg";
+    type: "button" | "submit" | "reset";
+    variant: "primary" | "secondary" | "accent" | "neutral" | "ghost" | "outline" | "link" | "info" | "success" | "warning" | "error";
     disabled: boolean;
     loading: boolean;
     loadingText: string;
     hideTextOnLoading: boolean;
-    type: "button" | "submit" | "reset";
     fullWidth: boolean;
     circle: boolean;
     square: boolean;
@@ -64,6 +68,7 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {
     confirmAction: boolean;
     confirmText: string;
     autoFocus: boolean;
+    iconSize: Size | number;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
     buttonRef: HTMLButtonElement;
 }, HTMLButtonElement>;

@@ -1,5 +1,4 @@
 interface Props {
-    modelValue?: boolean;
     position?: 'left' | 'right' | 'top' | 'bottom';
     width?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
     backdrop?: boolean;
@@ -7,6 +6,10 @@ interface Props {
     showCloseButton?: boolean;
     id?: string;
 }
+type __VLS_Props = Props;
+type __VLS_PublicProps = {
+    modelValue?: boolean;
+} & __VLS_Props;
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: {
@@ -23,20 +26,19 @@ declare function __VLS_template(): {
     rootEl: HTMLDivElement;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
-declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
-    open: () => any;
+declare const __VLS_component: import('vue').DefineComponent<__VLS_PublicProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     close: () => any;
     "update:modelValue": (value: boolean) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
-    onOpen?: (() => any) | undefined;
+    open: () => any;
+}, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
     onClose?: (() => any) | undefined;
     "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+    onOpen?: (() => any) | undefined;
 }>, {
-    position: "left" | "right" | "top" | "bottom";
     id: string;
-    modelValue: boolean;
-    persistent: boolean;
     width: "sm" | "md" | "lg" | "xl" | "full";
+    persistent: boolean;
+    position: "left" | "right" | "top" | "bottom";
     backdrop: boolean;
     showCloseButton: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;

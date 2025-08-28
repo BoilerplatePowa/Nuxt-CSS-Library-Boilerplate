@@ -60,12 +60,12 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {
     loading: boolean;
     glass: boolean;
     shadow: "none" | "sm" | "md" | "lg" | "xl" | "2xl";
-    tag: "div" | "article" | "section";
     imageFull: boolean;
     imageOverlay: boolean;
     interactive: boolean;
     selected: boolean;
     badgeVariant: "primary" | "secondary" | "accent" | "success" | "warning" | "error" | "info";
+    tag: "div" | "article" | "section";
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
     cardRef: unknown;
 }, any>;

@@ -10,10 +10,10 @@ interface Props {
     ariaLabel?: string;
 }
 declare const _default: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{}>, {
-    variant: "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";
     size: "xs" | "sm" | "md" | "lg";
-    value: number;
     max: number;
+    variant: "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";
+    value: number;
     showValue: boolean;
     valueFormat: "percentage" | "fraction" | "raw";
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;

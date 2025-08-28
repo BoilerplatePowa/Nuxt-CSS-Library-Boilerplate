@@ -36,8 +36,8 @@ declare const _default: import('vue').DefineComponent<Props, {}, {}, {}, {}, imp
     onFilterClear?: ((key: string) => any) | undefined;
     onFilterClearAll?: (() => any) | undefined;
 }>, {
-    variant: "default" | "bordered" | "card";
     size: "sm" | "md" | "lg";
+    variant: "default" | "bordered" | "card";
     showHeader: boolean;
     showActiveFilters: boolean;
     collapsible: boolean;

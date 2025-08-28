@@ -1,5 +1,4 @@
 interface Props {
-    modelValue?: File | File[];
     label?: string;
     helpText?: string;
     errorMessage?: string;
@@ -16,19 +15,23 @@ interface Props {
     maxFileSize?: number;
     ariaDescribedby?: string;
 }
-declare const _default: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+type __VLS_Props = Props;
+type __VLS_PublicProps = {
+    modelValue?: File | File[];
+} & __VLS_Props;
+declare const _default: import('vue').DefineComponent<__VLS_PublicProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     error: (message: string) => any;
     "update:modelValue": (value: File | File[]) => any;
     change: (files: File[]) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
+}, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
     onError?: ((message: string) => any) | undefined;
     "onUpdate:modelValue"?: ((value: File | File[]) => any) | undefined;
     onChange?: ((files: File[]) => any) | undefined;
 }>, {
-    variant: "bordered" | "ghost" | "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";
     size: "xs" | "sm" | "md" | "lg";
-    disabled: boolean;
     required: boolean;
+    variant: "bordered" | "ghost" | "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";
+    disabled: boolean;
     multiple: boolean;
     showPreview: boolean;
     allowRemove: boolean;

@@ -1,3 +1,4 @@
+import { Variant, IconName } from '../../../../../../../../src/shared/types.d';
 interface Props {
     src?: string;
     alt?: string;
@@ -7,15 +8,16 @@ interface Props {
     size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
     shape?: 'circle' | 'square' | 'rounded';
     presence?: 'online' | 'offline' | 'away' | 'busy';
-    online?: boolean;
     showPresence?: boolean;
     ring?: boolean;
-    ringColor?: 'primary' | 'secondary' | 'accent' | 'neutral' | 'success' | 'warning' | 'error';
+    ringColor?: Variant;
     badge?: string;
+    badgeVariant?: Variant;
     count?: number;
     loading?: boolean;
     lazy?: boolean;
     fallbackColor?: 'primary' | 'secondary' | 'accent' | 'neutral' | 'random';
+    fallbackIcon?: IconName;
 }
 declare function __VLS_template(): {
     attrs: Partial<{}>;
@@ -35,12 +37,14 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
 }>, {
     size: "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     loading: boolean;
+    badgeVariant: Variant;
+    lazy: boolean;
     shape: "circle" | "square" | "rounded";
     showPresence: boolean;
     ring: boolean;
-    ringColor: "primary" | "secondary" | "accent" | "neutral" | "success" | "warning" | "error";
-    lazy: boolean;
+    ringColor: Variant;
     fallbackColor: "primary" | "secondary" | "accent" | "neutral" | "random";
+    fallbackIcon: IconName;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
 export default _default;

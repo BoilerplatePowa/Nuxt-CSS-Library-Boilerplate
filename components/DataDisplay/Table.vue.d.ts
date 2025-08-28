@@ -42,8 +42,8 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
     "onRow-click"?: ((row: Record<string, any>, index: number, event: Event) => any) | undefined;
     "onSort-change"?: ((column: TableColumn, order: "desc" | "asc") => any) | undefined;
 }>, {
-    variant: "default" | "zebra" | "compact" | "bordered";
     size: "xs" | "sm" | "md" | "lg";
+    variant: "default" | "zebra" | "compact" | "bordered";
     loading: boolean;
     data: Record<string, any>[];
     showHeader: boolean;

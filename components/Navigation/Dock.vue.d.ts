@@ -43,8 +43,8 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
     onItemHover?: ((item: DockItem, index: number) => any) | undefined;
     onItemLeave?: ((item: DockItem, index: number) => any) | undefined;
 }>, {
-    variant: "default" | "floating" | "glass";
     size: "sm" | "md" | "lg";
+    variant: "default" | "floating" | "glass";
     position: "bottom" | "top" | "left" | "right";
     animated: boolean;
     showTooltips: boolean;

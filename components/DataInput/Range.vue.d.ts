@@ -1,5 +1,4 @@
 interface Props {
-    modelValue?: number;
     min?: number;
     max?: number;
     step?: number;
@@ -14,21 +13,24 @@ interface Props {
     variant?: 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'info' | 'error';
     ariaDescribedby?: string;
 }
-declare const _default: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+type __VLS_Props = Props;
+type __VLS_PublicProps = {
+    modelValue?: number;
+} & __VLS_Props;
+declare const _default: import('vue').DefineComponent<__VLS_PublicProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     input: (event: Event) => any;
     "update:modelValue": (value: number) => any;
     change: (event: Event) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
+}, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
     onInput?: ((event: Event) => any) | undefined;
     "onUpdate:modelValue"?: ((value: number) => any) | undefined;
     onChange?: ((event: Event) => any) | undefined;
 }>, {
-    variant: "primary" | "secondary" | "accent" | "success" | "warning" | "info" | "error";
     size: "xs" | "sm" | "md" | "lg";
-    disabled: boolean;
-    modelValue: number;
-    min: number;
     max: number;
+    min: number;
+    variant: "primary" | "secondary" | "accent" | "success" | "warning" | "info" | "error";
+    disabled: boolean;
     step: number;
     showValue: boolean;
     showTicks: boolean;

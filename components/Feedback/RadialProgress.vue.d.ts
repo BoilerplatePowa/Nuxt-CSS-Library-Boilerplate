@@ -19,9 +19,9 @@ declare function __VLS_template(): {
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{}>, {
-    variant: "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";
     size: "xs" | "sm" | "md" | "lg" | "xl";
     max: number;
+    variant: "primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error";
     showValue: boolean;
     valueFormat: "percentage" | "fraction" | "raw";
     thickness: "thin" | "medium" | "thick";

@@ -1,11 +1,14 @@
 interface Props {
-    modelValue?: boolean;
     title?: string;
     variant?: 'default' | 'arrow' | 'plus' | 'bordered' | 'ghost';
     disabled?: boolean;
     forceOpen?: boolean;
     id?: string;
 }
+type __VLS_Props = Props;
+type __VLS_PublicProps = {
+    modelValue?: boolean;
+} & __VLS_Props;
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: {
@@ -16,18 +19,17 @@ declare function __VLS_template(): {
     rootEl: HTMLDivElement;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
-declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
-    toggle: (isOpen: boolean) => any;
+declare const __VLS_component: import('vue').DefineComponent<__VLS_PublicProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "update:modelValue": (value: boolean) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
-    onToggle?: ((isOpen: boolean) => any) | undefined;
+    toggle: (isOpen: boolean) => any;
+}, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
     "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
+    onToggle?: ((isOpen: boolean) => any) | undefined;
 }>, {
+    id: string;
     variant: "default" | "arrow" | "plus" | "bordered" | "ghost";
     disabled: boolean;
     forceOpen: boolean;
-    id: string;
-    modelValue: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
 export default _default;

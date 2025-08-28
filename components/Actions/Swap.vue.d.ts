@@ -1,44 +1,38 @@
 interface Props {
-    modelValue?: boolean;
     variant?: 'rotate' | 'flip' | 'indeterminate';
-    size?: 'xs' | 'sm' | 'md' | 'lg';
-    onContent?: string;
-    offContent?: string;
+    swapOnContent?: string;
+    swapOffContent?: string;
     indeterminateContent?: string;
     disabled?: boolean;
     name?: string;
     id?: string;
 }
+type __VLS_Props = Props;
+type __VLS_PublicProps = {
+    modelValue?: boolean;
+} & __VLS_Props;
 declare function __VLS_template(): {
     attrs: Partial<{}>;
     slots: {
-        on?(_: {}): any;
-        on?(_: {}): any;
-        on?(_: {}): any;
-        off?(_: {}): any;
-        off?(_: {}): any;
-        off?(_: {}): any;
         indeterminate?(_: {}): any;
+        on?(_: {}): any;
+        off?(_: {}): any;
     };
     refs: {};
     rootEl: HTMLLabelElement;
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
-declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
+declare const __VLS_component: import('vue').DefineComponent<__VLS_PublicProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     "update:modelValue": (value: boolean) => any;
-    change: (value: boolean) => any;
-}, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
+}, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
     "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
-    onChange?: ((value: boolean) => any) | undefined;
 }>, {
     name: string;
-    variant: "rotate" | "flip" | "indeterminate";
-    size: "xs" | "sm" | "md" | "lg";
-    disabled: boolean;
     id: string;
-    modelValue: boolean;
-    onContent: string;
-    offContent: string;
+    variant: "rotate" | "flip" | "indeterminate";
+    disabled: boolean;
+    swapOnContent: string;
+    swapOffContent: string;
     indeterminateContent: string;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLLabelElement>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;

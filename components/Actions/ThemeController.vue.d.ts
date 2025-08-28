@@ -27,9 +27,9 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
 }, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
     onThemeChange?: ((theme: string) => any) | undefined;
 }>, {
-    variant: "button" | "toggle" | "switch" | "dropdown" | "radio";
     size: "xs" | "sm" | "md" | "lg";
     ariaLabel: string;
+    variant: "button" | "toggle" | "switch" | "dropdown" | "radio";
     themes: ThemeOption[];
     defaultTheme: string;
     darkTheme: string;

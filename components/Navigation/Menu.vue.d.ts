@@ -30,8 +30,8 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
 }, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
     "onItem-click"?: ((item: MenuItem, event: Event) => any) | undefined;
 }>, {
-    variant: "default" | "compact" | "horizontal";
     size: "xs" | "sm" | "md" | "lg";
+    variant: "default" | "compact" | "horizontal";
     items: MenuItem[];
     rounded: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLUListElement>;
