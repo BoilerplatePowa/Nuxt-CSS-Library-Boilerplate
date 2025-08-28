@@ -34,14 +34,20 @@ describe('Design System Plugin', () => {
   });
 
   it('should have correct default configuration', async () => {
-    const { default: module } = await import('./index.ts');
+    // Import the plugin to trigger module definition
+    await import('./index.ts');
     
-    expect(module.defaults).toEqual({
-      prefix: 'Bp',
-      components: true,
-      css: true,
-      composables: true,
-    });
+    // Check that defineNuxtModule was called with correct defaults
+    expect(defineNuxtModule).toHaveBeenCalledWith(
+      expect.objectContaining({
+        defaults: {
+          prefix: 'Bp',
+          components: true,
+          css: true,
+          composables: true,
+        },
+      })
+    );
   });
 
   it('should support all component categories', async () => {

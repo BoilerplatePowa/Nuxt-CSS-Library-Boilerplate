@@ -22,14 +22,11 @@ const meta: Meta<typeof RadialProgress> = {
       control: { type: 'select' },
       options: ['thin', 'normal', 'thick'],
     },
-    color: {
+    variant: {
       control: { type: 'select' },
       options: ['primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'],
     },
     showValue: {
-      control: { type: 'boolean' },
-    },
-    animated: {
       control: { type: 'boolean' },
     },
   },
@@ -84,37 +81,37 @@ export const Colors: Story = {
     template: `
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
         <div class="text-center">
-          <RadialProgress :value="70" color="primary" />
+          <RadialProgress :value="70" variant="primary" />
           <p class="mt-2 text-sm">Primary</p>
         </div>
         
         <div class="text-center">
-          <RadialProgress :value="70" color="secondary" />
+          <RadialProgress :value="70" variant="secondary" />
           <p class="mt-2 text-sm">Secondary</p>
         </div>
         
         <div class="text-center">
-          <RadialProgress :value="70" color="accent" />
+          <RadialProgress :value="70" variant="accent" />
           <p class="mt-2 text-sm">Accent</p>
         </div>
         
         <div class="text-center">
-          <RadialProgress :value="70" color="info" />
+          <RadialProgress :value="70" variant="info" />
           <p class="mt-2 text-sm">Info</p>
         </div>
         
         <div class="text-center">
-          <RadialProgress :value="70" color="success" />
+          <RadialProgress :value="70" variant="success" />
           <p class="mt-2 text-sm">Success</p>
         </div>
         
         <div class="text-center">
-          <RadialProgress :value="70" color="warning" />
+          <RadialProgress :value="70" variant="warning" />
           <p class="mt-2 text-sm">Warning</p>
         </div>
         
         <div class="text-center">
-          <RadialProgress :value="70" color="error" />
+          <RadialProgress :value="70" variant="error" />
           <p class="mt-2 text-sm">Error</p>
         </div>
       </div>
@@ -128,17 +125,17 @@ export const Thickness: Story = {
     template: `
       <div class="flex gap-8 items-center justify-center">
         <div class="text-center">
-          <RadialProgress :value="60" thickness="thin" color="primary" />
+          <RadialProgress :value="60" thickness="thin" variant="primary" />
           <p class="mt-2 text-sm">Thin</p>
         </div>
         
         <div class="text-center">
-          <RadialProgress :value="60" thickness="normal" color="secondary" />
+          <RadialProgress :value="60" thickness="normal" variant="secondary" />
           <p class="mt-2 text-sm">Normal</p>
         </div>
         
         <div class="text-center">
-          <RadialProgress :value="60" thickness="thick" color="accent" />
+          <RadialProgress :value="60" thickness="thick" variant="accent" />
           <p class="mt-2 text-sm">Thick</p>
         </div>
       </div>
@@ -152,7 +149,7 @@ export const CustomContent: Story = {
     template: `
       <div class="flex flex-wrap gap-8 items-center justify-center">
         <div class="text-center">
-          <RadialProgress :value="85" color="success" :show-value="false">
+          <RadialProgress :value="85" variant="success" :show-value="false">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
             </svg>
@@ -161,7 +158,7 @@ export const CustomContent: Story = {
         </div>
         
         <div class="text-center">
-          <RadialProgress :value="45" color="warning" :show-value="false">
+          <RadialProgress :value="45" variant="warning" :show-value="false">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z" />
             </svg>
@@ -170,7 +167,7 @@ export const CustomContent: Story = {
         </div>
         
         <div class="text-center">
-          <RadialProgress :value="15" color="error" :show-value="false">
+          <RadialProgress :value="15" variant="error" :show-value="false">
             <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
@@ -179,7 +176,7 @@ export const CustomContent: Story = {
         </div>
         
         <div class="text-center">
-          <RadialProgress :value="92" color="primary" :show-value="false">
+          <RadialProgress :value="92" variant="primary" :show-value="false">
             <div class="text-xs font-bold">A+</div>
           </RadialProgress>
           <p class="mt-2 text-sm">Grade</p>
@@ -197,7 +194,7 @@ export const WithLabels: Story = {
         <div class="text-center">
           <RadialProgress 
             :value="68" 
-            color="success" 
+            variant="success" 
             label="CPU Usage"
             size="lg"
           />
@@ -206,7 +203,7 @@ export const WithLabels: Story = {
         <div class="text-center">
           <RadialProgress 
             :value="42" 
-            color="info" 
+            variant="info" 
             label="Memory Usage"
             size="lg"
           />
@@ -215,7 +212,7 @@ export const WithLabels: Story = {
         <div class="text-center">
           <RadialProgress 
             :value="89" 
-            color="warning" 
+            variant="warning" 
             label="Disk Usage"
             size="lg"
           />
@@ -237,7 +234,7 @@ export const Dashboard: Story = {
           <div class="bg-base-100 p-6 rounded-lg text-center">
             <RadialProgress 
               :value="92" 
-              color="success" 
+              variant="success" 
               size="lg"
               label="Server Health"
             />
@@ -250,7 +247,7 @@ export const Dashboard: Story = {
           <div class="bg-base-100 p-6 rounded-lg text-center">
             <RadialProgress 
               :value="65" 
-              color="warning" 
+              variant="warning" 
               size="lg"
               label="Load Average"
             />
@@ -263,7 +260,7 @@ export const Dashboard: Story = {
           <div class="bg-base-100 p-6 rounded-lg text-center">
             <RadialProgress 
               :value="38" 
-              color="info" 
+              variant="info" 
               size="lg"
               label="Storage Used"
             />
@@ -276,7 +273,7 @@ export const Dashboard: Story = {
           <div class="bg-base-100 p-6 rounded-lg text-center">
             <RadialProgress 
               :value="15" 
-              color="accent" 
+              variant="accent" 
               size="lg"
               label="Network Usage"
             />
@@ -291,22 +288,22 @@ export const Dashboard: Story = {
           <h4 class="text-lg font-bold mb-4">Learning Progress</h4>
           <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div class="text-center">
-              <RadialProgress :value="85" color="primary" size="md" />
+              <RadialProgress :value="85" variant="primary" size="md" />
               <p class="mt-2 text-sm font-medium">Vue.js</p>
             </div>
             
             <div class="text-center">
-              <RadialProgress :value="72" color="secondary" size="md" />
+              <RadialProgress :value="72" variant="secondary" size="md" />
               <p class="mt-2 text-sm font-medium">TypeScript</p>
             </div>
             
             <div class="text-center">
-              <RadialProgress :value="90" color="accent" size="md" />
+              <RadialProgress :value="90" variant="accent" size="md" />
               <p class="mt-2 text-sm font-medium">CSS</p>
             </div>
             
             <div class="text-center">
-              <RadialProgress :value="58" color="info" size="md" />
+              <RadialProgress :value="58" variant="info" size="md" />
               <p class="mt-2 text-sm font-medium">Node.js</p>
             </div>
           </div>
@@ -351,9 +348,8 @@ export const AnimatedProgress: Story = {
           <div class="text-center">
             <RadialProgress 
               :value="progress" 
-              color="primary" 
+              variant="primary" 
               size="lg"
-              animated
             />
             <p class="mt-2 text-sm">Loading...</p>
           </div>
@@ -361,9 +357,8 @@ export const AnimatedProgress: Story = {
           <div class="text-center">
             <RadialProgress 
               :value="(progress + 25) % 100" 
-              color="secondary" 
+              variant="secondary" 
               size="lg"
-              animated
             />
             <p class="mt-2 text-sm">Processing...</p>
           </div>
@@ -371,9 +366,8 @@ export const AnimatedProgress: Story = {
           <div class="text-center">
             <RadialProgress 
               :value="(progress + 50) % 100" 
-              color="accent" 
+              variant="accent" 
               size="lg"
-              animated
             />
             <p class="mt-2 text-sm">Uploading...</p>
           </div>
