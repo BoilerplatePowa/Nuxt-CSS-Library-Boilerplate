@@ -15,17 +15,16 @@
     @focus="handleFocus"
     @blur="handleBlur"
   >
-    <span v-if="loading" class="loading loading-spinner loading-sm mr-2" aria-hidden="true"></span>
-    <slot name="icon-left">
-      <Icon v-if="iconLeft" :name="iconLeft" :size="iconSize" />
-    </slot>
+    <span v-if="loading" class="loading loading-spinner loading-sm" aria-hidden="true"></span>
+    <slot name="icon-left" v-if="$slots['icon-left']" />
+    <Icon v-else-if="iconLeft" :name="iconLeft" :size="iconSize" />
     <span v-if="$slots.default" :class="{ 'sr-only': loading && hideTextOnLoading }">
       <slot />
     </span>
     <span v-if="loading && loadingText" class="ml-1">{{ loadingText }}</span>
-    <slot name="icon-right">
-      <Icon v-if="iconRight" :name="iconRight" :size="iconSize" />
-    </slot>
+    
+    <slot name="icon-right" v-if="$slots['icon-right']" />
+    <Icon v-else-if="iconRight" :name="iconRight" :size="iconSize" />
   </button>
 </template>
 

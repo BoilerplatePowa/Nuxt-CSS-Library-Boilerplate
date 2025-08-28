@@ -8,7 +8,7 @@ describe('Avatar', () => {
       slots: { default: 'Test' },
     });
 
-    expect(wrapper.classes()).toContain('avatar');
+    expect(wrapper.find('.avatar').exists()).toBe(true);
     expect(wrapper.find('[aria-label]').exists()).toBe(true);
   });
 

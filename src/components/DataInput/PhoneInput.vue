@@ -119,7 +119,7 @@ const model = defineModel<string>({ default: '' });
 const inputRef = ref<HTMLInputElement>();
 
 // Selected country
-const selectedCountry = ref<CountryCode>('US');
+const selectedCountry = ref<CountryCode>('FR');
 
 // Phone validation state
 const phoneValidationMessage = ref<string>('');

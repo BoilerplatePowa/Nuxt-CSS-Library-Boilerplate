@@ -106,50 +106,35 @@ const emit = defineEmits<{
 
 const inputId = generateId()
 
-// Use VeeValidate field if name is provided
-const { value: fieldValue, errorMessage, handleBlur, setValue } = useField<boolean>(
-  () => props.name || '',
-  undefined,
-  {
-    type: 'checkbox',
-    initialValue: model.value,
-    validateOnValueUpdate: props.validateOnValueUpdate,
-    checkedValue: true,
-    uncheckedValue: false,
-  }
+// VeeValidate integration
+const { value: fieldValue, errorMessage, handleBlur, handleChange: validateChange } = useField(
+  () => props.name || inputId,
+  undefined
 )
 
-// Computed value that works with both VeeValidate and v-model
+// Computed value that handles both v-model and VeeValidate
 const checkboxValue = computed({
   get: () => {
-    // If using VeeValidate (name is provided), use field value
-    if (props.name) {
-      return Boolean(fieldValue.value)
-    }
-    // Otherwise use v-model
-    return Boolean(model.value)
+    // If VeeValidate field exists, use it; otherwise use v-model
+    return props.name ? fieldValue.value : model.value
   },
-  set: (value: unknown) => {
-    const booleanValue = Boolean(value)
-    
+  set: (value: boolean) => {
     if (props.name) {
-      // Update VeeValidate field
-      setValue(booleanValue)
+      fieldValue.value = value
+    } else {
+      model.value = value
     }
-    
-    // Always update v-model
-    model.value = booleanValue
-  },
+  }
 })
 
 // Error handling
-const hasError = computed(() => Boolean(displayErrorMessage.value))
+const hasError = computed(() => {
+  return Boolean(displayErrorMessage.value)
+})
 
 const displayErrorMessage = computed(() => {
-  if (props.name && errorMessage.value) {
-    return errorMessage.value
-  }
-  return props.errorMessage
+  // Priority: props.errorMessage > VeeValidate errorMessage
+  return props.errorMessage || errorMessage.value
 })
 
 // CSS classes using DaisyUI and Tailwind
@@ -176,6 +161,11 @@ const checkboxClasses = computed(() => {
   // DaisyUI variant classes
   if (props.variant) {
     baseClasses.push(`checkbox-${props.variant}`)
+  }
+
+  // Disabled state
+  if (props.disabled) {
+    baseClasses.push('checkbox-disabled')
   }
 
   // Error state
@@ -217,13 +207,18 @@ const handleChange = (event: Event) => {
     })
   }
   
+  // Handle VeeValidate if name is provided
+  if (props.name) {
+    validateChange(booleanValue)
+  }
+  
   emit('change', event, booleanValue)
 }
 
 const handleBlurEvent = (event: Event) => {
+  // Handle VeeValidate if name is provided
   if (props.name) {
-    // Use VeeValidate handler
-    handleBlur(event)
+    handleBlur()
   }
   
   emit('blur', event)

@@ -1,5 +1,5 @@
 <template>
-  <div :class="wrapperClasses">
+  <div :class="wrapperClasses" :aria-label="ariaLabel">
     <!-- Wizard Header with Steps -->
     <div v-if="showSteps" class="flex justify-center">
       <Steps
@@ -189,7 +189,6 @@ const currentStepData = computed(() => {
 });
 
 const emit = defineEmits<{
-  'update:modelValue': [step: number];
   'step-change': [step: number, previousStep: number];
   'step-complete': [step: number, data: any];
   'wizard-complete': [data: Record<string, any>];

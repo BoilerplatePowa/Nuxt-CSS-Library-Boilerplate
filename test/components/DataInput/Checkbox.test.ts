@@ -160,7 +160,7 @@ describe('Checkbox', () => {
     });
 
     const checkbox = wrapper.find('input[type="checkbox"]');
-    await checkbox.trigger('change');
+    await checkbox.setValue(true);
 
     expect(wrapper.emitted('update:modelValue')).toBeTruthy();
   });

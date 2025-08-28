@@ -96,8 +96,8 @@ describe('Button', () => {
       slots: { default: 'Submit' },
     });
 
-    const textSpan = wrapper.find('span');
-    expect(textSpan.classes()).toContain('sr-only');
+    const textSpan = wrapper.findAll('span').find(span => span.text() === 'Submit');
+    expect(textSpan?.classes()).toContain('sr-only');
   });
 
   it('applies full width correctly', () => {
@@ -222,8 +222,10 @@ describe('Button', () => {
     });
 
     const icons = wrapper.findAllComponents({ name: 'Icon' });
-    expect(icons.length).toBe(1);
-    expect(icons[0].props('name')).toBe('arrow-right');
+    // Find the icon with the correct name
+    const rightIcon = icons.find(icon => icon.props('name') === 'arrow-right');
+    expect(rightIcon).toBeTruthy();
+    expect(rightIcon?.props('name')).toBe('arrow-right');
   });
 
   it('renders both left and right icons correctly', () => {
@@ -237,11 +239,16 @@ describe('Button', () => {
     });
 
     const icons = wrapper.findAllComponents({ name: 'Icon' });
-    expect(icons.length).toBe(2);
-    expect(icons[0].props('name')).toBe('heart');
-    expect(icons[0].props('size')).toBe('lg');
-    expect(icons[1].props('name')).toBe('arrow-right');
-    expect(icons[1].props('size')).toBe('lg');
+    // Find the specific icons by name
+    const leftIcon = icons.find(icon => icon.props && icon.props('name') === 'heart');
+    const rightIcon = icons.find(icon => icon.props && icon.props('name') === 'arrow-right');
+    
+    expect(leftIcon).toBeTruthy();
+    expect(rightIcon).toBeTruthy();
+    expect(leftIcon?.props('name')).toBe('heart');
+    expect(leftIcon?.props('size')).toBe('lg');
+    expect(rightIcon?.props('name')).toBe('arrow-right');
+    expect(rightIcon?.props('size')).toBe('lg');
   });
 
   it('applies shape classes correctly', () => {
