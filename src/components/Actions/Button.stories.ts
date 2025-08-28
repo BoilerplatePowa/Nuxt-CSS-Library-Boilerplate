@@ -909,8 +909,8 @@ export const Accessibility: Story = {
           <h3 class="text-lg font-semibold mb-3">Accessibility Features</h3>
           <div class="flex flex-wrap gap-2">
             <Button ariaLabel="Custom label">Custom Label</Button>
-            <Button ariaPressed="true">Pressed State</Button>
-            <Button ariaExpanded="true">Expanded State</Button>
+            <Button :ariaPressed="true">Pressed State</Button>
+            <Button :ariaExpanded="true">Expanded State</Button>
             <Button ariaDescribedby="description">Described Button</Button>
             <div id="description" class="text-sm text-gray-600">This button has a description</div>
           </div>
