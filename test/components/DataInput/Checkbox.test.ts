@@ -25,7 +25,7 @@ describe('Checkbox', () => {
     });
 
     const checkbox = wrapper.find('input[type="checkbox"]');
-    expect(checkbox.element.checked).toBe(true);
+    expect((checkbox.element as HTMLInputElement).checked).toBe(true);
   });
 
   it('is unchecked when modelValue is false', () => {
@@ -37,7 +37,7 @@ describe('Checkbox', () => {
     });
 
     const checkbox = wrapper.find('input[type="checkbox"]');
-    expect(checkbox.element.checked).toBe(false);
+    expect((checkbox.element as HTMLInputElement).checked).toBe(false);
   });
 
   it('applies variant classes correctly', () => {
@@ -121,7 +121,7 @@ describe('Checkbox', () => {
     });
 
     const checkbox = wrapper.find('input[type="checkbox"]');
-    expect(checkbox.element.indeterminate).toBe(true);
+    expect((checkbox.element as HTMLInputElement).indeterminate).toBe(true);
   });
 
   it('shows error message when provided', () => {

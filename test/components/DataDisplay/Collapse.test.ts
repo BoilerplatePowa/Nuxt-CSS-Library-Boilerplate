@@ -118,7 +118,7 @@ describe('Collapse', () => {
     await wrapper.setProps({ modelValue: true });
 
     // The checkbox should reflect the new value
-    expect(wrapper.find('input[type="checkbox"]').element.checked).toBe(true);
+    expect((wrapper.find('input[type="checkbox"]').element as HTMLInputElement).checked).toBe(true);
   });
 
   it('handles keyboard navigation', async () => {

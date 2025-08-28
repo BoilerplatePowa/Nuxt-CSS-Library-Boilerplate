@@ -64,7 +64,7 @@ describe('Icon', () => {
   it('renders fallback icon for invalid name', () => {
     const wrapper = mount(Icon, {
       props: {
-        name: 'invalid-icon-name',
+        name: 'invalid-icon-name' as any,
       },
     });
 

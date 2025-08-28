@@ -115,8 +115,8 @@ describe('List', () => {
         id: 1,
         title: 'Test Item',
         actions: [
-          { label: 'Action 1', variant: 'primary' },
-          { label: 'Action 2', variant: 'secondary' },
+          { label: 'Action 1', variant: 'primary' as const },
+          { label: 'Action 2', variant: 'secondary' as const },
         ],
       },
     ];
@@ -152,7 +152,7 @@ describe('List', () => {
       {
         id: 1,
         title: 'Test Item',
-        actions: [{ label: 'Test Action', variant: 'primary' }],
+        actions: [{ label: 'Test Action', variant: 'primary' as const }],
       },
     ];
 

@@ -302,7 +302,7 @@ export const ApplicationDock: Story = {
     },
     computed: {
       dockItems() {
-        return this.applications.map(app => ({
+        return this.applications.map((app: any) => ({
           ...app,
           active: app.id === this.activeApp,
         }));
@@ -365,7 +365,7 @@ export const ToolbarDock: Story = {
     },
     computed: {
       toolItems() {
-        return this.tools.map(tool => ({
+        return this.tools.map((tool: any) => ({
           ...tool,
           active: tool.id === this.selectedTool,
         }));

@@ -107,8 +107,8 @@ describe('StatusBox', () => {
 
   it('renders actions when provided', () => {
     const actions = [
-      { label: 'Action 1', variant: 'primary' },
-      { label: 'Action 2', variant: 'secondary' },
+      { label: 'Action 1', variant: 'primary' as const },
+      { label: 'Action 2', variant: 'secondary' as const },
     ];
 
     const wrapper = mount(StatusBox, {
@@ -154,7 +154,7 @@ describe('StatusBox', () => {
   });
 
   it('emits actionClick event when action is clicked', async () => {
-    const actions = [{ label: 'Test Action', variant: 'primary' }];
+    const actions = [{ label: 'Test Action', variant: 'primary' as const }];
 
     const wrapper = mount(StatusBox, {
       props: {

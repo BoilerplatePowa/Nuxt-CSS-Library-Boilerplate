@@ -41,7 +41,7 @@ describe('Status', () => {
       'success',
       'warning',
       'error',
-    ];
+    ] as const;
 
     variants.forEach(variant => {
       const wrapper = mount(Status, {
@@ -53,7 +53,7 @@ describe('Status', () => {
   });
 
   it('renders with all sizes', () => {
-    const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
+    const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
 
     sizes.forEach(size => {
       const wrapper = mount(Status, {
@@ -65,7 +65,7 @@ describe('Status', () => {
   });
 
   it('renders with all animations', () => {
-    const animations = ['pulse', 'bounce', 'none'];
+    const animations = ['pulse', 'bounce', 'none'] as const;
 
     animations.forEach(animation => {
       const wrapper = mount(Status, {

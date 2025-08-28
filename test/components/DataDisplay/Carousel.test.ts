@@ -56,7 +56,7 @@ describe('Carousel', () => {
         },
       });
 
-      expect(wrapperWithModel.vm.currentIndex).toBe(2);
+      expect(wrapperWithModel.vm.modelValue).toBe(2);
     });
 
     it('updates when v-model changes externally', async () => {
@@ -68,7 +68,7 @@ describe('Carousel', () => {
       });
 
       await wrapperWithModel.setProps({ modelValue: 2 });
-      expect(wrapperWithModel.vm.currentIndex).toBe(2);
+      expect(wrapperWithModel.vm.modelValue).toBe(2);
     });
   });
 
@@ -140,7 +140,7 @@ describe('Carousel', () => {
       const nextButton = wrapper.find('.carousel-nav.next');
       await nextButton.trigger('click');
 
-      expect(wrapper.vm.currentIndex).toBe(1);
+      expect(wrapper.vm.modelValue).toBe(1);
     });
 
     it('navigates to previous slide', async () => {
@@ -150,7 +150,7 @@ describe('Carousel', () => {
       const prevButton = wrapper.find('.carousel-nav.prev');
       await prevButton.trigger('click');
 
-      expect(wrapper.vm.currentIndex).toBe(0);
+      expect(wrapper.vm.modelValue).toBe(0);
     });
 
     it('loops to first slide when going next from last slide', async () => {
@@ -159,7 +159,7 @@ describe('Carousel', () => {
       const nextButton = wrapper.find('.carousel-nav.next');
       await nextButton.trigger('click');
 
-      expect(wrapper.vm.currentIndex).toBe(0);
+      expect(wrapper.vm.modelValue).toBe(0);
     });
 
     it('loops to last slide when going previous from first slide', async () => {
@@ -168,7 +168,7 @@ describe('Carousel', () => {
       const prevButton = wrapper.find('.carousel-nav.prev');
       await prevButton.trigger('click');
 
-      expect(wrapper.vm.currentIndex).toBe(2);
+      expect(wrapper.vm.modelValue).toBe(2);
     });
 
     it('does not loop when loop is false', async () => {
@@ -177,7 +177,7 @@ describe('Carousel', () => {
       const nextButton = wrapper.find('.carousel-nav.next');
       await nextButton.trigger('click');
 
-      expect(wrapper.vm.currentIndex).toBe(2); // Should stay at last slide
+      expect(wrapper.vm.modelValue).toBe(2); // Should stay at last slide
     });
   });
 
@@ -186,7 +186,7 @@ describe('Carousel', () => {
       const paginationButtons = wrapper.findAll('.carousel-pagination-dots a');
       await paginationButtons[2].trigger('click'); // Click third button
 
-      expect(wrapper.vm.currentIndex).toBe(2);
+      expect(wrapper.vm.modelValue).toBe(2);
     });
 
     it('navigates via numbers pagination', async () => {
@@ -195,7 +195,7 @@ describe('Carousel', () => {
       const paginationButtons = wrapper.findAll('.carousel-pagination-numbers a');
       await paginationButtons[1].trigger('click'); // Click second button
 
-      expect(wrapper.vm.currentIndex).toBe(1);
+      expect(wrapper.vm.modelValue).toBe(1);
     });
 
     it('navigates via dots pagination', async () => {
@@ -204,7 +204,7 @@ describe('Carousel', () => {
       const paginationButtons = wrapper.findAll('.carousel-pagination-dots a');
       await paginationButtons[2].trigger('click'); // Click third button
 
-      expect(wrapper.vm.currentIndex).toBe(2);
+      expect(wrapper.vm.modelValue).toBe(2);
     });
 
     it('navigates via line pagination', async () => {
@@ -213,7 +213,7 @@ describe('Carousel', () => {
       const paginationLines = wrapper.findAll('.pagination-line');
       await paginationLines[1].trigger('click'); // Click second line
 
-      expect(wrapper.vm.currentIndex).toBe(1);
+      expect(wrapper.vm.modelValue).toBe(1);
     });
   });
 
@@ -225,7 +225,7 @@ describe('Carousel', () => {
       await new Promise(resolve => setTimeout(resolve, 150));
 
       // Check if autoplay has advanced to next slide
-      expect(wrapper.vm.currentIndex).toBeGreaterThanOrEqual(0);
+      expect(wrapper.vm.modelValue).toBeGreaterThanOrEqual(0);
     });
 
     it('stops autoplay when autoplay is false', async () => {
@@ -234,7 +234,7 @@ describe('Carousel', () => {
       // Wait to ensure no autoplay
       await new Promise(resolve => setTimeout(resolve, 200));
 
-      expect(wrapper.vm.currentIndex).toBe(0);
+      expect(wrapper.vm.modelValue).toBe(0);
     });
   });
 
@@ -248,7 +248,7 @@ describe('Carousel', () => {
       await wrapper.vm.$nextTick();
 
       // Check if navigation occurred
-      expect(wrapper.vm.currentIndex).toBeGreaterThanOrEqual(0);
+      expect(wrapper.vm.modelValue).toBeGreaterThanOrEqual(0);
 
       // Simulate left arrow key on window
       const leftEvent = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
@@ -256,7 +256,7 @@ describe('Carousel', () => {
 
       await wrapper.vm.$nextTick();
 
-      expect(wrapper.vm.currentIndex).toBeGreaterThanOrEqual(0);
+      expect(wrapper.vm.modelValue).toBeGreaterThanOrEqual(0);
     });
   });
 

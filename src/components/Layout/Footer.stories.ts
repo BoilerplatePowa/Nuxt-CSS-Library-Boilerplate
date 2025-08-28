@@ -10,12 +10,9 @@ const meta: Meta<typeof Footer> = {
   argTypes: {
     variant: {
       control: { type: 'select' },
-      options: ['default', 'center', 'compact'],
+      options: ['default', 'center', 'grid'],
     },
     showBranding: {
-      control: { type: 'boolean' },
-    },
-    showSocial: {
       control: { type: 'boolean' },
     },
     showCopyright: {
@@ -57,10 +54,10 @@ const sampleLinks = [
 ];
 
 const sampleSocial = [
-  { platform: 'twitter', href: 'https://twitter.com/company', label: 'Twitter' },
-  { platform: 'facebook', href: 'https://facebook.com/company', label: 'Facebook' },
-  { platform: 'instagram', href: 'https://instagram.com/company', label: 'Instagram' },
-  { platform: 'linkedin', href: 'https://linkedin.com/company', label: 'LinkedIn' },
+  { name: 'Twitter', href: 'https://twitter.com/company', icon: '🐦' },
+  { name: 'Facebook', href: 'https://facebook.com/company', icon: '📘' },
+  { name: 'Instagram', href: 'https://instagram.com/company', icon: '📷' },
+  { name: 'LinkedIn', href: 'https://linkedin.com/company', icon: '💼' },
 ];
 
 export const Default: Story = {
@@ -68,7 +65,7 @@ export const Default: Story = {
     brandName: 'Your Company',
     brandDescription: 'Building amazing products since 2020',
     links: sampleLinks,
-    socialLinks: sampleSocial,
+    social: sampleSocial,
     copyrightText: '© 2024 Your Company. All rights reserved.',
   },
 };
@@ -80,14 +77,14 @@ export const WithLogo: Story = {
     brandName: 'Your Company',
     brandDescription: 'Innovation at its finest',
     links: sampleLinks,
-    socialLinks: sampleSocial,
+    social: sampleSocial,
     copyrightText: '© 2024 Your Company. All rights reserved.',
   },
 };
 
 export const Compact: Story = {
   args: {
-    variant: 'compact',
+    variant: 'grid',
     brandName: 'Your Company',
     links: [
       {
@@ -100,7 +97,7 @@ export const Compact: Story = {
         ],
       },
     ],
-    socialLinks: sampleSocial.slice(0, 3),
+    social: sampleSocial.slice(0, 3),
     copyrightText: '© 2024 Your Company',
   },
 };
@@ -111,7 +108,7 @@ export const Center: Story = {
     brandName: 'Your Company',
     brandDescription: 'Centered footer layout',
     links: sampleLinks.slice(0, 2),
-    socialLinks: sampleSocial,
+    social: sampleSocial,
     copyrightText: '© 2024 Your Company. All rights reserved.',
   },
 };
@@ -120,7 +117,6 @@ export const MinimalBranding: Story = {
   args: {
     brandName: 'Minimal Co.',
     showBranding: true,
-    showSocial: false,
     links: [],
     copyrightText: '© 2024 Minimal Co.',
   },
@@ -130,7 +126,7 @@ export const SocialOnly: Story = {
   args: {
     showBranding: false,
     links: [],
-    socialLinks: sampleSocial,
+    social: sampleSocial,
     copyrightText: '© 2024 Social Company',
   },
 };
@@ -138,7 +134,6 @@ export const SocialOnly: Story = {
 export const LinksOnly: Story = {
   args: {
     showBranding: false,
-    showSocial: false,
     links: sampleLinks,
     copyrightText: '© 2024 Links Company',
   },

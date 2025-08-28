@@ -25,7 +25,7 @@ describe('Toggle', () => {
     });
 
     const toggle = wrapper.find('input[type="checkbox"]');
-    expect(toggle.element.checked).toBe(true);
+    expect((toggle.element as HTMLInputElement).checked).toBe(true);
   });
 
   it('is unchecked when modelValue is false', () => {
@@ -37,7 +37,7 @@ describe('Toggle', () => {
     });
 
     const toggle = wrapper.find('input[type="checkbox"]');
-    expect(toggle.element.checked).toBe(false);
+    expect((toggle.element as HTMLInputElement).checked).toBe(false);
   });
 
   it('applies variant classes correctly', () => {
@@ -95,7 +95,7 @@ describe('Toggle', () => {
 
     // With defineModel(), the component automatically handles v-model updates
     // We can verify the input is checked
-    expect(toggle.element.checked).toBe(true);
+    expect((toggle.element as HTMLInputElement).checked).toBe(true);
   });
 
   it('is disabled when disabled prop is true', () => {
@@ -174,7 +174,7 @@ describe('Toggle', () => {
     expect(toggle.classes()).toContain('toggle');
     expect(toggle.classes()).toContain('toggle-success');
     expect(toggle.classes()).toContain('toggle-lg');
-    expect(toggle.element.checked).toBe(true);
+    expect((toggle.element as HTMLInputElement).checked).toBe(true);
   });
 
   it('sets correct ARIA attributes', () => {
@@ -198,7 +198,7 @@ describe('Toggle', () => {
     });
 
     const toggle = wrapper.find('input[type="checkbox"]');
-    expect(toggle.element.checked).toBe(false);
+    expect((toggle.element as HTMLInputElement).checked).toBe(false);
   });
 
   it('handles v-model binding correctly with defineModel', async () => {
@@ -211,10 +211,10 @@ describe('Toggle', () => {
 
     // Test that the component properly binds to the modelValue prop
     const toggle = wrapper.find('input[type="checkbox"]');
-    expect(toggle.element.checked).toBe(false);
+    expect((toggle.element as HTMLInputElement).checked).toBe(false);
 
     // Update the prop and verify the input reflects the change
     await wrapper.setProps({ modelValue: true });
-    expect(toggle.element.checked).toBe(true);
+    expect((toggle.element as HTMLInputElement).checked).toBe(true);
   });
 });
