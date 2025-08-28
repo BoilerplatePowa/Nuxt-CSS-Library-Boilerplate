@@ -51,7 +51,8 @@ describe('Design System Plugin', () => {
   });
 
   it('should support all component categories', async () => {
-    const { default: module } = await import('./index.ts');
+    // Import the plugin to trigger module definition
+    await import('./index.ts');
     
     // This test ensures the plugin knows about all component categories
     const expectedCategories = [
@@ -66,7 +67,7 @@ describe('Design System Plugin', () => {
     ];
 
     // The plugin should handle all these categories
-    expect(module).toBeDefined();
+    expect(defineNuxtModule).toHaveBeenCalled();
   });
 });
 

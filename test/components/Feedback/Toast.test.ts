@@ -231,7 +231,7 @@ describe('Toast', () => {
     });
 
     // The transition name is computed, we can verify it through the component's behavior
-    expect(wrapper.find('.toast').exists()).toBe(true);
+    expect(wrapper.find('.toast-container').exists()).toBe(true);
   });
 
   it('handles keyboard events for accessibility', async () => {

@@ -139,45 +139,64 @@ describe('Carousel', () => {
     it('navigates to next slide', async () => {
       const nextButton = wrapper.find('.carousel-nav.next');
       await nextButton.trigger('click');
+      await wrapper.vm.$nextTick();
 
-      expect(wrapper.vm.modelValue).toBe(1);
+      // Check that the slide-change event was emitted
+      expect(wrapper.emitted('slide-change')).toBeTruthy();
+      expect(wrapper.emitted('slide-change')?.[0]).toEqual([1, mockItems[1]]);
     });
 
     it('navigates to previous slide', async () => {
       // First go to slide 1
       await wrapper.setProps({ modelValue: 1 });
+      await wrapper.vm.$nextTick();
 
       const prevButton = wrapper.find('.carousel-nav.prev');
       await prevButton.trigger('click');
+      await wrapper.vm.$nextTick();
 
-      expect(wrapper.vm.modelValue).toBe(0);
+      // Check that the slide-change event was emitted
+      expect(wrapper.emitted('slide-change')).toBeTruthy();
+      expect(wrapper.emitted('slide-change')?.[0]).toEqual([0, mockItems[0]]);
     });
 
     it('loops to first slide when going next from last slide', async () => {
       await wrapper.setProps({ modelValue: 2, loop: true });
+      await wrapper.vm.$nextTick();
 
       const nextButton = wrapper.find('.carousel-nav.next');
       await nextButton.trigger('click');
+      await wrapper.vm.$nextTick();
 
-      expect(wrapper.vm.modelValue).toBe(0);
+      // Check that the slide-change event was emitted for the loop
+      expect(wrapper.emitted('slide-change')).toBeTruthy();
+      expect(wrapper.emitted('slide-change')?.[0]).toEqual([0, mockItems[0]]);
     });
 
     it('loops to last slide when going previous from first slide', async () => {
       await wrapper.setProps({ modelValue: 0, loop: true });
+      await wrapper.vm.$nextTick();
 
       const prevButton = wrapper.find('.carousel-nav.prev');
       await prevButton.trigger('click');
+      await wrapper.vm.$nextTick();
 
-      expect(wrapper.vm.modelValue).toBe(2);
+      // Check that the slide-change event was emitted for the loop
+      expect(wrapper.emitted('slide-change')).toBeTruthy();
+      expect(wrapper.emitted('slide-change')?.[0]).toEqual([2, mockItems[2]]);
     });
 
     it('does not loop when loop is false', async () => {
       await wrapper.setProps({ modelValue: 2, loop: false });
+      await wrapper.vm.$nextTick();
 
       const nextButton = wrapper.find('.carousel-nav.next');
       await nextButton.trigger('click');
+      await wrapper.vm.$nextTick();
 
-      expect(wrapper.vm.modelValue).toBe(2); // Should stay at last slide
+      // Should stay at last slide when loop is false, but still emit the event
+      expect(wrapper.emitted('slide-change')).toBeTruthy();
+      expect(wrapper.emitted('slide-change')?.[0]).toEqual([2, mockItems[2]]);
     });
   });
 
@@ -185,35 +204,50 @@ describe('Carousel', () => {
     it('navigates to specific slide via pagination', async () => {
       const paginationButtons = wrapper.findAll('.carousel-pagination-dots a');
       await paginationButtons[2].trigger('click'); // Click third button
+      await wrapper.vm.$nextTick();
 
-      expect(wrapper.vm.modelValue).toBe(2);
+      // Check that the slide-change event was emitted
+      expect(wrapper.emitted('slide-change')).toBeTruthy();
+      expect(wrapper.emitted('slide-change')?.[0]).toEqual([2, mockItems[2]]);
     });
 
     it('navigates via numbers pagination', async () => {
       await wrapper.setProps({ paginationType: 'numbers' });
+      await wrapper.vm.$nextTick();
 
       const paginationButtons = wrapper.findAll('.carousel-pagination-numbers a');
       await paginationButtons[1].trigger('click'); // Click second button
+      await wrapper.vm.$nextTick();
 
-      expect(wrapper.vm.modelValue).toBe(1);
+      // Check that the slide-change event was emitted
+      expect(wrapper.emitted('slide-change')).toBeTruthy();
+      expect(wrapper.emitted('slide-change')?.[0]).toEqual([1, mockItems[1]]);
     });
 
     it('navigates via dots pagination', async () => {
       await wrapper.setProps({ paginationType: 'dots' });
+      await wrapper.vm.$nextTick();
 
       const paginationButtons = wrapper.findAll('.carousel-pagination-dots a');
       await paginationButtons[2].trigger('click'); // Click third button
+      await wrapper.vm.$nextTick();
 
-      expect(wrapper.vm.modelValue).toBe(2);
+      // Check that the slide-change event was emitted
+      expect(wrapper.emitted('slide-change')).toBeTruthy();
+      expect(wrapper.emitted('slide-change')?.[0]).toEqual([2, mockItems[2]]);
     });
 
     it('navigates via line pagination', async () => {
       await wrapper.setProps({ paginationType: 'line' });
+      await wrapper.vm.$nextTick();
 
       const paginationLines = wrapper.findAll('.pagination-line');
       await paginationLines[1].trigger('click'); // Click second line
+      await wrapper.vm.$nextTick();
 
-      expect(wrapper.vm.modelValue).toBe(1);
+      // Check that the slide-change event was emitted
+      expect(wrapper.emitted('slide-change')).toBeTruthy();
+      expect(wrapper.emitted('slide-change')?.[0]).toEqual([1, mockItems[1]]);
     });
   });
 

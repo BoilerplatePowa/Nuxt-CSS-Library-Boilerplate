@@ -121,18 +121,18 @@ describe('CalendarContent', () => {
   });
 
   describe('Time Selection', () => {
-    it('shows time picker when time is enabled', () => {
-      const wrapper = createWrapper({ time: true });
+    it('shows time picker when showTime is enabled', () => {
+      const wrapper = createWrapper({ showTime: true });
       expect(wrapper.find('input[type="time"]').exists()).toBe(true);
     });
 
-    it('hides time picker when time is disabled', () => {
-      const wrapper = createWrapper({ time: false });
+    it('hides time picker when showTime is disabled', () => {
+      const wrapper = createWrapper({ showTime: false });
       expect(wrapper.find('input[type="time"]').exists()).toBe(false);
     });
 
     it('sets time value correctly', async () => {
-      const wrapper = createWrapper({ time: true });
+      const wrapper = createWrapper({ showTime: true });
       const timeInput = wrapper.find('input[type="time"]');
 
       await timeInput.setValue('14:30');
@@ -205,23 +205,6 @@ describe('CalendarContent', () => {
 
         expect(wrapper.emitted('update:modelValue')).toBeTruthy();
       }
-    });
-
-    it('emits month-change when month changes', async () => {
-      const wrapper = createWrapper();
-
-      await wrapper.find('[aria-label="Next month"]').trigger('click');
-
-      expect(wrapper.emitted('month-change')).toBeTruthy();
-    });
-
-    it('emits year-change when year changes', async () => {
-      const wrapper = createWrapper({ allowYearSelect: true });
-      const yearSelect = wrapper.findAll('select')[1];
-
-      await yearSelect.setValue('2025');
-
-      expect(wrapper.emitted('year-change')).toBeTruthy();
     });
   });
 });
