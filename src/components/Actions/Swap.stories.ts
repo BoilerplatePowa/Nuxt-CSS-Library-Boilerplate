@@ -91,11 +91,11 @@ export const BasicUsage: Story = {
   args: {
     modelValue: false,
   },
-  render: args => ({
+  render: (args) => ({
     components: { Swap },
     setup() {
       const isOn = ref(args.modelValue);
-      return { isOn };
+      return { isOn, args };
     },
     template: `
       <div class="space-y-4">
@@ -144,11 +144,11 @@ export const CustomContent: Story = {
     swapOnContent: '✅',
     swapOffContent: '❌',
   },
-  render: args => ({
+  render: (args) => ({
     components: { Swap },
     setup() {
       const isOn = ref(args.modelValue);
-      return { isOn };
+      return { isOn, args };
     },
     template: `
       <div class="space-y-4">
