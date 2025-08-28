@@ -1,18 +1,28 @@
 import { defineNuxtConfig } from 'nuxt/config';
 
 export default defineNuxtConfig({
-  // Nuxt 3.18 features
+  // Nuxt 4 features
   future: {
     compatibilityVersion: 4,
   },
 
   devtools: { enabled: true },
-  css: ['~/assets/css/main.css'],
 
-  modules: ['~/src/plugin/index.ts'],
+  modules: [
+    '~/src/plugin/index.ts',
+  ],
+
+  // Design System configuration
+  designSystem: {
+    prefix: 'Bp',
+    components: true,
+    css: true,
+    composables: true,
+  },
 
   components: {
     dirs: ['~/src/components'],
+    global: true,
   },
 
   typescript: {
@@ -38,7 +48,7 @@ export default defineNuxtConfig({
     },
   },
 
-  // Improved build configuration for Nuxt 3.18
+  // Build configuration for Nuxt 4
   nitro: {
     experimental: {
       wasm: true,
@@ -52,7 +62,7 @@ export default defineNuxtConfig({
     sharedPrerenderData: true,
   },
 
-  // Performance optimizations for Nuxt 3.18
+  // Performance optimizations
   optimization: {
     keyedComposables: [
       {
@@ -60,5 +70,17 @@ export default defineNuxtConfig({
         argumentLength: 2,
       },
     ],
+  },
+
+  // App configuration
+  app: {
+    head: {
+      title: 'Nuxt Design System',
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'description', content: 'Modern Design System for Nuxt 4+ with TailwindCSS, DaisyUI and Storybook' },
+      ],
+    },
   },
 });
