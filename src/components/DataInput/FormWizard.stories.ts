@@ -38,32 +38,99 @@ The FormWizard component allows you to create complex multi-step forms with vali
     steps: {
       description: 'Array of step configurations',
       control: { type: 'object' },
+      table: {
+        type: { summary: 'object' },
+      },
     },
     modelValue: {
+      type: 'number',
       description: 'Current step index (0-based)',
       control: { type: 'number', min: 0 },
+      table: {
+        type: { summary: 'number' },
+        defaultValue: { summary: '0' },
+      },
     },
     showSteps: {
+      type: 'boolean',
       description: 'Show the steps indicator',
       control: { type: 'boolean' },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
     },
     stepsVariant: {
+      type: 'string',
       description: 'Steps display variant',
       control: { type: 'select' },
       options: ['default', 'vertical'],
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'default' },
+      },
     },
     stepsColor: {
+      type: 'string',
       description: 'Steps color theme',
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'],
+      options: ['bordered', 'ghost', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error', 'neutral'],
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'primary' },
+      },
     },
     showProgress: {
+      type: 'boolean',
       description: 'Show progress bar',
       control: { type: 'boolean' },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
     },
     showSummary: {
+      type: 'boolean',
       description: 'Show completed steps summary',
       control: { type: 'boolean' },
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
+    },
+    nextButtonText: {
+      type: 'string',
+      description: 'Text for the next button',
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'Next' },
+      },
+    },
+    previousButtonText: {
+      type: 'string',
+      description: 'Text for the previous button',
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'Previous' },
+      },
+    },
+    submitButtonText: {
+      type: 'string',
+      description: 'Text for the submit button',
+      control: { type: 'text' },
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'Submit' },
+      },
+    },
+    stepData: {
+      description: 'Data for each step',
+      control: { type: 'object' },
+      table: {
+        type: { summary: 'object' },
+      },
     },
   },
   tags: ['autodocs'],
