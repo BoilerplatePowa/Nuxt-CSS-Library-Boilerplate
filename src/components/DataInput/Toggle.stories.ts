@@ -175,17 +175,17 @@ export const DefineModelExample: Story = {
           <div class="space-y-4">
             <div>
               <Toggle v-model="simpleToggle" label="Simple toggle" />
-              <p class="text-sm text-base-content/60 mt-1">Value: {{ simpleToggle }}</p>
+              <p class="text-sm opacity-60 mt-1">Value: {{ simpleToggle }}</p>
             </div>
             
             <div>
               <Toggle v-model="requiredToggle" label="Required toggle" />
-              <p class="text-sm text-base-content/60 mt-1">Value: {{ requiredToggle }}</p>
+              <p class="text-sm opacity-60 mt-1">Value: {{ requiredToggle }}</p>
             </div>
             
             <div>
               <Toggle v-model="defaultToggle" label="Toggle with default value" />
-              <p class="text-sm text-base-content/60 mt-1">Value: {{ defaultToggle }} (uses defineModel default)</p>
+              <p class="text-sm opacity-60 mt-1">Value: {{ defaultToggle }} (uses defineModel default)</p>
             </div>
           </div>
         </div>
@@ -225,7 +225,7 @@ export const SettingsPanel: Story = {
         
         <div class="space-y-6">
           <div>
-            <h4 class="font-medium mb-3 text-base-content/80">General</h4>
+            <h4 class="font-medium mb-3 opacity-80">General</h4>
             <div class="space-y-3">
               <Toggle 
                 v-model="settings.notifications" 
@@ -246,7 +246,7 @@ export const SettingsPanel: Story = {
           </div>
           
           <div>
-            <h4 class="font-medium mb-3 text-base-content/80">Audio & Alerts</h4>
+            <h4 class="font-medium mb-3 opacity-80">Audio & Alerts</h4>
             <div class="space-y-3">
               <Toggle 
                 v-model="settings.soundEffects" 
@@ -262,7 +262,7 @@ export const SettingsPanel: Story = {
           </div>
           
           <div>
-            <h4 class="font-medium mb-3 text-base-content/80">Security</h4>
+            <h4 class="font-medium mb-3 opacity-80">Security</h4>
             <div class="space-y-3">
               <Toggle 
                 v-model="settings.twoFactor" 
@@ -318,7 +318,7 @@ export const PermissionsToggle: Story = {
               <span class="text-2xl mr-3">📷</span>
               <div>
                 <div class="font-medium">Camera</div>
-                <div class="text-sm text-base-content/60">Take photos and videos</div>
+                <div class="text-sm opacity-60">Take photos and videos</div>
               </div>
             </div>
             <Toggle v-model="permissions.camera" variant="primary" />
@@ -329,7 +329,7 @@ export const PermissionsToggle: Story = {
               <span class="text-2xl mr-3">🎤</span>
               <div>
                 <div class="font-medium">Microphone</div>
-                <div class="text-sm text-base-content/60">Record audio</div>
+                <div class="text-sm opacity-60">Record audio</div>
               </div>
             </div>
             <Toggle v-model="permissions.microphone" variant="primary" />
@@ -340,7 +340,7 @@ export const PermissionsToggle: Story = {
               <span class="text-2xl mr-3">📍</span>
               <div>
                 <div class="font-medium">Location</div>
-                <div class="text-sm text-base-content/60">Access your location</div>
+                <div class="text-sm opacity-60">Access your location</div>
               </div>
             </div>
             <Toggle v-model="permissions.location" variant="success" />
@@ -351,7 +351,7 @@ export const PermissionsToggle: Story = {
               <span class="text-2xl mr-3">🔔</span>
               <div>
                 <div class="font-medium">Notifications</div>
-                <div class="text-sm text-base-content/60">Show notifications</div>
+                <div class="text-sm opacity-60">Show notifications</div>
               </div>
             </div>
             <Toggle v-model="permissions.notifications" variant="success" />
@@ -362,7 +362,7 @@ export const PermissionsToggle: Story = {
               <span class="text-2xl mr-3">👥</span>
               <div>
                 <div class="font-medium">Contacts</div>
-                <div class="text-sm text-base-content/60">Access your contacts</div>
+                <div class="text-sm opacity-60">Access your contacts</div>
               </div>
             </div>
             <Toggle v-model="permissions.contacts" variant="secondary" />
@@ -373,7 +373,7 @@ export const PermissionsToggle: Story = {
               <span class="text-2xl mr-3">💾</span>
               <div>
                 <div class="font-medium">Storage</div>
-                <div class="text-sm text-base-content/60">Read and write files</div>
+                <div class="text-sm opacity-60">Read and write files</div>
               </div>
             </div>
             <Toggle v-model="permissions.storage" variant="success" />
@@ -407,7 +407,7 @@ export const FeatureFlags: Story = {
               <span class="font-medium">New Dashboard</span>
               <Toggle v-model="features.newDashboard" variant="primary" />
             </div>
-            <p class="text-sm text-base-content/60">
+            <p class="text-sm opacity-60">
               Enable the redesigned dashboard interface
             </p>
           </div>
@@ -417,7 +417,7 @@ export const FeatureFlags: Story = {
               <span class="font-medium">Beta Features</span>
               <Toggle v-model="features.betaFeatures" variant="warning" />
             </div>
-            <p class="text-sm text-base-content/60">
+            <p class="text-sm opacity-60">
               Access experimental features (may be unstable)
             </p>
           </div>
@@ -427,7 +427,7 @@ export const FeatureFlags: Story = {
               <span class="font-medium">Advanced Mode</span>
               <Toggle v-model="features.advancedMode" variant="info" />
             </div>
-            <p class="text-sm text-base-content/60">
+            <p class="text-sm opacity-60">
               Show advanced options and settings
             </p>
           </div>
@@ -437,7 +437,7 @@ export const FeatureFlags: Story = {
               <span class="font-medium">Debug Mode</span>
               <Toggle v-model="features.debugMode" variant="error" />
             </div>
-            <p class="text-sm text-base-content/60">
+            <p class="text-sm opacity-60">
               Enable developer debugging tools
             </p>
           </div>

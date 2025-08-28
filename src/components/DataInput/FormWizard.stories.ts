@@ -251,7 +251,7 @@ export const Default: Story = {
           <template #step-0="{ errors, meta }">
             <div class="space-y-4">
               <h3 class="text-lg font-semibold">Personal Information</h3>
-              <p class="text-base-content/70">Please enter your basic details below.</p>
+              <p class="opacity-70">Please enter your basic details below.</p>
               
               <div class="grid grid-cols-2 gap-4">
                 <Input
@@ -285,7 +285,7 @@ export const Default: Story = {
           <template #step-1="{ errors, meta }">
             <div class="space-y-4">
               <h3 class="text-lg font-semibold">Contact Details</h3>
-              <p class="text-base-content/70">Provide your contact information.</p>
+              <p class="opacity-70">Provide your contact information.</p>
               
               <Input
                 name="phone"
@@ -318,7 +318,7 @@ export const Default: Story = {
           <template #step-2="{ errors, meta }">
             <div class="space-y-4">
               <h3 class="text-lg font-semibold">Preferences</h3>
-              <p class="text-base-content/70">Set your communication preferences.</p>
+              <p class="opacity-70">Set your communication preferences.</p>
               
               <Checkbox
                 name="newsletter"
@@ -401,7 +401,7 @@ export const AccountSetup: Story = {
           <template #step-0="{ errors, meta }">
             <div class="space-y-4">
               <h3 class="text-lg font-semibold">Account Details</h3>
-              <p class="text-base-content/70">Create your account with a username and password.</p>
+              <p class="opacity-70">Create your account with a username and password.</p>
               
               <Input
                 name="username"
@@ -445,7 +445,7 @@ export const AccountSetup: Story = {
           <template #step-1="{ errors, meta }">
             <div class="space-y-4">
               <h3 class="text-lg font-semibold">Profile Information</h3>
-              <p class="text-base-content/70">Tell us about yourself.</p>
+              <p class="opacity-70">Tell us about yourself.</p>
               
               <div class="grid grid-cols-2 gap-4">
                 <Input
@@ -486,7 +486,7 @@ export const AccountSetup: Story = {
           <template #step-2="{ errors, meta }">
             <div class="space-y-4">
               <h3 class="text-lg font-semibold">Preferences</h3>
-              <p class="text-base-content/70">Set your account preferences.</p>
+              <p class="opacity-70">Set your account preferences.</p>
               
               <Select
                 name="language"
@@ -522,11 +522,11 @@ export const AccountSetup: Story = {
           <template #step-3="{ errors, meta }">
             <div class="space-y-4">
               <h3 class="text-lg font-semibold">Verification</h3>
-              <p class="text-base-content/70">Please review and accept the terms.</p>
+              <p class="opacity-70">Please review and accept the terms.</p>
               
               <div class="bg-base-200 p-4 rounded-lg">
                 <h4 class="font-semibold mb-2">Terms and Conditions</h4>
-                <p class="text-sm text-base-content/70 mb-4">
+                <p class="text-sm opacity-70 mb-4">
                   By creating an account, you agree to our terms of service and privacy policy.
                   We will use your information to provide you with the best possible experience.
                 </p>
@@ -540,7 +540,7 @@ export const AccountSetup: Story = {
               
               <div class="bg-base-200 p-4 rounded-lg">
                 <h4 class="font-semibold mb-2">Privacy Policy</h4>
-                <p class="text-sm text-base-content/70 mb-4">
+                <p class="text-sm opacity-70 mb-4">
                   We respect your privacy and will never share your personal information
                   with third parties without your explicit consent.
                 </p>
@@ -604,7 +604,7 @@ export const CheckoutProcess: Story = {
           <template #step-0="{ errors, meta }">
             <div class="space-y-4">
               <h3 class="text-lg font-semibold">Cart Review</h3>
-              <p class="text-base-content/70">Review your items before checkout.</p>
+              <p class="opacity-70">Review your items before checkout.</p>
               
               <div class="bg-base-200 p-4 rounded-lg">
                 <div class="flex justify-between items-center mb-2">
@@ -627,7 +627,7 @@ export const CheckoutProcess: Story = {
           <template #step-1="{ errors, meta }">
             <div class="space-y-4">
               <h3 class="text-lg font-semibold">Shipping Information</h3>
-              <p class="text-base-content/70">Enter your shipping details.</p>
+              <p class="opacity-70">Enter your shipping details.</p>
               
               <Input
                 name="address"
@@ -676,7 +676,7 @@ export const CheckoutProcess: Story = {
           <template #step-2="{ errors, meta }">
             <div class="space-y-4">
               <h3 class="text-lg font-semibold">Payment Information</h3>
-              <p class="text-base-content/70">Enter your payment details securely.</p>
+              <p class="opacity-70">Enter your payment details securely.</p>
               
               <Input
                 name="cardNumber"
@@ -719,7 +719,7 @@ export const CheckoutProcess: Story = {
           <template #step-3="{ errors, meta }">
             <div class="space-y-4">
               <h3 class="text-lg font-semibold">Order Confirmation</h3>
-              <p class="text-base-content/70">Review your order details and confirm.</p>
+              <p class="opacity-70">Review your order details and confirm.</p>
               
               <div class="bg-base-200 p-4 rounded-lg space-y-2">
                 <div class="flex justify-between">
@@ -905,7 +905,7 @@ export const EnhancedSteps: Story = {
                   <Icon name="user" size="lg" />
                 </Avatar>
                 <h3 class="text-xl font-bold mb-2">Account Setup</h3>
-                <p class="text-base-content/70">Create your account to get started.</p>
+                <p class="opacity-70">Create your account to get started.</p>
               </div>
               
               <div class="space-y-4">
@@ -946,7 +946,7 @@ export const EnhancedSteps: Story = {
                   <Icon name="settings" size="lg" />
                 </Avatar>
                 <h3 class="text-xl font-bold mb-2">Profile Information</h3>
-                <p class="text-base-content/70">Tell us about yourself.</p>
+                <p class="opacity-70">Tell us about yourself.</p>
               </div>
               
               <div class="grid grid-cols-2 gap-4">
@@ -983,7 +983,7 @@ export const EnhancedSteps: Story = {
                   <Icon name="heart" size="lg" />
                 </Avatar>
                 <h3 class="text-xl font-bold mb-2">Preferences</h3>
-                <p class="text-base-content/70">Set your communication preferences.</p>
+                <p class="opacity-70">Set your communication preferences.</p>
               </div>
               
               <div class="space-y-4">
@@ -1016,7 +1016,7 @@ export const EnhancedSteps: Story = {
                   <Icon name="check-circle" size="lg" />
                 </Avatar>
                 <h3 class="text-xl font-bold mb-2">Verification</h3>
-                <p class="text-base-content/70">Review and confirm your information.</p>
+                <p class="opacity-70">Review and confirm your information.</p>
               </div>
               
               <div class="card bg-base-200 shadow-sm">
@@ -1195,7 +1195,7 @@ export const InteractiveWizard: Story = {
         <div v-if="!isCompleted" class="space-y-6">
           <div class="text-center mb-8">
             <h2 class="text-2xl font-bold mb-2">Interactive Form Wizard</h2>
-            <p class="text-base-content/70">Try navigating through the steps and filling out the forms.</p>
+            <p class="opacity-70">Try navigating through the steps and filling out the forms.</p>
             <div class="alert alert-info mt-4">
               <Icon name="user" size="sm" />
               <span><strong>Auto-advance feature:</strong> Step 1 will automatically advance to Step 2 when valid and submitted!</span>
@@ -1232,7 +1232,7 @@ export const InteractiveWizard: Story = {
                     <Icon name="user" size="lg" />
                   </Avatar>
                   <h3 class="text-xl font-bold mb-2">Personal Information</h3>
-                  <p class="text-base-content/70">Please provide your basic details.</p>
+                  <p class="opacity-70">Please provide your basic details.</p>
                 </div>
 
                 <div class="space-y-4">
@@ -1284,7 +1284,7 @@ export const InteractiveWizard: Story = {
                     <Icon name="settings" size="lg" />
                   </Avatar>
                   <h3 class="text-xl font-bold mb-2">Preferences</h3>
-                  <p class="text-base-content/70">Set your communication preferences.</p>
+                  <p class="opacity-70">Set your communication preferences.</p>
                 </div>
 
                 <div class="space-y-4">
@@ -1326,7 +1326,7 @@ export const InteractiveWizard: Story = {
                     <Icon name="check-circle" size="lg" />
                   </Avatar>
                   <h3 class="text-xl font-bold mb-2">Confirmation</h3>
-                  <p class="text-base-content/70">Review your information and confirm.</p>
+                  <p class="opacity-70">Review your information and confirm.</p>
                 </div>
 
                 <div class="card bg-base-100 shadow-sm">
@@ -1370,7 +1370,7 @@ export const InteractiveWizard: Story = {
             <Icon name="check-circle" size="xl" />
           </Avatar>
           <h2 class="text-2xl font-bold mb-4">Wizard Completed!</h2>
-          <p class="text-base-content/70 mb-6">Thank you for completing the form wizard.</p>
+          <p class="opacity-70 mb-6">Thank you for completing the form wizard.</p>
           
           <div class="card bg-base-200 shadow-sm">
             <div class="card-body">

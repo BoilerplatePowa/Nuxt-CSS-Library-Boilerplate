@@ -145,7 +145,7 @@ export const Default: Story = {
       <div class="space-y-6">
         <div class="text-center">
           <h3 class="text-lg font-bold mb-2">Order Process</h3>
-          <p class="text-base-content/70">Track your order through each step</p>
+          <p class="opacity-70">Track your order through each step</p>
         </div>
         
         <Steps 
@@ -206,7 +206,7 @@ export const Vertical: Story = {
       <div class="max-w-4xl mx-auto">
         <div class="text-center mb-8">
           <h3 class="text-2xl font-bold">Account Setup</h3>
-          <p class="text-base-content/70">Complete these steps to set up your account</p>
+          <p class="opacity-70">Complete these steps to set up your account</p>
         </div>
         
         <div class="flex gap-8">
@@ -603,7 +603,7 @@ export const InteractiveSteps: Story = {
       <div class="w-full max-w-2xl mx-auto">
         <div class="text-center mb-8">
           <h2 class="text-2xl font-bold mb-2">Interactive Steps</h2>
-          <p class="text-base-content/70">Click on any step to navigate through the process</p>
+          <p class="opacity-70">Click on any step to navigate through the process</p>
         </div>
 
         <Steps 
@@ -622,7 +622,7 @@ export const InteractiveSteps: Story = {
                   <Icon name="user" size="lg" />
                 </Avatar>
                 <h3 class="text-xl font-bold mb-2">Personal Information</h3>
-                <p class="text-base-content/70">Tell us about yourself</p>
+                <p class="opacity-70">Tell us about yourself</p>
               </div>
               
               <div class="space-y-2">
@@ -637,7 +637,7 @@ export const InteractiveSteps: Story = {
                   <Icon name="settings" size="lg" />
                 </Avatar>
                 <h3 class="text-xl font-bold mb-2">Preferences</h3>
-                <p class="text-base-content/70">Set your communication preferences</p>
+                <p class="opacity-70">Set your communication preferences</p>
               </div>
               
               <div class="space-y-2">
@@ -652,7 +652,7 @@ export const InteractiveSteps: Story = {
                   <Icon name="check-circle" size="lg" />
                 </Avatar>
                 <h3 class="text-xl font-bold mb-2">Confirmation</h3>
-                <p class="text-base-content/70">Review your information</p>
+                <p class="opacity-70">Review your information</p>
               </div>
               
               <div class="bg-base-200 p-4 rounded-lg">

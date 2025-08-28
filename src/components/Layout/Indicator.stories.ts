@@ -73,7 +73,7 @@ export const BadgeNotifications: Story = {
           <button class="btn btn-accent">Updates</button>
         </Indicator>
         
-        <Indicator content="•" variant="info" size="xs">
+        <Indicator content="*" variant="info" size="xs">
           <button class="btn btn-ghost">Status</button>
         </Indicator>
       </div>
@@ -202,7 +202,7 @@ export const CustomContent: Story = {
         
         <Indicator>
           <template #indicator>
-            <span class="indicator-item badge badge-success">✓</span>
+            <span class="indicator-item badge badge-success">OK</span>
           </template>
           <button class="btn">Verified</button>
         </Indicator>
@@ -216,7 +216,7 @@ export const CustomContent: Story = {
         
         <Indicator>
           <template #indicator>
-            <span class="indicator-item badge badge-warning">⚠</span>
+            <span class="indicator-item badge badge-warning">!</span>
           </template>
           <button class="btn">Warning</button>
         </Indicator>

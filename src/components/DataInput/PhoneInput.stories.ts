@@ -68,7 +68,7 @@ export const WithValidation: Story = {
     template: `
       <div class="space-y-4">
         <PhoneInput v-bind="args" />
-        <div class="text-sm text-base-content/70">
+        <div class="text-sm opacity-70">
           <p>Try entering different phone numbers to see validation:</p>
           <ul class="list-disc list-inside mt-2 space-y-1">
             <li>US: (555) 123-4567</li>
@@ -220,7 +220,7 @@ export const CustomCountries: Story = {
     helpText: '',
     showValidation: true,
     showExampleNumber: true,
-    countries: ['FR', 'US', 'BE'],
+    countriesCodes: ['FR', 'US', 'BE'],
   },
   render: args => ({
     components: { PhoneInput },
@@ -230,7 +230,7 @@ export const CustomCountries: Story = {
     template: `
       <div class="space-y-4">
         <PhoneInput v-bind="args" />
-        <div class="text-sm text-base-content/70">
+        <div class="text-sm opacity-70">
           <p>This example shows only 3 countries: FR, US, BE</p>
         </div>
       </div>
@@ -292,7 +292,7 @@ export const WithEvents: Story = {
         <div class="mt-6">
           <h4 class="font-semibold mb-2">Events Log:</h4>
           <div class="bg-base-200 p-4 rounded-lg max-h-40 overflow-y-auto">
-            <div v-if="events.length === 0" class="text-base-content/50">
+            <div v-if="events.length === 0" class="opacity-50">
               No events yet. Try changing the country or entering a phone number.
             </div>
             <div v-else class="space-y-1">

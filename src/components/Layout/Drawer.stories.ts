@@ -202,11 +202,11 @@ export const MobileVariant: Story = {
               </div>
               
               <ul class="menu">
-                <li><a>📊 Dashboard</a></li>
-                <li><a>👤 Profile</a></li>
-                <li><a>📧 Messages</a></li>
-                <li><a>⚙️ Settings</a></li>
-                <li><a>📱 Mobile App</a></li>
+                <li><a>Dashboard</a></li>
+                <li><a>Profile</a></li>
+                <li><a>Messages</a></li>
+                <li><a>Settings</a></li>
+                <li><a>Mobile App</a></li>
               </ul>
             </div>
           </template>
@@ -301,11 +301,11 @@ export const Persistent: Story = {
             <div class="p-6">
               <h2 class="text-lg font-bold mb-4">Persistent Navigation</h2>
               <ul class="menu">
-                <li><a class="active">📊 Dashboard</a></li>
-                <li><a>📈 Analytics</a></li>
-                <li><a>👥 Users</a></li>
-                <li><a>📄 Reports</a></li>
-                <li><a>⚙️ Settings</a></li>
+                <li><a class="active">Dashboard</a></li>
+                <li><a>Analytics</a></li>
+                <li><a>Users</a></li>
+                <li><a>Reports</a></li>
+                <li><a>Settings</a></li>
               </ul>
             </div>
           </template>

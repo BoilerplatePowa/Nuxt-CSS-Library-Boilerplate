@@ -313,7 +313,6 @@ export const CreativeShowcase: Story = {
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- Award Section -->
           <div class="text-center bg-base-200 p-6 rounded-lg">
             <Mask variant="star" size="xl">
               <img src="https://via.placeholder.com/192x192/F59E0B/FFFFFF?text=AWARD" alt="Award" />
@@ -322,7 +321,6 @@ export const CreativeShowcase: Story = {
             <p class="text-sm opacity-70">Recognized for excellence</p>
           </div>
           
-          <!-- Love Section -->
           <div class="text-center bg-base-200 p-6 rounded-lg">
             <Mask variant="heart" size="xl">
               <img src="https://via.placeholder.com/192x192/EC4899/FFFFFF?text=LOVE" alt="Love" />
@@ -331,7 +329,6 @@ export const CreativeShowcase: Story = {
             <p class="text-sm opacity-70">Testimonials & reviews</p>
           </div>
           
-          <!-- Innovation Section -->
           <div class="text-center bg-base-200 p-6 rounded-lg">
             <Mask variant="hexagon-2" size="xl">
               <img src="https://via.placeholder.com/192x192/8B5CF6/FFFFFF?text=TECH" alt="Technology" />

@@ -344,7 +344,7 @@ export const Positions: Story = {
           />
           
           <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div class="text-center text-base-content/50">
+            <div class="text-center opacity-50">
               <div class="text-sm">Preview Area</div>
               <div class="text-xs mt-1">Toast will appear at: {{ activePosition.label }}</div>
             </div>
@@ -378,7 +378,7 @@ export const AllPositions: Story = {
         <div class="grid grid-cols-3 gap-6 max-w-4xl mx-auto">
           <!-- Top Row -->
           <div class="relative h-32 bg-base-200 rounded border">
-            <div class="absolute top-2 left-2 text-xs text-base-content/60">top-left</div>
+            <div class="absolute top-2 left-2 text-xs opacity-60">top-left</div>
             <Toast 
               message="Top Left"
               position="top-left"
@@ -391,7 +391,7 @@ export const AllPositions: Story = {
           </div>
           
           <div class="relative h-32 bg-base-200 rounded border">
-            <div class="absolute top-2 left-1/2 transform -translate-x-1/2 text-xs text-base-content/60">top-center</div>
+            <div class="absolute top-2 left-1/2 transform -translate-x-1/2 text-xs opacity-60">top-center</div>
             <div class="flex justify-center">
               <Toast 
                 message="Top Center"
@@ -406,7 +406,7 @@ export const AllPositions: Story = {
           </div>
           
           <div class="relative h-32 bg-base-200 rounded border">
-            <div class="absolute top-2 right-2 text-xs text-base-content/60">top-right</div>
+            <div class="absolute top-2 right-2 text-xs opacity-60">top-right</div>
             <div class="flex justify-end">
               <Toast 
                 message="Top Right"
@@ -422,7 +422,7 @@ export const AllPositions: Story = {
           
           <!-- Bottom Row -->
           <div class="relative h-32 bg-base-200 rounded border">
-            <div class="absolute bottom-2 left-2 text-xs text-base-content/60">bottom-left</div>
+            <div class="absolute bottom-2 left-2 text-xs opacity-60">bottom-left</div>
             <div class="flex items-end h-full">
               <Toast 
                 message="Bottom Left"
@@ -437,7 +437,7 @@ export const AllPositions: Story = {
           </div>
           
           <div class="relative h-32 bg-base-200 rounded border">
-            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-xs text-base-content/60">bottom-center</div>
+            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 text-xs opacity-60">bottom-center</div>
             <div class="flex justify-center items-end h-full">
               <Toast 
                 message="Bottom Center"
@@ -452,7 +452,7 @@ export const AllPositions: Story = {
           </div>
           
           <div class="relative h-32 bg-base-200 rounded border">
-            <div class="absolute bottom-2 right-2 text-xs text-base-content/60">bottom-right</div>
+            <div class="absolute bottom-2 right-2 text-xs opacity-60">bottom-right</div>
             <div class="flex justify-end items-end h-full">
               <Toast 
                 message="Bottom Right"
@@ -467,7 +467,7 @@ export const AllPositions: Story = {
           </div>
         </div>
         
-        <div class="text-center text-sm text-base-content/60">
+        <div class="text-center text-sm opacity-60">
           These examples show the toasts in containers for demonstration. 
           In real usage with <code>fixed={true}</code>, they would be positioned relative to the viewport.
         </div>

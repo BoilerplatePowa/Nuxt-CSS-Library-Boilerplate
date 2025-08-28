@@ -111,7 +111,6 @@ export const Positions: Story = {
           </div>
         </div>
         
-        <!-- Docks at different positions -->
         <Dock :items="items" position="bottom" variant="floating" />
         <Dock :items="items" position="top" variant="glass" />
         <Dock :items="items" position="left" variant="default" />
@@ -157,7 +156,6 @@ export const Variants: Story = {
           </div>
         </div>
         
-        <!-- Show all variants -->
         <Dock :items="items" position="bottom" variant="default" style="bottom: 120px;" />
         <Dock :items="items" position="bottom" variant="floating" style="bottom: 70px;" />
         <Dock :items="items" position="bottom" variant="glass" style="bottom: 20px;" />

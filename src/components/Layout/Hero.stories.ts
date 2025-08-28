@@ -166,7 +166,7 @@ export const ProductLaunch: Story = {
             <h1 class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               {{ args.title }}
             </h1>
-            <p class="text-xl md:text-2xl mb-8 text-base-content/80">
+            <p class="text-xl md:text-2xl mb-8 opacity-80">
               {{ args.subtitle }}
             </p>
             
@@ -194,7 +194,7 @@ export const ProductLaunch: Story = {
               </button>
             </div>
             
-            <div class="mt-8 text-sm text-base-content/60">
+            <div class="mt-8 text-sm opacity-60">
               No credit card required • Cancel anytime
             </div>
           </div>
@@ -223,7 +223,7 @@ export const AppShowcase: Story = {
               <h1 class="text-4xl md:text-6xl font-bold mb-6">
                 {{ args.title }}
               </h1>
-              <p class="text-lg md:text-xl mb-8 text-base-content/80">
+              <p class="text-lg md:text-xl mb-8 opacity-80">
                 {{ args.subtitle }}
               </p>
               
@@ -293,7 +293,7 @@ export const SplitLayout: Story = {
               <h1 class="text-4xl md:text-5xl font-bold mb-6">
                 {{ args.title }}
               </h1>
-              <p class="text-lg mb-8 text-base-content/80">
+              <p class="text-lg mb-8 opacity-80">
                 {{ args.subtitle }}
               </p>
               

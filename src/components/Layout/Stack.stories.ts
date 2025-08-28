@@ -293,7 +293,6 @@ export const FormLayout: Story = {
         <h3 class="text-xl font-bold mb-6">Contact Form</h3>
         
         <Stack spacing="lg">
-          <!-- Name Fields -->
           <Stack direction="horizontal" spacing="md">
             <div class="flex-1">
               <label class="label">
@@ -309,7 +308,6 @@ export const FormLayout: Story = {
             </div>
           </Stack>
           
-          <!-- Email -->
           <div>
             <label class="label">
               <span class="label-text">Email</span>
@@ -317,7 +315,6 @@ export const FormLayout: Story = {
             <input type="email" class="input input-bordered w-full" placeholder="john@example.com" />
           </div>
           
-          <!-- Message -->
           <div>
             <label class="label">
               <span class="label-text">Message</span>
@@ -325,7 +322,6 @@ export const FormLayout: Story = {
             <textarea class="textarea textarea-bordered w-full" rows="4" placeholder="Your message..."></textarea>
           </div>
           
-          <!-- Actions -->
           <Stack direction="horizontal" justify="between" align="center">
             <label class="label cursor-pointer">
               <input type="checkbox" class="checkbox checkbox-sm" />
