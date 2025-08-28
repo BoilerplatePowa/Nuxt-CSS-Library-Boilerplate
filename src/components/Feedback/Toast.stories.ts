@@ -557,17 +557,8 @@ export const StackingDemo: Story = {
   render: () => ({
     components: { Toast, ToastContainer },
     setup() {
-      const { toasts, addToast, removeToast, success, error, warning, info } = useToast();
-
-      return {
-        toasts,
-        addToast,
-        removeToast,
-        success,
-        error,
-        warning,
-        info,
-      };
+      const toast = useToast();
+      return toast;
     },
     template: `
       <div>

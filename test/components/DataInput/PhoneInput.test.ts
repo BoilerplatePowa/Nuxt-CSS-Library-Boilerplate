@@ -135,10 +135,10 @@ describe('PhoneInput', () => {
     expect(wrapper.find('.select-outlined').exists()).toBe(true);
   });
 
-  it('filters countries when countries prop is provided', () => {
+  it('filters countries when countriesCodes prop is provided', () => {
     const wrapper = mount(PhoneInput, {
       props: {
-        countries: ['FR', 'US'],
+        countriesCodes: ['FR', 'US'],
       },
     });
 
