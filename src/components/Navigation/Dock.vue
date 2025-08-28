@@ -1,8 +1,8 @@
 <template>
   <div :class="dockClasses">
     <div :class="dockContainerClasses">
-      <div 
-        v-for="(item, index) in items" 
+      <div
+        v-for="(item, index) in items"
         :key="getItemKey(item, index)"
         :class="getItemClasses(item)"
         @click="handleItemClick(item, index, $event)"
@@ -12,36 +12,32 @@
         <slot name="item" :item="item" :index="index" :is-active="isActive(item)">
           <!-- Icon -->
           <div v-if="item.icon || item.avatar" :class="iconClasses">
-            <img 
-              v-if="item.avatar" 
-              :src="item.avatar" 
+            <img
+              v-if="item.avatar"
+              :src="item.avatar"
               :alt="item.label || ''"
               class="w-full h-full object-cover rounded-full"
             />
-            <component 
-              v-else-if="item.icon" 
-              :is="item.icon"
-              class="w-6 h-6"
-            />
+            <component v-else-if="item.icon" :is="item.icon" class="w-6 h-6" />
           </div>
-          
+
           <!-- Badge/Notification -->
           <div v-if="item.badge" :class="badgeClasses">
             {{ item.badge }}
           </div>
         </slot>
-        
+
         <!-- Tooltip -->
         <div v-if="showTooltips && item.label" :class="tooltipClasses">
           {{ item.label }}
         </div>
       </div>
-      
+
       <!-- Divider -->
       <div v-if="$slots.divider" class="dock-divider">
         <slot name="divider" />
       </div>
-      
+
       <!-- Additional items slot -->
       <slot name="additional" />
     </div>
@@ -120,7 +116,15 @@ const dockContainerClasses = computed(() => {
   if (props.variant === 'floating') {
     baseClasses.push('bg-base-100', 'shadow-lg', 'rounded-2xl', 'p-3', 'border', 'border-base-300');
   } else if (props.variant === 'glass') {
-    baseClasses.push('bg-base-100/80', 'backdrop-blur-md', 'shadow-lg', 'rounded-2xl', 'p-3', 'border', 'border-base-300/50');
+    baseClasses.push(
+      'bg-base-100/80',
+      'backdrop-blur-md',
+      'shadow-lg',
+      'rounded-2xl',
+      'p-3',
+      'border',
+      'border-base-300/50'
+    );
   } else {
     baseClasses.push('bg-base-200', 'rounded-xl', 'p-2');
   }
@@ -145,7 +149,7 @@ const iconClasses = computed(() => {
 
 const badgeClasses = computed(() => {
   const baseClasses = ['absolute', '-top-1', '-right-1', 'badge', 'badge-sm', 'badge-primary'];
-  
+
   if (props.size === 'sm') {
     baseClasses.push('badge-xs');
   }
@@ -155,9 +159,19 @@ const badgeClasses = computed(() => {
 
 const tooltipClasses = computed(() => {
   const baseClasses = [
-    'absolute', 'z-10', 'px-2', 'py-1', 'text-xs', 'font-medium',
-    'text-white', 'bg-black', 'rounded', 'opacity-0', 'pointer-events-none',
-    'transition-opacity', 'duration-200'
+    'absolute',
+    'z-10',
+    'px-2',
+    'py-1',
+    'text-xs',
+    'font-medium',
+    'text-white',
+    'bg-black',
+    'rounded',
+    'opacity-0',
+    'pointer-events-none',
+    'transition-opacity',
+    'duration-200',
   ];
 
   // Position tooltip based on dock position
@@ -179,7 +193,14 @@ const getItemKey = (item: DockItem, index: number) => {
 };
 
 const getItemClasses = (item: DockItem) => {
-  const baseClasses = ['dock-item', 'relative', 'flex', 'items-center', 'justify-center', 'cursor-pointer'];
+  const baseClasses = [
+    'dock-item',
+    'relative',
+    'flex',
+    'items-center',
+    'justify-center',
+    'cursor-pointer',
+  ];
 
   // Size and padding
   if (props.size === 'sm') {
@@ -193,7 +214,7 @@ const getItemClasses = (item: DockItem) => {
   // Interactive states
   if (!item.disabled) {
     baseClasses.push('hover:bg-base-300', 'active:scale-95');
-    
+
     if (props.animated) {
       baseClasses.push('transition-all', 'duration-200');
     }
@@ -223,7 +244,7 @@ const isActive = (item: DockItem) => {
 
 const handleItemClick = (item: DockItem, index: number, event: Event) => {
   if (item.disabled) return;
-  
+
   // Handle link items
   if (item.href && !event.defaultPrevented) {
     if (item.target === '_blank') {
@@ -232,7 +253,7 @@ const handleItemClick = (item: DockItem, index: number, event: Event) => {
       window.location.href = item.href;
     }
   }
-  
+
   emit('itemClick', item, index, event);
 };
 

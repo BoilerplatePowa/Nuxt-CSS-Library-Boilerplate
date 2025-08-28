@@ -5,12 +5,12 @@ import StatusBox from '../../../src/components/DataDisplay/StatusBox.vue';
 describe('StatusBox', () => {
   it('renders correctly with default props', () => {
     const wrapper = mount(StatusBox, {
-      props: { 
+      props: {
         title: 'Test Status',
         message: 'Test message',
       },
     });
-    
+
     expect(wrapper.classes()).toContain('statusbox');
     expect(wrapper.text()).toContain('Test Status');
     expect(wrapper.text()).toContain('Test message');
@@ -21,7 +21,7 @@ describe('StatusBox', () => {
 
     variants.forEach(variant => {
       const wrapper = mount(StatusBox, {
-        props: { 
+        props: {
           title: 'Test',
           variant,
         },
@@ -54,7 +54,7 @@ describe('StatusBox', () => {
 
     sizes.forEach(size => {
       const wrapper = mount(StatusBox, {
-        props: { 
+        props: {
           title: 'Test',
           size,
         },
@@ -71,7 +71,7 @@ describe('StatusBox', () => {
 
     // Test that medium (default) uses different padding
     const mediumWrapper = mount(StatusBox, {
-      props: { 
+      props: {
         title: 'Test',
         size: 'md',
       },
@@ -79,11 +79,9 @@ describe('StatusBox', () => {
     expect(mediumWrapper.classes()).toContain('p-4');
   });
 
-
-
   it('shows indicator by default', () => {
     const wrapper = mount(StatusBox, {
-      props: { 
+      props: {
         title: 'Test',
         variant: 'success',
       },
@@ -96,7 +94,7 @@ describe('StatusBox', () => {
 
   it('hides indicator when showIndicator is false', () => {
     const wrapper = mount(StatusBox, {
-      props: { 
+      props: {
         title: 'Test',
         variant: 'success',
         showIndicator: false,
@@ -114,7 +112,7 @@ describe('StatusBox', () => {
     ];
 
     const wrapper = mount(StatusBox, {
-      props: { 
+      props: {
         title: 'Test',
         actions,
       },
@@ -131,7 +129,7 @@ describe('StatusBox', () => {
 
   it('renders dismiss button when dismissible is true', () => {
     const wrapper = mount(StatusBox, {
-      props: { 
+      props: {
         title: 'Test',
         dismissible: true,
       },
@@ -143,7 +141,7 @@ describe('StatusBox', () => {
 
   it('emits dismiss event when dismiss button is clicked', async () => {
     const wrapper = mount(StatusBox, {
-      props: { 
+      props: {
         title: 'Test',
         dismissible: true,
       },
@@ -151,17 +149,15 @@ describe('StatusBox', () => {
 
     const dismissButton = wrapper.find('button[aria-label="Dismiss"]');
     await dismissButton.trigger('click');
-    
+
     expect(wrapper.emitted('dismiss')).toBeTruthy();
   });
 
   it('emits actionClick event when action is clicked', async () => {
-    const actions = [
-      { label: 'Test Action', variant: 'primary' },
-    ];
+    const actions = [{ label: 'Test Action', variant: 'primary' }];
 
     const wrapper = mount(StatusBox, {
-      props: { 
+      props: {
         title: 'Test',
         actions,
       },
@@ -169,12 +165,9 @@ describe('StatusBox', () => {
 
     const actionButton = wrapper.find('button');
     await actionButton.trigger('click');
-    
+
     expect(wrapper.emitted('actionClick')).toBeTruthy();
-    expect(wrapper.emitted('actionClick')?.[0]).toEqual([
-      actions[0],
-      expect.any(Event),
-    ]);
+    expect(wrapper.emitted('actionClick')?.[0]).toEqual([actions[0], expect.any(Event)]);
   });
 
   it('formats timestamp correctly', () => {
@@ -182,7 +175,7 @@ describe('StatusBox', () => {
     const fiveMinutesAgo = new Date(now.getTime() - 5 * 60 * 1000);
 
     const wrapper = mount(StatusBox, {
-      props: { 
+      props: {
         title: 'Test',
         timestamp: fiveMinutesAgo,
       },
@@ -228,12 +221,10 @@ describe('StatusBox', () => {
   });
 
   it('does not emit action click for disabled actions', async () => {
-    const actions = [
-      { label: 'Disabled Action', disabled: true },
-    ];
+    const actions = [{ label: 'Disabled Action', disabled: true }];
 
     const wrapper = mount(StatusBox, {
-      props: { 
+      props: {
         title: 'Test',
         actions,
       },
@@ -241,13 +232,13 @@ describe('StatusBox', () => {
 
     const actionButton = wrapper.find('button');
     await actionButton.trigger('click');
-    
+
     expect(wrapper.emitted('actionClick')).toBeFalsy();
   });
 
   it('shows pending animation for pending variant', () => {
     const wrapper = mount(StatusBox, {
-      props: { 
+      props: {
         title: 'Test',
         variant: 'pending',
       },

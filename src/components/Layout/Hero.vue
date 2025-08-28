@@ -1,6 +1,6 @@
 <template>
-  <section 
-    :class="heroClasses" 
+  <section
+    :class="heroClasses"
     :style="heroStyle"
     :aria-label="ariaLabel || 'Hero section'"
     role="banner"
@@ -8,16 +8,16 @@
     <!-- Background elements -->
     <div v-if="parallax && backgroundImage" :class="parallaxClasses" :style="parallaxStyle"></div>
     <div v-if="overlay" :class="overlayClasses"></div>
-    
+
     <!-- Optional video background -->
-    <video 
-      v-if="videoSrc" 
+    <video
+      v-if="videoSrc"
       :class="videoClasses"
       :src="videoSrc"
       :poster="videoPoster"
-      autoplay 
-      muted 
-      loop 
+      autoplay
+      muted
+      loop
       playsinline
       :aria-hidden="true"
     ></video>
@@ -58,8 +58,18 @@
 
             <!-- Additional features -->
             <div v-if="showScrollIndicator" :class="scrollIndicatorClasses" @click="scrollDown">
-              <svg class="w-6 h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              <svg
+                class="w-6 h-6 animate-bounce"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 14l-7 7m0 0l-7-7m7 7V3"
+                />
               </svg>
             </div>
           </div>
@@ -158,9 +168,9 @@ const heroClasses = computed(() => {
 
 const overlayClasses = computed(() => {
   if (!props.overlay) return '';
-  
+
   const classes = ['hero-overlay', 'absolute', 'inset-0', 'z-10'];
-  
+
   // Color
   if (props.overlayColor === 'black') {
     classes.push('bg-black');
@@ -171,7 +181,7 @@ const overlayClasses = computed(() => {
   } else if (props.overlayColor === 'accent') {
     classes.push('bg-accent');
   }
-  
+
   // Opacity
   if (props.overlayOpacity === 'light') {
     classes.push('bg-opacity-30');
@@ -180,7 +190,7 @@ const overlayClasses = computed(() => {
   } else if (props.overlayOpacity === 'dark') {
     classes.push('bg-opacity-70');
   }
-  
+
   return classes.join(' ');
 });
 
@@ -276,14 +286,11 @@ const contentContainerClasses = computed(() => {
   return classes.join(' ');
 });
 
-const textContainerClasses = computed(() => [
-  'space-y-6',
-  props.responsive ? 'px-4' : '',
-]);
+const textContainerClasses = computed(() => ['space-y-6', props.responsive ? 'px-4' : '']);
 
 const badgeClasses = computed(() => {
   const classes = ['mb-4', 'flex'];
-  
+
   if (props.alignment === 'center') {
     classes.push('justify-center');
   } else if (props.alignment === 'right') {
@@ -291,7 +298,7 @@ const badgeClasses = computed(() => {
   } else {
     classes.push('justify-start');
   }
-  
+
   return classes;
 });
 

@@ -28,11 +28,15 @@
       :aria-describedby="ariaDescribedby"
       @change="handleChange"
     />
-    
-    <p v-if="helpText && !errorMessage" :id="`${inputId}-help`" class="text-xs text-base-content/70 mt-1">
+
+    <p
+      v-if="helpText && !errorMessage"
+      :id="`${inputId}-help`"
+      class="text-xs text-base-content/70 mt-1"
+    >
       {{ helpText }}
     </p>
-    
+
     <p v-if="errorMessage" :id="`${inputId}-error`" class="text-xs text-error mt-1" role="alert">
       {{ errorMessage }}
     </p>

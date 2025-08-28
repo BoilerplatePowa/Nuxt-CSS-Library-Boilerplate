@@ -27,7 +27,7 @@ const preview: Preview = {
     layout: 'centered',
   },
   decorators: [
-    (story) => ({
+    story => ({
       template: `
         <div 
           style="

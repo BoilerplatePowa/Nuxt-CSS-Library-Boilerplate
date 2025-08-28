@@ -32,7 +32,7 @@ export const Default: Story = {
   args: {
     href: '#',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Link },
     setup() {
       return { args };

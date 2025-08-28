@@ -43,7 +43,7 @@ export const WithText: Story = {
   args: {
     text: 'OR',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Divider },
     setup() {
       return { args };

@@ -33,7 +33,13 @@ export interface ToastItem {
 
 interface Props {
   toasts?: ToastItem[];
-  position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center';
+  position?:
+    | 'top-right'
+    | 'top-left'
+    | 'bottom-right'
+    | 'bottom-left'
+    | 'top-center'
+    | 'bottom-center';
   maxToasts?: number;
 }
 
@@ -113,7 +119,7 @@ const removeToast = (id: string | number) => {
     clearTimeout(timer);
     timers.value.delete(id);
   }
-  
+
   emit('remove-toast', id);
 };
 
@@ -122,22 +128,26 @@ const startTimer = (toast: ToastItem) => {
     const timer = setTimeout(() => {
       removeToast(toast.id);
     }, toast.duration);
-    
+
     timers.value.set(toast.id, timer);
   }
 };
 
 // Watch for new toasts and start their timers
-watch(() => props.toasts, (newToasts, oldToasts) => {
-  // Find newly added toasts
-  const oldIds = new Set(oldToasts?.map(t => t.id) || []);
-  const newItems = newToasts.filter(t => !oldIds.has(t.id));
-  
-  // Start timers for new toasts
-  newItems.forEach(toast => {
-    startTimer(toast);
-  });
-}, { immediate: true, deep: true });
+watch(
+  () => props.toasts,
+  (newToasts, oldToasts) => {
+    // Find newly added toasts
+    const oldIds = new Set(oldToasts?.map(t => t.id) || []);
+    const newItems = newToasts.filter(t => !oldIds.has(t.id));
+
+    // Start timers for new toasts
+    newItems.forEach(toast => {
+      startTimer(toast);
+    });
+  },
+  { immediate: true, deep: true }
+);
 
 // Cleanup timers when component unmounts
 import { onUnmounted } from 'vue';

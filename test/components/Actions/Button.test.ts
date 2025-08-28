@@ -27,7 +27,19 @@ describe('Button', () => {
   });
 
   it('applies variant classes correctly', () => {
-    const variants = ['primary', 'secondary', 'accent', 'neutral', 'ghost', 'outline', 'link', 'info', 'success', 'warning', 'error'] as const;
+    const variants = [
+      'primary',
+      'secondary',
+      'accent',
+      'neutral',
+      'ghost',
+      'outline',
+      'link',
+      'info',
+      'success',
+      'warning',
+      'error',
+    ] as const;
 
     variants.forEach(variant => {
       const wrapper = mount(Button, {
@@ -77,7 +89,7 @@ describe('Button', () => {
 
   it('shows loading text when provided', () => {
     const wrapper = mount(Button, {
-      props: { 
+      props: {
         loading: true,
         loadingText: 'Processing...',
       },
@@ -89,7 +101,7 @@ describe('Button', () => {
 
   it('hides text when hideTextOnLoading is true', () => {
     const wrapper = mount(Button, {
-      props: { 
+      props: {
         loading: true,
         hideTextOnLoading: true,
       },
@@ -141,9 +153,9 @@ describe('Button', () => {
 
   it('shows confirmation dialog when confirmAction is true', async () => {
     mockConfirm.mockReturnValue(true);
-    
+
     const wrapper = mount(Button, {
-      props: { 
+      props: {
         confirmAction: true,
         confirmText: 'Are you sure?',
       },
@@ -157,9 +169,9 @@ describe('Button', () => {
 
   it('does not emit click when confirmation is cancelled', async () => {
     mockConfirm.mockReturnValue(false);
-    
+
     const wrapper = mount(Button, {
-      props: { 
+      props: {
         confirmAction: true,
         confirmText: 'Are you sure?',
       },
@@ -173,7 +185,7 @@ describe('Button', () => {
 
   it('debounces click events when debounceMs is set', async () => {
     vi.useFakeTimers();
-    
+
     const wrapper = mount(Button, {
       props: { debounceMs: 100 },
       slots: { default: 'Test' },
@@ -184,9 +196,9 @@ describe('Button', () => {
 
     vi.advanceTimersByTime(100);
     await wrapper.vm.$nextTick();
-    
+
     expect(wrapper.emitted('click')).toBeTruthy();
-    
+
     vi.useRealTimers();
   });
 
@@ -230,10 +242,10 @@ describe('Button', () => {
 
   it('renders both left and right icons correctly', () => {
     const wrapper = mount(Button, {
-      props: { 
+      props: {
         iconLeft: 'heart',
         iconRight: 'arrow-right',
-        iconSize: 'lg'
+        iconSize: 'lg',
       },
       slots: { default: 'Test' },
     });
@@ -242,7 +254,7 @@ describe('Button', () => {
     // Find the specific icons by name
     const leftIcon = icons.find(icon => icon.props && icon.props('name') === 'heart');
     const rightIcon = icons.find(icon => icon.props && icon.props('name') === 'arrow-right');
-    
+
     expect(leftIcon).toBeTruthy();
     expect(rightIcon).toBeTruthy();
     expect(leftIcon?.props('name')).toBe('heart');
@@ -357,7 +369,7 @@ describe('Button', () => {
 
   it('handles multiple rapid clicks with debounce', async () => {
     vi.useFakeTimers();
-    
+
     const wrapper = mount(Button, {
       props: { debounceMs: 100 },
       slots: { default: 'Test' },
@@ -372,10 +384,10 @@ describe('Button', () => {
 
     vi.advanceTimersByTime(100);
     await wrapper.vm.$nextTick();
-    
+
     expect(wrapper.emitted('click')).toBeTruthy();
     expect(wrapper.emitted('click')?.length).toBe(1); // Only one event should be emitted
-    
+
     vi.useRealTimers();
   });
 

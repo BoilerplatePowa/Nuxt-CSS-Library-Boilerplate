@@ -29,7 +29,7 @@ export const Default: Story = {
   args: {
     tip: 'This is a tooltip',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Tooltip },
     setup() {
       return { args };
@@ -111,7 +111,7 @@ export const AlwaysOpen: Story = {
     tip: 'This tooltip is always visible',
     open: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Tooltip },
     setup() {
       return { args };
@@ -128,7 +128,7 @@ export const LongText: Story = {
   args: {
     tip: 'This is a very long tooltip text that demonstrates how tooltips handle longer content gracefully',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Tooltip },
     setup() {
       return { args };

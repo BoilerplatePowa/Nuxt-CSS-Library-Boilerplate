@@ -65,7 +65,13 @@ const props = withDefaults(
     duration?: number;
     closable?: boolean;
     persistent?: boolean;
-    position?: 'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center';
+    position?:
+      | 'top-right'
+      | 'top-left'
+      | 'bottom-right'
+      | 'bottom-left'
+      | 'top-center'
+      | 'bottom-center';
     fixed?: boolean;
     autoFocus?: boolean;
     showProgress?: boolean;
@@ -109,8 +115,6 @@ const closeButtonLabel = computed(() => {
   return `Close ${props.type} notification`;
 });
 
-
-
 const containerClasses = computed(() => {
   const baseClasses = [
     'toast-container',
@@ -128,7 +132,7 @@ const containerClasses = computed(() => {
   // Only add positioning classes when fixed is true
   if (props.fixed) {
     baseClasses.push('fixed', 'z-50');
-    
+
     // Position classes for fixed positioning
     switch (props.position) {
       case 'top-right':
@@ -251,7 +255,7 @@ const startTimer = () => {
 
 const pauseTimer = () => {
   if (!props.pauseOnHover) return;
-  
+
   if (timer) {
     clearTimeout(timer);
     timer = null;
@@ -276,7 +280,7 @@ const handleKeydown = (event: KeyboardEvent) => {
 const close = () => {
   emit('before-close');
   visible.value = false;
-  
+
   // Cleanup timers
   if (timer) {
     clearTimeout(timer);
@@ -286,9 +290,9 @@ const close = () => {
     clearInterval(progressInterval);
     progressInterval = null;
   }
-  
+
   emit('close');
-  
+
   // Emit after-close after animation
   setTimeout(() => {
     emit('after-close');
@@ -305,13 +309,13 @@ const onLeave = () => {
 
 onMounted(() => {
   startTimer();
-  
+
   if (props.autoFocus && toastRef.value) {
     nextTick(() => {
       toastRef.value?.focus();
     });
   }
-  
+
   // Announce to screen reader
   if (props.announceToScreenReader) {
     // Screen reader will automatically announce due to role="alert"

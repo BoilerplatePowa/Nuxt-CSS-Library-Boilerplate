@@ -24,12 +24,7 @@
       </button>
 
       <!-- First ellipsis -->
-      <span
-        v-if="showFirstLast && currentPage > 4"
-        :class="ellipsisClasses"
-      >
-        ...
-      </span>
+      <span v-if="showFirstLast && currentPage > 4" :class="ellipsisClasses"> ... </span>
 
       <!-- Visible page numbers -->
       <button
@@ -42,10 +37,7 @@
       </button>
 
       <!-- Last ellipsis -->
-      <span
-        v-if="showFirstLast && currentPage < totalPages - 3"
-        :class="ellipsisClasses"
-      >
+      <span v-if="showFirstLast && currentPage < totalPages - 3" :class="ellipsisClasses">
         ...
       </span>
 
@@ -74,7 +66,14 @@
 
   <!-- Page info -->
   <div v-if="showInfo" class="text-sm text-base-content/70 mt-2 text-center">
-    <slot name="info" :current="currentPage" :total="totalPages" :start="startItem" :end="endItem" :totalItems="totalItems">
+    <slot
+      name="info"
+      :current="currentPage"
+      :total="totalPages"
+      :start="startItem"
+      :end="endItem"
+      :totalItems="totalItems"
+    >
       Showing {{ startItem }} to {{ endItem }} of {{ totalItems }} results
     </slot>
   </div>
@@ -197,11 +196,11 @@ const endItem = computed(() => {
 
 const getPageButtonClasses = (page: number): string => {
   const classes = [...buttonClasses.value];
-  
+
   if (page === props.currentPage) {
     classes.push('btn-active');
   }
-  
+
   return classes.join(' ');
 };
 
@@ -209,7 +208,7 @@ const goToPage = (page: number) => {
   if (page < 1 || page > props.totalPages || page === props.currentPage || props.disabled) {
     return;
   }
-  
+
   emit('page-change', page);
 };
 </script>

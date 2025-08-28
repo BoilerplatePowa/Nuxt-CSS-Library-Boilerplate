@@ -4,10 +4,10 @@
       <li v-for="item in items" :key="getItemKey(item)">
         <!-- Menu title -->
         <h2 v-if="item.title" class="menu-title">{{ item.title }}</h2>
-        
+
         <!-- Divider -->
         <hr v-else-if="item.divider" />
-        
+
         <!-- Link item -->
         <a
           v-else-if="item.href"
@@ -19,7 +19,7 @@
           {{ item.label }}
           <span v-if="item.badge" class="badge badge-sm">{{ item.badge }}</span>
         </a>
-        
+
         <!-- Button item -->
         <button
           v-else
@@ -32,7 +32,7 @@
           {{ item.label }}
           <span v-if="item.badge" class="badge badge-sm">{{ item.badge }}</span>
         </button>
-        
+
         <!-- Submenu -->
         <ul v-if="item.children && item.children.length > 0" class="menu">
           <li v-for="child in item.children" :key="getItemKey(child)">

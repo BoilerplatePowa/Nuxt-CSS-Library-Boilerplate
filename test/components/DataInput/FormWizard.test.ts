@@ -10,9 +10,10 @@ import Checkbox from '@/components/DataInput/Checkbox.vue';
 vi.mock('vee-validate', () => ({
   Form: {
     name: 'Form',
-    template: '<form @submit="$emit(\'submit\', {})"><slot :handleSubmit="() => {}" :errors="{}" :meta="{ valid: true, touched: false }" /></form>',
-    emits: ['submit']
-  }
+    template:
+      '<form @submit="$emit(\'submit\', {})"><slot :handleSubmit="() => {}" :errors="{}" :meta="{ valid: true, touched: false }" /></form>',
+    emits: ['submit'],
+  },
 }));
 
 describe('FormWizard', () => {
@@ -21,39 +22,40 @@ describe('FormWizard', () => {
       title: 'Step 1',
       description: 'First step',
       schema: yup.object({
-        name: yup.string().required('Name is required')
-      })
+        name: yup.string().required('Name is required'),
+      }),
     },
     {
       title: 'Step 2',
       description: 'Second step',
       schema: yup.object({
-        email: yup.string().email('Invalid email').required('Email is required')
-      })
+        email: yup.string().email('Invalid email').required('Email is required'),
+      }),
     },
     {
       title: 'Step 3',
       description: 'Final step',
       schema: yup.object({
-        terms: yup.boolean().oneOf([true], 'Must accept terms')
-      })
-    }
+        terms: yup.boolean().oneOf([true], 'Must accept terms'),
+      }),
+    },
   ];
 
   const createWrapper = (props = {}) => {
     return mount(FormWizard, {
       props: {
         steps: mockSteps,
-        ...props
+        ...props,
       },
       global: {
         stubs: {
           Steps: {
             template: '<div class="steps-mock"></div>',
-            props: ['steps', 'currentStep', 'variant', 'size', 'showNumbers', 'color']
+            props: ['steps', 'currentStep', 'variant', 'size', 'showNumbers', 'color'],
           },
           Button: {
-            template: '<button :variant="variant" :type="type" :disabled="disabled" :loading="loading" @click="handleClick"><slot /></button>',
+            template:
+              '<button :variant="variant" :type="type" :disabled="disabled" :loading="loading" @click="handleClick"><slot /></button>',
             props: ['type', 'variant', 'disabled', 'loading'],
             methods: {
               handleClick() {
@@ -63,19 +65,19 @@ describe('FormWizard', () => {
                 } else {
                   this.$emit('click');
                 }
-              }
-            }
+              },
+            },
           },
           Icon: {
             template: '<span class="icon-mock"><slot /></span>',
-            props: ['name', 'size']
+            props: ['name', 'size'],
           },
           Progress: {
             template: '<div class="progress-mock" :value="value"></div>',
-            props: ['value', 'max', 'size']
-          }
-        }
-      }
+            props: ['value', 'max', 'size'],
+          },
+        },
+      },
     });
   };
 
@@ -91,7 +93,7 @@ describe('FormWizard', () => {
         showSteps: false,
         stepsColor: 'success',
         showProgress: false,
-        showSummary: false
+        showSummary: false,
       });
       expect(wrapper.exists()).toBe(true);
     });
@@ -110,45 +112,45 @@ describe('FormWizard', () => {
   describe('Navigation', () => {
     it('emits step-change when navigating', async () => {
       const wrapper = createWrapper({ modelValue: 0 });
-      
+
       // Find and click next button
       const nextButton = wrapper.find('button[type="submit"]');
       await nextButton.trigger('click');
-      
+
       await nextTick();
-      
+
       expect(wrapper.emitted('step-change')).toBeTruthy();
       expect(wrapper.emitted('step-change')?.[0]).toEqual([1, 0]);
     });
 
     it('emits step-complete when step is submitted', async () => {
       const wrapper = createWrapper({ modelValue: 0 });
-      
+
       // Find and click next button
       const nextButton = wrapper.find('button[type="submit"]');
       await nextButton.trigger('click');
-      
+
       await nextTick();
-      
+
       expect(wrapper.emitted('step-complete')).toBeTruthy();
       expect(wrapper.emitted('step-complete')?.[0]?.[0]).toBe(0);
     });
 
     it('emits wizard-complete on final step', async () => {
       const wrapper = createWrapper({ modelValue: 2 });
-      
+
       // Find and click submit button
       const submitButton = wrapper.find('button[type="submit"]');
       await submitButton.trigger('click');
-      
+
       await nextTick();
-      
+
       expect(wrapper.emitted('wizard-complete')).toBeTruthy();
     });
 
     it('prevents navigation when form is invalid', async () => {
       const wrapper = createWrapper({ modelValue: 0 });
-      
+
       // The button should be enabled by default since the form is valid
       const nextButton = wrapper.find('button[type="submit"]');
       expect(nextButton.attributes('disabled')).toBeUndefined();
@@ -217,9 +219,9 @@ describe('FormWizard', () => {
         modelValue: 0,
         nextButtonText: 'Continue',
         previousButtonText: 'Go Back',
-        submitButtonText: 'Finish'
+        submitButtonText: 'Finish',
       });
-      
+
       const nextButton = wrapper.find('button[type="submit"]');
       expect(nextButton.text()).toContain('Continue');
     });
@@ -251,20 +253,20 @@ describe('FormWizard', () => {
   describe('Events', () => {
     it('emits update:modelValue when step changes', async () => {
       const wrapper = createWrapper({ modelValue: 0 });
-      
+
       // With defineModel(), update:modelValue is only emitted when internal value changes
       // External prop changes don't trigger the emission
       await wrapper.setProps({ modelValue: 1 });
-      
+
       // The component should update its internal value but not emit
       expect(wrapper.emitted('update:modelValue')).toBeUndefined();
     });
 
     it('emits step-change when step changes externally', async () => {
       const wrapper = createWrapper({ modelValue: 0 });
-      
+
       await wrapper.setProps({ modelValue: 1 });
-      
+
       expect(wrapper.emitted('step-change')).toBeTruthy();
       expect(wrapper.emitted('step-change')?.[0]).toEqual([1, 0]);
     });
@@ -293,9 +295,9 @@ describe('FormWizard', () => {
 
     it('reset method resets to first step', async () => {
       const wrapper = createWrapper({ modelValue: 2 });
-      
+
       await wrapper.vm.reset();
-      
+
       expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([0]);
     });
   });
@@ -316,7 +318,7 @@ describe('FormWizard', () => {
       const wrapper = createWrapper({ modelValue: 1 });
       const previousButton = wrapper.find('button[variant="outline"]');
       const nextButton = wrapper.find('button[type="submit"]');
-      
+
       expect(previousButton.attributes('type')).toBe('button');
       expect(nextButton.attributes('type')).toBe('submit');
     });
@@ -335,18 +337,18 @@ describe('FormWizard', () => {
     });
 
     it('handles step data updates', async () => {
-      const wrapper = createWrapper({ 
+      const wrapper = createWrapper({
         modelValue: 0,
-        stepData: { step_0: { name: 'John' } }
+        stepData: { step_0: { name: 'John' } },
       });
-      
+
       await wrapper.setProps({
-        stepData: { step_0: { name: 'John' }, step_1: { email: 'john@example.com' } }
+        stepData: { step_0: { name: 'John' }, step_1: { email: 'john@example.com' } },
       });
-      
+
       expect(wrapper.vm.stepData).toEqual({
         step_0: { name: 'John' },
-        step_1: { email: 'john@example.com' }
+        step_1: { email: 'john@example.com' },
       });
     });
   });

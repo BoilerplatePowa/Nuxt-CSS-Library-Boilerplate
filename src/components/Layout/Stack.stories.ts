@@ -41,7 +41,7 @@ export const Default: Story = {
     direction: 'vertical',
     spacing: 'md',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Stack },
     setup() {
       return { args };
@@ -61,7 +61,7 @@ export const Horizontal: Story = {
     direction: 'horizontal',
     spacing: 'md',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Stack },
     setup() {
       return { args };

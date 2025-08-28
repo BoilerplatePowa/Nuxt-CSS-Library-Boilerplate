@@ -23,11 +23,7 @@
           {{ placeholder }}
         </option>
         <template v-if="hasGroups">
-          <optgroup 
-            v-for="group in groupedOptions" 
-            :key="group.label"
-            :label="group.label"
-          >
+          <optgroup v-for="group in groupedOptions" :key="group.label" :label="group.label">
             <option
               v-for="option in group.options"
               :key="getOptionValue(option)"
@@ -58,7 +54,11 @@
       </div>
     </div>
 
-    <p v-if="helpText && !errorMessage" :id="`${selectId}-help`" class="text-xs text-base-content/70 mt-1">
+    <p
+      v-if="helpText && !errorMessage"
+      :id="`${selectId}-help`"
+      class="text-xs text-base-content/70 mt-1"
+    >
       {{ helpText }}
     </p>
 
@@ -106,7 +106,16 @@ interface Props {
   loading?: boolean;
   showValidation?: boolean;
   size?: 'xs' | 'sm' | 'md' | 'lg';
-  variant?: 'bordered' | 'ghost' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
+  variant?:
+    | 'bordered'
+    | 'ghost'
+    | 'primary'
+    | 'secondary'
+    | 'accent'
+    | 'info'
+    | 'success'
+    | 'warning'
+    | 'error';
   ariaDescribedby?: string;
   autoFocus?: boolean;
 }
@@ -139,15 +148,15 @@ const selectRef = ref<HTMLSelectElement>();
 // Computed properties
 const hasError = computed(() => !!props.errorMessage);
 
-const hasGroups = computed(() => 
+const hasGroups = computed(() =>
   props.options.some(option => typeof option === 'object' && option.group)
 );
 
 const groupedOptions = computed((): OptionGroup[] => {
   if (!hasGroups.value) return [];
-  
+
   const groups: { [key: string]: Option[] } = {};
-  
+
   props.options.forEach(option => {
     if (typeof option === 'object' && option.group) {
       if (!groups[option.group]) {
@@ -156,7 +165,7 @@ const groupedOptions = computed((): OptionGroup[] => {
       groups[option.group].push(option);
     }
   });
-  
+
   return Object.entries(groups).map(([label, options]) => ({
     label,
     options,
@@ -166,11 +175,7 @@ const groupedOptions = computed((): OptionGroup[] => {
 
 const wrapperClasses = computed(() => ['form-control', 'w-full']);
 
-const labelClasses = computed(() => [
-  'label',
-  'text-sm',
-  'font-medium',
-]);
+const labelClasses = computed(() => ['label', 'text-sm', 'font-medium']);
 
 const selectClasses = computed(() => {
   const baseClasses = ['select', 'w-full', 'transition-all', 'duration-200'];
@@ -262,7 +267,7 @@ const validateSelection = (value: any): boolean => {
 
 const handleChange = (event: Event) => {
   const target = event.target as HTMLSelectElement;
-  
+
   if (props.multiple) {
     const values = Array.from(target.selectedOptions).map(option => {
       const value = option.value;
@@ -276,7 +281,7 @@ const handleChange = (event: Event) => {
     model.value = parsedValue;
     validateSelection(parsedValue);
   }
-  
+
   emit('change', event);
 };
 

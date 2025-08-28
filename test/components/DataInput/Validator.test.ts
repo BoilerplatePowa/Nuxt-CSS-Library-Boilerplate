@@ -115,7 +115,9 @@ describe('Validator', () => {
     const input = wrapper.find('input');
     await input.trigger('blur');
 
-    expect(wrapper.find('.label-text-alt.text-error').text()).toContain('Please enter a valid email address');
+    expect(wrapper.find('.label-text-alt.text-error').text()).toContain(
+      'Please enter a valid email address'
+    );
   });
 
   it('shows success state for valid email', async () => {
@@ -147,7 +149,9 @@ describe('Validator', () => {
     const input = wrapper.find('input');
     await input.trigger('blur');
 
-    expect(wrapper.find('.label-text-alt.text-error').text()).toContain('Must be at least 5 characters');
+    expect(wrapper.find('.label-text-alt.text-error').text()).toContain(
+      'Must be at least 5 characters'
+    );
   });
 
   it('validates maximum length', async () => {
@@ -162,7 +166,9 @@ describe('Validator', () => {
     const input = wrapper.find('input');
     await input.trigger('blur');
 
-    expect(wrapper.find('.label-text-alt.text-error').text()).toContain('Must be no more than 3 characters');
+    expect(wrapper.find('.label-text-alt.text-error').text()).toContain(
+      'Must be no more than 3 characters'
+    );
   });
 
   it('validates URL format', async () => {
@@ -193,7 +199,9 @@ describe('Validator', () => {
     const input = wrapper.find('input');
     await input.trigger('blur');
 
-    expect(wrapper.find('.label-text-alt.text-error').text()).toContain('Please match the required format');
+    expect(wrapper.find('.label-text-alt.text-error').text()).toContain(
+      'Please match the required format'
+    );
   });
 
   it('validates with custom rules', async () => {
@@ -216,7 +224,9 @@ describe('Validator', () => {
     const input = wrapper.find('input');
     await input.trigger('blur');
 
-    expect(wrapper.find('.label-text-alt.text-error').text()).toContain('Must contain uppercase letter');
+    expect(wrapper.find('.label-text-alt.text-error').text()).toContain(
+      'Must contain uppercase letter'
+    );
   });
 
   it('validates with custom validator function', async () => {
@@ -340,7 +350,7 @@ describe('Validator', () => {
     });
 
     const vm = wrapper.vm as any;
-    
+
     expect(typeof vm.validate).toBe('function');
     expect(typeof vm.isValid).toBe('boolean'); // computed value
     expect(typeof vm.errors).toBe('object'); // computed ref

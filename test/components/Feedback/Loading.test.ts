@@ -5,7 +5,7 @@ import Loading from '../../../src/components/Feedback/Loading.vue';
 describe('Loading', () => {
   it('renders correctly with default props', () => {
     const wrapper = mount(Loading);
-    
+
     expect(wrapper.classes()).toContain('loading');
     expect(wrapper.classes()).toContain('loading-spinner');
     expect(wrapper.attributes('role')).toBe('status');

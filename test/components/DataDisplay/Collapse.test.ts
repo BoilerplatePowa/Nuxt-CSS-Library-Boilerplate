@@ -60,7 +60,7 @@ describe('Collapse', () => {
     });
 
     await wrapper.find('.collapse-title').trigger('click');
-    
+
     expect(wrapper.emitted('toggle')).toBeTruthy();
     expect(wrapper.emitted('toggle')?.[0]).toEqual([true]);
   });
@@ -74,7 +74,7 @@ describe('Collapse', () => {
     });
 
     await wrapper.find('.collapse-title').trigger('click');
-    
+
     expect(wrapper.emitted('toggle')).toBeFalsy();
   });
 
@@ -87,7 +87,7 @@ describe('Collapse', () => {
     });
 
     await wrapper.find('.collapse-title').trigger('click');
-    
+
     expect(wrapper.emitted('update:modelValue')).toBeTruthy();
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([true]);
   });
@@ -101,7 +101,7 @@ describe('Collapse', () => {
     });
 
     await wrapper.find('input[type="checkbox"]').setValue(true);
-    
+
     expect(wrapper.emitted('update:modelValue')).toBeTruthy();
     expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([true]);
   });
@@ -116,7 +116,7 @@ describe('Collapse', () => {
 
     // Update the modelValue prop
     await wrapper.setProps({ modelValue: true });
-    
+
     // The checkbox should reflect the new value
     expect(wrapper.find('input[type="checkbox"]').element.checked).toBe(true);
   });
@@ -149,11 +149,11 @@ describe('Collapse', () => {
     const preventDefaultSpy = vi.fn();
     const event = {
       key: 'Enter',
-      preventDefault: preventDefaultSpy
+      preventDefault: preventDefaultSpy,
     };
 
     await wrapper.find('.collapse-title').trigger('keydown', event);
-    
+
     expect(preventDefaultSpy).toHaveBeenCalled();
   });
 });

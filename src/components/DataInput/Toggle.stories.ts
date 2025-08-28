@@ -8,7 +8,8 @@ const meta: Meta<typeof Toggle> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Toggle switch component for binary on/off states with customizable styling. Uses Vue 3.4+ `defineModel()` for optimal v-model support.',
+        component:
+          'Toggle switch component for binary on/off states with customizable styling. Uses Vue 3.4+ `defineModel()` for optimal v-model support.',
       },
     },
   },

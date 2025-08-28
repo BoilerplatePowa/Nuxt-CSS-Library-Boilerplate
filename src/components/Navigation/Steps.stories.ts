@@ -26,35 +26,35 @@ A flexible step indicator component for displaying multi-step processes and navi
 
 ## Usage
 The Steps component is perfect for checkout processes, form wizards, onboarding flows, and any multi-step user journey.
-        `
-      }
-    }
+        `,
+      },
+    },
   },
   argTypes: {
     steps: {
       description: 'Array of step configurations',
-      control: { type: 'object' }
+      control: { type: 'object' },
     },
     currentStep: {
       description: 'Current active step index (0-based)',
-      control: { type: 'number', min: 0 }
+      control: { type: 'number', min: 0 },
     },
     variant: {
       description: 'Steps display variant',
       control: { type: 'select' },
-      options: ['horizontal', 'vertical']
+      options: ['horizontal', 'vertical'],
     },
     color: {
       description: 'Steps color theme',
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error']
+      options: ['primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'],
     },
     showNumbers: {
       description: 'Show step numbers instead of icons',
-      control: { type: 'boolean' }
-    }
+      control: { type: 'boolean' },
+    },
   },
-  tags: ['autodocs']
+  tags: ['autodocs'],
 };
 
 export default meta;
@@ -70,35 +70,35 @@ const basicSteps = [
 
 // Detailed steps with icons
 const detailedSteps = [
-  { 
-    title: 'Account Setup', 
+  {
+    title: 'Account Setup',
     description: 'Create your account with basic information',
     value: 'setup',
-    icon: 'user' as const
+    icon: 'user' as const,
   },
-  { 
-    title: 'Profile Details', 
+  {
+    title: 'Profile Details',
     description: 'Add your personal and professional details',
     value: 'profile',
-    icon: 'settings' as const
+    icon: 'settings' as const,
   },
-  { 
-    title: 'Verification', 
+  {
+    title: 'Verification',
     description: 'Verify your email and phone number',
     value: 'verify',
-    icon: 'check-circle' as const
+    icon: 'check-circle' as const,
   },
-  { 
-    title: 'Preferences', 
+  {
+    title: 'Preferences',
     description: 'Set your communication and privacy preferences',
     value: 'preferences',
-    icon: 'heart' as const
+    icon: 'heart' as const,
   },
-  { 
-    title: 'Complete', 
+  {
+    title: 'Complete',
     description: 'Your account is ready to use',
     value: 'complete',
-    icon: 'check' as const
+    icon: 'check' as const,
   },
 ];
 
@@ -123,13 +123,13 @@ export const Default: Story = {
     steps: basicSteps,
     currentStep: 1,
     color: 'primary',
-    showNumbers: true
+    showNumbers: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Steps, Button },
     setup() {
       const currentStep = ref(args.currentStep);
-      
+
       const handleStepClick = (index: number) => {
         currentStep.value = index;
         console.log(`Step clicked: ${index}`);
@@ -138,7 +138,7 @@ export const Default: Story = {
       return {
         args,
         currentStep,
-        handleStepClick
+        handleStepClick,
       };
     },
     template: `
@@ -174,8 +174,8 @@ export const Default: Story = {
           </div>
         </div>
       </div>
-    `
-  })
+    `,
+  }),
 };
 
 export const Vertical: Story = {
@@ -184,13 +184,13 @@ export const Vertical: Story = {
     currentStep: 2,
     variant: 'vertical',
     color: 'accent',
-    showNumbers: false
+    showNumbers: false,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Steps, Button },
     setup() {
       const currentStep = ref(args.currentStep);
-      
+
       const handleStepClick = (index: number) => {
         currentStep.value = index;
         console.log(`Step clicked: ${index}`);
@@ -199,7 +199,7 @@ export const Vertical: Story = {
       return {
         args,
         currentStep,
-        handleStepClick
+        handleStepClick,
       };
     },
     template: `
@@ -247,8 +247,8 @@ export const Vertical: Story = {
           </div>
         </div>
       </div>
-    `
-  })
+    `,
+  }),
 };
 
 export const Variants: Story = {
@@ -350,7 +350,7 @@ export const CheckoutProcess: Story = {
     setup() {
       const currentStep = ref(1);
       const steps = checkoutSteps;
-      
+
       const handleStepClick = (index: number) => {
         currentStep.value = index;
         console.log(`Step clicked: ${index}`);
@@ -359,7 +359,7 @@ export const CheckoutProcess: Story = {
       return {
         currentStep,
         steps,
-        handleStepClick
+        handleStepClick,
       };
     },
     template: `
@@ -446,7 +446,7 @@ export const ProgressTracking: Story = {
     setup() {
       const orderStep = ref(2);
       const orderSteps = orderTrackingSteps;
-      
+
       const handleStepClick = (index: number) => {
         orderStep.value = index;
         console.log(`Step clicked: ${index}`);
@@ -455,7 +455,7 @@ export const ProgressTracking: Story = {
       return {
         orderStep,
         orderSteps,
-        handleStepClick
+        handleStepClick,
       };
     },
     template: `
@@ -577,9 +577,9 @@ export const InteractiveSteps: Story = {
       const steps = [
         { title: 'Personal Info', description: 'Tell us about yourself', icon: 'user' as const },
         { title: 'Preferences', description: 'Set your preferences', icon: 'settings' as const },
-        { title: 'Confirmation', description: 'Review and confirm', icon: 'check-circle' as const }
+        { title: 'Confirmation', description: 'Review and confirm', icon: 'check-circle' as const },
       ];
-      
+
       const handleStepClick = (index: number) => {
         currentStep.value = index;
         console.log(`Step clicked: ${index}`);
@@ -589,14 +589,14 @@ export const InteractiveSteps: Story = {
         name: 'John Doe',
         email: 'john@example.com',
         newsletter: true,
-        notifications: false
+        notifications: false,
       });
 
       return {
         currentStep,
         steps,
         stepData,
-        handleStepClick
+        handleStepClick,
       };
     },
     template: `
@@ -684,20 +684,16 @@ export const InteractiveSteps: Story = {
           </div>
         </Card>
       </div>
-    `
-  })
+    `,
+  }),
 };
 
 export const Minimal: Story = {
   args: {
-    steps: [
-      { title: 'Step 1' },
-      { title: 'Step 2' },
-      { title: 'Step 3' }
-    ],
+    steps: [{ title: 'Step 1' }, { title: 'Step 2' }, { title: 'Step 3' }],
     currentStep: 0,
-    showNumbers: true
-  }
+    showNumbers: true,
+  },
 };
 
 export const WithIcons: Story = {
@@ -705,11 +701,11 @@ export const WithIcons: Story = {
     steps: [
       { title: 'Account', icon: 'user' as const },
       { title: 'Profile', icon: 'settings' as const },
-      { title: 'Complete', icon: 'check' as const }
+      { title: 'Complete', icon: 'check' as const },
     ],
     currentStep: 1,
-    showNumbers: false
-  }
+    showNumbers: false,
+  },
 };
 
 export const VerticalWithIcons: Story = {
@@ -718,10 +714,10 @@ export const VerticalWithIcons: Story = {
       { title: 'Setup', description: 'Initial setup', icon: 'settings' as const },
       { title: 'Configure', description: 'Configuration', icon: 'settings' as const },
       { title: 'Test', description: 'Testing phase', icon: 'settings' as const },
-      { title: 'Deploy', description: 'Deployment', icon: 'settings' as const }
+      { title: 'Deploy', description: 'Deployment', icon: 'settings' as const },
     ],
     currentStep: 2,
     variant: 'vertical',
-    showNumbers: false
-  }
+    showNumbers: false,
+  },
 };

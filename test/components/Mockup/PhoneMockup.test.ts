@@ -158,7 +158,7 @@ describe('PhoneMockup', () => {
     expect(wrapper.find('.camera').exists()).toBe(true);
     expect(wrapper.find('.display').exists()).toBe(true);
     expect(wrapper.find('.artboard').exists()).toBe(true);
-    
+
     // Content should be inside the artboard
     const artboard = wrapper.find('.artboard');
     expect(artboard.text()).toContain('Test content');

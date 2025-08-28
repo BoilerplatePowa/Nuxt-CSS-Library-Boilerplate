@@ -40,15 +40,56 @@ const sampleColumns = [
   { key: 'email', title: 'Email' },
   { key: 'role', title: 'Role' },
   { key: 'status', title: 'Status', align: 'center' as const },
-  { key: 'salary', title: 'Salary', sortable: true, format: 'currency' as const, align: 'right' as const },
+  {
+    key: 'salary',
+    title: 'Salary',
+    sortable: true,
+    format: 'currency' as const,
+    align: 'right' as const,
+  },
 ];
 
 const sampleData = [
-  { id: 1, name: 'John Doe', email: 'john@example.com', role: 'Developer', status: 'Active', salary: 75000 },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com', role: 'Designer', status: 'Active', salary: 68000 },
-  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', role: 'Manager', status: 'Inactive', salary: 85000 },
-  { id: 4, name: 'Alice Brown', email: 'alice@example.com', role: 'Developer', status: 'Active', salary: 72000 },
-  { id: 5, name: 'Charlie Wilson', email: 'charlie@example.com', role: 'Analyst', status: 'Active', salary: 65000 },
+  {
+    id: 1,
+    name: 'John Doe',
+    email: 'john@example.com',
+    role: 'Developer',
+    status: 'Active',
+    salary: 75000,
+  },
+  {
+    id: 2,
+    name: 'Jane Smith',
+    email: 'jane@example.com',
+    role: 'Designer',
+    status: 'Active',
+    salary: 68000,
+  },
+  {
+    id: 3,
+    name: 'Bob Johnson',
+    email: 'bob@example.com',
+    role: 'Manager',
+    status: 'Inactive',
+    salary: 85000,
+  },
+  {
+    id: 4,
+    name: 'Alice Brown',
+    email: 'alice@example.com',
+    role: 'Developer',
+    status: 'Active',
+    salary: 72000,
+  },
+  {
+    id: 5,
+    name: 'Charlie Wilson',
+    email: 'charlie@example.com',
+    role: 'Analyst',
+    status: 'Active',
+    salary: 65000,
+  },
 ];
 
 export const Default: Story = {

@@ -8,7 +8,8 @@ const meta: Meta<typeof Hero> = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Hero section component for creating impactful landing page headers with customizable layouts.',
+        component:
+          'Hero section component for creating impactful landing page headers with customizable layouts.',
       },
     },
   },
@@ -63,7 +64,8 @@ export const WithBackground: Story = {
   args: {
     title: 'Adventure Awaits',
     subtitle: 'Explore the world with our comprehensive travel guides and booking platform',
-    backgroundImage: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop',
+    backgroundImage:
+      'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&h=1080&fit=crop',
     overlay: true,
     minHeight: 'xl',
   },
@@ -78,7 +80,7 @@ export const Gradient: Story = {
 };
 
 export const WithActions: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Hero },
     setup() {
       return { args };
@@ -102,7 +104,7 @@ export const WithActions: Story = {
 };
 
 export const LeftAligned: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Hero },
     setup() {
       return { args };
@@ -120,13 +122,14 @@ export const LeftAligned: Story = {
   }),
   args: {
     title: 'Powerful Analytics for Modern Teams',
-    subtitle: 'Make data-driven decisions with our comprehensive analytics platform. Track performance, understand your users, and grow your business.',
+    subtitle:
+      'Make data-driven decisions with our comprehensive analytics platform. Track performance, understand your users, and grow your business.',
     minHeight: 'lg',
   },
 };
 
 export const Minimal: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Hero },
     setup() {
       return { args };
@@ -150,7 +153,7 @@ export const Minimal: Story = {
 };
 
 export const ProductLaunch: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Hero },
     setup() {
       return { args };
@@ -207,7 +210,7 @@ export const ProductLaunch: Story = {
 };
 
 export const AppShowcase: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Hero },
     setup() {
       return { args };
@@ -277,7 +280,7 @@ export const AppShowcase: Story = {
 };
 
 export const SplitLayout: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Hero },
     setup() {
       return { args };
@@ -362,7 +365,8 @@ export const SplitLayout: Story = {
   }),
   args: {
     title: 'Transform Your Workflow',
-    subtitle: 'Streamline processes, increase efficiency, and deliver better results with our comprehensive business solution.',
+    subtitle:
+      'Streamline processes, increase efficiency, and deliver better results with our comprehensive business solution.',
     minHeight: 'lg',
   },
 };

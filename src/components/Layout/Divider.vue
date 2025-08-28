@@ -10,7 +10,15 @@ import { computed } from 'vue';
 interface Props {
   text?: string;
   orientation?: 'horizontal' | 'vertical';
-  variant?: 'neutral' | 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'info' | 'error';
+  variant?:
+    | 'neutral'
+    | 'primary'
+    | 'secondary'
+    | 'accent'
+    | 'success'
+    | 'warning'
+    | 'info'
+    | 'error';
   position?: 'start' | 'center' | 'end';
 }
 

@@ -12,10 +12,7 @@
             <span v-if="item.icon" v-html="item.icon" class="mr-2"></span>
             {{ item.label }}
           </a>
-          <span
-            v-else
-            :class="getItemClasses(item, index)"
-          >
+          <span v-else :class="getItemClasses(item, index)">
             <span v-if="item.icon" v-html="item.icon" class="mr-2"></span>
             {{ item.label }}
           </span>

@@ -5,22 +5,22 @@
         <img :src="avatar" :alt="avatarAlt" />
       </div>
     </div>
-    
+
     <div class="chat-header">
       <slot name="header">
         <span v-if="name" class="text-sm opacity-50">{{ name }}</span>
         <time v-if="timestamp" class="text-xs opacity-50 ml-1">{{ formattedTime }}</time>
       </slot>
     </div>
-    
+
     <div :class="bubbleClasses">
       <slot>{{ message }}</slot>
     </div>
-    
+
     <div v-if="$slots.footer" class="chat-footer opacity-50">
       <slot name="footer" />
     </div>
-    
+
     <div v-if="avatar && position === 'right'" class="chat-image avatar">
       <div class="w-10 rounded-full">
         <img :src="avatar" :alt="avatarAlt" />
@@ -88,7 +88,7 @@ const bubbleClasses = computed(() => {
 
 const formattedTime = computed(() => {
   if (!props.timestamp) return '';
-  
+
   const date = props.timestamp instanceof Date ? props.timestamp : new Date(props.timestamp);
   return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 });

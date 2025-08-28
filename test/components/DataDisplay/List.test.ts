@@ -22,7 +22,7 @@ describe('List', () => {
     const wrapper = mount(List, {
       props: { items: sampleItems },
     });
-    
+
     expect(wrapper.classes()).toContain('list');
     expect(wrapper.findAll('.list-item')).toHaveLength(2);
   });
@@ -32,7 +32,7 @@ describe('List', () => {
 
     variants.forEach(variant => {
       const wrapper = mount(List, {
-        props: { 
+        props: {
           items: sampleItems,
           variant,
         },
@@ -47,7 +47,7 @@ describe('List', () => {
 
     sizes.forEach(size => {
       const wrapper = mount(List, {
-        props: { 
+        props: {
           items: sampleItems,
           size,
         },
@@ -58,7 +58,7 @@ describe('List', () => {
 
     // Test that medium (default) doesn't add a size class
     const mediumWrapper = mount(List, {
-      props: { 
+      props: {
         items: sampleItems,
         size: 'md',
       },
@@ -135,20 +135,16 @@ describe('List', () => {
 
   it('emits itemClick event when item is clicked', async () => {
     const wrapper = mount(List, {
-      props: { 
+      props: {
         items: sampleItems,
         clickable: true,
       },
     });
 
     await wrapper.find('.list-item').trigger('click');
-    
+
     expect(wrapper.emitted('itemClick')).toBeTruthy();
-    expect(wrapper.emitted('itemClick')?.[0]).toEqual([
-      sampleItems[0],
-      0,
-      expect.any(Event),
-    ]);
+    expect(wrapper.emitted('itemClick')?.[0]).toEqual([sampleItems[0], 0, expect.any(Event)]);
   });
 
   it('emits actionClick event when action is clicked', async () => {
@@ -156,9 +152,7 @@ describe('List', () => {
       {
         id: 1,
         title: 'Test Item',
-        actions: [
-          { label: 'Test Action', variant: 'primary' },
-        ],
+        actions: [{ label: 'Test Action', variant: 'primary' }],
       },
     ];
 
@@ -167,7 +161,7 @@ describe('List', () => {
     });
 
     await wrapper.find('button').trigger('click');
-    
+
     expect(wrapper.emitted('actionClick')).toBeTruthy();
     expect(wrapper.emitted('actionClick')?.[0]).toEqual([
       itemsWithActions[0].actions[0],
@@ -179,7 +173,7 @@ describe('List', () => {
 
   it('shows empty state when no items', () => {
     const wrapper = mount(List, {
-      props: { 
+      props: {
         items: [],
         showEmpty: true,
       },
@@ -190,7 +184,7 @@ describe('List', () => {
 
   it('hides empty state when showEmpty is false', () => {
     const wrapper = mount(List, {
-      props: { 
+      props: {
         items: [],
         showEmpty: false,
       },
@@ -201,7 +195,7 @@ describe('List', () => {
 
   it('renders custom empty state slot', () => {
     const wrapper = mount(List, {
-      props: { 
+      props: {
         items: [],
         showEmpty: true,
       },
@@ -265,14 +259,14 @@ describe('List', () => {
     ];
 
     const wrapper = mount(List, {
-      props: { 
+      props: {
         items: disabledItems,
         clickable: true,
       },
     });
 
     await wrapper.find('.list-item').trigger('click');
-    
+
     expect(wrapper.emitted('itemClick')).toBeFalsy();
   });
 });

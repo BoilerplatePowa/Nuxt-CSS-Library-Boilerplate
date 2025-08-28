@@ -199,7 +199,7 @@ describe('Drawer', () => {
       wrapper = mount(Drawer);
       await wrapper.vm.open();
       await wrapper.vm.close();
-      
+
       const events = wrapper.emitted();
       expect(events.open).toBeTruthy();
       expect(events.close).toBeTruthy();
@@ -297,7 +297,7 @@ describe('Drawer', () => {
   describe('template structure', () => {
     it('should render with correct structure', () => {
       wrapper = mount(Drawer);
-      
+
       expect(wrapper.find('.drawer').exists()).toBe(true);
       expect(wrapper.find('.drawer-toggle').exists()).toBe(true);
       expect(wrapper.find('.drawer-content').exists()).toBe(true);
@@ -323,10 +323,10 @@ describe('Drawer', () => {
     it('should bind checkbox to isOpen state', async () => {
       wrapper = mount(Drawer);
       const checkbox = wrapper.find('.drawer-toggle');
-      
+
       expect(checkbox.attributes('type')).toBe('checkbox');
       expect(checkbox.element.checked).toBe(false);
-      
+
       await wrapper.vm.open();
       expect(checkbox.element.checked).toBe(true);
     });
@@ -335,10 +335,10 @@ describe('Drawer', () => {
   describe('default content', () => {
     it('should render default content when no slots provided', () => {
       wrapper = mount(Drawer);
-      
+
       // Check for default content slot content
       expect(wrapper.text()).toContain('Open drawer');
-      
+
       // Check for default drawer slot content
       expect(wrapper.text()).toContain('Drawer Content');
       expect(wrapper.text()).toContain('Sidebar Item 1');

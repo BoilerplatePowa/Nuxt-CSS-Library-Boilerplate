@@ -9,14 +9,22 @@ const meta: Meta<typeof ToastContainer> = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Toast container that manages stacking multiple toasts with automatic ordering and limits.',
+        component:
+          'Toast container that manages stacking multiple toasts with automatic ordering and limits.',
       },
     },
   },
   argTypes: {
     position: {
       control: { type: 'select' },
-      options: ['top-right', 'top-left', 'bottom-right', 'bottom-left', 'top-center', 'bottom-center'],
+      options: [
+        'top-right',
+        'top-left',
+        'bottom-right',
+        'bottom-left',
+        'top-center',
+        'bottom-center',
+      ],
       description: 'Position of the toast stack',
     },
     maxToasts: {
@@ -35,28 +43,28 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { ToastContainer },
     setup() {
       const { toasts, addToast, removeToast, clearAll } = useToast();
-      
+
       const addSampleToast = (type: 'info' | 'success' | 'warning' | 'error') => {
         const messages = {
           info: 'This is an informational message',
           success: 'Operation completed successfully!',
           warning: 'Please check your input',
-          error: 'Something went wrong'
+          error: 'Something went wrong',
         };
-        
+
         addToast(messages[type], { type });
       };
-      
-      return { 
+
+      return {
         args,
-        toasts, 
-        addSampleToast, 
+        toasts,
+        addSampleToast,
         removeToast,
-        clearAll 
+        clearAll,
       };
     },
     template: `
@@ -117,7 +125,7 @@ export const MaximumLimit: Story = {
       addToast() {
         const types = ['info', 'success', 'warning', 'error'];
         const type = types[Math.floor(Math.random() * types.length)];
-        
+
         this.toasts.push({
           id: this.nextId++,
           type,
@@ -277,7 +285,7 @@ export const AutoDismiss: Story = {
         this.toasts.push({
           id: this.nextId++,
           type: 'success',
-          message: `Auto-dismiss in ${duration/1000}s`,
+          message: `Auto-dismiss in ${duration / 1000}s`,
           timestamp: Date.now(),
           closable: true,
           duration,

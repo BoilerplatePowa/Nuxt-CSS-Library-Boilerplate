@@ -8,7 +8,8 @@ const meta: Meta<typeof Navbar> = {
     layout: 'fullscreen',
     docs: {
       description: {
-        component: 'Navigation bar component with responsive design and customizable brand, menu items, and actions.',
+        component:
+          'Navigation bar component with responsive design and customizable brand, menu items, and actions.',
       },
     },
   },
@@ -61,7 +62,7 @@ export const Default: Story = {
   args: {
     title: 'Your Brand',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Navbar },
     setup() {
       return { args, menuItems };
@@ -87,7 +88,7 @@ export const Default: Story = {
 };
 
 export const WithLogo: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Navbar },
     setup() {
       return { args, menuItems };
@@ -143,7 +144,7 @@ export const Glass: Story = {
     title: 'Glass Nav',
     variant: 'glass',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Navbar },
     setup() {
       return { args, menuItems };
@@ -181,7 +182,7 @@ export const Glass: Story = {
 };
 
 export const Responsive: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Navbar },
     setup() {
       return { args, menuItems };
@@ -240,7 +241,7 @@ export const Responsive: Story = {
 };
 
 export const ECommerce: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Navbar },
     setup() {
       return { args };
@@ -322,7 +323,7 @@ export const ECommerce: Story = {
 };
 
 export const Dashboard: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Navbar },
     setup() {
       return { args };

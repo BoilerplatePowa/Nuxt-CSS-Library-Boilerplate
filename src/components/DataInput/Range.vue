@@ -23,7 +23,11 @@
       <span v-for="tick in ticks" :key="tick">{{ tick }}</span>
     </div>
 
-    <p v-if="helpText && !errorMessage" :id="`${rangeId}-help`" class="text-xs text-base-content/70 mt-1">
+    <p
+      v-if="helpText && !errorMessage"
+      :id="`${rangeId}-help`"
+      class="text-xs text-base-content/70 mt-1"
+    >
       {{ helpText }}
     </p>
 
@@ -117,16 +121,16 @@ const displayValue = computed(() => {
 
 const ticks = computed(() => {
   if (!props.showTicks) return [];
-  
+
   const tickArray = [];
   const range = props.max - props.min;
   const stepSize = range / (props.tickCount - 1);
-  
+
   for (let i = 0; i < props.tickCount; i++) {
-    const value = props.min + (stepSize * i);
+    const value = props.min + stepSize * i;
     tickArray.push(Math.round(value));
   }
-  
+
   return tickArray;
 });
 

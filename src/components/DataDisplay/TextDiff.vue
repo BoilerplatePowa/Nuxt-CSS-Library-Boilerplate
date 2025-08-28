@@ -10,7 +10,7 @@
             <span v-if="oldFileName && newFileName">↔</span>
             <span v-if="newFileName" class="text-success">{{ newFileName }}</span>
           </div>
-          
+
           <!-- Stats -->
           <div v-if="showStats" class="flex items-center gap-3 text-xs">
             <span class="text-success">+{{ additionsCount }}</span>
@@ -18,7 +18,7 @@
             <span class="opacity-60">{{ totalLines }} lines</span>
           </div>
         </div>
-        
+
         <!-- Actions -->
         <div v-if="actions.length > 0" class="flex gap-2">
           <button
@@ -40,19 +40,33 @@
         <!-- Old/Left side -->
         <table class="diff-old bg-error/5 w-full" role="table" aria-label="Original version">
           <tbody>
-            <tr v-for="(line, index) in oldLines" :key="index" :class="getLineClasses('old', line)" role="row">
+            <tr
+              v-for="(line, index) in oldLines"
+              :key="index"
+              :class="getLineClasses('old', line)"
+              role="row"
+            >
               <td class="line-number" role="cell">{{ getOldLineNumber(index) }}</td>
-              <td class="line-content" role="cell">{{ typeof line === 'string' ? line : line.content }}</td>
+              <td class="line-content" role="cell">
+                {{ typeof line === 'string' ? line : line.content }}
+              </td>
             </tr>
           </tbody>
         </table>
-        
+
         <!-- New/Right side -->
         <table class="diff-new bg-success/5 w-full" role="table" aria-label="Modified version">
           <tbody>
-            <tr v-for="(line, index) in newLines" :key="index" :class="getLineClasses('new', line)" role="row">
+            <tr
+              v-for="(line, index) in newLines"
+              :key="index"
+              :class="getLineClasses('new', line)"
+              role="row"
+            >
               <td class="line-number" role="cell">{{ getNewLineNumber(index) }}</td>
-              <td class="line-content" role="cell">{{ typeof line === 'string' ? line : line.content }}</td>
+              <td class="line-content" role="cell">
+                {{ typeof line === 'string' ? line : line.content }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -61,7 +75,12 @@
       <div v-else class="diff-unified">
         <table class="w-full" role="table" aria-label="Unified diff view">
           <tbody>
-            <tr v-for="(line, index) in unifiedLines" :key="index" :class="getLineClasses('unified', line)" role="row">
+            <tr
+              v-for="(line, index) in unifiedLines"
+              :key="index"
+              :class="getLineClasses('unified', line)"
+              role="row"
+            >
               <td class="line-number old" role="cell">{{ line.oldLineNumber || '' }}</td>
               <td class="line-number new" role="cell">{{ line.newLineNumber || '' }}</td>
               <td class="line-prefix" role="cell">{{ line.prefix || ' ' }}</td>
@@ -162,22 +181,22 @@ const newLines = computed(() => {
 
 const unifiedLines = computed(() => {
   if (props.unifiedLines) return props.unifiedLines;
-  
+
   // Simple unified diff generation from old/new lines
   const result: DiffLine[] = [];
   const old = oldLines.value;
   const newL = newLines.value;
-  
+
   const maxLength = Math.max(old.length, newL.length);
-  
+
   for (let i = 0; i < maxLength; i++) {
     const oldLine = old[i];
     const newLine = newL[i];
-    
+
     if (oldLine && newLine) {
       const oldContent = typeof oldLine === 'string' ? oldLine : oldLine.content;
       const newContent = typeof newLine === 'string' ? newLine : newLine.content;
-      
+
       if (oldContent === newContent) {
         // Context line
         result.push({
@@ -226,7 +245,7 @@ const unifiedLines = computed(() => {
       });
     }
   }
-  
+
   return result;
 });
 
@@ -242,7 +261,7 @@ const totalLines = computed(() => {
   return Math.max(oldLines.value.length, newLines.value.length);
 });
 
-  const getLineClasses = (mode: string, line: string | DiffLine) => {
+const getLineClasses = (mode: string, line: string | DiffLine) => {
   const baseClasses = ['diff-line'];
 
   if (mode === 'unified' && typeof line === 'object') {
@@ -300,11 +319,11 @@ const getActionClasses = (action: DiffAction) => {
 
 const handleActionClick = (action: DiffAction, event: Event) => {
   if (action.disabled) return;
-  
+
   if (action.handler) {
     action.handler();
   }
-  
+
   emit('actionClick', action, event);
 };
 </script>

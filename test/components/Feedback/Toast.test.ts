@@ -26,7 +26,17 @@ describe('Toast', () => {
       });
 
       const container = wrapper.find('.toast-container');
-      expect(container.classes()).toContain('bg-' + (type === 'info' ? 'blue' : type === 'success' ? 'green' : type === 'warning' ? 'yellow' : 'red') + '-50');
+      expect(container.classes()).toContain(
+        'bg-' +
+          (type === 'info'
+            ? 'blue'
+            : type === 'success'
+              ? 'green'
+              : type === 'warning'
+                ? 'yellow'
+                : 'red') +
+          '-50'
+      );
     });
   });
 
@@ -146,7 +156,7 @@ describe('Toast', () => {
 
   it('auto-dismisses after duration when persistent is false', async () => {
     vi.useFakeTimers();
-    
+
     const wrapper = mount(Toast, {
       props: {
         message: 'Auto-dismiss toast',
@@ -167,7 +177,7 @@ describe('Toast', () => {
 
   it('does not auto-dismiss when persistent is true', async () => {
     vi.useFakeTimers();
-    
+
     const wrapper = mount(Toast, {
       props: {
         message: 'Persistent toast',

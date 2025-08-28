@@ -57,12 +57,12 @@ describe('Select', () => {
 
   it('applies correct size classes', () => {
     const sizes = ['xs', 'sm', 'md', 'lg'] as const;
-    
+
     sizes.forEach(size => {
       const wrapper = mount(Select, {
         props: { size, options: sampleOptions },
       });
-      
+
       const select = wrapper.find('select');
       if (size !== 'md') {
         expect(select.classes()).toContain(`select-${size}`);
@@ -71,13 +71,23 @@ describe('Select', () => {
   });
 
   it('applies correct variant classes', () => {
-    const variants = ['bordered', 'ghost', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'] as const;
-    
+    const variants = [
+      'bordered',
+      'ghost',
+      'primary',
+      'secondary',
+      'accent',
+      'info',
+      'success',
+      'warning',
+      'error',
+    ] as const;
+
     variants.forEach(variant => {
       const wrapper = mount(Select, {
         props: { variant, options: sampleOptions },
       });
-      
+
       const select = wrapper.find('select');
       expect(select.classes()).toContain(`select-${variant}`);
     });
@@ -192,7 +202,7 @@ describe('Select', () => {
     });
 
     const select = wrapper.find('select');
-    
+
     await select.trigger('focus');
     expect(wrapper.emitted('focus')).toBeTruthy();
 
@@ -231,7 +241,7 @@ describe('Select', () => {
 
     const optgroups = wrapper.findAll('optgroup');
     expect(optgroups).toHaveLength(2);
-    
+
     expect(optgroups[0].attributes('label')).toBe('Group A');
     expect(optgroups[1].attributes('label')).toBe('Group B');
   });
@@ -262,7 +272,7 @@ describe('Select', () => {
 
     const select = wrapper.find('select');
     const id = select.attributes('id');
-    
+
     expect(id).toBeDefined();
     expect(id).toMatch(/^select-\d+$/);
   });
@@ -275,11 +285,11 @@ describe('Select', () => {
     });
 
     const vm = wrapper.vm as any;
-    
+
     // Mock focus and blur methods
     const focusSpy = vi.fn();
     const blurSpy = vi.fn();
-    
+
     const selectElement = wrapper.find('select').element;
     selectElement.focus = focusSpy;
     selectElement.blur = blurSpy;
@@ -301,7 +311,7 @@ describe('Select', () => {
 
     const vm = wrapper.vm as any;
     const isValid = vm.validate();
-    
+
     expect(typeof isValid).toBe('boolean');
   });
 
@@ -315,7 +325,7 @@ describe('Select', () => {
 
     // Mock nextTick to ensure focus is called
     await wrapper.vm.$nextTick();
-    
+
     // The focus should be called on mount
     // We can't easily test this without more complex mocking, but we can verify the prop is handled
     expect(wrapper.props('autoFocus')).toBe(true);
@@ -333,7 +343,7 @@ describe('Select', () => {
 
     const select = wrapper.find('select');
     const describedBy = select.attributes('aria-describedby');
-    
+
     expect(describedBy).toContain('select-1-help');
     expect(describedBy).toContain('select-1-error');
     expect(describedBy).toContain('custom-id');

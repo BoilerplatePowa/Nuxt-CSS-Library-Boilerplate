@@ -43,12 +43,12 @@ describe('Range', () => {
 
   it('applies correct size classes', () => {
     const sizes = ['xs', 'sm', 'md', 'lg'] as const;
-    
+
     sizes.forEach(size => {
       const wrapper = mount(Range, {
         props: { size, modelValue: 50 },
       });
-      
+
       const input = wrapper.find('input[type="range"]');
       if (size !== 'md') {
         expect(input.classes()).toContain(`range-${size}`);
@@ -57,13 +57,21 @@ describe('Range', () => {
   });
 
   it('applies correct variant classes', () => {
-    const variants = ['primary', 'secondary', 'accent', 'success', 'warning', 'info', 'error'] as const;
-    
+    const variants = [
+      'primary',
+      'secondary',
+      'accent',
+      'success',
+      'warning',
+      'info',
+      'error',
+    ] as const;
+
     variants.forEach(variant => {
       const wrapper = mount(Range, {
         props: { variant, modelValue: 50 },
       });
-      
+
       const input = wrapper.find('input[type="range"]');
       expect(input.classes()).toContain(`range-${variant}`);
     });
@@ -109,7 +117,7 @@ describe('Range', () => {
 
     const ticksContainer = wrapper.find('.w-full.flex.justify-between');
     expect(ticksContainer.exists()).toBe(true);
-    
+
     const ticks = wrapper.findAll('.w-full.flex.justify-between span');
     expect(ticks.length).toBe(5);
     expect(ticks[0].text()).toBe('0');
@@ -166,7 +174,7 @@ describe('Range', () => {
 
     const helpText = wrapper.find('p.text-xs.text-base-content\\/70');
     const errorMessage = wrapper.find('p.text-xs.text-error');
-    
+
     expect(helpText.exists()).toBe(false);
     expect(errorMessage.exists()).toBe(true);
   });
@@ -251,7 +259,7 @@ describe('Range', () => {
 
     const input = wrapper.find('input[type="range"]');
     const describedBy = input.attributes('aria-describedby');
-    
+
     expect(describedBy).toContain('custom-id');
     expect(describedBy).toMatch(/range-\d+-help/);
     expect(describedBy).toMatch(/range-\d+-error/);

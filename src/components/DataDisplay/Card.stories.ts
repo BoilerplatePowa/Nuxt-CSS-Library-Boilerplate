@@ -425,7 +425,8 @@ export const WithBadge: Story = {
     setup() {
       return { args };
     },
-    template: '<Card v-bind="args">This card has a badge positioned above the title for better visual hierarchy.</Card>',
+    template:
+      '<Card v-bind="args">This card has a badge positioned above the title for better visual hierarchy.</Card>',
   }),
 };
 
@@ -778,38 +779,38 @@ export const InteractiveCards: Story = {
       const showAlert = ref(false);
       const alertMessage = ref('');
       const alertType = ref('info');
-      
+
       const handleCardClick = (cardId: string) => {
         selectedCard.value = cardId;
         clickCount.value++;
         lastClicked.value = cardId;
         console.log(`Card ${cardId} clicked! Total clicks: ${clickCount.value}`);
       };
-      
+
       const handleAlertCardClick = () => {
         showAlert.value = true;
         alertMessage.value = 'This is an alert triggered by clicking the card!';
         alertType.value = 'success';
         handleCardClick('alert-card');
-        
+
         // Auto-hide alert after 3 seconds
         setTimeout(() => {
           showAlert.value = false;
         }, 3000);
       };
-      
+
       const handleErrorCardClick = () => {
         showAlert.value = true;
         alertMessage.value = 'Something went wrong! This is an error alert.';
         alertType.value = 'error';
         handleCardClick('error-card');
-        
+
         // Auto-hide alert after 5 seconds
         setTimeout(() => {
           showAlert.value = false;
         }, 5000);
       };
-      
+
       return {
         selectedCard,
         clickCount,
@@ -819,7 +820,7 @@ export const InteractiveCards: Story = {
         alertType,
         handleCardClick,
         handleAlertCardClick,
-        handleErrorCardClick
+        handleErrorCardClick,
       };
     },
     template: `

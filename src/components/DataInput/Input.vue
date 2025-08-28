@@ -5,91 +5,96 @@
       <span :class="`label-text text-${size}`">{{ label }}</span>
       <span v-if="required" :class="`label-text-alt text-error text-${size}`">*</span>
     </label>
-    
+
     <!-- VeeValidate Field component -->
-    <Field
-        :name="name"
-        :value="model"
-        :rules="rules"
-        v-slot="{ field, errorMessage, meta }"
-    >
-        <div>
-            <div class="relative">
-                <!-- Left icon -->
-                <Icon 
-                    v-if="leftIcon"
-                    :name="leftIcon" 
-                    :size="size" 
-                    class="absolute left-3 top-1/2 transform -translate-y-1/2 opacity-50"
-                    :aria-hidden="true"
-                />
+    <Field :name="name" :value="model" :rules="rules" v-slot="{ field, errorMessage, meta }">
+      <div>
+        <div class="relative">
+          <!-- Left icon -->
+          <Icon
+            v-if="leftIcon"
+            :name="leftIcon"
+            :size="size"
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 opacity-50"
+            :aria-hidden="true"
+          />
 
-                <input
-                    ref="inputRef"
-                    :id="inputId"
-                    v-bind="field"
-                    :class="[inputClasses, errorMessage ? 'input-error' : undefined, leftIcon ? 'pl-10' : '', (rightIcon && type !== 'password') || type === 'password' ? 'pr-10' : '']"
-                    :type="type === 'password' ? (showPassword ? 'text' : 'password') : type"
-                    :placeholder="placeholder"
-                    :disabled="disabled"
-                    :readonly="readonly"
-                    :required="required"
-                    :maxlength="maxlength"
-                    :aria-describedby="ariaDescribedby"
-                    :aria-invalid="meta.touched && !meta.valid"
-                    @input="handleInput"
-                    @change="handleChange"
-                    @focus="handleFocus"
-                    @blur="handleBlur"
-                />
+          <input
+            ref="inputRef"
+            :id="inputId"
+            v-bind="field"
+            :class="[
+              inputClasses,
+              errorMessage ? 'input-error' : undefined,
+              leftIcon ? 'pl-10' : '',
+              (rightIcon && type !== 'password') || type === 'password' ? 'pr-10' : '',
+            ]"
+            :type="type === 'password' ? (showPassword ? 'text' : 'password') : type"
+            :placeholder="placeholder"
+            :disabled="disabled"
+            :readonly="readonly"
+            :required="required"
+            :maxlength="maxlength"
+            :aria-describedby="ariaDescribedby"
+            :aria-invalid="meta.touched && !meta.valid"
+            @input="handleInput"
+            @change="handleChange"
+            @focus="handleFocus"
+            @blur="handleBlur"
+          />
 
-                <!-- Password toggle swap button -->
-                <Swap
-                    v-if="type === 'password'"
-                    v-model="showPassword"
-                    variant="rotate"
-                    class="absolute right-3 top-1/2 transform -translate-y-1/2"
-                    :aria-label="showPassword ? 'Hide password' : 'Show password'"
-                >
-                    <template #on>
-                        <Icon name="eye" :size="size" class="text-base-content/50" />
-                    </template>
-                    <template #off>
-                        <Icon name="eye-off" :size="size" class="text-base-content/50" />
-                    </template>
-                </Swap>
+          <!-- Password toggle swap button -->
+          <Swap
+            v-if="type === 'password'"
+            v-model="showPassword"
+            variant="rotate"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2"
+            :aria-label="showPassword ? 'Hide password' : 'Show password'"
+          >
+            <template #on>
+              <Icon name="eye" :size="size" class="text-base-content/50" />
+            </template>
+            <template #off>
+              <Icon name="eye-off" :size="size" class="text-base-content/50" />
+            </template>
+          </Swap>
 
-                <!-- Right icon (only show if not password type or if no swap button) -->
-                <Icon 
-                    v-if="rightIcon && type !== 'password'"
-                    :name="rightIcon" 
-                    :size="size" 
-                    class="absolute right-3 top-1/2 transform -translate-y-1/2 opacity-50"
-                    :aria-hidden="true"
-                />
-            </div>
-
-            <div class="flex">
-                <div>
-                    <!-- Error message from VeeValidate -->
-                    <p v-if="errorMessage" :id="`${inputId}-error`" class="text-xs text-error mt-1" role="alert">
-                        {{ errorMessage }}
-                    </p>
-
-                    <!-- Help text -->
-                    <p v-if="helpText" :id="`${inputId}-help`" class="text-xs text-base-content/70 mt-1">
-                        {{ helpText }}
-                    </p>
-                </div>
-
-                <div  class="flex-1"/>
-
-                <!-- Character count -->
-                <div v-if="showCharCount && maxlength" class="text-xs text-base-content/60">
-                    {{ characterCount }}/{{ maxlength }}
-                </div>
-            </div>
+          <!-- Right icon (only show if not password type or if no swap button) -->
+          <Icon
+            v-if="rightIcon && type !== 'password'"
+            :name="rightIcon"
+            :size="size"
+            class="absolute right-3 top-1/2 transform -translate-y-1/2 opacity-50"
+            :aria-hidden="true"
+          />
         </div>
+
+        <div class="flex">
+          <div>
+            <!-- Error message from VeeValidate -->
+            <p
+              v-if="errorMessage"
+              :id="`${inputId}-error`"
+              class="text-xs text-error mt-1"
+              role="alert"
+            >
+              {{ errorMessage }}
+            </p>
+
+            <!-- Help text -->
+            <p v-if="helpText" :id="`${inputId}-help`" class="text-xs text-base-content/70 mt-1">
+              {{ helpText }}
+            </p>
+          </div>
+
+          <div class="flex-1" />
+
+          <!-- Character count -->
+          <div v-if="showCharCount && maxlength" class="text-xs text-base-content/60">
+            {{ characterCount }}/{{ maxlength }}
+          </div>
+        </div>
+      </div>
     </Field>
   </div>
 </template>
@@ -124,19 +129,19 @@ let maskInstance: any = null;
 const maskConfigs = {
   phone: {
     mask: '+{33} 0 00 00 00 00',
-    lazy: false
+    lazy: false,
   },
   'credit-card': {
     mask: '0000 0000 0000 0000',
-    lazy: false
+    lazy: false,
   },
   date: {
     mask: '00/00/0000',
-    lazy: false
+    lazy: false,
   },
   time: {
     mask: '00:00',
-    lazy: false
+    lazy: false,
   },
   currency: {
     mask: Number,
@@ -147,7 +152,7 @@ const maskConfigs = {
     normalizeZeros: true,
     padFractionalZeros: true,
     min: 0,
-    lazy: false
+    lazy: false,
   },
   number: {
     mask: Number,
@@ -158,20 +163,20 @@ const maskConfigs = {
     normalizeZeros: true,
     padFractionalZeros: false,
     min: 0,
-    lazy: false
+    lazy: false,
   },
   email: {
     mask: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-    lazy: false
+    lazy: false,
   },
   zip: {
     mask: '00000-0000',
-    lazy: false
+    lazy: false,
   },
   ssn: {
     mask: '000-00-0000',
-    lazy: false
-  }
+    lazy: false,
+  },
 };
 
 interface InputProps {
@@ -231,7 +236,7 @@ const props = withDefaults(defineProps<InputProps>(), {
   ariaDescribedby: '',
   rules: undefined,
   mask: undefined,
-  maskType: undefined
+  maskType: undefined,
 });
 
 const emit = defineEmits<{
@@ -249,10 +254,11 @@ const initMask = (element: HTMLInputElement) => {
     maskInstance.destroy();
   }
 
-  const maskConfig = props.maskType && props.maskType in maskConfigs 
-    ? maskConfigs[props.maskType as MaskType] 
-    : props.mask;
-  
+  const maskConfig =
+    props.maskType && props.maskType in maskConfigs
+      ? maskConfigs[props.maskType as MaskType]
+      : props.mask;
+
   if (maskConfig && element) {
     maskInstance = IMask(element, {
       ...maskConfig,
@@ -261,7 +267,7 @@ const initMask = (element: HTMLInputElement) => {
       },
       onComplete: (value: string) => {
         model.value = value;
-      }
+      },
     });
   }
 };
@@ -282,11 +288,14 @@ onMounted(() => {
 });
 
 // Watch for mask changes
-watch(() => [props.mask, props.maskType], () => {
-  if (inputRef.value) {
-    initMask(inputRef.value);
+watch(
+  () => [props.mask, props.maskType],
+  () => {
+    if (inputRef.value) {
+      initMask(inputRef.value);
+    }
   }
-});
+);
 
 const wrapperClasses = computed(() => ['form-control', 'w-full']);
 

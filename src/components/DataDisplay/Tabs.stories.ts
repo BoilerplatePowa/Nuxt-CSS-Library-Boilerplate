@@ -9,7 +9,8 @@ const meta: Meta<typeof Tabs> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A flexible tabs component with multiple variants and content support using Vue 3.4 defineModel().',
+        component:
+          'A flexible tabs component with multiple variants and content support using Vue 3.4 defineModel().',
       },
     },
   },
@@ -46,9 +47,19 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 const sampleTabs = [
-  { label: 'Tab 1', content: '<p>Content for tab 1. This is some sample content to show how the tab content area works.</p>' },
-  { label: 'Tab 2', content: '<p>Content for tab 2. You can put any HTML content here, including components.</p>' },
-  { label: 'Tab 3', content: '<p>Content for tab 3. Each tab can have different content and styling.</p>' },
+  {
+    label: 'Tab 1',
+    content:
+      '<p>Content for tab 1. This is some sample content to show how the tab content area works.</p>',
+  },
+  {
+    label: 'Tab 2',
+    content: '<p>Content for tab 2. You can put any HTML content here, including components.</p>',
+  },
+  {
+    label: 'Tab 3',
+    content: '<p>Content for tab 3. Each tab can have different content and styling.</p>',
+  },
   { label: 'Disabled', content: '<p>This tab is disabled.</p>', disabled: true },
 ];
 
@@ -113,13 +124,13 @@ export const WithVModel: Story = {
         { label: 'Tab 2', content: '<p>This is the second tab content.</p>' },
         { label: 'Tab 3', content: '<p>Third tab content here.</p>' },
       ];
-      
-      return { 
-        activeTab, 
+
+      return {
+        activeTab,
         simpleTabs,
         onTabChange: (value: string) => {
           console.log('Tab changed to:', value);
-        }
+        },
       };
     },
     template: `
@@ -147,13 +158,13 @@ export const WithCustomValues: Story = {
         { label: 'About', value: 'about', content: '<p>Learn more about us.</p>' },
         { label: 'Contact', value: 'contact', content: '<p>Get in touch with us.</p>' },
       ];
-      
-      return { 
-        activeTab, 
+
+      return {
+        activeTab,
         tabsWithValues,
         onTabChange: (value: string) => {
           console.log('Tab changed to:', value);
-        }
+        },
       };
     },
     template: `

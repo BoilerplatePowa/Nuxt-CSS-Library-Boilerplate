@@ -108,18 +108,18 @@ const isItemOpen = (item: AccordionItem, index: number): boolean => {
   if (props.multiple) {
     return openItems.value.has(index);
   }
-  
+
   if (openItem.value !== null) {
     return getItemValue(item) === openItem.value;
   }
-  
+
   return openItems.value.has(index);
 };
 
 // Initialize open items based on defaultOpen or openItem
 const initializeOpenItems = () => {
   openItems.value.clear();
-  
+
   if (openItem.value !== null) {
     const index = props.items.findIndex(item => getItemValue(item) === openItem.value);
     if (index >= 0) {

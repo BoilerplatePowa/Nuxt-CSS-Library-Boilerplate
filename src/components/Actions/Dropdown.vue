@@ -1,20 +1,20 @@
 <template>
-  <div 
+  <div
     ref="dropdownRef"
-    :class="dropdownClasses" 
+    :class="dropdownClasses"
     @focusout="handleFocusOut"
     @keydown="handleGlobalKeydown"
   >
-    <div 
+    <div
       ref="triggerRef"
-      :tabindex="disabled ? -1 : 0" 
-      role="button" 
-      :class="triggerClasses" 
+      :tabindex="disabled ? -1 : 0"
+      role="button"
+      :class="triggerClasses"
       :aria-haspopup="true"
       :aria-expanded="isOpen"
       :aria-controls="menuId"
       :aria-disabled="disabled"
-      @click="toggle" 
+      @click="toggle"
       @keydown="handleTriggerKeydown"
     >
       <slot name="trigger">
@@ -27,11 +27,17 @@
           fill="none"
           viewBox="0 0 10 6"
         >
-          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+          <path
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="m1 1 4 4 4-4"
+          />
         </svg>
       </slot>
     </div>
-    
+
     <ul
       ref="menuRef"
       :id="menuId"
@@ -43,11 +49,7 @@
       @keydown="handleMenuKeydown"
     >
       <slot>
-        <li 
-          v-for="(item, index) in items" 
-          :key="getItemKey(item)"
-          role="none"
-        >
+        <li v-for="(item, index) in items" :key="getItemKey(item)" role="none">
           <a
             v-if="getItemHref(item)"
             :ref="el => setItemRef(el, index)"
@@ -221,9 +223,9 @@ const menuClasses = computed(() => {
     'z-[1]',
     'w-52',
     'p-2',
-    'shadow'
+    'shadow',
   ];
-  
+
   return classes.join(' ');
 });
 
@@ -252,20 +254,18 @@ const focusNextItem = () => {
 
 const focusPreviousItem = () => {
   const enabledItems = getEnabledItems();
-  const prevIndex = focusedIndex.value <= 0 
-    ? enabledItems.length - 1 
-    : focusedIndex.value - 1;
+  const prevIndex = focusedIndex.value <= 0 ? enabledItems.length - 1 : focusedIndex.value - 1;
   focusItem(prevIndex);
 };
 
 const open = () => {
   if (props.disabled) return;
-  
+
   isOpen.value = true;
   focusedIndex.value = -1;
   emit('open');
   emit('update:open', true);
-  
+
   if (props.autoFocus) {
     nextTick(() => {
       focusFirstItem();
@@ -279,7 +279,7 @@ const close = () => {
     focusedIndex.value = -1;
     emit('close');
     emit('update:open', false);
-    
+
     // Return focus to trigger
     nextTick(() => {
       triggerRef.value?.focus();
@@ -289,7 +289,7 @@ const close = () => {
 
 const toggle = () => {
   if (props.disabled) return;
-  
+
   if (isOpen.value) {
     close();
   } else {
@@ -299,7 +299,7 @@ const toggle = () => {
 
 const handleFocusOut = async (event: FocusEvent) => {
   await nextTick();
-  
+
   const dropdown = event.currentTarget as HTMLElement;
   if (!dropdown.contains(document.activeElement)) {
     close();
@@ -308,7 +308,7 @@ const handleFocusOut = async (event: FocusEvent) => {
 
 const handleGlobalKeydown = (event: KeyboardEvent) => {
   if (!isOpen.value) return;
-  
+
   switch (event.key) {
     case 'Escape':
       event.preventDefault();
@@ -370,7 +370,7 @@ const handleMenuClick = (event: Event) => {
   if (target.hasAttribute('disabled') || target.classList.contains('menu-title')) {
     return;
   }
-  
+
   if (props.closeOnSelect) {
     close();
   }
@@ -381,9 +381,9 @@ const handleItemClick = (item: DropdownItem, event: Event) => {
     event.preventDefault();
     return;
   }
-  
+
   emit('item-click', item, event);
-  
+
   if (props.closeOnSelect) {
     close();
   }
@@ -412,19 +412,19 @@ const getItemDisabled = (item: DropdownItem | string): boolean => {
 
 const getItemClasses = (item: DropdownItem | string) => {
   const classes = ['transition-colors', 'duration-150'];
-  
+
   if (typeof item === 'object') {
     if (item.active) classes.push('active', 'bg-primary', 'text-primary-content');
     if (item.disabled) classes.push('disabled', 'opacity-50', 'cursor-not-allowed');
   }
-  
+
   // Focus state for keyboard navigation
   const enabledItems = getEnabledItems();
   const enabledIndex = enabledItems.findIndex(enabledItem => enabledItem === item);
   if (enabledIndex === focusedIndex.value) {
     classes.push('bg-base-200', 'focus');
   }
-  
+
   return classes.join(' ');
 };
 

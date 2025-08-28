@@ -3,7 +3,7 @@
     <label v-if="label" class="label">
       <span class="label-text">{{ label }}</span>
     </label>
-    
+
     <div :class="ratingClasses">
       <input
         v-if="allowEmpty"
@@ -14,7 +14,7 @@
         class="rating-hidden"
         @change="updateRating(0)"
       />
-      
+
       <input
         v-for="star in maxRating"
         :key="star"
@@ -27,11 +27,11 @@
         @change="updateRating(star)"
       />
     </div>
-    
+
     <p v-if="helpText && !errorMessage" class="text-xs text-base-content/70 mt-1">
       {{ helpText }}
     </p>
-    
+
     <p v-if="errorMessage" class="text-xs text-error mt-1" role="alert">
       {{ errorMessage }}
     </p>
@@ -106,7 +106,7 @@ const starClasses = computed(() => {
 
 const updateRating = (value: number) => {
   if (props.disabled || props.readonly) return;
-  
+
   model.value = value;
   emit('change', value);
 };

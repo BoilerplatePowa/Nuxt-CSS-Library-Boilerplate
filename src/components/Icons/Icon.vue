@@ -26,7 +26,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  size: 'md',
+  size: 24,
   strokeWidth: 2,
   fill: 'none',
   ariaHidden: true,
@@ -40,21 +40,21 @@ const computedSize = computed(() => {
   if (typeof props.size === 'number') {
     return props.size;
   }
-  
+
   return sizeMap[props.size as keyof typeof sizeMap] || 24;
 });
 
 const iconClasses = computed(() => {
   const classes = ['inline-block'];
-  
+
   if (props.color) {
     classes.push(`text-${props.color}`);
   }
-  
+
   if (props.class) {
     classes.push(props.class);
   }
-  
+
   return classes.join(' ');
 });
 </script>

@@ -19,19 +19,19 @@
 }
 
 /* Enhanced hover states with animations */
-.btn:not(:disabled):not([aria-busy="true"]):not(.no-animation):hover {
+.btn:not(:disabled):not([aria-busy='true']):not(.no-animation):hover {
   @apply shadow-md;
   transform: translateY(-1px);
 }
 
 /* Click animation with scale effect */
-.btn:not(:disabled):not([aria-busy="true"]):not(.no-animation):active {
+.btn:not(:disabled):not([aria-busy='true']):not(.no-animation):active {
   @apply shadow-sm;
   transform: translateY(0) scale(0.95);
 }
 
 /* Loading state improvements */
-.btn[aria-busy="true"] {
+.btn[aria-busy='true'] {
   @apply pointer-events-none;
 }
 

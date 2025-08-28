@@ -51,7 +51,8 @@ export const Info: Story = {
     setup() {
       return { args };
     },
-    template: '<Alert v-bind="args">This is an info alert with some additional information.</Alert>',
+    template:
+      '<Alert v-bind="args">This is an info alert with some additional information.</Alert>',
   }),
 };
 

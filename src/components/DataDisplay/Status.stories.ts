@@ -8,7 +8,8 @@ const meta: Meta<typeof Status> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A status indicator component for showing online/offline states and other status information.',
+        component:
+          'A status indicator component for showing online/offline states and other status information.',
       },
     },
   },
@@ -40,7 +41,7 @@ export default meta;
 type Story = StoryObj<typeof Status>;
 
 export const Default: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Status },
     setup() {
       return { args };

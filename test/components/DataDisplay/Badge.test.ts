@@ -16,7 +16,17 @@ describe('Badge', () => {
   });
 
   it('applies variant classes correctly', () => {
-    const variants = ['neutral', 'primary', 'secondary', 'accent', 'ghost', 'info', 'success', 'warning', 'error'] as const;
+    const variants = [
+      'neutral',
+      'primary',
+      'secondary',
+      'accent',
+      'ghost',
+      'info',
+      'success',
+      'warning',
+      'error',
+    ] as const;
 
     variants.forEach(variant => {
       const wrapper = mount(Badge, {

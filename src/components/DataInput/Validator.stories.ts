@@ -9,7 +9,8 @@ const meta: Meta<typeof Validator> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A comprehensive form input component with built-in validation, custom rules, and visual feedback.',
+        component:
+          'A comprehensive form input component with built-in validation, custom rules, and visual feedback.',
       },
     },
   },
@@ -55,7 +56,7 @@ export const Default: Story = {
     minLength: 3,
     helperText: 'Username must be at least 3 characters',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Validator },
     setup() {
       const value = ref('');
@@ -81,7 +82,7 @@ export const EmailValidation: Story = {
     showValidationIcon: true,
     validateOnBlur: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Validator },
     setup() {
       const value = ref('');
@@ -106,29 +107,29 @@ export const PasswordValidation: Story = {
     showValidationIcon: true,
     showSummary: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Validator },
     setup() {
       const value = ref('');
-      
+
       const customRules = [
         {
           name: 'uppercase',
           test: (val: string) => /[A-Z]/.test(val),
-          message: 'Must contain at least one uppercase letter'
+          message: 'Must contain at least one uppercase letter',
         },
         {
           name: 'number',
           test: (val: string) => /\d/.test(val),
-          message: 'Must contain at least one number'
+          message: 'Must contain at least one number',
         },
         {
           name: 'special',
           test: (val: string) => /[!@#$%^&*(),.?":{}|<>]/.test(val),
-          message: 'Must contain at least one special character'
-        }
+          message: 'Must contain at least one special character',
+        },
       ];
-      
+
       return { args: { ...args, rules: customRules }, value };
     },
     template: `
@@ -150,7 +151,7 @@ export const TextareaWithCount: Story = {
     helperText: 'Describe your project in detail',
     validateOnInput: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Validator },
     setup() {
       const value = ref('');
@@ -173,17 +174,17 @@ export const CustomValidation: Story = {
     showValidationIcon: true,
     successMessage: 'Valid product code!',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Validator },
     setup() {
       const value = ref('');
-      
+
       const customValidator = (val: string) => {
         if (!val) return null;
         const pattern = /^PRD-[A-Z0-9]{4}-[A-Z0-9]{4}$/;
         return pattern.test(val) ? null : 'Invalid product code format';
       };
-      
+
       return { args: { ...args, customValidator }, value };
     },
     template: `
@@ -238,7 +239,7 @@ export const ValidationStates: Story = {
         error: 'invalid-email',
         pending: '',
       });
-      
+
       return { values };
     },
     template: `

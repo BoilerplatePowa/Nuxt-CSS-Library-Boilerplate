@@ -5,7 +5,7 @@ import Skeleton from '../../../src/components/Feedback/Skeleton.vue';
 describe('Skeleton', () => {
   it('renders correctly with default props', () => {
     const wrapper = mount(Skeleton);
-    
+
     expect(wrapper.classes()).toContain('skeleton');
     expect(wrapper.classes()).toContain('skeleton-text');
   });
@@ -24,7 +24,7 @@ describe('Skeleton', () => {
 
   it('applies custom width and height', () => {
     const wrapper = mount(Skeleton, {
-      props: { 
+      props: {
         width: '200px',
         height: '100px',
       },
@@ -37,7 +37,7 @@ describe('Skeleton', () => {
 
   it('applies numeric width and height as pixels', () => {
     const wrapper = mount(Skeleton, {
-      props: { 
+      props: {
         width: 150,
         height: 80,
       },

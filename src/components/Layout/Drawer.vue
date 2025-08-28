@@ -1,44 +1,26 @@
 <template>
   <div class="drawer" :class="drawerClasses">
-    <input
-      :id="drawerId"
-      v-model="isOpen"
-      type="checkbox"
-      class="drawer-toggle"
-    />
-    
+    <input :id="drawerId" v-model="isOpen" type="checkbox" class="drawer-toggle" />
+
     <div class="drawer-content">
       <!-- Page content here -->
       <slot name="content" :toggle="toggle" :open="open" :close="close">
         <div class="p-4">
-          <label
-            :for="drawerId"
-            class="btn btn-primary drawer-button"
-            @click="toggle"
-          >
+          <label :for="drawerId" class="btn btn-primary drawer-button" @click="toggle">
             Open drawer
           </label>
         </div>
       </slot>
     </div>
-    
+
     <div class="drawer-side" :class="sideClasses">
-      <label
-        :for="drawerId"
-        class="drawer-overlay"
-        @click="close"
-      ></label>
-      
+      <label :for="drawerId" class="drawer-overlay" @click="close"></label>
+
       <aside :class="asideClasses">
         <div v-if="showCloseButton" class="flex justify-end p-4">
-          <button
-            class="btn btn-sm btn-circle btn-ghost"
-            @click="close"
-          >
-            ✕
-          </button>
+          <button class="btn btn-sm btn-circle btn-ghost" @click="close">✕</button>
         </div>
-        
+
         <slot name="drawer" :close="close">
           <!-- Drawer content here -->
           <div class="p-4">
@@ -89,7 +71,7 @@ const emit = defineEmits<{
 const drawerId = props.id || generateDrawerId();
 
 // Watch internal state changes to emit events
-watch(isOpen, (newValue) => {
+watch(isOpen, newValue => {
   if (newValue) {
     emit('open');
   } else {

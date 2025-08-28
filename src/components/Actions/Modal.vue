@@ -1,22 +1,17 @@
 <template>
   <Teleport to="body" :disabled="!canTeleport">
-    <dialog 
+    <dialog
       ref="dialogRef"
       :class="modalClasses"
       :open="model"
       @click="handleOverlayClick"
       @keydown="handleKeyDown"
     >
-      <div 
-        ref="modalRef" 
-        :class="modalBoxClasses" 
-        tabindex="-1"
-        @click.stop
-      >
+      <div ref="modalRef" :class="modalBoxClasses" tabindex="-1" @click.stop>
         <!-- Focus trap elements -->
-        <div 
-          ref="firstFocusableElement" 
-          tabindex="0" 
+        <div
+          ref="firstFocusableElement"
+          tabindex="0"
           @focus="focusLastElement"
           class="sr-only"
           data-focus-trap="first"
@@ -56,9 +51,9 @@
         </footer>
 
         <!-- Focus trap elements -->
-        <div 
-          ref="lastFocusableElement" 
-          tabindex="0" 
+        <div
+          ref="lastFocusableElement"
+          tabindex="0"
           @focus="focusFirstElement"
           class="sr-only"
           data-focus-trap="last"
@@ -71,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, nextTick, ref, watch, onUnmounted, Teleport } from 'vue';
+import { computed, nextTick, ref, watch, onUnmounted } from 'vue';
 import Button from './Button.vue';
 import Icon from '../Icons/Icon.vue';
 
@@ -135,7 +130,7 @@ const canTeleport = computed(() => {
 
 const modalClasses = computed(() => {
   const classes = ['modal'];
-  
+
   // Handle z-index properly with Tailwind classes
   if (props.zIndex >= 50) {
     classes.push('z-50');
@@ -217,30 +212,33 @@ const footerClasses = computed(() => [
 // Focus management functions
 const getFocusableElements = (): HTMLElement[] => {
   if (!modalRef.value) return [];
-  
+
   const selectors = [
     'button:not([disabled])',
     '[href]',
     'input:not([disabled])',
     'select:not([disabled])',
     'textarea:not([disabled])',
-    '[tabindex]:not([tabindex="-1"])'
+    '[tabindex]:not([tabindex="-1"])',
   ];
-  
-  const elements = Array.from(modalRef.value.querySelectorAll(selectors.join(', '))) as HTMLElement[];
-  
+
+  const elements = Array.from(
+    modalRef.value.querySelectorAll(selectors.join(', '))
+  ) as HTMLElement[];
+
   // Filter out the focus trap elements to prevent infinite loops
-  return elements.filter(element => 
-    !element.classList.contains('sr-only') && 
-    element !== firstFocusableElement.value && 
-    element !== lastFocusableElement.value &&
-    !element.hasAttribute('data-focus-trap')
+  return elements.filter(
+    element =>
+      !element.classList.contains('sr-only') &&
+      element !== firstFocusableElement.value &&
+      element !== lastFocusableElement.value &&
+      !element.hasAttribute('data-focus-trap')
   );
 };
 
 const focusFirstElement = () => {
   if (!props.trapFocus) return;
-  
+
   const elements = getFocusableElements();
   if (elements.length > 0) {
     elements[0].focus();
@@ -253,7 +251,7 @@ const focusFirstElement = () => {
 
 const focusLastElement = () => {
   if (!props.trapFocus) return;
-  
+
   const elements = getFocusableElements();
   if (elements.length > 0) {
     elements[elements.length - 1].focus();
@@ -325,7 +323,7 @@ const handleKeyDown = (event: KeyboardEvent) => {
 // Focus management
 watch(
   () => model.value,
-  (isOpen) => {
+  isOpen => {
     if (isOpen) {
       nextTick(() => {
         if (props.autoFocus) {

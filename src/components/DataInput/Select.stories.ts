@@ -8,7 +8,8 @@ const meta: Meta<typeof Select> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A flexible select component with multiple variants and support for options. Uses Vue 3.4 defineModel() for v-model support.',
+        component:
+          'A flexible select component with multiple variants and support for options. Uses Vue 3.4 defineModel() for v-model support.',
       },
     },
   },
@@ -53,7 +54,17 @@ const meta: Meta<typeof Select> = {
     },
     variant: {
       control: { type: 'select' },
-      options: ['bordered', 'ghost', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'],
+      options: [
+        'bordered',
+        'ghost',
+        'primary',
+        'secondary',
+        'accent',
+        'info',
+        'success',
+        'warning',
+        'error',
+      ],
       description: 'Select variant',
     },
     'onUpdate:modelValue': {
@@ -88,7 +99,7 @@ export const WithValue: Story = {
     label: 'Pre-selected option',
     options: sampleOptions,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Select },
     setup() {
       return { args };
@@ -141,7 +152,7 @@ export const Multiple: Story = {
     multiple: true,
     options: sampleOptions,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Select },
     setup() {
       return { args };

@@ -13,12 +13,12 @@
         <span v-if="tab.badge" class="badge badge-sm ml-1">{{ tab.badge }}</span>
       </a>
     </div>
-    
+
     <!-- Content area -->
     <div v-if="$slots.default" class="tab-content mt-4">
       <slot />
     </div>
-    
+
     <div v-else-if="tabs.length > 0 && tabs[activeIndex]?.content" class="tab-content mt-4">
       <div class="tab-pane" v-html="tabs[activeIndex].content"></div>
     </div>
@@ -67,11 +67,15 @@ const getTabKey = (tab: Tab, index: number): string => {
 };
 
 // Set default value to first tab if no model value is provided
-watch(() => props.tabs, (newTabs) => {
-  if (newTabs.length > 0 && activeTabValue.value === undefined) {
-    activeTabValue.value = getTabValue(newTabs[0]);
-  }
-}, { immediate: true });
+watch(
+  () => props.tabs,
+  newTabs => {
+    if (newTabs.length > 0 && activeTabValue.value === undefined) {
+      activeTabValue.value = getTabValue(newTabs[0]);
+    }
+  },
+  { immediate: true }
+);
 
 // Computed active index based on model value
 const activeIndex = computed(() => {
@@ -134,10 +138,10 @@ const selectTab = (tab: Tab, index: number, event: Event) => {
   }
 
   const tabValue = getTabValue(tab);
-  
+
   // Update the model value using defineModel
   activeTabValue.value = tabValue;
-  
+
   // Emit the tab-change event
   emit('tab-change', tabValue);
 };

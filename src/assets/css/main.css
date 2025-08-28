@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@plugin 'daisyui'{
+@plugin 'daisyui' {
   themes: all;
 }
 
@@ -17,7 +17,7 @@
 
 /* Boilerplate Light Theme */
 @plugin "daisyui/theme" {
-  name: "boilerplate-light";
+  name: 'boilerplate-light';
   default: true;
   prefersdark: false;
   color-scheme: light;
@@ -51,7 +51,7 @@
 
 /* Boilerplate Dark Theme */
 @plugin "daisyui/theme" {
-  name: "boilerplate-dark";
+  name: 'boilerplate-dark';
   default: false;
   prefersdark: true;
   color-scheme: dark;

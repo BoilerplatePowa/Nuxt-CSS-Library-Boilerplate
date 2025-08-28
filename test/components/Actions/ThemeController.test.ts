@@ -17,7 +17,7 @@ Object.defineProperty(window, 'localStorage', {
 // Mock matchMedia
 Object.defineProperty(window, 'matchMedia', {
   writable: true,
-  value: vi.fn().mockImplementation((query) => ({
+  value: vi.fn().mockImplementation(query => ({
     matches: query.includes('dark'),
     media: query,
     onchange: null,
@@ -37,7 +37,7 @@ describe('ThemeController', () => {
 
   it('renders correctly with default props', () => {
     const wrapper = mount(ThemeController);
-    
+
     expect(wrapper.classes()).toContain('theme-controller');
     expect(wrapper.find('button').exists()).toBe(true);
     expect(wrapper.find('button').classes()).toContain('btn');
@@ -85,7 +85,7 @@ describe('ThemeController', () => {
 
   it('shows label when showLabel is true', () => {
     const wrapper = mount(ThemeController, {
-      props: { 
+      props: {
         variant: 'button',
         showLabel: true,
       },
@@ -100,9 +100,9 @@ describe('ThemeController', () => {
     });
 
     const initialEmissions = wrapper.emitted('themeChange')?.length || 0;
-    
+
     await wrapper.find('button').trigger('click');
-    
+
     expect(wrapper.emitted('themeChange')).toBeTruthy();
     // Should have one more emission after clicking
     expect(wrapper.emitted('themeChange')?.length).toBeGreaterThan(initialEmissions);
@@ -116,7 +116,7 @@ describe('ThemeController', () => {
     const initialEmissions = wrapper.emitted('themeChange')?.length || 0;
 
     await wrapper.find('input[type="checkbox"]').trigger('change');
-    
+
     expect(wrapper.emitted('themeChange')).toBeTruthy();
     // Should have one more emission after toggling
     expect(wrapper.emitted('themeChange')?.length).toBeGreaterThan(initialEmissions);
@@ -130,7 +130,7 @@ describe('ThemeController', () => {
     ];
 
     const wrapper = mount(ThemeController, {
-      props: { 
+      props: {
         variant: 'dropdown',
         themes: customThemes,
       },
@@ -138,7 +138,7 @@ describe('ThemeController', () => {
 
     const select = wrapper.find('select');
     await select.setValue('cupcake');
-    
+
     expect(wrapper.emitted('themeChange')).toBeTruthy();
     expect(wrapper.emitted('themeChange')?.[0]).toEqual(['cupcake']);
   });
@@ -150,7 +150,7 @@ describe('ThemeController', () => {
     ];
 
     const wrapper = mount(ThemeController, {
-      props: { 
+      props: {
         variant: 'radio',
         themes: customThemes,
       },
@@ -158,7 +158,7 @@ describe('ThemeController', () => {
 
     const radioInputs = wrapper.findAll('input[type="radio"]');
     await radioInputs[1].trigger('change'); // Select dark theme
-    
+
     expect(wrapper.emitted('themeChange')).toBeTruthy();
     expect(wrapper.emitted('themeChange')?.[0]).toEqual(['dark']);
   });
@@ -170,7 +170,7 @@ describe('ThemeController', () => {
     ];
 
     const wrapper = mount(ThemeController, {
-      props: { 
+      props: {
         variant: 'dropdown',
         themes: customThemes,
       },
@@ -184,7 +184,7 @@ describe('ThemeController', () => {
 
   it('uses custom aria label', () => {
     const wrapper = mount(ThemeController, {
-      props: { 
+      props: {
         variant: 'button',
         ariaLabel: 'Switch theme mode',
       },

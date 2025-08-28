@@ -21,7 +21,7 @@ describe('Dock', () => {
     const wrapper = mount(Dock, {
       props: { items: sampleItems },
     });
-    
+
     expect(wrapper.classes()).toContain('dock');
     expect(wrapper.findAll('.dock-item')).toHaveLength(2);
   });
@@ -31,7 +31,7 @@ describe('Dock', () => {
 
     positions.forEach(position => {
       const wrapper = mount(Dock, {
-        props: { 
+        props: {
           items: sampleItems,
           position,
         },
@@ -54,14 +54,14 @@ describe('Dock', () => {
 
     variants.forEach(variant => {
       const wrapper = mount(Dock, {
-        props: { 
+        props: {
           items: sampleItems,
           variant,
         },
       });
 
       const container = wrapper.find('.dock-container');
-      
+
       if (variant === 'floating') {
         expect(container.classes()).toContain('bg-base-100');
         expect(container.classes()).toContain('shadow-lg');
@@ -80,14 +80,14 @@ describe('Dock', () => {
 
     sizes.forEach(size => {
       const wrapper = mount(Dock, {
-        props: { 
+        props: {
           items: sampleItems,
           size,
         },
       });
 
       const iconElements = wrapper.findAll('.dock-item .relative.flex.items-center.justify-center');
-      
+
       if (size === 'sm') {
         expect(iconElements[0].classes()).toContain('w-8');
         expect(iconElements[0].classes()).toContain('h-8');
@@ -99,7 +99,7 @@ describe('Dock', () => {
 
     // Test that medium (default) uses w-12 h-12
     const mediumWrapper = mount(Dock, {
-      props: { 
+      props: {
         items: sampleItems,
         size: 'md',
       },
@@ -130,7 +130,7 @@ describe('Dock', () => {
 
   it('shows tooltips by default', () => {
     const wrapper = mount(Dock, {
-      props: { 
+      props: {
         items: sampleItems,
         showTooltips: true,
       },
@@ -143,7 +143,7 @@ describe('Dock', () => {
 
   it('hides tooltips when showTooltips is false', () => {
     const wrapper = mount(Dock, {
-      props: { 
+      props: {
         items: sampleItems,
         showTooltips: false,
       },
@@ -159,13 +159,9 @@ describe('Dock', () => {
     });
 
     await wrapper.find('.dock-item').trigger('click');
-    
+
     expect(wrapper.emitted('itemClick')).toBeTruthy();
-    expect(wrapper.emitted('itemClick')?.[0]).toEqual([
-      sampleItems[0],
-      0,
-      expect.any(Event),
-    ]);
+    expect(wrapper.emitted('itemClick')?.[0]).toEqual([sampleItems[0], 0, expect.any(Event)]);
   });
 
   it('emits itemHover event on mouse enter', async () => {
@@ -174,12 +170,9 @@ describe('Dock', () => {
     });
 
     await wrapper.find('.dock-item').trigger('mouseenter');
-    
+
     expect(wrapper.emitted('itemHover')).toBeTruthy();
-    expect(wrapper.emitted('itemHover')?.[0]).toEqual([
-      sampleItems[0],
-      0,
-    ]);
+    expect(wrapper.emitted('itemHover')?.[0]).toEqual([sampleItems[0], 0]);
   });
 
   it('emits itemLeave event on mouse leave', async () => {
@@ -188,12 +181,9 @@ describe('Dock', () => {
     });
 
     await wrapper.find('.dock-item').trigger('mouseleave');
-    
+
     expect(wrapper.emitted('itemLeave')).toBeTruthy();
-    expect(wrapper.emitted('itemLeave')?.[0]).toEqual([
-      sampleItems[0],
-      0,
-    ]);
+    expect(wrapper.emitted('itemLeave')?.[0]).toEqual([sampleItems[0], 0]);
   });
 
   it('applies active state correctly', () => {
@@ -223,7 +213,7 @@ describe('Dock', () => {
 
   it('applies active state based on activeItem prop', () => {
     const wrapper = mount(Dock, {
-      props: { 
+      props: {
         items: sampleItems,
         activeItem: 2,
       },
@@ -270,7 +260,7 @@ describe('Dock', () => {
     await wrapper.find('.dock-item').trigger('click');
     await wrapper.find('.dock-item').trigger('mouseenter');
     await wrapper.find('.dock-item').trigger('mouseleave');
-    
+
     expect(wrapper.emitted('itemClick')).toBeFalsy();
     expect(wrapper.emitted('itemHover')).toBeFalsy();
     expect(wrapper.emitted('itemLeave')).toBeFalsy();
@@ -278,7 +268,7 @@ describe('Dock', () => {
 
   it('applies animation classes when animated is true', () => {
     const wrapper = mount(Dock, {
-      props: { 
+      props: {
         items: sampleItems,
         animated: true,
       },
@@ -291,14 +281,14 @@ describe('Dock', () => {
 
   it('applies vertical layout for left and right positions', () => {
     const leftWrapper = mount(Dock, {
-      props: { 
+      props: {
         items: sampleItems,
         position: 'left',
       },
     });
 
     const rightWrapper = mount(Dock, {
-      props: { 
+      props: {
         items: sampleItems,
         position: 'right',
       },

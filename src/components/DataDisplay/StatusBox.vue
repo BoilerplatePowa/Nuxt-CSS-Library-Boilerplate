@@ -5,49 +5,44 @@
       <!-- Title -->
       <div v-if="title || $slots.title" :class="titleClasses">
         <!-- Icon/indicator -->
-    <div v-if="showIndicator" :class="indicatorClasses">
-      <slot name="indicator">
-        <!-- Default indicators using Status component -->
-        <Status 
-          v-if="variant === 'success'" 
-          variant="success" 
-          size="md"
-          aria-label="Success status"
-        />
-        <Status 
-          v-else-if="variant === 'error'" 
-          variant="error" 
-          size="md"
-          aria-label="Error status"
-        />
-        <Status 
-          v-else-if="variant === 'warning'" 
-          variant="warning" 
-          size="md"
-          aria-label="Warning status"
-        />
-        <Status 
-          v-else-if="variant === 'info'" 
-          variant="info" 
-          size="md"
-          aria-label="Info status"
-        />
-        <Status 
-          v-else-if="variant === 'pending'" 
-          variant="neutral" 
-          size="md"
-          animation="pulse"
-          aria-label="Pending status"
-        />
-        <Status 
-          v-else 
-          variant="neutral" 
-          size="md"
-          aria-label="Neutral status"
-        />
-      </slot>
-    </div>
-    
+        <div v-if="showIndicator" :class="indicatorClasses">
+          <slot name="indicator">
+            <!-- Default indicators using Status component -->
+            <Status
+              v-if="variant === 'success'"
+              variant="success"
+              size="md"
+              aria-label="Success status"
+            />
+            <Status
+              v-else-if="variant === 'error'"
+              variant="error"
+              size="md"
+              aria-label="Error status"
+            />
+            <Status
+              v-else-if="variant === 'warning'"
+              variant="warning"
+              size="md"
+              aria-label="Warning status"
+            />
+            <Status
+              v-else-if="variant === 'info'"
+              variant="info"
+              size="md"
+              aria-label="Info status"
+            />
+            <Status
+              v-else-if="variant === 'pending'"
+              variant="neutral"
+              size="md"
+              animation="pulse"
+              aria-label="Pending status"
+            />
+            <Status v-else variant="neutral" size="md" aria-label="Neutral status" />
+          </slot>
+        </div>
+
         <slot name="title">{{ title }}</slot>
       </div>
 
@@ -63,7 +58,10 @@
     </div>
 
     <!-- Actions and Dismiss -->
-    <div v-if="actions.length > 0 || $slots.actions || dismissible" class="flex items-center gap-2 flex-shrink-0">
+    <div
+      v-if="actions.length > 0 || $slots.actions || dismissible"
+      class="flex items-center gap-2 flex-shrink-0"
+    >
       <!-- Actions -->
       <div v-if="actions.length > 0 || $slots.actions" class="flex gap-2">
         <slot name="actions">
@@ -87,7 +85,12 @@
         aria-label="Dismiss"
       >
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M6 18L18 6M6 6l12 12"
+          />
         </svg>
       </button>
     </div>
@@ -247,7 +250,7 @@ const getActionClasses = (action: StatusAction) => {
 
 const formatTimestamp = (timestamp: Date | string | number) => {
   const date = new Date(timestamp);
-  
+
   if (isNaN(date.getTime())) {
     return timestamp.toString();
   }
@@ -273,11 +276,11 @@ const formatTimestamp = (timestamp: Date | string | number) => {
 
 const handleActionClick = (action: StatusAction, event: Event) => {
   if (action.disabled) return;
-  
+
   if (action.handler) {
     action.handler();
   }
-  
+
   emit('actionClick', action, event);
 };
 

@@ -32,37 +32,46 @@ describe('Status', () => {
   });
 
   it('renders with all variants', () => {
-    const variants = ['primary', 'secondary', 'accent', 'neutral', 'info', 'success', 'warning', 'error'];
-    
+    const variants = [
+      'primary',
+      'secondary',
+      'accent',
+      'neutral',
+      'info',
+      'success',
+      'warning',
+      'error',
+    ];
+
     variants.forEach(variant => {
       const wrapper = mount(Status, {
         props: { variant },
       });
-      
+
       expect(wrapper.classes()).toContain(`status-${variant}`);
     });
   });
 
   it('renders with all sizes', () => {
     const sizes = ['xs', 'sm', 'md', 'lg', 'xl'];
-    
+
     sizes.forEach(size => {
       const wrapper = mount(Status, {
         props: { size },
       });
-      
+
       expect(wrapper.classes()).toContain(`status-${size}`);
     });
   });
 
   it('renders with all animations', () => {
     const animations = ['pulse', 'bounce', 'none'];
-    
+
     animations.forEach(animation => {
       const wrapper = mount(Status, {
         props: { animation },
       });
-      
+
       expect(wrapper.classes()).toContain(`animate-${animation}`);
     });
   });

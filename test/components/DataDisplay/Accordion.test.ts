@@ -116,7 +116,7 @@ describe('Accordion', () => {
 
       const checkboxes = wrapper.findAll('input[type="checkbox"]');
       const radios = wrapper.findAll('input[type="radio"]');
-      
+
       expect(checkboxes).toHaveLength(3);
       expect(radios).toHaveLength(0);
     });
@@ -130,11 +130,11 @@ describe('Accordion', () => {
       });
 
       const inputs = wrapper.findAll('input[type="checkbox"]');
-      
+
       // Click first item
       await inputs[0].trigger('change');
       expect(wrapper.emitted('item-toggle')).toBeTruthy();
-      
+
       // Click second item
       await inputs[1].trigger('change');
       expect(wrapper.emitted('item-toggle')).toHaveLength(2);
@@ -181,10 +181,7 @@ describe('Accordion', () => {
 
   describe('Disabled State', () => {
     it('applies disabled styling', () => {
-      const disabledItems = [
-        { ...sampleItems[0], disabled: true },
-        sampleItems[1],
-      ];
+      const disabledItems = [{ ...sampleItems[0], disabled: true }, sampleItems[1]];
 
       const wrapper = mount(Accordion, {
         props: {

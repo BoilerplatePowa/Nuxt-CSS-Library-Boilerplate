@@ -45,13 +45,31 @@
         <!-- Validation icon -->
         <div v-if="showValidationIcon" :class="iconClasses">
           <!-- Success icon -->
-          <svg v-if="isValid && hasBeenValidated" class="w-5 h-5 text-success" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          <svg
+            v-if="isValid && hasBeenValidated"
+            class="w-5 h-5 text-success"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+              clip-rule="evenodd"
+            />
           </svg>
-          
+
           <!-- Error icon -->
-          <svg v-else-if="!isValid && hasBeenValidated" class="w-5 h-5 text-error" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+          <svg
+            v-else-if="!isValid && hasBeenValidated"
+            class="w-5 h-5 text-error"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            />
           </svg>
         </div>
 
@@ -67,7 +85,7 @@
         <span v-if="isValid && successMessage" class="label-text-alt text-success">
           {{ successMessage }}
         </span>
-        
+
         <!-- Error messages -->
         <div v-else-if="!isValid && validationErrors.length > 0" class="space-y-1">
           <span
@@ -90,19 +108,29 @@
     <div v-if="showSummary && hasBeenValidated" :class="summaryClasses">
       <div v-if="isValid" class="flex items-center gap-2 text-success">
         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+          <path
+            fill-rule="evenodd"
+            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+            clip-rule="evenodd"
+          />
         </svg>
         <span class="text-sm font-medium">Valid</span>
       </div>
-      
+
       <div v-else class="space-y-1">
         <div class="flex items-center gap-2 text-error">
           <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+            <path
+              fill-rule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+              clip-rule="evenodd"
+            />
           </svg>
-          <span class="text-sm font-medium">{{ validationErrors.length }} error{{ validationErrors.length > 1 ? 's' : '' }}</span>
+          <span class="text-sm font-medium"
+            >{{ validationErrors.length }} error{{ validationErrors.length > 1 ? 's' : '' }}</span
+          >
         </div>
-        
+
         <ul class="text-xs space-y-0.5 ml-6">
           <li v-for="error in validationErrors" :key="error">• {{ error }}</li>
         </ul>
@@ -182,7 +210,7 @@ const builtInRules = computed(() => {
   if (props.required) {
     rules.push({
       name: 'required',
-      test: (value) => value.trim().length > 0,
+      test: value => value.trim().length > 0,
       message: 'This field is required',
     });
   }
@@ -190,7 +218,7 @@ const builtInRules = computed(() => {
   if (props.minLength) {
     rules.push({
       name: 'minLength',
-      test: (value) => value.length >= (props.minLength || 0),
+      test: value => value.length >= (props.minLength || 0),
       message: `Must be at least ${props.minLength} characters`,
     });
   }
@@ -198,7 +226,7 @@ const builtInRules = computed(() => {
   if (props.maxLength) {
     rules.push({
       name: 'maxLength',
-      test: (value) => value.length <= (props.maxLength || Infinity),
+      test: value => value.length <= (props.maxLength || Infinity),
       message: `Must be no more than ${props.maxLength} characters`,
     });
   }
@@ -206,7 +234,7 @@ const builtInRules = computed(() => {
   if (props.email || props.type === 'email') {
     rules.push({
       name: 'email',
-      test: (value) => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
+      test: value => !value || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
       message: 'Please enter a valid email address',
     });
   }
@@ -214,7 +242,7 @@ const builtInRules = computed(() => {
   if (props.url || props.type === 'url') {
     rules.push({
       name: 'url',
-      test: (value) => !value || /^https?:\/\/[^\s]+$/.test(value),
+      test: value => !value || /^https?:\/\/[^\s]+$/.test(value),
       message: 'Please enter a valid URL',
     });
   }
@@ -222,7 +250,7 @@ const builtInRules = computed(() => {
   if (props.pattern) {
     rules.push({
       name: 'pattern',
-      test: (value) => !value || props.pattern!.test(value),
+      test: value => !value || props.pattern!.test(value),
       message: 'Please match the required format',
     });
   }
@@ -230,7 +258,7 @@ const builtInRules = computed(() => {
   if (props.customValidator) {
     rules.push({
       name: 'custom',
-      test: (value) => props.customValidator!(value) === null,
+      test: value => props.customValidator!(value) === null,
       message: props.customValidator!(model.value) || 'Invalid value',
     });
   }
@@ -238,10 +266,7 @@ const builtInRules = computed(() => {
   return rules;
 });
 
-const allRules = computed(() => [
-  ...builtInRules.value,
-  ...props.rules,
-]);
+const allRules = computed(() => [...builtInRules.value, ...props.rules]);
 
 const validationErrors = computed(() => {
   const errors: string[] = [];
@@ -260,7 +285,7 @@ const isValid = computed(() => validationErrors.value.length === 0);
 
 const validatorClasses = computed(() => {
   const baseClasses = ['validator'];
-  
+
   if (props.size === 'sm') {
     baseClasses.push('text-sm');
   } else if (props.size === 'lg') {
@@ -272,7 +297,7 @@ const validatorClasses = computed(() => {
 
 const labelClasses = computed(() => {
   const baseClasses = ['label-text'];
-  
+
   if (!isValid.value && hasBeenValidated.value) {
     baseClasses.push('text-error');
   }
@@ -352,13 +377,20 @@ const textareaClasses = computed(() => {
 });
 
 const iconClasses = computed(() => {
-  const baseClasses = ['absolute', 'right-3', 'top-1/2', 'transform', '-translate-y-1/2', 'pointer-events-none'];
+  const baseClasses = [
+    'absolute',
+    'right-3',
+    'top-1/2',
+    'transform',
+    '-translate-y-1/2',
+    'pointer-events-none',
+  ];
   return baseClasses.join(' ');
 });
 
 const summaryClasses = computed(() => {
   const baseClasses = ['validation-summary', 'mt-2', 'p-3', 'rounded-lg', 'border'];
-  
+
   if (isValid.value) {
     baseClasses.push('border-success', 'bg-success/5');
   } else {
@@ -377,7 +409,7 @@ const handleInput = () => {
 const handleBlur = () => {
   isFocused.value = false;
   emit('blur');
-  
+
   if (props.validateOnBlur) {
     validate();
   }
@@ -412,11 +444,13 @@ defineExpose({
 }
 
 /* Custom validation state styles */
-.input-success, .textarea-success {
+.input-success,
+.textarea-success {
   @apply border-success focus:border-success;
 }
 
-.input-error, .textarea-error {
+.input-error,
+.textarea-error {
   @apply border-error focus:border-error;
 }
 

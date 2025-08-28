@@ -13,7 +13,8 @@ vi.mock('vee-validate', () => ({
   },
   Field: {
     name: 'Field',
-    template: '<div><slot :field="{ value: modelValue, onChange: handleChange }" :errorMessage="errorMessage" :meta="{ touched: true, valid: !errorMessage }" /></div>',
+    template:
+      '<div><slot :field="{ value: modelValue, onChange: handleChange }" :errorMessage="errorMessage" :meta="{ touched: true, valid: !errorMessage }" /></div>',
     props: ['name', 'value'],
     setup(props: any) {
       const errorMessage = props.value === 'invalid' ? 'This field is invalid' : '';
@@ -52,12 +53,12 @@ describe('Input', () => {
 
   it('applies correct size classes', () => {
     const sizes = ['xs', 'sm', 'md', 'lg', 'xl'] as const;
-    
+
     sizes.forEach(size => {
       const wrapper = mount(Input, {
         props: { size },
       });
-      
+
       const input = wrapper.find('input');
       if (size !== 'md') {
         expect(input.classes()).toContain(`input-${size}`);
@@ -66,13 +67,24 @@ describe('Input', () => {
   });
 
   it('applies correct variant classes', () => {
-    const variants = ['bordered', 'ghost', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error', 'neutral'] as const;
-    
+    const variants = [
+      'bordered',
+      'ghost',
+      'primary',
+      'secondary',
+      'accent',
+      'info',
+      'success',
+      'warning',
+      'error',
+      'neutral',
+    ] as const;
+
     variants.forEach(variant => {
       const wrapper = mount(Input, {
         props: { variant },
       });
-      
+
       const input = wrapper.find('input');
       expect(input.classes()).toContain(`input-${variant}`);
     });
@@ -98,7 +110,7 @@ describe('Input', () => {
 
     const icons = wrapper.findAllComponents({ name: 'Icon' });
     expect(icons.length).toBeGreaterThan(0);
-    
+
     // Find the right icon by checking if it has the right positioning class
     const rightIcon = icons.find(icon => icon.classes().includes('right-3'));
     expect(rightIcon).toBeDefined();
@@ -177,10 +189,10 @@ describe('Input', () => {
     const wrapper = mount(Input);
 
     const input = wrapper.find('input');
-    
+
     await input.trigger('focus');
     expect(wrapper.emitted('focus')).toBeTruthy();
-    
+
     await input.trigger('blur');
     expect(wrapper.emitted('blur')).toBeTruthy();
   });
@@ -190,7 +202,7 @@ describe('Input', () => {
 
     const input = wrapper.find('input');
     await input.trigger('change');
-    
+
     expect(wrapper.emitted('change')).toBeTruthy();
   });
 
@@ -206,12 +218,12 @@ describe('Input', () => {
 
   it('applies correct input type', () => {
     const types = ['text', 'email', 'password', 'url', 'tel', 'number', 'search'] as const;
-    
+
     types.forEach(type => {
       const wrapper = mount(Input, {
         props: { type },
       });
-      
+
       const input = wrapper.find('input');
       expect(input.attributes('type')).toBe(type);
     });
@@ -277,7 +289,7 @@ describe('Input', () => {
 
   it('passes rules prop to Field component', () => {
     const rules = yup.string().required('This field is required');
-    
+
     const wrapper = mount(Input, {
       props: {
         name: 'test',
@@ -293,7 +305,7 @@ describe('Input', () => {
 
   it('works with inline validation rules', () => {
     const emailRules = yup.string().email('Invalid email').required('Required');
-    
+
     const wrapper = mount(Input, {
       props: {
         name: 'email',

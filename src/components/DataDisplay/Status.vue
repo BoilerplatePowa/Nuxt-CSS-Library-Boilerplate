@@ -1,6 +1,5 @@
 <template>
   <div :class="statusClasses" :aria-label="ariaLabel"></div>
-  
 </template>
 
 <script setup lang="ts">
@@ -10,7 +9,7 @@ import type { Variant } from '~/shared/types.d';
 interface StatusProps {
   variant?: Variant;
   animation?: 'pulse' | 'bounce' | 'none';
-  size?: 'xs' | 'sm' | 'md'| 'lg' | 'xl';
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   ariaLabel?: string;
 }
 
@@ -21,7 +20,7 @@ const props = withDefaults(defineProps<StatusProps>(), {
 
 const statusClasses = computed(() => {
   const baseClasses = ['status'];
-  
+
   // Add variant class
   if (props.variant) {
     baseClasses.push(`status-${props.variant}`);
@@ -34,7 +33,7 @@ const statusClasses = computed(() => {
   if (props.size) {
     baseClasses.push(`status-${props.size}`);
   }
-  
+
   return baseClasses.join(' ');
 });
 </script>

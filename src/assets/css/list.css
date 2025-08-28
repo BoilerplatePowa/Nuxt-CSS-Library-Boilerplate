@@ -25,11 +25,11 @@
 }
 
 /* Alternative divider styling for better compatibility */
-.list-item[class*="border-b"] {
+.list-item[class*='border-b'] {
   @apply border-b border-base-200 bg-red-100;
 }
 
-.list-item[class*="border-b"]:last-child {
+.list-item[class*='border-b']:last-child {
   @apply border-b-0;
 }
 

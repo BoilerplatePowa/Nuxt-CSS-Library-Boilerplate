@@ -12,11 +12,7 @@
       </div>
 
       <div v-if="links && links.length > 0" class="footer-links">
-        <div
-          v-for="section in links"
-          :key="section.title"
-          class="footer-section"
-        >
+        <div v-for="section in links" :key="section.title" class="footer-section">
           <h3 v-if="section.title" class="footer-title">{{ section.title }}</h3>
           <nav class="flex flex-col gap-1">
             <a

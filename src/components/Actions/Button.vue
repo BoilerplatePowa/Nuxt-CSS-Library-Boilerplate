@@ -22,7 +22,7 @@
       <slot />
     </span>
     <span v-if="loading && loadingText" class="ml-1">{{ loadingText }}</span>
-    
+
     <slot name="icon-right" v-if="$slots['icon-right']" />
     <Icon v-else-if="iconRight" :name="iconRight" :size="iconSize" />
   </button>
@@ -33,9 +33,19 @@ import { computed, ref, nextTick, onMounted, onUnmounted } from 'vue';
 import type { IconName, Size } from '@/shared/types.d';
 import Icon from '../Icons/Icon.vue';
 
-
 interface Props {
-  variant?: 'primary' | 'secondary' | 'accent' | 'neutral' | 'ghost' | 'outline' | 'link' | 'info' | 'success' | 'warning' | 'error';
+  variant?:
+    | 'primary'
+    | 'secondary'
+    | 'accent'
+    | 'neutral'
+    | 'ghost'
+    | 'outline'
+    | 'link'
+    | 'info'
+    | 'success'
+    | 'warning'
+    | 'error';
   size?: 'xs' | 'sm' | 'md' | 'lg';
   disabled?: boolean;
   loading?: boolean;
@@ -77,7 +87,7 @@ const props = withDefaults(defineProps<Props>(), {
   confirmAction: false,
   confirmText: 'Are you sure?',
   autoFocus: false,
-  iconSize: 'sm',
+  iconSize: 24,
 });
 
 const emit = defineEmits<{
@@ -170,7 +180,7 @@ const handleClick = (event: MouseEvent) => {
 
 const handleKeydown = (event: KeyboardEvent) => {
   emit('keydown', event);
-  
+
   if (event.key === 'Enter' || event.key === ' ') {
     event.preventDefault();
     if (!props.disabled && !props.loading) {

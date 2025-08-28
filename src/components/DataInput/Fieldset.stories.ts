@@ -35,7 +35,7 @@ export const Default: Story = {
     legend: 'Personal Information',
     description: 'Please provide your basic details',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Fieldset, Input },
     setup() {
       return { args };
@@ -73,7 +73,7 @@ export const Bordered: Story = {
     legend: 'Contact Information',
     variant: 'bordered',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Fieldset, Input },
     setup() {
       return { args };
@@ -96,7 +96,7 @@ export const Outlined: Story = {
     legend: 'Preferences',
     variant: 'outlined',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Fieldset },
     setup() {
       return { args };
@@ -123,7 +123,7 @@ export const Filled: Story = {
     legend: 'Settings',
     variant: 'filled',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Fieldset, Select },
     setup() {
       return { args };
@@ -150,7 +150,7 @@ export const Small: Story = {
     size: 'sm',
     variant: 'bordered',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Fieldset, Input },
     setup() {
       return { args };
@@ -174,7 +174,7 @@ export const Large: Story = {
     size: 'lg',
     variant: 'bordered',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Fieldset, Input },
     setup() {
       return { args };
@@ -199,7 +199,7 @@ export const WithError: Story = {
     error: 'Please correct the errors below',
     required: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Fieldset, Input },
     setup() {
       return { args };
@@ -232,7 +232,7 @@ export const Disabled: Story = {
     disabled: true,
     description: 'These settings are currently locked',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Fieldset, Input, Select },
     setup() {
       return { args };
@@ -268,7 +268,7 @@ export const WithCustomSlots: Story = {
   args: {
     variant: 'bordered',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Fieldset, Input },
     setup() {
       return { args };
@@ -321,7 +321,7 @@ export const Nested: Story = {
     variant: 'bordered',
     size: 'lg',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Fieldset, Input },
     setup() {
       return { args };

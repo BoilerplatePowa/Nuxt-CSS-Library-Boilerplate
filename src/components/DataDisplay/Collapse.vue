@@ -7,12 +7,7 @@
       :class="checkboxClasses"
       :disabled="disabled"
     />
-    <label
-      :for="collapseId"
-      :class="titleClasses"
-      @click="toggle"
-      @keydown="handleKeydown"
-    >
+    <label :for="collapseId" :class="titleClasses" @click="toggle" @keydown="handleKeydown">
       <slot name="title">
         {{ title }}
       </slot>
@@ -84,13 +79,13 @@ const checkboxClasses = computed(() => ['collapse-checkbox']);
 
 const titleClasses = computed(() => {
   const classes = ['collapse-title', 'text-xl', 'font-medium'];
-  
+
   if (props.disabled) {
     classes.push('opacity-50', 'cursor-not-allowed');
   } else {
     classes.push('cursor-pointer');
   }
-  
+
   return classes.join(' ');
 });
 

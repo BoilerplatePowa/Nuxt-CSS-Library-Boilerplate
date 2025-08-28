@@ -8,7 +8,8 @@ const meta: Meta<typeof PhoneMockup> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Mobile device mockup component for showcasing mobile apps and responsive designs.',
+        component:
+          'Mobile device mockup component for showcasing mobile apps and responsive designs.',
       },
     },
   },
@@ -40,7 +41,7 @@ export const Default: Story = {
     color: 'black',
     size: 'md',
   },
-  render: (args) => ({
+  render: args => ({
     components: { PhoneMockup },
     setup() {
       return { args };
@@ -63,7 +64,7 @@ export const AppInterface: Story = {
     color: 'white',
     size: 'lg',
   },
-  render: (args) => ({
+  render: args => ({
     components: { PhoneMockup },
     setup() {
       return { args };
@@ -127,7 +128,7 @@ export const MusicPlayer: Story = {
     color: 'black',
     size: 'md',
   },
-  render: (args) => ({
+  render: args => ({
     components: { PhoneMockup },
     setup() {
       return { args };
@@ -183,7 +184,7 @@ export const ECommerceApp: Story = {
     color: 'white',
     size: 'md',
   },
-  render: (args) => ({
+  render: args => ({
     components: { PhoneMockup },
     setup() {
       return { args };

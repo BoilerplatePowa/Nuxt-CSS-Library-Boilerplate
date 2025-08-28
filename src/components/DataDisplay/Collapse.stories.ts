@@ -9,7 +9,8 @@ const meta: Meta<typeof Collapse> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Expandable content container with smooth animations and customizable styling. Uses Vue 3.4 defineModel for v-model support.',
+        component:
+          'Expandable content container with smooth animations and customizable styling. Uses Vue 3.4 defineModel for v-model support.',
       },
     },
   },
@@ -47,7 +48,7 @@ export const Default: Story = {
     title: 'Click to expand',
     modelValue: false,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Collapse },
     setup() {
       return { args };
@@ -67,7 +68,7 @@ export const OpenByDefault: Story = {
     title: 'This is open by default',
     modelValue: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Collapse },
     setup() {
       return { args };
@@ -171,7 +172,7 @@ export const WithRichContent: Story = {
     title: '📊 Project Statistics',
     modelValue: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Collapse },
     setup() {
       return { args };
@@ -247,7 +248,7 @@ export const Disabled: Story = {
     title: 'This collapse is disabled',
     disabled: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Collapse },
     setup() {
       return { args };

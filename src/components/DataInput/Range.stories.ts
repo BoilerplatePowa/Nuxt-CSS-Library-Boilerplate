@@ -84,7 +84,7 @@ export const Interactive: Story = {
       const volume = ref(30);
       const brightness = ref(80);
       const temperature = ref(22);
-      
+
       return { volume, brightness, temperature };
     },
     template: `

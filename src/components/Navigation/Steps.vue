@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, h } from 'vue';
+import { computed } from 'vue';
 import type { IconName, Variant } from '~/shared/types.d';
 import Icon from '~/components/Icons/Icon.vue';
 
@@ -59,8 +59,6 @@ const props = withDefaults(defineProps<Props>(), {
   showNumbers: true,
   color: 'primary',
 });
-
-
 
 const stepsClasses = computed(() => {
   const baseClasses = ['steps'];
@@ -106,6 +104,4 @@ const isStepActive = (index: number): boolean => {
 const isStepCompleted = (index: number): boolean => {
   return index < props.currentStep || props.steps[index]?.completed === true;
 };
-
-
 </script>

@@ -1,13 +1,14 @@
 <template>
   <div class="relative">
     <!-- Presence indicator -->
-    <Status v-if="showPresence && presence !== undefined"
-      :variant="presenceStatusVariant" 
+    <Status
+      v-if="showPresence && presence !== undefined"
+      :variant="presenceStatusVariant"
       :size="['xs', 'sm', 'md', 'lg'].includes(size) ? 'lg' : 'xl'"
       class="absolute top-0 right-0 z-10"
     />
 
-    <Badge 
+    <Badge
       v-if="badge || count"
       :size="['xs', 'sm', 'md'].includes(size) ? 'xs' : 'md'"
       :variant="badgeVariant"
@@ -24,20 +25,20 @@
       <div v-if="loading" :class="loadingClasses">
         <span class="loading loading-spinner loading-xs align-top"></span>
       </div>
-      
+
       <!-- Avatar image with lazy loading support -->
       <img
         v-if="src && !imageError && !loading"
-        :src="src" 
-        :alt="alt || `Avatar for ${name || 'user'}`" 
+        :src="src"
+        :alt="alt || `Avatar for ${name || 'user'}`"
         :loading="lazy ? 'lazy' : 'eager'"
         :class="imageElementClasses"
         @error="handleImageError"
         @load="handleImageLoad"
       />
-      
+
       <!-- Fallback placeholder -->
-      <div 
+      <div
         v-else-if="!loading"
         :class="placeholderClasses"
         :aria-label="alt || `Avatar for ${name || 'user'}`"
@@ -47,7 +48,7 @@
             <span v-if="initials" class="font-semibold">{{ initials }}</span>
             <span v-else-if="name" class="font-semibold">{{ generateInitials(name) }}</span>
             <span v-else-if="placeholder" class="opacity-60">{{ placeholder }}</span>
-            <Icon v-else :name="fallbackIcon" :size="size"/>
+            <Icon v-else :name="fallbackIcon" :size="size" />
           </slot>
         </div>
       </div>
@@ -134,7 +135,15 @@ const getColorFromString = (str: string): string => {
 };
 
 const avatarClasses = computed(() => {
-  const baseClasses = ['avatar', 'relative', 'overflow-hidden', 'flex', 'items-center', 'justify-center', 'bg-base-200'];
+  const baseClasses = [
+    'avatar',
+    'relative',
+    'overflow-hidden',
+    'flex',
+    'items-center',
+    'justify-center',
+    'bg-base-200',
+  ];
 
   // Size classes
   if (props.size === 'xs') {
@@ -169,9 +178,7 @@ const avatarClasses = computed(() => {
   return baseClasses.join(' ');
 });
 
-const loadingClasses = computed(() => [
-  'animate-pulse',
-]);
+const loadingClasses = computed(() => ['animate-pulse']);
 
 const imageElementClasses = computed(() => [
   'w-full',
@@ -182,12 +189,7 @@ const imageElementClasses = computed(() => [
 ]);
 
 const placeholderClasses = computed(() => {
-  const baseClasses = [
-    'h-full',
-    'w-full',
-    'text-white',
-    'font-semibold',
-  ];
+  const baseClasses = ['h-full', 'w-full', 'text-white', 'font-semibold'];
 
   // Background color
   if (props.fallbackColor === 'random' && props.name) {
@@ -209,7 +211,7 @@ const presenceStatusVariant = computed(() => {
   if (props.presence === 'online') {
     return 'success';
   } else if (props.presence === 'offline') {
-    return 'neutral'
+    return 'neutral';
   } else if (props.presence === 'away') {
     return 'warning';
   } else if (props.presence === 'busy') {

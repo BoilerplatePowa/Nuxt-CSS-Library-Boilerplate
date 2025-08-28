@@ -6,14 +6,22 @@
       <span v-if="showMinutes" class="countdown-label">minutes</span>
       <span v-if="showSeconds" class="countdown-label">seconds</span>
     </div>
-    
+
     <div :class="countdownClasses">
       <span v-if="showDays" :style="{ '--value': timeLeft.days }" class="countdown-item"></span>
       <span v-if="showHours" :style="{ '--value': timeLeft.hours }" class="countdown-item"></span>
-      <span v-if="showMinutes" :style="{ '--value': timeLeft.minutes }" class="countdown-item"></span>
-      <span v-if="showSeconds" :style="{ '--value': timeLeft.seconds }" class="countdown-item"></span>
+      <span
+        v-if="showMinutes"
+        :style="{ '--value': timeLeft.minutes }"
+        class="countdown-item"
+      ></span>
+      <span
+        v-if="showSeconds"
+        :style="{ '--value': timeLeft.seconds }"
+        class="countdown-item"
+      ></span>
     </div>
-    
+
     <div v-if="message" class="countdown-message mt-4 text-center">
       <slot name="message">{{ message }}</slot>
     </div>
@@ -47,13 +55,15 @@ const props = withDefaults(defineProps<Props>(), {
 
 const emit = defineEmits<{
   complete: [];
-  tick: [timeLeft: {
-    days: number;
-    hours: number;
-    minutes: number;
-    seconds: number;
-    total: number;
-  }];
+  tick: [
+    timeLeft: {
+      days: number;
+      hours: number;
+      minutes: number;
+      seconds: number;
+      total: number;
+    },
+  ];
 }>();
 
 const timeLeft = ref({
@@ -124,7 +134,7 @@ const calculateTimeLeft = () => {
 
 const start = () => {
   if (intervalId) return;
-  
+
   calculateTimeLeft();
   intervalId = setInterval(calculateTimeLeft, 1000);
 };

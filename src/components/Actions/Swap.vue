@@ -67,10 +67,10 @@ const swapClasses = computed(() => {
 // Handle change event
 const handleChange = (event: Event) => {
   if (props.disabled) return;
-  
+
   const target = event.target as HTMLInputElement;
   const value = target.checked;
-  
+
   // Update the isOn value directly - defineModel handles the two-way binding
   isOn.value = value;
 };

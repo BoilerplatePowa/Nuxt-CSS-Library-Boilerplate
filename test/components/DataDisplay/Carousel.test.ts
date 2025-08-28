@@ -33,7 +33,7 @@ describe('Carousel', () => {
     it('emits slide-change when navigating', async () => {
       const nextButton = wrapper.find('.carousel-nav.next');
       await nextButton.trigger('click');
-      
+
       expect(wrapper.emitted('slide-change')).toBeTruthy();
       expect(wrapper.emitted('slide-change')[0]).toEqual([1, mockItems[1]]);
     });
@@ -41,7 +41,7 @@ describe('Carousel', () => {
     it('updates v-model when navigating', async () => {
       const nextButton = wrapper.find('.carousel-nav.next');
       await nextButton.trigger('click');
-      
+
       // With defineModel(), the component should update its internal value
       expect(wrapper.vm.currentIndex).toBe(1);
     });
@@ -55,7 +55,7 @@ describe('Carousel', () => {
           modelValue: 2,
         },
       });
-      
+
       expect(wrapperWithModel.vm.currentIndex).toBe(2);
     });
 
@@ -66,7 +66,7 @@ describe('Carousel', () => {
           modelValue: 0,
         },
       });
-      
+
       await wrapperWithModel.setProps({ modelValue: 2 });
       expect(wrapperWithModel.vm.currentIndex).toBe(2);
     });
@@ -139,44 +139,44 @@ describe('Carousel', () => {
     it('navigates to next slide', async () => {
       const nextButton = wrapper.find('.carousel-nav.next');
       await nextButton.trigger('click');
-      
+
       expect(wrapper.vm.currentIndex).toBe(1);
     });
 
     it('navigates to previous slide', async () => {
       // First go to slide 1
       await wrapper.setProps({ modelValue: 1 });
-      
+
       const prevButton = wrapper.find('.carousel-nav.prev');
       await prevButton.trigger('click');
-      
+
       expect(wrapper.vm.currentIndex).toBe(0);
     });
 
     it('loops to first slide when going next from last slide', async () => {
       await wrapper.setProps({ modelValue: 2, loop: true });
-      
+
       const nextButton = wrapper.find('.carousel-nav.next');
       await nextButton.trigger('click');
-      
+
       expect(wrapper.vm.currentIndex).toBe(0);
     });
 
     it('loops to last slide when going previous from first slide', async () => {
       await wrapper.setProps({ modelValue: 0, loop: true });
-      
+
       const prevButton = wrapper.find('.carousel-nav.prev');
       await prevButton.trigger('click');
-      
+
       expect(wrapper.vm.currentIndex).toBe(2);
     });
 
     it('does not loop when loop is false', async () => {
       await wrapper.setProps({ modelValue: 2, loop: false });
-      
+
       const nextButton = wrapper.find('.carousel-nav.next');
       await nextButton.trigger('click');
-      
+
       expect(wrapper.vm.currentIndex).toBe(2); // Should stay at last slide
     });
   });
@@ -185,34 +185,34 @@ describe('Carousel', () => {
     it('navigates to specific slide via pagination', async () => {
       const paginationButtons = wrapper.findAll('.carousel-pagination-dots a');
       await paginationButtons[2].trigger('click'); // Click third button
-      
+
       expect(wrapper.vm.currentIndex).toBe(2);
     });
 
     it('navigates via numbers pagination', async () => {
       await wrapper.setProps({ paginationType: 'numbers' });
-      
+
       const paginationButtons = wrapper.findAll('.carousel-pagination-numbers a');
       await paginationButtons[1].trigger('click'); // Click second button
-      
+
       expect(wrapper.vm.currentIndex).toBe(1);
     });
 
     it('navigates via dots pagination', async () => {
       await wrapper.setProps({ paginationType: 'dots' });
-      
+
       const paginationButtons = wrapper.findAll('.carousel-pagination-dots a');
       await paginationButtons[2].trigger('click'); // Click third button
-      
+
       expect(wrapper.vm.currentIndex).toBe(2);
     });
 
     it('navigates via line pagination', async () => {
       await wrapper.setProps({ paginationType: 'line' });
-      
+
       const paginationLines = wrapper.findAll('.pagination-line');
       await paginationLines[1].trigger('click'); // Click second line
-      
+
       expect(wrapper.vm.currentIndex).toBe(1);
     });
   });
@@ -220,20 +220,20 @@ describe('Carousel', () => {
   describe('Autoplay', () => {
     it('starts autoplay when autoplay is true', async () => {
       await wrapper.setProps({ autoplay: true, autoplayInterval: 100 });
-      
+
       // Wait for autoplay to trigger
       await new Promise(resolve => setTimeout(resolve, 150));
-      
+
       // Check if autoplay has advanced to next slide
       expect(wrapper.vm.currentIndex).toBeGreaterThanOrEqual(0);
     });
 
     it('stops autoplay when autoplay is false', async () => {
       await wrapper.setProps({ autoplay: false });
-      
+
       // Wait to ensure no autoplay
       await new Promise(resolve => setTimeout(resolve, 200));
-      
+
       expect(wrapper.vm.currentIndex).toBe(0);
     });
   });
@@ -243,19 +243,19 @@ describe('Carousel', () => {
       // Simulate right arrow key on window
       const rightEvent = new KeyboardEvent('keydown', { key: 'ArrowRight' });
       window.dispatchEvent(rightEvent);
-      
+
       // Wait for event to be processed
       await wrapper.vm.$nextTick();
-      
+
       // Check if navigation occurred
       expect(wrapper.vm.currentIndex).toBeGreaterThanOrEqual(0);
-      
+
       // Simulate left arrow key on window
       const leftEvent = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
       window.dispatchEvent(leftEvent);
-      
+
       await wrapper.vm.$nextTick();
-      
+
       expect(wrapper.vm.currentIndex).toBeGreaterThanOrEqual(0);
     });
   });
@@ -264,7 +264,7 @@ describe('Carousel', () => {
     it('emits item-click when item is clicked', async () => {
       const firstItem = wrapper.find('.carousel-item');
       await firstItem.trigger('click');
-      
+
       expect(wrapper.emitted('item-click')).toBeTruthy();
       expect(wrapper.emitted('item-click')[0]).toEqual([mockItems[0], 0, expect.any(Object)]);
     });
@@ -275,21 +275,21 @@ describe('Carousel', () => {
       const emptyWrapper = mount(Carousel, {
         props: { items: [] },
       });
-      
+
       expect(emptyWrapper.find('.carousel').exists()).toBe(true);
       expect(emptyWrapper.findAll('.carousel-item')).toHaveLength(0);
     });
 
     it('handles custom item height', async () => {
       await wrapper.setProps({ itemHeight: '24rem' });
-      
+
       const container = wrapper.find('.carousel');
       expect(container.attributes('style')).toContain('height: 24rem');
     });
 
     it('handles custom gap', async () => {
       await wrapper.setProps({ gap: '2rem' });
-      
+
       const container = wrapper.find('.carousel');
       expect(container.attributes('style')).toContain('gap: 2rem');
     });

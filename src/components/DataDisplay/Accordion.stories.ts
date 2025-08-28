@@ -8,7 +8,8 @@ const meta: Meta<typeof Accordion> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Collapsible content component with customizable panels and smooth animations. Supports v-model for controlled state management with explicit openItem naming.',
+        component:
+          'Collapsible content component with customizable panels and smooth animations. Supports v-model for controlled state management with explicit openItem naming.',
       },
     },
   },
@@ -50,17 +51,20 @@ const sampleItems = [
   {
     value: '1',
     title: 'What is your return policy?',
-    content: 'We offer a 30-day return policy for all unused items in original packaging. Return shipping is free for defective items.',
+    content:
+      'We offer a 30-day return policy for all unused items in original packaging. Return shipping is free for defective items.',
   },
   {
     value: '2',
     title: 'How long does shipping take?',
-    content: 'Standard shipping takes 3-5 business days. Express shipping is available for 1-2 day delivery.',
+    content:
+      'Standard shipping takes 3-5 business days. Express shipping is available for 1-2 day delivery.',
   },
   {
     value: '3',
     title: 'Do you ship internationally?',
-    content: 'Yes, we ship to over 50 countries worldwide. International shipping times vary by location.',
+    content:
+      'Yes, we ship to over 50 countries worldwide. International shipping times vary by location.',
   },
 ];
 

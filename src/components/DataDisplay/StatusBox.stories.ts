@@ -208,9 +208,7 @@ export const WithActions: Story = {
             variant: 'info',
             title: 'New Feature Available',
             message: 'Try our new collaboration tools to improve team productivity.',
-            actions: [
-              { label: 'Learn More', variant: 'outline', size: 'sm' },
-            ],
+            actions: [{ label: 'Learn More', variant: 'outline', size: 'sm' }],
           },
         ],
       };
@@ -385,9 +383,7 @@ export const NotificationCenter: Story = {
             title: 'High CPU Usage',
             message: 'CPU usage is at 85%. Consider closing unnecessary applications.',
             timestamp: new Date(Date.now() - 60 * 60 * 1000),
-            actions: [
-              { label: 'View Details', variant: 'outline', size: 'xs' },
-            ],
+            actions: [{ label: 'View Details', variant: 'outline', size: 'xs' }],
             dismissible: true,
             visible: true,
           },
@@ -419,7 +415,7 @@ export const NotificationCenter: Story = {
         alert(`${action.label} clicked!`);
       },
       clearAll() {
-        this.notifications.forEach((n: NotificationItem) => n.visible = false);
+        this.notifications.forEach((n: NotificationItem) => (n.visible = false));
       },
     },
     template: `

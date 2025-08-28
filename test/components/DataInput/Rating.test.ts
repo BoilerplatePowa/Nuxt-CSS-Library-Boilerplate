@@ -5,7 +5,7 @@ import Rating from '../../../src/components/DataInput/Rating.vue';
 describe('Rating', () => {
   it('renders with default props', () => {
     const wrapper = mount(Rating);
-    
+
     expect(wrapper.find('.form-control').exists()).toBe(true);
     expect(wrapper.find('.rating').exists()).toBe(true);
     expect(wrapper.findAll('input[type="radio"]')).toHaveLength(6); // 5 + 1 for allowEmpty
@@ -14,31 +14,31 @@ describe('Rating', () => {
   it('renders with label', () => {
     const wrapper = mount(Rating, {
       props: {
-        label: 'Rate this product'
-      }
+        label: 'Rate this product',
+      },
     });
-    
+
     expect(wrapper.find('.label-text').text()).toBe('Rate this product');
   });
 
   it('renders correct number of rating inputs based on maxRating', () => {
     const wrapper = mount(Rating, {
       props: {
-        maxRating: 10
-      }
+        maxRating: 10,
+      },
     });
-    
+
     expect(wrapper.findAll('input[type="radio"]')).toHaveLength(11); // 10 + 1 for allowEmpty
   });
 
   it('applies correct size classes', () => {
     const sizes = ['xs', 'sm', 'md', 'lg'] as const;
-    
+
     sizes.forEach(size => {
       const wrapper = mount(Rating, {
-        props: { size }
+        props: { size },
       });
-      
+
       if (size === 'xs') {
         expect(wrapper.find('.rating').classes()).toContain('rating-xs');
       } else if (size === 'sm') {
@@ -54,16 +54,18 @@ describe('Rating', () => {
     const variants = [
       { variant: 'star', expectedClasses: ['mask-star-2', 'bg-orange-400'] },
       { variant: 'heart', expectedClasses: ['mask-heart', 'bg-red-400'] },
-      { variant: 'mask', expectedClasses: ['mask-star', 'bg-primary'] }
+      { variant: 'mask', expectedClasses: ['mask-star', 'bg-primary'] },
     ] as const;
-    
+
     variants.forEach(({ variant, expectedClasses }) => {
       const wrapper = mount(Rating, {
-        props: { variant }
+        props: { variant },
       });
-      
+
       // Only check the star inputs (exclude the empty input with value 0)
-      const starInputs = wrapper.findAll('input[type="radio"]').filter(input => input.attributes('value') !== '0');
+      const starInputs = wrapper
+        .findAll('input[type="radio"]')
+        .filter(input => input.attributes('value') !== '0');
       starInputs.forEach(input => {
         expectedClasses.forEach(className => {
           expect(input.classes()).toContain(className);
@@ -75,20 +77,20 @@ describe('Rating', () => {
   it('shows help text when provided', () => {
     const wrapper = mount(Rating, {
       props: {
-        helpText: 'Please rate this product'
-      }
+        helpText: 'Please rate this product',
+      },
     });
-    
+
     expect(wrapper.text()).toContain('Please rate this product');
   });
 
   it('shows error message when provided', () => {
     const wrapper = mount(Rating, {
       props: {
-        errorMessage: 'Rating is required'
-      }
+        errorMessage: 'Rating is required',
+      },
     });
-    
+
     expect(wrapper.text()).toContain('Rating is required');
     expect(wrapper.find('[role="alert"]').exists()).toBe(true);
   });
@@ -96,12 +98,14 @@ describe('Rating', () => {
   it('disables inputs when disabled prop is true', () => {
     const wrapper = mount(Rating, {
       props: {
-        disabled: true
-      }
+        disabled: true,
+      },
     });
-    
+
     // Only check the star inputs (exclude the empty input)
-    const starInputs = wrapper.findAll('input[type="radio"]').filter(input => input.attributes('value') !== '0');
+    const starInputs = wrapper
+      .findAll('input[type="radio"]')
+      .filter(input => input.attributes('value') !== '0');
     starInputs.forEach(input => {
       expect(input.attributes('disabled')).toBeDefined();
     });
@@ -110,12 +114,14 @@ describe('Rating', () => {
   it('disables inputs when readonly prop is true', () => {
     const wrapper = mount(Rating, {
       props: {
-        readonly: true
-      }
+        readonly: true,
+      },
     });
-    
+
     // Only check the star inputs (exclude the empty input)
-    const starInputs = wrapper.findAll('input[type="radio"]').filter(input => input.attributes('value') !== '0');
+    const starInputs = wrapper
+      .findAll('input[type="radio"]')
+      .filter(input => input.attributes('value') !== '0');
     starInputs.forEach(input => {
       expect(input.attributes('disabled')).toBeDefined();
     });
@@ -124,10 +130,10 @@ describe('Rating', () => {
   it('includes empty rating option when allowEmpty is true', () => {
     const wrapper = mount(Rating, {
       props: {
-        allowEmpty: true
-      }
+        allowEmpty: true,
+      },
     });
-    
+
     const emptyInput = wrapper.find('input[value="0"]');
     expect(emptyInput.exists()).toBe(true);
     expect(emptyInput.classes()).toContain('rating-hidden');
@@ -136,10 +142,10 @@ describe('Rating', () => {
   it('excludes empty rating option when allowEmpty is false', () => {
     const wrapper = mount(Rating, {
       props: {
-        allowEmpty: false
-      }
+        allowEmpty: false,
+      },
     });
-    
+
     const emptyInput = wrapper.find('input[value="0"]');
     expect(emptyInput.exists()).toBe(false);
   });
@@ -147,12 +153,14 @@ describe('Rating', () => {
   it('uses custom name attribute for star radio inputs', () => {
     const wrapper = mount(Rating, {
       props: {
-        name: 'custom-rating'
-      }
+        name: 'custom-rating',
+      },
     });
-    
+
     // Only check the star inputs (exclude the empty input which has fixed name="rating")
-    const starInputs = wrapper.findAll('input[type="radio"]').filter(input => input.attributes('value') !== '0');
+    const starInputs = wrapper
+      .findAll('input[type="radio"]')
+      .filter(input => input.attributes('value') !== '0');
     starInputs.forEach(input => {
       expect(input.attributes('name')).toBe('custom-rating');
     });
@@ -160,9 +168,11 @@ describe('Rating', () => {
 
   it('uses default name when no name prop is provided', () => {
     const wrapper = mount(Rating);
-    
+
     // Only check the star inputs (exclude the empty input which has fixed name="rating")
-    const starInputs = wrapper.findAll('input[type="radio"]').filter(input => input.attributes('value') !== '0');
+    const starInputs = wrapper
+      .findAll('input[type="radio"]')
+      .filter(input => input.attributes('value') !== '0');
     starInputs.forEach(input => {
       expect(input.attributes('name')).toBe('rating');
     });
@@ -171,10 +181,10 @@ describe('Rating', () => {
   it('empty input always uses "rating" as name', () => {
     const wrapper = mount(Rating, {
       props: {
-        name: 'custom-rating'
-      }
+        name: 'custom-rating',
+      },
     });
-    
+
     const emptyInput = wrapper.find('input[value="0"]');
     expect(emptyInput.attributes('name')).toBe('rating');
   });
@@ -183,13 +193,13 @@ describe('Rating', () => {
     it('updates model value when rating is selected', async () => {
       const wrapper = mount(Rating, {
         props: {
-          modelValue: 0
-        }
+          modelValue: 0,
+        },
       });
-      
+
       const rating3Input = wrapper.find('input[value="3"]');
       await rating3Input.trigger('change');
-      
+
       expect(wrapper.emitted('update:modelValue')).toBeTruthy();
       expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([3]);
     });
@@ -197,13 +207,13 @@ describe('Rating', () => {
     it('emits change event when rating is selected', async () => {
       const wrapper = mount(Rating, {
         props: {
-          modelValue: 0
-        }
+          modelValue: 0,
+        },
       });
-      
+
       const rating4Input = wrapper.find('input[value="4"]');
       await rating4Input.trigger('change');
-      
+
       expect(wrapper.emitted('change')).toBeTruthy();
       expect(wrapper.emitted('change')?.[0]).toEqual([4]);
     });
@@ -212,13 +222,13 @@ describe('Rating', () => {
       const wrapper = mount(Rating, {
         props: {
           modelValue: 0,
-          disabled: true
-        }
+          disabled: true,
+        },
       });
-      
+
       const rating2Input = wrapper.find('input[value="2"]');
       await rating2Input.trigger('change');
-      
+
       expect(wrapper.emitted('update:modelValue')).toBeFalsy();
       expect(wrapper.emitted('change')).toBeFalsy();
     });
@@ -227,13 +237,13 @@ describe('Rating', () => {
       const wrapper = mount(Rating, {
         props: {
           modelValue: 0,
-          readonly: true
-        }
+          readonly: true,
+        },
       });
-      
+
       const rating5Input = wrapper.find('input[value="5"]');
       await rating5Input.trigger('change');
-      
+
       expect(wrapper.emitted('update:modelValue')).toBeFalsy();
       expect(wrapper.emitted('change')).toBeFalsy();
     });
@@ -242,13 +252,13 @@ describe('Rating', () => {
       const wrapper = mount(Rating, {
         props: {
           modelValue: 3,
-          allowEmpty: true
-        }
+          allowEmpty: true,
+        },
       });
-      
+
       const emptyInput = wrapper.find('input[value="0"]');
       await emptyInput.trigger('change');
-      
+
       expect(wrapper.emitted('update:modelValue')).toBeTruthy();
       expect(wrapper.emitted('update:modelValue')?.[0]).toEqual([0]);
     });
@@ -258,10 +268,10 @@ describe('Rating', () => {
     it('has proper ARIA attributes for error messages', () => {
       const wrapper = mount(Rating, {
         props: {
-          errorMessage: 'Rating is required'
-        }
+          errorMessage: 'Rating is required',
+        },
       });
-      
+
       const errorElement = wrapper.find('[role="alert"]');
       expect(errorElement.exists()).toBe(true);
       expect(errorElement.text()).toBe('Rating is required');
@@ -270,10 +280,10 @@ describe('Rating', () => {
     it('has proper form control structure', () => {
       const wrapper = mount(Rating, {
         props: {
-          label: 'Rate this product'
-        }
+          label: 'Rate this product',
+        },
       });
-      
+
       expect(wrapper.find('.form-control').exists()).toBe(true);
       expect(wrapper.find('.label').exists()).toBe(true);
       expect(wrapper.find('.rating').exists()).toBe(true);
@@ -284,30 +294,30 @@ describe('Rating', () => {
     it('handles maxRating of 1', () => {
       const wrapper = mount(Rating, {
         props: {
-          maxRating: 1
-        }
+          maxRating: 1,
+        },
       });
-      
+
       expect(wrapper.findAll('input[type="radio"]')).toHaveLength(2); // 1 + 1 for allowEmpty
     });
 
     it('handles very large maxRating', () => {
       const wrapper = mount(Rating, {
         props: {
-          maxRating: 100
-        }
+          maxRating: 100,
+        },
       });
-      
+
       expect(wrapper.findAll('input[type="radio"]')).toHaveLength(101); // 100 + 1 for allowEmpty
     });
 
     it('handles zero maxRating gracefully', () => {
       const wrapper = mount(Rating, {
         props: {
-          maxRating: 0
-        }
+          maxRating: 0,
+        },
       });
-      
+
       expect(wrapper.findAll('input[type="radio"]')).toHaveLength(1); // only the empty option
     });
   });

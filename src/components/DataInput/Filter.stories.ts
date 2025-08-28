@@ -9,7 +9,8 @@ const meta: Meta<typeof Filter> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A flexible filter component supporting multiple input types including text, select, multi-select, range, date range, and boolean toggles.',
+        component:
+          'A flexible filter component supporting multiple input types including text, select, multi-select, range, date range, and boolean toggles.',
       },
     },
   },
@@ -111,21 +112,21 @@ export const Default: Story = {
     showHeader: true,
     showActiveFilters: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Filter },
     setup() {
       const handleFilterChange = (filters: Record<string, any>) => {
         console.log('Filters changed:', filters);
       };
-      
+
       const handleFilterClear = (key: string) => {
         console.log('Filter cleared:', key);
       };
-      
+
       const handleFilterClearAll = () => {
         console.log('All filters cleared');
       };
-      
+
       return { args, handleFilterChange, handleFilterClear, handleFilterClearAll };
     },
     template: `
@@ -149,13 +150,13 @@ export const Collapsible: Story = {
     showActiveFilters: true,
     collapsible: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Filter },
     setup() {
       const handleFilterChange = (filters: Record<string, any>) => {
         console.log('Filters changed:', filters);
       };
-      
+
       return { args, handleFilterChange };
     },
     template: `
@@ -210,13 +211,13 @@ export const CompactLayout: Story = {
     showHeader: false,
     showActiveFilters: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Filter },
     setup() {
       const handleFilterChange = (filters: Record<string, any>) => {
         console.log('Filters changed:', filters);
       };
-      
+
       return { args, handleFilterChange };
     },
     template: `
@@ -260,13 +261,13 @@ export const CardVariant: Story = {
     showHeader: true,
     showActiveFilters: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Filter },
     setup() {
       const handleFilterChange = (filters: Record<string, any>) => {
         console.log('Filters changed:', filters);
       };
-      
+
       return { args, handleFilterChange };
     },
     template: `
@@ -302,13 +303,13 @@ export const DateRangeFilter: Story = {
     showHeader: true,
     showActiveFilters: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Filter },
     setup() {
       const handleFilterChange = (filters: Record<string, any>) => {
         console.log('Filters changed:', filters);
       };
-      
+
       return { args, handleFilterChange };
     },
     template: `
@@ -393,13 +394,13 @@ export const MultipleGroups: Story = {
     showActiveFilters: true,
     collapsible: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Filter },
     setup() {
       const handleFilterChange = (filters: Record<string, any>) => {
         console.log('Filters changed:', filters);
       };
-      
+
       return { args, handleFilterChange };
     },
     template: `

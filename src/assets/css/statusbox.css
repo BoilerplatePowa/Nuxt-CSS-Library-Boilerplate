@@ -18,9 +18,8 @@
   .statusbox {
     @apply flex-col items-start;
   }
-  
+
   .statusbox .flex-1 {
     @apply w-full;
   }
 }
-

@@ -22,11 +22,11 @@
           :aria-haspopup="true"
           :aria-controls="popoverId"
         />
-        
+
         <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
           <CalendarIcon class="w-4 h-4 text-base-content opacity-70" />
         </div>
-        
+
         <button
           @click="toggleCalendar"
           :class="buttonClasses"
@@ -141,11 +141,11 @@ const props = withDefaults(defineProps<Props>(), {
 const model = defineModel<Date | Date[] | null>();
 
 const emit = defineEmits<{
-  'select': [date: Date | Date[]];
-  'focus': [event: FocusEvent];
-  'blur': [event: FocusEvent];
-  'close': [];
-  'error': [error: string];
+  select: [date: Date | Date[]];
+  focus: [event: FocusEvent];
+  blur: [event: FocusEvent];
+  close: [];
+  error: [error: string];
 }>();
 
 // Refs
@@ -160,17 +160,17 @@ const popoverId = computed(() => `calendar-popover-${Math.random().toString(36).
 
 const containerClasses = computed(() => {
   const baseClasses = ['calendar-container', 'relative'];
-  
+
   if (props.disabled) {
     baseClasses.push('opacity-60', 'pointer-events-none');
   }
-  
+
   return baseClasses.join(' ');
 });
 
 const inputClasses = computed(() => {
   const baseClasses = ['input', 'w-full', 'pr-10'];
-  
+
   // Size
   if (props.size === 'sm') {
     baseClasses.push('input-sm');
@@ -179,25 +179,34 @@ const inputClasses = computed(() => {
   } else if (props.size === 'lg') {
     baseClasses.push('input-lg');
   }
-  
+
   // Variant
   if (props.variant === 'bordered') {
     baseClasses.push('input-bordered');
   } else if (props.variant === 'filled') {
     baseClasses.push('bg-base-200');
   }
-  
+
   // Error state
   if (hasError.value) {
     baseClasses.push('input-error');
   }
-  
+
   return baseClasses.join(' ');
 });
 
 const buttonClasses = computed(() => {
-  const baseClasses = ['absolute', 'inset-0', 'w-full', 'h-full', 'bg-transparent', 'border-0', 'p-0', 'cursor-pointer'];
-  
+  const baseClasses = [
+    'absolute',
+    'inset-0',
+    'w-full',
+    'h-full',
+    'bg-transparent',
+    'border-0',
+    'p-0',
+    'cursor-pointer',
+  ];
+
   return baseClasses.join(' ');
 });
 
@@ -214,7 +223,7 @@ const popoverClasses = computed(() => {
     'rounded-lg',
     'shadow-lg',
     'p-4',
-    'min-w-[320px]'
+    'min-w-[320px]',
   ];
 });
 
@@ -224,7 +233,7 @@ const errorClasses = computed(() => {
 
 const displayValue = computed(() => {
   if (!selectedDate.value) return '';
-  
+
   if (Array.isArray(selectedDate.value)) {
     if (selectedDate.value.length === 0) return '';
     if (selectedDate.value.length === 1) {
@@ -232,7 +241,7 @@ const displayValue = computed(() => {
     }
     return `${formatDate(selectedDate.value[0])} - ${formatDate(selectedDate.value[1])}`;
   }
-  
+
   return formatDate(selectedDate.value);
 });
 
@@ -247,7 +256,7 @@ const ariaDescribedby = computed(() => {
 // Methods
 const formatDate = (date: Date): string => {
   if (!date) return '';
-  
+
   const formatter = new Intl.DateTimeFormat(props.locale, {
     year: 'numeric',
     month: '2-digit',
@@ -255,16 +264,16 @@ const formatDate = (date: Date): string => {
     ...(props.showTime && {
       hour: '2-digit',
       minute: '2-digit',
-      hour12: false
-    })
+      hour12: false,
+    }),
   });
-  
+
   return formatter.format(date);
 };
 
 const parseDate = (value: string): Date | null => {
   if (!value) return null;
-  
+
   const date = new Date(value);
   return isNaN(date.getTime()) ? null : date;
 };
@@ -272,10 +281,13 @@ const parseDate = (value: string): Date | null => {
 const handleInput = (event: Event) => {
   const target = event.target as HTMLInputElement;
   const value = target.value;
-  
+
   if (props.range) {
     // Handle range input parsing
-    const dates = value.split('-').map(d => d.trim()).filter(d => d);
+    const dates = value
+      .split('-')
+      .map(d => d.trim())
+      .filter(d => d);
     if (dates.length === 1) {
       const date = parseDate(dates[0]);
       if (date) {
@@ -355,26 +367,30 @@ const closeCalendar = () => {
 // Handle date selection from CalendarContent
 const handleDateSelect = (date: Date | Date[]) => {
   emit('select', date);
-  
+
   if (props.mode === 'input' && !props.range) {
     closeCalendar();
   }
 };
 
 // Watchers
-watch(() => model.value, (newValue) => {
-  if (typeof newValue === 'string') {
-    const date = new Date(newValue);
-    selectedDate.value = isNaN(date.getTime()) ? null : date;
-  } else {
-    selectedDate.value = newValue || null;
-  }
-  
-  // Handle date selection logic when model changes
-  if (newValue && (newValue instanceof Date || Array.isArray(newValue))) {
-    handleDateSelect(newValue);
-  }
-}, { immediate: true });
+watch(
+  () => model.value,
+  newValue => {
+    if (typeof newValue === 'string') {
+      const date = new Date(newValue);
+      selectedDate.value = isNaN(date.getTime()) ? null : date;
+    } else {
+      selectedDate.value = newValue || null;
+    }
+
+    // Handle date selection logic when model changes
+    if (newValue && (newValue instanceof Date || Array.isArray(newValue))) {
+      handleDateSelect(newValue);
+    }
+  },
+  { immediate: true }
+);
 
 // Click outside handler
 const handleClickOutside = (event: Event) => {

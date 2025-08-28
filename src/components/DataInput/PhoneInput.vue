@@ -5,95 +5,99 @@
       <span :class="`label-text text-${size}`">{{ label }}</span>
       <span v-if="required" :class="`label-text-alt text-error text-${size}`">*</span>
     </label>
-    
+
     <!-- VeeValidate Field component -->
-    <Field
-        :name="name"
-        :value="model"
-        :rules="rules"
-        v-slot="{ field, errorMessage, meta }"
-    >
-        <div>
-            <div class="flex">
-                <!-- Country Code Selector -->
-                <div class="flex-shrink-0">
-                    <select
-                        :value="selectedCountry"
-                        :class="selectClasses"
-                        :disabled="disabled"
-                        @change="handleCountryChange"
-                        :aria-label="`Select country code for ${label || 'phone number'}`"
-                    >
-                        <option
-                            v-for="country in countriesList"
-                            :key="country.code"
-                            :value="country.code"
-                        >
-                            {{ country.flag }} {{ country.code }}
-                        </option>
-                    </select>
-                </div>
+    <Field :name="name" :value="model" :rules="rules" v-slot="{ field, errorMessage, meta }">
+      <div>
+        <div class="flex">
+          <!-- Country Code Selector -->
+          <div class="flex-shrink-0">
+            <select
+              :value="selectedCountry"
+              :class="selectClasses"
+              :disabled="disabled"
+              @change="handleCountryChange"
+              :aria-label="`Select country code for ${label || 'phone number'}`"
+            >
+              <option v-for="country in countriesList" :key="country.code" :value="country.code">
+                {{ country.flag }} {{ country.code }}
+              </option>
+            </select>
+          </div>
 
-                <!-- Phone Number Input -->
-                <div class="flex-1">
-                    <label :class="[inputClasses, errorMessage ? 'input-error' : undefined]">
-                        <!-- Country calling code prefix (readonly) -->
-                        <span class="text-base-content/70 text-sm pr-1">
-                            +{{ selectedCountryCallingCode }}
-                        </span>
+          <!-- Phone Number Input -->
+          <div class="flex-1">
+            <label :class="[inputClasses, errorMessage ? 'input-error' : undefined]">
+              <!-- Country calling code prefix (readonly) -->
+              <span class="text-base-content/70 text-sm pr-1">
+                +{{ selectedCountryCallingCode }}
+              </span>
 
-                        <input
-                            ref="inputRef"
-                            :id="inputId"
-                            v-bind="field"
-                            type="tel"
-                            :placeholder="placeholder"
-                            :disabled="disabled"
-                            :readonly="readonly"
-                            :required="required"
-                            :maxlength="maxlength"
-                            :aria-describedby="ariaDescribedby"
-                            :aria-invalid="meta.touched && !meta.valid"
-                            @input="handleInput"
-                            @change="handleChange"
-                            @focus="handleFocus"
-                            @blur="handleBlur"
-                        />
-                    </label>
-                </div>
-            </div>
-
-            <div class="flex">
-                <div>
-                    <!-- Error message from VeeValidate -->
-                    <p v-if="errorMessage" :id="`${inputId}-error`" class="text-xs text-error mt-1" role="alert">
-                        {{ errorMessage }}
-                    </p>
-
-                    <!-- Example Formatted Number -->
-                    <p v-if="showExampleNumber" :id="`${inputId}-example`" class="text-xs text-base-content/70 mt-1">
-                        Example: {{ exampleFormattedNumber?.number }}
-                    </p>
-
-                    <!-- Help text -->
-                    <p v-if="helpText" :id="`${inputId}-help`" class="text-xs text-base-content/70 mt-1">
-                        {{ helpText }}
-                    </p>
-
-                    <!-- Phone number validation feedback -->
-                    <p v-if="phoneValidationMessage && !errorMessage" :class="validationClasses" role="status">
-                        {{ phoneValidationMessage }}
-                    </p>
-                </div>
-
-                <div class="flex-1"/>
-
-                <!-- Character count -->
-                <div v-if="showCharCount && maxlength" class="text-xs text-base-content/60">
-                    {{ characterCount }}/{{ maxlength }}
-                </div>
-            </div>
+              <input
+                ref="inputRef"
+                :id="inputId"
+                v-bind="field"
+                type="tel"
+                :placeholder="placeholder"
+                :disabled="disabled"
+                :readonly="readonly"
+                :required="required"
+                :maxlength="maxlength"
+                :aria-describedby="ariaDescribedby"
+                :aria-invalid="meta.touched && !meta.valid"
+                @input="handleInput"
+                @change="handleChange"
+                @focus="handleFocus"
+                @blur="handleBlur"
+              />
+            </label>
+          </div>
         </div>
+
+        <div class="flex">
+          <div>
+            <!-- Error message from VeeValidate -->
+            <p
+              v-if="errorMessage"
+              :id="`${inputId}-error`"
+              class="text-xs text-error mt-1"
+              role="alert"
+            >
+              {{ errorMessage }}
+            </p>
+
+            <!-- Example Formatted Number -->
+            <p
+              v-if="showExampleNumber"
+              :id="`${inputId}-example`"
+              class="text-xs text-base-content/70 mt-1"
+            >
+              Example: {{ exampleFormattedNumber?.number }}
+            </p>
+
+            <!-- Help text -->
+            <p v-if="helpText" :id="`${inputId}-help`" class="text-xs text-base-content/70 mt-1">
+              {{ helpText }}
+            </p>
+
+            <!-- Phone number validation feedback -->
+            <p
+              v-if="phoneValidationMessage && !errorMessage"
+              :class="validationClasses"
+              role="status"
+            >
+              {{ phoneValidationMessage }}
+            </p>
+          </div>
+
+          <div class="flex-1" />
+
+          <!-- Character count -->
+          <div v-if="showCharCount && maxlength" class="text-xs text-base-content/60">
+            {{ characterCount }}/{{ maxlength }}
+          </div>
+        </div>
+      </div>
     </Field>
   </div>
 </template>
@@ -101,8 +105,14 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, watch } from 'vue';
 import { Field } from 'vee-validate';
-import { parsePhoneNumberFromString, getCountryCallingCode, CountryCode, isValidPhoneNumber, getExampleNumber } from 'libphonenumber-js';
-import examples from "libphonenumber-js/examples.mobile.json"
+import {
+  parsePhoneNumberFromString,
+  getCountryCallingCode,
+  CountryCode,
+  isValidPhoneNumber,
+  getExampleNumber,
+} from 'libphonenumber-js';
+import examples from 'libphonenumber-js/examples.mobile.json';
 import countries from 'i18n-iso-countries';
 import enLocale from 'i18n-iso-countries/langs/en.json';
 
@@ -127,19 +137,21 @@ const isPhoneValid = ref<boolean>(false);
 
 // Countries data
 const countriesList = computed(() => {
-    let countriesArray: CountryCode[] = [];
-    
-    if (props.countries && props.countries.length > 0) {
-        countriesArray = props.countries;
-    } else {
-        countriesArray = ['FR', 'US', 'BE'];
-    }
-  return countriesArray.map((countryCode: CountryCode) => ({
-    code: countryCode,
-    flag: getCountryFlag(countryCode),
-    dialCode: getCountryCallingCode(countryCode),
-    name: countries.getName(countryCode, 'en') || countryCode
-  })).sort((a: any, b: any) => a.name.localeCompare(b.name));
+  let countriesArray: CountryCode[] = [];
+
+  if (props.countriesCodes && props.countriesCodes.length > 0) {
+    countriesArray = props.countriesCodes;
+  } else {
+    countriesArray = ['FR', 'US', 'BE'];
+  }
+  return countriesArray
+    .map((countryCode: CountryCode) => ({
+      code: countryCode,
+      flag: getCountryFlag(countryCode),
+      dialCode: getCountryCallingCode(countryCode),
+      name: countries.getName(countryCode, 'en') || countryCode,
+    }))
+    .sort((a: any, b: any) => a.name.localeCompare(b.name));
 });
 
 // Get selected country calling code
@@ -154,12 +166,15 @@ const exampleFormattedNumber = computed(() => {
 // Convert ISO2 country code to flag emoji
 const getCountryFlag = (countryCode: string): string => {
   if (countryCode.length !== 2) return '🌍';
-  
+
   // Convert ISO2 code to flag emoji using regional indicator symbols
-  const codePoints = countryCode.toUpperCase().split('').map(char => 
-    127397 + char.charCodeAt(0) // Regional Indicator Symbol base + letter offset
-  );
-  
+  const codePoints = countryCode
+    .toUpperCase()
+    .split('')
+    .map(
+      char => 127397 + char.charCodeAt(0) // Regional Indicator Symbol base + letter offset
+    );
+
   return String.fromCodePoint(...codePoints);
 };
 
@@ -195,7 +210,7 @@ interface PhoneInputProps {
   // Whether to show phone validation feedback
   showValidation?: boolean;
   // Array of country codes to show in dropdown (if empty, shows all countries)
-  countries?: CountryCode[];
+  countriesCodes?: CountryCode[];
   // Whether to show example number
   showExampleNumber?: boolean;
 }
@@ -216,7 +231,7 @@ const props = withDefaults(defineProps<PhoneInputProps>(), {
   ariaDescribedby: '',
   rules: undefined,
   showValidation: true,
-  countries: undefined,
+  countriesCodes: undefined,
   showExampleNumber: false,
 });
 
@@ -268,13 +283,13 @@ const selectClasses = computed(() => {
 
 const validationClasses = computed(() => {
   const baseClasses = ['text-xs', 'mt-1'];
-  
+
   if (isPhoneValid.value) {
     baseClasses.push('text-success');
   } else {
     baseClasses.push('text-warning');
   }
-  
+
   return baseClasses.join(' ');
 });
 
@@ -290,7 +305,10 @@ const ariaDescribedby = computed(() => {
 });
 
 // Validate phone number using libphonenumber-js
-const validatePhoneNumber = (phoneNumber: string, countryCode: CountryCode): { isValid: boolean; message: string; formattedNumber?: string } => {
+const validatePhoneNumber = (
+  phoneNumber: string,
+  countryCode: CountryCode
+): { isValid: boolean; message: string; formattedNumber?: string } => {
   if (!phoneNumber || phoneNumber.trim() === '') {
     return { isValid: false, message: '' };
   }
@@ -298,29 +316,31 @@ const validatePhoneNumber = (phoneNumber: string, countryCode: CountryCode): { i
   try {
     // Remove any non-digit characters except + for parsing
     const cleanNumber = phoneNumber.replace(/[^\d+]/g, '');
-    
+
     // If the number doesn't start with +, add the country calling code
-    const fullNumber = cleanNumber.startsWith('+') ? cleanNumber : `+${getCountryCallingCode(countryCode)}${cleanNumber}`;
-    
+    const fullNumber = cleanNumber.startsWith('+')
+      ? cleanNumber
+      : `+${getCountryCallingCode(countryCode)}${cleanNumber}`;
+
     const parsedNumber = parsePhoneNumberFromString(fullNumber, countryCode);
-    
+
     if (parsedNumber && isValidPhoneNumber(parsedNumber.number, countryCode)) {
       const formattedNumber = parsedNumber.formatNational();
-      return { 
-        isValid: true, 
+      return {
+        isValid: true,
         message: `✓ Valid ${parsedNumber.country} number: ${formattedNumber}`,
-        formattedNumber: parsedNumber.number
+        formattedNumber: parsedNumber.number,
       };
     } else {
-      return { 
-        isValid: false, 
-        message: `⚠ Invalid phone number for ${countries.getName(countryCode, 'en')}` 
+      return {
+        isValid: false,
+        message: `⚠ Invalid phone number for ${countries.getName(countryCode, 'en')}`,
       };
     }
-  } catch (error) {
-    return { 
-      isValid: false, 
-      message: `⚠ Invalid phone number format` 
+  } catch {
+    return {
+      isValid: false,
+      message: `⚠ Invalid phone number format`,
     };
   }
 };
@@ -331,7 +351,7 @@ const handleCountryChange = (event: Event) => {
   const newCountry = target.value as CountryCode;
   selectedCountry.value = newCountry;
   emit('country-change', newCountry);
-  
+
   // Revalidate phone number with new country
   if (model.value) {
     const validation = validatePhoneNumber(model.value, newCountry);
@@ -344,7 +364,7 @@ const handleCountryChange = (event: Event) => {
 const handleInput = (event: Event) => {
   const target = event.target as HTMLInputElement;
   const phoneNumber = target.value;
-  
+
   // Validate phone number
   if (props.showValidation && phoneNumber) {
     const validation = validatePhoneNumber(phoneNumber, selectedCountry.value);
@@ -356,7 +376,7 @@ const handleInput = (event: Event) => {
     isPhoneValid.value = false;
     emit('validation-change', false);
   }
-  
+
   emit('input', event);
 };
 
@@ -383,7 +403,7 @@ watch(selectedCountry, () => {
 });
 
 // Watch for model changes to validate
-watch(model, (newValue) => {
+watch(model, newValue => {
   if (props.showValidation && newValue) {
     const validation = validatePhoneNumber(newValue, selectedCountry.value);
     phoneValidationMessage.value = validation.message;

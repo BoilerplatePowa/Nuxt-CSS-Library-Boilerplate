@@ -7,7 +7,7 @@ describe('Label', () => {
     const wrapper = mount(Label, {
       props: { text: 'Test Label' },
     });
-    
+
     expect(wrapper.classes()).toContain('label');
     expect(wrapper.find('.label-text').text()).toBe('Test Label');
   });
@@ -26,7 +26,7 @@ describe('Label', () => {
 
   it('applies htmlFor attribute to label tag', () => {
     const wrapper = mount(Label, {
-      props: { 
+      props: {
         text: 'Test Label',
         htmlFor: 'test-input',
       },
@@ -37,7 +37,7 @@ describe('Label', () => {
 
   it('displays alt text when provided', () => {
     const wrapper = mount(Label, {
-      props: { 
+      props: {
         text: 'Main Text',
         altText: 'Alt Text',
       },

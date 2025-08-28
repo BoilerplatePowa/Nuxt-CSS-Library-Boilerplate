@@ -10,7 +10,7 @@ import type { Size, Variant } from '~/shared/types.d';
 
 interface Props {
   variant?: Variant;
-  size?: Size
+  size?: Size;
   outline?: boolean;
   tag?: 'span' | 'div' | 'p' | 'label';
 }

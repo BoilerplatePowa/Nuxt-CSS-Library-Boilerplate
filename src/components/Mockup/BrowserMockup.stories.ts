@@ -25,7 +25,7 @@ export const Default: Story = {
   args: {
     url: 'https://example.com',
   },
-  render: (args) => ({
+  render: args => ({
     components: { BrowserMockup },
     setup() {
       return { args };

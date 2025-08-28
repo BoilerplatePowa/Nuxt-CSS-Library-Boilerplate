@@ -9,21 +9,17 @@
             {{ activeFiltersCount }}
           </span>
         </div>
-        
+
         <div class="flex items-center gap-2">
-          <button 
+          <button
             v-if="activeFiltersCount > 0"
             @click="clearAllFilters"
             class="btn btn-ghost btn-xs"
           >
             Clear All
           </button>
-          
-          <button 
-            v-if="collapsible"
-            @click="toggleCollapsed"
-            class="btn btn-ghost btn-xs"
-          >
+
+          <button v-if="collapsible" @click="toggleCollapsed" class="btn btn-ghost btn-xs">
             {{ collapsed ? 'Expand' : 'Collapse' }}
           </button>
         </div>
@@ -39,10 +35,7 @@
           class="badge badge-outline gap-1"
         >
           <span>{{ filter.label }}: {{ filter.value }}</span>
-          <button 
-            @click="removeFilter(filter)"
-            class="btn btn-ghost btn-xs w-4 h-4 p-0 min-h-0"
-          >
+          <button @click="removeFilter(filter)" class="btn btn-ghost btn-xs w-4 h-4 p-0 min-h-0">
             ×
           </button>
         </div>
@@ -54,11 +47,11 @@
       <div v-for="(group, groupIndex) in filterGroups" :key="groupIndex" :class="groupClasses">
         <!-- Group title -->
         <h4 v-if="group.title" class="font-medium mb-2">{{ group.title }}</h4>
-        
+
         <!-- Group filters -->
         <div :class="getGroupControlsClasses(group)">
-          <div 
-            v-for="filter in group.filters" 
+          <div
+            v-for="filter in group.filters"
             :key="filter.key"
             :class="getFilterControlClasses(filter)"
           >
@@ -83,11 +76,7 @@
                 @change="handleFilterChange"
               >
                 <option value="">{{ filter.placeholder || 'Select...' }}</option>
-                <option
-                  v-for="option in filter.options"
-                  :key="option.value"
-                  :value="option.value"
-                >
+                <option v-for="option in filter.options" :key="option.value" :value="option.value">
                   {{ option.label }}
                 </option>
               </select>
@@ -257,11 +246,11 @@ const filterClasses = computed(() => {
 
 const headerClasses = computed(() => {
   const baseClasses = ['filter-header'];
-  
+
   if (props.variant === 'card') {
     baseClasses.push('card-header');
   }
-  
+
   baseClasses.push('mb-4');
   return baseClasses.join(' ');
 });
@@ -273,7 +262,7 @@ const activeFiltersClasses = computed(() => {
 
 const controlsClasses = computed(() => {
   const baseClasses = ['filter-controls'];
-  
+
   if (props.size === 'sm') {
     baseClasses.push('space-y-3');
   } else if (props.size === 'lg') {
@@ -292,7 +281,7 @@ const groupClasses = computed(() => {
 
 const activeFilters = computed(() => {
   const filters: ActiveFilter[] = [];
-  
+
   props.filterGroups.forEach(group => {
     group.filters.forEach(filter => {
       if (hasValue(filter.value)) {
@@ -304,7 +293,7 @@ const activeFilters = computed(() => {
       }
     });
   });
-  
+
   return filters;
 });
 
@@ -312,7 +301,7 @@ const activeFiltersCount = computed(() => activeFilters.value.length);
 
 const allFilters = computed(() => {
   const filters: Record<string, any> = {};
-  
+
   props.filterGroups.forEach(group => {
     group.filters.forEach(filter => {
       if (hasValue(filter.value)) {
@@ -320,7 +309,7 @@ const allFilters = computed(() => {
       }
     });
   });
-  
+
   return filters;
 });
 
@@ -340,7 +329,7 @@ const getGroupControlsClasses = (group: FilterGroup) => {
 
 const getFilterControlClasses = (filter: FilterControl) => {
   const baseClasses = ['filter-control'];
-  
+
   if (filter.type === 'boolean') {
     baseClasses.push('flex', 'items-center');
   }
@@ -350,7 +339,7 @@ const getFilterControlClasses = (filter: FilterControl) => {
 
 const getInputClasses = (filter: FilterControl) => {
   const baseClasses = ['input', 'input-bordered'];
-  
+
   if (filter.size === 'sm') {
     baseClasses.push('input-sm');
   } else if (filter.size === 'lg') {
@@ -362,7 +351,7 @@ const getInputClasses = (filter: FilterControl) => {
 
 const getSelectClasses = (filter: FilterControl) => {
   const baseClasses = ['select', 'select-bordered'];
-  
+
   if (filter.size === 'sm') {
     baseClasses.push('select-sm');
   } else if (filter.size === 'lg') {
@@ -374,7 +363,7 @@ const getSelectClasses = (filter: FilterControl) => {
 
 const getRangeInputClasses = (filter: FilterControl) => {
   const baseClasses = ['input', 'input-bordered', 'flex-1'];
-  
+
   if (filter.size === 'sm') {
     baseClasses.push('input-sm');
   } else if (filter.size === 'lg') {
@@ -386,7 +375,7 @@ const getRangeInputClasses = (filter: FilterControl) => {
 
 const getDateInputClasses = (filter: FilterControl) => {
   const baseClasses = ['input', 'input-bordered', 'flex-1'];
-  
+
   if (filter.size === 'sm') {
     baseClasses.push('input-sm');
   } else if (filter.size === 'lg') {
@@ -415,7 +404,7 @@ const formatFilterValue = (filter: FilterControl) => {
   } else if (filter.type === 'boolean') {
     return filter.value ? 'Yes' : 'No';
   }
-  
+
   return filter.value;
 };
 
@@ -448,7 +437,7 @@ const removeFilter = (activeFilter: ActiveFilter) => {
       }
     });
   });
-  
+
   emit('filterClear', activeFilter.key);
   emit('filterChange', allFilters.value);
 };
@@ -467,7 +456,7 @@ const clearAllFilters = () => {
       }
     });
   });
-  
+
   emit('filterClearAll');
   emit('filterChange', {});
 };

@@ -48,7 +48,15 @@ describe('Radio', () => {
   });
 
   it('applies variant classes correctly', () => {
-    const variants = ['primary', 'secondary', 'accent', 'success', 'warning', 'info', 'error'] as const;
+    const variants = [
+      'primary',
+      'secondary',
+      'accent',
+      'success',
+      'warning',
+      'info',
+      'error',
+    ] as const;
 
     variants.forEach(variant => {
       const wrapper = mount(Radio, {

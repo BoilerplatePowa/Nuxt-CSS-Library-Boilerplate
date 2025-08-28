@@ -48,7 +48,10 @@
     </div>
 
     <!-- Pagination Indicators (for sides) -->
-    <div v-if="showIndicators && controllerPosition === 'sides'" class="carousel-pagination-external">
+    <div
+      v-if="showIndicators && controllerPosition === 'sides'"
+      class="carousel-pagination-external"
+    >
       <!-- Numbers Pagination -->
       <div v-if="paginationType === 'numbers'" class="carousel-pagination-numbers">
         <a
@@ -91,13 +94,16 @@
     </div>
 
     <!-- Bottom Controls with Indicators Between Arrows -->
-    <div v-if="showArrows && controllerPosition === 'bottom'" class="carousel-controls carousel-controls-bottom">
+    <div
+      v-if="showArrows && controllerPosition === 'bottom'"
+      class="carousel-controls carousel-controls-bottom"
+    >
       <div class="carousel-nav prev" @click="goToPrevious">
         <slot name="prev-arrow">
           <button :class="getArrowButtonClasses()">❮</button>
         </slot>
       </div>
-      
+
       <!-- Indicators Between Arrows -->
       <div v-if="showIndicators" class="carousel-pagination-between">
         <!-- Numbers Pagination -->
@@ -140,7 +146,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="carousel-nav next" @click="goToNext">
         <slot name="next-arrow">
           <button :class="getArrowButtonClasses()">❯</button>
@@ -261,7 +267,7 @@ const getItemClasses = (index: number): string => {
 
 const getArrowButtonClasses = (): string => {
   const baseClasses = ['btn', 'btn-sm', 'btn-square'];
-  
+
   // Apply arrow variant
   switch (props.arrowVariant) {
     case 'filled':
@@ -283,7 +289,7 @@ const getArrowButtonClasses = (): string => {
       // Default styling
       break;
   }
-  
+
   return baseClasses.join(' ');
 };
 
@@ -406,27 +412,27 @@ const goToSlide = (index: number) => {
 
   currentIndex.value = index;
   emit('slide-change', index, props.items[index]);
-  
+
   resetAutoplay();
 };
 
 const goToNext = () => {
   let nextIndex = currentIndex.value + 1;
-  
+
   if (nextIndex >= props.items.length) {
     nextIndex = props.loop ? 0 : props.items.length - 1;
   }
-  
+
   goToSlide(nextIndex);
 };
 
 const goToPrevious = () => {
   let prevIndex = currentIndex.value - 1;
-  
+
   if (prevIndex < 0) {
     prevIndex = props.loop ? props.items.length - 1 : 0;
   }
-  
+
   goToSlide(prevIndex);
 };
 
@@ -436,7 +442,7 @@ const handleItemClick = (item: CarouselItem, index: number, event: Event) => {
 
 const startAutoplay = () => {
   if (!props.autoplay || props.items.length <= 1) return;
-  
+
   autoplayTimer = setInterval(() => {
     goToNext();
   }, props.autoplayInterval);
@@ -472,7 +478,7 @@ onMounted(() => {
   if (props.autoplay) {
     startAutoplay();
   }
-  
+
   // Add keyboard event listener
   window.addEventListener('keydown', handleKeydown);
 });
@@ -483,7 +489,7 @@ onUnmounted(() => {
 });
 
 // Watch for currentIndex changes to update URL hash
-watch(currentIndex, (newIndex) => {
+watch(currentIndex, newIndex => {
   // Update URL hash for DaisyUI carousel navigation
   const hash = `#carousel-item-${newIndex}`;
   if (typeof window !== 'undefined') {

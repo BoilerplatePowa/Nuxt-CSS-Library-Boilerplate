@@ -123,7 +123,10 @@ export const LongPath: Story = {
       { label: 'Computers', href: '/categories/electronics/computers' },
       { label: 'Laptops', href: '/categories/electronics/computers/laptops' },
       { label: 'Gaming', href: '/categories/electronics/computers/laptops/gaming' },
-      { label: 'High Performance', href: '/categories/electronics/computers/laptops/gaming/high-performance' },
+      {
+        label: 'High Performance',
+        href: '/categories/electronics/computers/laptops/gaming/high-performance',
+      },
       { label: 'Current Product' },
     ],
   },

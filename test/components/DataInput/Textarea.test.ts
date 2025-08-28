@@ -33,12 +33,12 @@ describe('Textarea', () => {
 
   it('applies correct size classes', () => {
     const sizes = ['xs', 'sm', 'md', 'lg'] as const;
-    
+
     sizes.forEach(size => {
       const wrapper = mount(Textarea, {
         props: { size },
       });
-      
+
       const textarea = wrapper.find('textarea');
       if (size !== 'md') {
         expect(textarea.classes()).toContain(`textarea-${size}`);
@@ -47,13 +47,23 @@ describe('Textarea', () => {
   });
 
   it('applies correct variant classes', () => {
-    const variants = ['bordered', 'ghost', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'] as const;
-    
+    const variants = [
+      'bordered',
+      'ghost',
+      'primary',
+      'secondary',
+      'accent',
+      'info',
+      'success',
+      'warning',
+      'error',
+    ] as const;
+
     variants.forEach(variant => {
       const wrapper = mount(Textarea, {
         props: { variant },
       });
-      
+
       const textarea = wrapper.find('textarea');
       expect(textarea.classes()).toContain(`textarea-${variant}`);
     });
@@ -212,7 +222,7 @@ describe('Textarea', () => {
 
     const textarea = wrapper.find('textarea');
     const describedBy = textarea.attributes('aria-describedby');
-    
+
     expect(describedBy).toContain('custom-id');
     expect(describedBy).toContain('-help');
     expect(describedBy).toContain('-error');

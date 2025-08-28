@@ -69,7 +69,8 @@ export const WithAvatar: Story = {
   args: {
     message: 'Hey there! Nice to meet you.',
     position: 'left',
-    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=40&h=40&fit=crop&crop=face',
+    avatar:
+      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=40&h=40&fit=crop&crop=face',
   },
 };
 
@@ -161,9 +162,11 @@ export const Conversation: Story = {
 
 export const LongMessage: Story = {
   args: {
-    message: 'This is a much longer message to demonstrate how the chat bubble handles multiple lines of text. It should wrap nicely and maintain proper spacing and readability even with extended content.',
+    message:
+      'This is a much longer message to demonstrate how the chat bubble handles multiple lines of text. It should wrap nicely and maintain proper spacing and readability even with extended content.',
     position: 'left',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
+    avatar:
+      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face',
     timestamp: '3:45 PM',
   },
 };

@@ -42,7 +42,14 @@ const meta: Meta<typeof Toast> = {
     },
     position: {
       control: { type: 'select' },
-      options: ['top-right', 'top-left', 'bottom-right', 'bottom-left', 'top-center', 'bottom-center'],
+      options: [
+        'top-right',
+        'top-left',
+        'bottom-right',
+        'bottom-left',
+        'top-center',
+        'bottom-center',
+      ],
       description: 'Toast position on screen (only works when fixed is true)',
     },
     fixed: {
@@ -220,7 +227,7 @@ export const ToastManager: Story = {
           timestamp: new Date(),
         };
         this.toasts.push(toast);
-        
+
         // Auto remove after 3 seconds
         setTimeout(() => {
           this.removeToast(toast.id);
@@ -302,7 +309,8 @@ export const Positions: Story = {
         this.currentPosition = (this.currentPosition + 1) % this.positions.length;
       },
       prevPosition() {
-        this.currentPosition = this.currentPosition === 0 ? this.positions.length - 1 : this.currentPosition - 1;
+        this.currentPosition =
+          this.currentPosition === 0 ? this.positions.length - 1 : this.currentPosition - 1;
       },
     },
     computed: {
@@ -495,7 +503,7 @@ export const PositionDemo: Story = {
           timestamp: new Date(),
         };
         this.activeToasts.push(toast);
-        
+
         // Auto remove after 3 seconds
         setTimeout(() => {
           this.removeToast(toast.id);
@@ -550,15 +558,15 @@ export const StackingDemo: Story = {
     components: { Toast, ToastContainer },
     setup() {
       const { toasts, addToast, removeToast, success, error, warning, info } = useToast();
-      
-      return { 
-        toasts, 
-        addToast, 
+
+      return {
+        toasts,
+        addToast,
         removeToast,
         success,
         error,
         warning,
-        info
+        info,
       };
     },
     template: `
@@ -617,7 +625,7 @@ export const ProgressToast: Story = {
       startUpload() {
         this.isUploading = true;
         this.progress = 0;
-        
+
         const interval = setInterval(() => {
           this.progress += Math.random() * 15;
           if (this.progress >= 100) {

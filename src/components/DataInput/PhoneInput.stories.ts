@@ -60,7 +60,7 @@ export const WithValidation: Story = {
     showExampleNumber: true,
     required: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { PhoneInput },
     setup() {
       return { args };
@@ -222,7 +222,7 @@ export const CustomCountries: Story = {
     showExampleNumber: true,
     countries: ['FR', 'US', 'BE'],
   },
-  render: (args) => ({
+  render: args => ({
     components: { PhoneInput },
     setup() {
       return { args };
@@ -254,29 +254,31 @@ export const WithEvents: Story = {
     showValidation: true,
     showExampleNumber: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { PhoneInput },
     setup() {
       const events = ref<string[]>([]);
-      
+
       const handleCountryChange = (countryCode: string) => {
         events.value.push(`Country changed to: ${countryCode}`);
       };
-      
+
       const handleValidationChange = (isValid: boolean, phoneNumber?: string) => {
-        events.value.push(`Validation: ${isValid ? 'Valid' : 'Invalid'}${phoneNumber ? ` - ${phoneNumber}` : ''}`);
+        events.value.push(
+          `Validation: ${isValid ? 'Valid' : 'Invalid'}${phoneNumber ? ` - ${phoneNumber}` : ''}`
+        );
       };
-      
+
       const clearEvents = () => {
         events.value = [];
       };
-      
-      return { 
-        args, 
-        events, 
-        handleCountryChange, 
-        handleValidationChange, 
-        clearEvents 
+
+      return {
+        args,
+        events,
+        handleCountryChange,
+        handleValidationChange,
+        clearEvents,
       };
     },
     template: `
@@ -318,11 +320,11 @@ export const FormIntegration: Story = {
       const formData = ref({
         name: '',
         email: '',
-        phone: ''
+        phone: '',
       });
-      
+
       const isSubmitting = ref(false);
-      
+
       const handleSubmit = () => {
         isSubmitting.value = true;
         setTimeout(() => {
@@ -331,7 +333,7 @@ export const FormIntegration: Story = {
           console.log('Form data:', formData.value);
         }, 1000);
       };
-      
+
       return { formData, isSubmitting, handleSubmit };
     },
     template: `

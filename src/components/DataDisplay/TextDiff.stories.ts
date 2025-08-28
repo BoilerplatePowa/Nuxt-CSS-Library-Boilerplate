@@ -496,14 +496,14 @@ export const GitStyleDiff: Story = {
             prefix: '-',
           },
           {
-            content: '  const options = { year: \'numeric\', month: \'long\', day: \'numeric\' };',
+            content: "  const options = { year: 'numeric', month: 'long', day: 'numeric' };",
             type: 'added',
             oldLineNumber: null,
             newLineNumber: 17,
             prefix: '+',
           },
           {
-            content: '  return date.toLocaleDateString(\'en-US\', options);',
+            content: "  return date.toLocaleDateString('en-US', options);",
             type: 'added',
             oldLineNumber: null,
             newLineNumber: 18,

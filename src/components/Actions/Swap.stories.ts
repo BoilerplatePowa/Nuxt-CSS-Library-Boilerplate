@@ -9,7 +9,8 @@ const meta: Meta<typeof Swap> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'An animated swap component for toggling between two states with smooth transitions. Uses Vue 3.4+ `defineModel()` macro for seamless v-model integration with proper TypeScript support.',
+        component:
+          'An animated swap component for toggling between two states with smooth transitions. Uses Vue 3.4+ `defineModel()` macro for seamless v-model integration with proper TypeScript support.',
       },
     },
   },
@@ -90,7 +91,7 @@ export const BasicUsage: Story = {
   args: {
     modelValue: false,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Swap },
     setup() {
       const isOn = ref(args.modelValue);
@@ -143,7 +144,7 @@ export const CustomContent: Story = {
     swapOnContent: '✅',
     swapOffContent: '❌',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Swap },
     setup() {
       const isOn = ref(args.modelValue);
@@ -236,12 +237,12 @@ export const WithEventHandling: Story = {
       const isOn = ref(false);
       const toggleCount = ref(0);
       const lastToggleTime = ref('');
-      
+
       const handleToggle = () => {
         toggleCount.value++;
         lastToggleTime.value = new Date().toLocaleTimeString();
       };
-      
+
       return { isOn, toggleCount, lastToggleTime, handleToggle };
     },
     template: `
@@ -292,11 +293,11 @@ export const FormIntegration: Story = {
         darkMode: false,
         autoSave: true,
       });
-      
+
       const handleSubmit = () => {
         alert('Form submitted with: ' + JSON.stringify(formData.value, null, 2));
       };
-      
+
       return { formData, handleSubmit };
     },
     template: `
@@ -403,15 +404,15 @@ export const ParentControl: Story = {
     setup() {
       const isOn = ref(false);
       const externalControl = ref(false);
-      
+
       const toggleFromParent = () => {
         isOn.value = !isOn.value;
       };
-      
+
       const syncWithExternal = () => {
         isOn.value = externalControl.value;
       };
-      
+
       return { isOn, externalControl, toggleFromParent, syncWithExternal };
     },
     template: `
@@ -533,7 +534,7 @@ export const Accessibility: Story = {
       const themeValue = ref(false);
       const notificationsValue = ref(false);
       const soundValue = ref(false);
-      
+
       return { themeValue, notificationsValue, soundValue };
     },
     template: `

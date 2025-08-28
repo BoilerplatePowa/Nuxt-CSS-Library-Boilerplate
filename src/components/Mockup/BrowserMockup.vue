@@ -5,7 +5,7 @@
         {{ url }}
       </div>
     </div>
-    
+
     <div :class="contentClasses">
       <slot />
     </div>

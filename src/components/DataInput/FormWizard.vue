@@ -18,73 +18,66 @@
       v-slot="{ errors, meta }"
       :validate-on-mount="false"
     >
-        <!-- Step Content -->
-        <div class="step-content">
-          <slot
-            :name="`step-${currentStep}`"
-            :step="currentStep"
-            :step-data="currentStepData"
-            :all-step-data="safeStepData"
-            :errors="errors || {}"
-            :meta="meta || { valid: true, dirty: false, touched: false }"
-            :is-first-step="isFirstStep"
-            :is-last-step="isLastStep"
-            :total-steps="totalSteps"
-            >
-            <!-- Default step content -->
-            <div class="default-step-content">
-                <Avatar name="settings" size="lg" />
-                <h3 class="default-step-title">
-                Step {{ currentStep + 1 }}: {{ currentStepTitle }}
-                </h3>
-                <p class="default-step-description">
-                {{ currentStepDescription }}
-                </p>
-            </div>
-          </slot>
-        </div>
+      <!-- Step Content -->
+      <div class="step-content">
+        <slot
+          :name="`step-${currentStep}`"
+          :step="currentStep"
+          :step-data="currentStepData"
+          :all-step-data="safeStepData"
+          :errors="errors || {}"
+          :meta="meta || { valid: true, dirty: false, touched: false }"
+          :is-first-step="isFirstStep"
+          :is-last-step="isLastStep"
+          :total-steps="totalSteps"
+        >
+          <!-- Default step content -->
+          <div class="default-step-content">
+            <Avatar name="settings" size="lg" />
+            <h3 class="default-step-title">Step {{ currentStep + 1 }}: {{ currentStepTitle }}</h3>
+            <p class="default-step-description">
+              {{ currentStepDescription }}
+            </p>
+          </div>
+        </slot>
+      </div>
 
-        <!-- Navigation Buttons -->
-        <div class="navigation-buttons">
-            <!-- Previous Button -->
-            <Button
-            v-if="!isFirstStep"
-            type="button"
-            variant="outline"
-            size="sm"
-            :disabled="isNavigating"
-            @click="goToPreviousStep"
-            >
-            <Icon name="chevron-left" size="sm" />
-            <span class="hidden sm:inline">{{ previousButtonText }}</span>
-            </Button>
-            <div v-else class="flex-1"></div>
+      <!-- Navigation Buttons -->
+      <div class="navigation-buttons">
+        <!-- Previous Button -->
+        <Button
+          v-if="!isFirstStep"
+          type="button"
+          variant="outline"
+          size="sm"
+          :disabled="isNavigating"
+          @click="goToPreviousStep"
+        >
+          <Icon name="chevron-left" size="sm" />
+          <span class="hidden sm:inline">{{ previousButtonText }}</span>
+        </Button>
+        <div v-else class="flex-1"></div>
 
-            <!-- Next/Submit Button -->
-            <Button
-            type="submit"
-            :variant="isLastStep ? 'success' : 'primary'"
-            size="sm"
-            :disabled="isNavigating || (meta.valid === false)"
-            :loading="isNavigating"
-            :icon-right="isLastStep ? 'check' : 'chevron-right'"
-            >
-            <span>{{ isLastStep ? submitButtonText : nextButtonText }}</span>
-            </Button>
-        </div>
+        <!-- Next/Submit Button -->
+        <Button
+          type="submit"
+          :variant="isLastStep ? 'success' : 'primary'"
+          size="sm"
+          :disabled="isNavigating || meta.valid === false"
+          :loading="isNavigating"
+          :icon-right="isLastStep ? 'check' : 'chevron-right'"
+        >
+          <span>{{ isLastStep ? submitButtonText : nextButtonText }}</span>
+        </Button>
+      </div>
 
-        <!-- Step Progress Info -->
-        <div v-if="showProgress" class="progress-info">
-            <div class="text-sm text-base-content/60 mb-2">
-            Step {{ currentStep + 1 }} of {{ totalSteps }}
-            </div>
-            <Progress 
-            :value="progressPercentage" 
-            :max="100" 
-            size="sm" 
-            class="progress-bar"
-            />
+      <!-- Step Progress Info -->
+      <div v-if="showProgress" class="progress-info">
+        <div class="text-sm text-base-content/60 mb-2">
+          Step {{ currentStep + 1 }} of {{ totalSteps }}
         </div>
+        <Progress :value="progressPercentage" :max="100" size="sm" class="progress-bar" />
+      </div>
     </Form>
 
     <!-- Step Summary (Optional) -->
@@ -94,23 +87,14 @@
         Previous Steps Summary
       </h4>
       <div class="summary-list">
-        <div 
-          v-for="(step, index) in completedSteps" 
-          :key="index"
-          class="summary-item"
-        >
+        <div v-for="(step, index) in completedSteps" :key="index" class="summary-item">
           <div class="summary-item-left">
             <div class="badge badge-success badge-sm">
               <Icon name="check" size="xs" class="summary-check-icon" />
             </div>
             <span class="text-sm font-medium">{{ step.title }}</span>
           </div>
-          <Button
-            type="button"
-            variant="ghost"
-            size="xs"
-            @click="goToStep(index)"
-          >
+          <Button type="button" variant="ghost" size="xs" @click="goToStep(index)">
             <Icon name="edit" size="xs" />
             <span class="hidden sm:inline ml-1">Edit</span>
           </Button>
@@ -128,7 +112,7 @@ import Steps from '../Navigation/Steps.vue';
 import Button from '../Actions/Button.vue';
 import Icon from '../Icons/Icon.vue';
 import Progress from '../Feedback/Progress.vue';
-import type { IconName, Size, Variant } from '@/shared/types.d';
+import type { IconName, Variant } from '@/shared/types.d';
 import Avatar from '../DataDisplay/Avatar.vue';
 
 interface WizardStep {
@@ -174,7 +158,7 @@ const props = withDefaults(defineProps<FormWizardProps>(), {
   showProgress: true,
   showSummary: true,
   validateOnStepChange: true,
-  ariaLabel: 'Multi-step form wizard'
+  ariaLabel: 'Multi-step form wizard',
 });
 
 // Ensure stepData is always an object
@@ -205,33 +189,33 @@ const isNavigating = ref(false);
 const totalSteps = computed(() => props.steps.length);
 const isFirstStep = computed(() => currentStep.value === 0);
 const isLastStep = computed(() => currentStep.value === totalSteps.value - 1);
-const progressPercentage = computed(() => 
-  ((currentStep.value + 1) / totalSteps.value) * 100
+const progressPercentage = computed(() => ((currentStep.value + 1) / totalSteps.value) * 100);
+
+const currentStepTitle = computed(
+  () => props.steps[currentStep.value]?.title || `Step ${currentStep.value + 1}`
 );
 
-const currentStepTitle = computed(() => 
-  props.steps[currentStep.value]?.title || `Step ${currentStep.value + 1}`
-);
-
-const currentStepDescription = computed(() => 
-  props.steps[currentStep.value]?.description || ''
-);
+const currentStepDescription = computed(() => props.steps[currentStep.value]?.description || '');
 
 const currentStepSchema = computed(() => {
   const step = props.steps[currentStep.value];
-  
+
   if (!step || !step.schema) {
     // Return a schema that allows any data when no validation is needed
     return yup.object().shape({}).noUnknown();
   }
-  
+
   // Ensure the schema is valid
   try {
     // Validate that the schema is a proper Yup schema
     if (typeof step.schema === 'object' && step.schema && 'validate' in step.schema) {
       return step.schema;
     } else {
-      console.warn('FormWizard: Invalid schema for step', currentStep.value, 'schema is not a valid Yup schema');
+      console.warn(
+        'FormWizard: Invalid schema for step',
+        currentStep.value,
+        'schema is not a valid Yup schema'
+      );
       return yup.object().shape({}).noUnknown();
     }
   } catch (error) {
@@ -240,19 +224,17 @@ const currentStepSchema = computed(() => {
   }
 });
 
-const wizardSteps = computed(() => 
+const wizardSteps = computed(() =>
   props.steps.map((step, index) => ({
     title: step.title,
     description: step.description,
     value: step.value || index,
     icon: step.icon,
-    completed: index < currentStep.value
+    completed: index < currentStep.value,
   }))
 );
 
-const completedSteps = computed(() => 
-  props.steps.slice(0, currentStep.value)
-);
+const completedSteps = computed(() => props.steps.slice(0, currentStep.value));
 
 const wrapperClasses = computed(() => [
   'form-wizard',
@@ -272,12 +254,12 @@ const goToNextStep = async () => {
   }
 
   isNavigating.value = true;
-  
+
   try {
     // Move to next step
     const nextStep = currentStep.value + 1;
     const previousStep = currentStep.value;
-    
+
     currentStep.value = nextStep;
     emit('step-change', nextStep, previousStep);
   } finally {
@@ -290,14 +272,14 @@ const goToPreviousStep = () => {
 
   const previousStep = currentStep.value - 1;
   const currentStepIndex = currentStep.value;
-  
+
   currentStep.value = previousStep;
   emit('step-change', previousStep, currentStepIndex);
 };
 
 const goToStep = (stepIndex: number) => {
   if (stepIndex === currentStep.value) return;
-  
+
   const previousStep = currentStep.value;
   currentStep.value = stepIndex;
   emit('step-change', stepIndex, previousStep);
@@ -306,11 +288,11 @@ const goToStep = (stepIndex: number) => {
 // Form submission handlers
 const handleStepSubmit = async (values: any) => {
   isNavigating.value = true;
-  
+
   try {
     // Emit step complete event with the current step's form values
     emit('step-complete', currentStep.value, values);
-    
+
     // Move to next step or complete wizard
     await goToNextStep();
   } finally {
@@ -322,9 +304,9 @@ const handleWizardComplete = async () => {
   // Collect all step data
   const allData = {
     ...safeStepData.value,
-    completedAt: new Date().toISOString()
+    completedAt: new Date().toISOString(),
   };
-  
+
   emit('wizard-complete', allData);
 };
 
@@ -342,7 +324,7 @@ defineExpose({
   goToPreviousStep,
   reset: () => {
     currentStep.value = 0;
-  }
+  },
 });
 </script>
 

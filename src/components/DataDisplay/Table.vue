@@ -29,11 +29,7 @@
             :class="getRowClasses()"
             @click="handleRowClick(row, index, $event)"
           >
-            <td
-              v-for="column in columns"
-              :key="column.key"
-              :class="getCellClasses(column)"
-            >
+            <td v-for="column in columns" :key="column.key" :class="getCellClasses(column)">
               <slot
                 :name="`cell-${column.key}`"
                 :row="row"
@@ -55,11 +51,11 @@
         </slot>
       </tbody>
     </table>
-    
+
     <div v-if="loading" class="flex justify-center items-center p-8">
       <span class="loading loading-spinner loading-lg"></span>
     </div>
-    
+
     <div v-if="!loading && sortedData.length === 0" class="text-center p-8 text-base-content/70">
       <slot name="empty">
         {{ emptyText }}
@@ -152,7 +148,7 @@ const sortedData = computed(() => {
     const bVal = getCellValue(b, { key: sortKey.value } as TableColumn);
 
     let comparison = 0;
-    
+
     if (aVal < bVal) comparison = -1;
     if (aVal > bVal) comparison = 1;
 
@@ -213,7 +209,9 @@ const formatCellValue = (value: any, column: TableColumn): string => {
     case 'number':
       return typeof value === 'number' ? value.toLocaleString() : String(value);
     case 'currency':
-      return typeof value === 'number' ? value.toLocaleString('en-US', { style: 'currency', currency: 'USD' }) : String(value);
+      return typeof value === 'number'
+        ? value.toLocaleString('en-US', { style: 'currency', currency: 'USD' })
+        : String(value);
     case 'date':
       return value instanceof Date ? value.toLocaleDateString() : String(value);
     case 'boolean':

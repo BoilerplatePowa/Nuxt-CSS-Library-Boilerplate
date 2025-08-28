@@ -1,14 +1,11 @@
 <template>
   <div class="indicator">
-    <span
-      v-if="showIndicator"
-      :class="indicatorClasses"
-    >
+    <span v-if="showIndicator" :class="indicatorClasses">
       <slot name="indicator">
         {{ content }}
       </slot>
     </span>
-    
+
     <div class="indicator-item">
       <slot />
     </div>
@@ -20,7 +17,16 @@ import { computed } from 'vue';
 
 interface Props {
   content?: string | number;
-  position?: 'top-start' | 'top-center' | 'top-end' | 'middle-start' | 'middle-center' | 'middle-end' | 'bottom-start' | 'bottom-center' | 'bottom-end';
+  position?:
+    | 'top-start'
+    | 'top-center'
+    | 'top-end'
+    | 'middle-start'
+    | 'middle-center'
+    | 'middle-end'
+    | 'bottom-start'
+    | 'bottom-center'
+    | 'bottom-end';
   variant?: 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
   size?: 'xs' | 'sm' | 'md' | 'lg';
   showIndicator?: boolean;

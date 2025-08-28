@@ -10,7 +10,17 @@ const meta: Meta<typeof Indicator> = {
   argTypes: {
     position: {
       control: { type: 'select' },
-      options: ['top-start', 'top-center', 'top-end', 'middle-start', 'middle-center', 'middle-end', 'bottom-start', 'bottom-center', 'bottom-end'],
+      options: [
+        'top-start',
+        'top-center',
+        'top-end',
+        'middle-start',
+        'middle-center',
+        'middle-end',
+        'bottom-start',
+        'bottom-center',
+        'bottom-end',
+      ],
     },
     variant: {
       control: { type: 'select' },
@@ -33,7 +43,7 @@ export const Default: Story = {
   args: {
     content: '5',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Indicator },
     setup() {
       return { args };

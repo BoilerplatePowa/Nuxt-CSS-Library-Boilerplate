@@ -10,7 +10,7 @@
         <span v-else-if="showDefaultIcon">📢</span>
       </span>
     </slot>
-    
+
     <div class="flex-1">
       <slot name="title">
         <h3 v-if="title" class="alert-title font-bold">{{ title }}</h3>
@@ -20,7 +20,7 @@
         <slot />
       </div>
     </div>
-    
+
     <button
       v-if="dismissible"
       @click="$emit('dismiss')"

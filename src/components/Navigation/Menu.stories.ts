@@ -38,23 +38,23 @@ const sampleMenuItems = [
 
 const hierarchicalMenu = [
   { label: 'Home', href: '/', icon: '🏠' },
-  { 
-    label: 'Products', 
+  {
+    label: 'Products',
     icon: '📦',
     children: [
       { label: 'Electronics', href: '/products/electronics' },
       { label: 'Clothing', href: '/products/clothing' },
       { label: 'Books', href: '/products/books' },
-    ]
+    ],
   },
-  { 
-    label: 'Services', 
+  {
+    label: 'Services',
     icon: '🛠️',
     children: [
       { label: 'Consulting', href: '/services/consulting' },
       { label: 'Support', href: '/services/support' },
       { label: 'Training', href: '/services/training' },
-    ]
+    ],
   },
   { label: 'About', href: '/about', icon: 'ℹ️' },
   { label: 'Contact', href: '/contact', icon: '📞' },

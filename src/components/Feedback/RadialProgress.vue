@@ -13,7 +13,7 @@
         <span v-if="showValue" class="text-content">{{ displayValue }}</span>
       </slot>
     </div>
-    
+
     <div v-if="label" class="radial-progress-label mt-2 text-center">
       {{ label }}
     </div>
@@ -69,7 +69,7 @@ const progressClasses = computed(() => {
 
 const progressStyle = computed(() => {
   const percentage = Math.min(Math.max((props.value / props.max) * 100, 0), 100);
-  
+
   const style: Record<string, string> = {
     '--value': percentage.toString(),
   };

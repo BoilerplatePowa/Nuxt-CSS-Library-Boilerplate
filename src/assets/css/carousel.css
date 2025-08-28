@@ -40,8 +40,6 @@
   @apply flex justify-center items-center mt-4;
 }
 
-
-
 .carousel-controls-bottom {
   @apply mt-2;
 }
@@ -148,11 +146,11 @@
   .carousel-side-btn {
     @apply w-8;
   }
-  
+
   .carousel-controls {
     @apply gap-1;
   }
-  
+
   .carousel-pagination-external {
     @apply gap-1;
   }

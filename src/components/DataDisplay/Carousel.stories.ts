@@ -9,7 +9,8 @@ const meta: Meta<typeof Carousel> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Interactive carousel component for displaying images and content with flexible navigation controls. Supports multiple arrow positions (bottom, sides), pagination types (numbers, dots, line), and style variants for both indicators and arrows. Side arrows are transparent by default and appear on hover. Uses Vue 3.4 defineModel() for v-model support.',
+        component:
+          'Interactive carousel component for displaying images and content with flexible navigation controls. Supports multiple arrow positions (bottom, sides), pagination types (numbers, dots, line), and style variants for both indicators and arrows. Side arrows are transparent by default and appear on hover. Uses Vue 3.4 defineModel() for v-model support.',
       },
     },
   },
@@ -111,7 +112,7 @@ export const WithVModel: Story = {
     showIndicators: true,
     showArrows: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Carousel },
     setup() {
       const currentSlide = ref(0);
@@ -146,7 +147,8 @@ export const WithVModel: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Demonstrates v-model usage with the carousel. The current slide is controlled by the parent component and can be changed via the buttons above the carousel.',
+        story:
+          'Demonstrates v-model usage with the carousel. The current slide is controlled by the parent component and can be changed via the buttons above the carousel.',
       },
     },
   },
@@ -170,8 +172,6 @@ export const NoControls: Story = {
   },
 };
 
-
-
 export const SideControls: Story = {
   args: {
     items: imageItems,
@@ -182,7 +182,8 @@ export const SideControls: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Side arrows are transparent by default and appear when hovering over the carousel. They span the full height of the carousel.',
+        story:
+          'Side arrows are transparent by default and appear when hovering over the carousel. They span the full height of the carousel.',
       },
     },
   },
@@ -323,7 +324,8 @@ export const ProductShowcaseWithSideControls: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Product showcase with side controls. Hover over the carousel to see the transparent arrows appear.',
+        story:
+          'Product showcase with side controls. Hover over the carousel to see the transparent arrows appear.',
       },
     },
   },
@@ -398,7 +400,8 @@ export const FilledIndicators: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Carousel with filled indicator style - active indicators are primary colored, inactive ones are base-200.',
+        story:
+          'Carousel with filled indicator style - active indicators are primary colored, inactive ones are base-200.',
       },
     },
   },
@@ -414,7 +417,8 @@ export const OutlineIndicators: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Carousel with outline indicator style - all indicators have outlines, active ones are primary colored.',
+        story:
+          'Carousel with outline indicator style - all indicators have outlines, active ones are primary colored.',
       },
     },
   },
@@ -430,7 +434,8 @@ export const GhostIndicators: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Carousel with ghost indicator style - subtle indicators that become primary colored when active.',
+        story:
+          'Carousel with ghost indicator style - subtle indicators that become primary colored when active.',
       },
     },
   },
@@ -446,7 +451,8 @@ export const LinkIndicators: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Carousel with link indicator style - indicators look like links, active ones are primary colored.',
+        story:
+          'Carousel with link indicator style - indicators look like links, active ones are primary colored.',
       },
     },
   },
@@ -478,7 +484,8 @@ export const OutlineArrows: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Carousel with outline arrow buttons - outlined buttons with transparent background.',
+        story:
+          'Carousel with outline arrow buttons - outlined buttons with transparent background.',
       },
     },
   },
@@ -494,7 +501,8 @@ export const GhostArrows: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Carousel with ghost arrow buttons - subtle buttons that become more visible on hover.',
+        story:
+          'Carousel with ghost arrow buttons - subtle buttons that become more visible on hover.',
       },
     },
   },
@@ -528,7 +536,8 @@ export const CombinedVariants: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'Carousel combining different variants - filled indicators with glass arrows and side controls.',
+        story:
+          'Carousel combining different variants - filled indicators with glass arrows and side controls.',
       },
     },
   },

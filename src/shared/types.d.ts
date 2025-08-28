@@ -1,4 +1,4 @@
-import { iconMap, inputTypesMap, sizeMap, variantMap } from "./map";
+import { iconMap, inputTypesMap, sizeMap, variantMap } from './map';
 
 export type IconName = keyof typeof iconMap;
 export type InputType = (typeof inputTypesMap)[number];
@@ -9,8 +9,17 @@ export type Placement = 'top' | 'right' | 'bottom' | 'left';
 export type Direction = 'up' | 'down' | 'left' | 'right';
 export type Alignment = 'center' | 'start' | 'end';
 export type Justification = 'start' | 'center' | 'end';
-export type FlexDirection = 'row' | 'row-reverse' | 'colum' | 'column-reverse' | 'row-col' | 'row-col-reverse' | 'col-row' | 'col-row-reverse';
-export type ThemeColor = 'primary'
+export type FlexDirection =
+  | 'row'
+  | 'row-reverse'
+  | 'colum'
+  | 'column-reverse'
+  | 'row-col'
+  | 'row-col-reverse'
+  | 'col-row'
+  | 'col-row-reverse';
+export type ThemeColor =
+  | 'primary'
   | 'primary-content'
   | 'secondary'
   | 'secondary-content'
@@ -30,4 +39,13 @@ export type ThemeColor = 'primary'
   | 'warning-content'
   | 'error'
   | 'error-content';
-export type MaskType = 'phone' | 'credit-card' | 'date' | 'time' | 'currency' | 'number' | 'email' | 'zip' | 'ssn';
+export type MaskType =
+  | 'phone'
+  | 'credit-card'
+  | 'date'
+  | 'time'
+  | 'currency'
+  | 'number'
+  | 'email'
+  | 'zip'
+  | 'ssn';

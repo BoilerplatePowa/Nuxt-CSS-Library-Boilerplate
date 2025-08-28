@@ -4,14 +4,14 @@
       <span v-if="label" class="text-base-content">{{ label }}</span>
       <span v-if="showValue" class="text-base-content/70">{{ displayValue }}</span>
     </div>
-    
+
     <progress
       :class="progressClasses"
       :value="value"
       :max="max"
       :aria-label="ariaLabel || label"
     ></progress>
-    
+
     <p v-if="helpText" class="text-xs text-base-content/70 mt-1">
       {{ helpText }}
     </p>

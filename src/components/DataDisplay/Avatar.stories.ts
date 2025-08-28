@@ -8,7 +8,8 @@ const meta: Meta<typeof Avatar> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A flexible avatar component with support for images, placeholders, presence indicators, badges, and loading states.',
+        component:
+          'A flexible avatar component with support for images, placeholders, presence indicators, badges, and loading states.',
       },
     },
   },

@@ -42,7 +42,7 @@ export const Default: Story = {
     currentPage: 3,
     totalPages: 10,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Pagination },
     setup() {
       return { args };
@@ -62,7 +62,7 @@ export const WithLabels: Story = {
     totalPages: 20,
     showLabels: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Pagination },
     setup() {
       return { args };

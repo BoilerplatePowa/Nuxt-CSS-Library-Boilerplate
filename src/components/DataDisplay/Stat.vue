@@ -5,19 +5,19 @@
         <div v-if="icon" class="text-2xl" v-html="icon"></div>
       </slot>
     </div>
-    
+
     <div class="stat-title" :class="titleClasses">
       <slot name="title">{{ title }}</slot>
     </div>
-    
+
     <div class="stat-value" :class="valueClasses">
       <slot name="value">{{ displayValue }}</slot>
     </div>
-    
+
     <div v-if="description || $slots.description" class="stat-desc" :class="descClasses">
       <slot name="description">{{ description }}</slot>
     </div>
-    
+
     <div v-if="actions || $slots.actions" class="stat-actions">
       <slot name="actions">
         <div v-if="actions" class="flex gap-2">
@@ -52,7 +52,15 @@ interface Props {
   description?: string;
   icon?: string;
   trend?: 'up' | 'down' | 'neutral';
-  variant?: 'default' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
+  variant?:
+    | 'default'
+    | 'primary'
+    | 'secondary'
+    | 'accent'
+    | 'info'
+    | 'success'
+    | 'warning'
+    | 'error';
   size?: 'sm' | 'md' | 'lg';
   actions?: StatAction[];
   prefix?: string;
@@ -82,7 +90,7 @@ const statClasses = computed(() => {
 
 const titleClasses = computed(() => {
   const classes = [];
-  
+
   if (props.variant === 'primary') {
     classes.push('text-primary');
   } else if (props.variant === 'secondary') {
@@ -90,13 +98,13 @@ const titleClasses = computed(() => {
   } else if (props.variant === 'accent') {
     classes.push('text-accent');
   }
-  
+
   return classes.join(' ');
 });
 
 const valueClasses = computed(() => {
   const classes = [];
-  
+
   if (props.variant === 'primary') {
     classes.push('text-primary');
   } else if (props.variant === 'secondary') {
@@ -112,25 +120,25 @@ const valueClasses = computed(() => {
   } else if (props.variant === 'error') {
     classes.push('text-error');
   }
-  
+
   return classes.join(' ');
 });
 
 const descClasses = computed(() => {
   const classes = [];
-  
+
   if (props.trend === 'up') {
     classes.push('text-success');
   } else if (props.trend === 'down') {
     classes.push('text-error');
   }
-  
+
   return classes.join(' ');
 });
 
 const figureClasses = computed(() => {
   const classes = [];
-  
+
   if (props.variant === 'primary') {
     classes.push('text-primary');
   } else if (props.variant === 'secondary') {
@@ -138,17 +146,17 @@ const figureClasses = computed(() => {
   } else if (props.variant === 'accent') {
     classes.push('text-accent');
   }
-  
+
   return classes.join(' ');
 });
 
 const displayValue = computed(() => {
   let value = props.value;
-  
+
   if (props.formatNumber && typeof value === 'number') {
     value = value.toLocaleString();
   }
-  
+
   return `${props.prefix || ''}${value}${props.suffix || ''}`;
 });
 </script>

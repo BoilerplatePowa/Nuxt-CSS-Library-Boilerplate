@@ -38,7 +38,7 @@ describe('Hero', () => {
       const wrapper = mount(Hero, {
         props: { minHeight: minHeight as any },
       });
-      
+
       if (minHeight === 'screen') {
         expect(wrapper.classes()).toContain('min-h-screen');
       } else if (minHeight === 'auto') {
@@ -81,7 +81,7 @@ describe('Hero', () => {
 
       const overlay = wrapper.find('.hero-overlay');
       expect(overlay.exists()).toBe(true);
-      
+
       if (opacity === 'light') {
         expect(overlay.classes()).toContain('bg-opacity-30');
       } else if (opacity === 'medium') {
@@ -100,7 +100,7 @@ describe('Hero', () => {
 
       const content = wrapper.find('.hero-content');
       expect(content.exists()).toBe(true);
-      
+
       if (textColor === 'neutral') {
         expect(content.classes()).toContain('text-neutral-content');
       } else if (textColor === 'primary') {

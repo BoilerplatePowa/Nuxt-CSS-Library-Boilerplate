@@ -10,7 +10,23 @@ describe('Calendar', () => {
         stubs: {
           CalendarContent: {
             template: '<div class="mock-calendar-content">Calendar Content</div>',
-            props: ['modelValue', 'range', 'minDate', 'maxDate', 'disabledDates', 'locale', 'format', 'showTime', 'timeStep', 'size', 'variant', 'allowMonthSelect', 'allowYearSelect', 'yearRange', 'disabled'],
+            props: [
+              'modelValue',
+              'range',
+              'minDate',
+              'maxDate',
+              'disabledDates',
+              'locale',
+              'format',
+              'showTime',
+              'timeStep',
+              'size',
+              'variant',
+              'allowMonthSelect',
+              'allowYearSelect',
+              'yearRange',
+              'disabled',
+            ],
             emits: ['update:modelValue', 'close'],
           },
         },
@@ -29,10 +45,10 @@ describe('Calendar', () => {
     it('supports v-model with defineModel()', async () => {
       const wrapper = createWrapper();
       const testDate = new Date('2024-01-15');
-      
+
       // Test that the component can receive a value through v-model
       await wrapper.setProps({ modelValue: testDate });
-      
+
       // The component should accept the model value
       expect(wrapper.props('modelValue')).toEqual(testDate);
     });
@@ -78,10 +94,10 @@ describe('Calendar', () => {
     it('shows popover when input is focused', async () => {
       const wrapper = createWrapper();
       const input = wrapper.find('input');
-      
+
       await input.trigger('focus');
       await wrapper.vm.$nextTick();
-      
+
       expect(wrapper.find('[role="dialog"]').exists()).toBe(true);
     });
   });
@@ -90,12 +106,12 @@ describe('Calendar', () => {
     it('updates v-model when date is selected', async () => {
       const wrapper = createWrapper();
       const testDate = new Date('2024-01-15');
-      
+
       // Simulate date selection through CalendarContent
       const calendarContent = wrapper.findComponent({ name: 'CalendarContent' });
       if (calendarContent.exists()) {
         await calendarContent.vm.$emit('update:modelValue', testDate);
-        
+
         // With defineModel(), the model is updated directly
         // Check that the component responds to the model change
         expect(wrapper.props('modelValue')).toEqual(testDate);
@@ -109,9 +125,9 @@ describe('Calendar', () => {
     it('emits select event when date is selected', async () => {
       const wrapper = createWrapper();
       const testDate = new Date('2024-01-15');
-      
+
       await wrapper.vm.$emit('select', testDate);
-      
+
       expect(wrapper.emitted('select')).toBeTruthy();
       expect(wrapper.emitted('select')?.[0]).toEqual([testDate]);
     });
@@ -119,26 +135,26 @@ describe('Calendar', () => {
     it('emits focus event when input is focused', async () => {
       const wrapper = createWrapper();
       const input = wrapper.find('input');
-      
+
       await input.trigger('focus');
-      
+
       expect(wrapper.emitted('focus')).toBeTruthy();
     });
 
     it('emits blur event when input is blurred', async () => {
       const wrapper = createWrapper();
       const input = wrapper.find('input');
-      
+
       await input.trigger('blur');
-      
+
       expect(wrapper.emitted('blur')).toBeTruthy();
     });
 
     it('emits close event when calendar is closed', async () => {
       const wrapper = createWrapper();
-      
+
       await wrapper.vm.$emit('close');
-      
+
       expect(wrapper.emitted('close')).toBeTruthy();
     });
   });
@@ -147,36 +163,36 @@ describe('Calendar', () => {
     it('opens calendar on ArrowDown key', async () => {
       const wrapper = createWrapper();
       const input = wrapper.find('input');
-      
+
       await input.trigger('keydown', { key: 'ArrowDown' });
       await wrapper.vm.$nextTick();
-      
+
       expect(wrapper.find('[role="dialog"]').exists()).toBe(true);
     });
 
     it('closes calendar on Escape key', async () => {
       const wrapper = createWrapper();
       const input = wrapper.find('input');
-      
+
       // First open the calendar
       await input.trigger('focus');
       await wrapper.vm.$nextTick();
       expect(wrapper.find('[role="dialog"]').exists()).toBe(true);
-      
+
       // Then close it with Escape
       await input.trigger('keydown', { key: 'Escape' });
       await wrapper.vm.$nextTick();
-      
+
       expect(wrapper.find('[role="dialog"]').exists()).toBe(false);
     });
 
     it('toggles calendar on Enter key', async () => {
       const wrapper = createWrapper();
       const input = wrapper.find('input');
-      
+
       await input.trigger('keydown', { key: 'Enter' });
       await wrapper.vm.$nextTick();
-      
+
       expect(wrapper.find('[role="dialog"]').exists()).toBe(true);
     });
   });
@@ -196,10 +212,10 @@ describe('Calendar', () => {
     it('displays range value correctly', async () => {
       const wrapper = createWrapper({ range: true });
       const testRange = [new Date('2024-01-15'), new Date('2024-01-20')];
-      
+
       await wrapper.setProps({ modelValue: testRange });
       await wrapper.vm.$nextTick();
-      
+
       const input = wrapper.find('input');
       // The date format depends on locale, so we check for the date parts instead
       expect(input.element.value).toContain('01/15/2024');
@@ -268,7 +284,7 @@ describe('Calendar', () => {
     it('has proper ARIA attributes', () => {
       const wrapper = createWrapper();
       const input = wrapper.find('input');
-      
+
       expect(input.attributes('role')).toBe('combobox');
       expect(input.attributes('aria-haspopup')).toBe('true');
       expect(input.attributes('aria-expanded')).toBeDefined();
@@ -277,21 +293,21 @@ describe('Calendar', () => {
     it('has proper ARIA label for range selection', () => {
       const wrapper = createWrapper({ range: true });
       const input = wrapper.find('input');
-      
+
       expect(input.attributes('aria-label')).toBe('Select date range');
     });
 
     it('has proper ARIA label for single date selection', () => {
       const wrapper = createWrapper({ range: false });
       const input = wrapper.find('input');
-      
+
       expect(input.attributes('aria-label')).toBe('Select date');
     });
 
     it('has proper button aria label', () => {
       const wrapper = createWrapper();
       const button = wrapper.find('button');
-      
+
       expect(button.attributes('aria-label')).toBe('Open calendar');
     });
   });

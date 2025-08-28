@@ -210,7 +210,7 @@ export const WithBadges: Story = {
     methods: {
       handleItemClick(item: { label: string; badge?: string }, index: number) {
         console.log('Clicked:', item.label, 'at index:', index);
-        
+
         // Simulate clearing badges
         if (item.badge) {
           item.badge = '';
@@ -314,7 +314,7 @@ export const ApplicationDock: Story = {
       handleAppClick(app: { id: string; label: string }, _index: number) {
         this.activeApp = app.id;
         console.log('Launched:', app.label);
-        
+
         // Simulate opening an application
         setTimeout(() => {
           alert(`Opening ${app.label}...`);
@@ -468,7 +468,7 @@ export const SocialMediaDock: Story = {
     methods: {
       handleSocialClick(app: { label: string; href?: string }, _index: number, event: Event) {
         console.log('Opening:', app.label);
-        
+
         // For demo purposes, prevent actual navigation
         if (app.href) {
           event.preventDefault();

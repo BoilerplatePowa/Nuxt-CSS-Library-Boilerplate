@@ -1,17 +1,11 @@
 <template>
   <ul :class="timelineClasses">
-    <li 
-      v-for="(item, index) in items" 
-      :key="getItemKey(item, index)"
-    >
+    <li v-for="(item, index) in items" :key="getItemKey(item, index)">
       <!-- Top hr for all items except the first -->
       <hr v-if="index > 0" />
-      
+
       <!-- Timeline start content -->
-      <div 
-        v-if="shouldShowStart(index)" 
-        :class="startClasses"
-      >
+      <div v-if="shouldShowStart(index)" :class="startClasses">
         <slot name="start" :item="item" :index="index">
           <!-- Complex content variant -->
           <template v-if="variant === 'complex'">
@@ -31,11 +25,7 @@
         <slot name="middle" :item="item" :index="index">
           <!-- Custom icon if provided -->
           <div v-if="item.icon" class="flex items-center justify-center">
-            <component 
-              v-if="isValidComponentName(item.icon)" 
-              :is="item.icon"
-              class="h-5 w-5"
-            />
+            <component v-if="isValidComponentName(item.icon)" :is="item.icon" class="h-5 w-5" />
             <span v-else class="text-lg">{{ item.icon }}</span>
           </div>
           <!-- Default DaisyUI icon -->
@@ -56,10 +46,7 @@
       </div>
 
       <!-- Timeline end content -->
-      <div 
-        v-if="shouldShowEnd(index)" 
-        :class="endClasses"
-      >
+      <div v-if="shouldShowEnd(index)" :class="endClasses">
         <slot name="end" :item="item" :index="index">
           <!-- Complex content variant -->
           <template v-if="variant === 'complex'">
@@ -140,10 +127,10 @@ const shouldShowStart = (index: number) => {
   if (props.variant === 'complex') {
     return index % 2 === 0;
   }
-  
+
   // In compact mode, all content goes to one side
   if (props.compact) return false;
-  
+
   // For alternating layout, show start on even indices
   return index % 2 === 0;
 };
@@ -153,27 +140,27 @@ const shouldShowEnd = (index: number) => {
   if (props.variant === 'complex') {
     return index % 2 === 1;
   }
-  
+
   // In compact mode, all content goes to one side
   if (props.compact) return true;
-  
+
   // For alternating layout, show end on odd indices
   return index % 2 === 1;
 };
 
 const startClasses = computed(() => {
   const baseClasses = ['timeline-start'];
-  
+
   // Add box modifier for simple variant
   if (props.variant === 'simple') {
     baseClasses.push('timeline-box');
   }
-  
+
   // Complex variant styling
   if (props.variant === 'complex') {
     baseClasses.push('mb-10', 'md:text-end');
   }
-  
+
   // Add snap-icon modifier if enabled (simple variant only)
   if (props.snapIcon && props.variant === 'simple') {
     baseClasses.push('timeline-snap-icon');
@@ -184,7 +171,7 @@ const startClasses = computed(() => {
 
 const middleClasses = computed(() => {
   const baseClasses = ['timeline-middle'];
-  
+
   // Add snap-icon modifier if enabled (simple variant only)
   if (props.snapIcon && props.variant === 'simple') {
     baseClasses.push('timeline-snap-icon');
@@ -195,12 +182,12 @@ const middleClasses = computed(() => {
 
 const endClasses = computed(() => {
   const baseClasses = ['timeline-end'];
-  
+
   // Add box modifier for simple variant
   if (props.variant === 'simple') {
     baseClasses.push('timeline-box');
   }
-  
+
   // Complex variant styling
   if (props.variant === 'complex') {
     baseClasses.push('md:mb-10');
@@ -215,7 +202,7 @@ const getItemKey = (item: TimelineItem, index: number) => {
 
 const isValidComponentName = (icon: unknown): boolean => {
   if (typeof icon !== 'string') return false;
-  
+
   // Check if it's a valid component name (starts with a letter, contains only letters, numbers, hyphens, underscores)
   const componentNameRegex = /^[a-zA-Z][a-zA-Z0-9-_]*$/;
   return componentNameRegex.test(icon);

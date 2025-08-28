@@ -24,12 +24,14 @@
 
     <div v-if="showCharCount && maxlength" class="label">
       <span class="label-text-alt"></span>
-      <span class="label-text-alt">
-        {{ characterCount }}/{{ maxlength }}
-      </span>
+      <span class="label-text-alt"> {{ characterCount }}/{{ maxlength }} </span>
     </div>
 
-    <p v-if="helpText && !errorMessage" :id="`${textareaId}-help`" class="text-xs text-base-content/70 mt-1">
+    <p
+      v-if="helpText && !errorMessage"
+      :id="`${textareaId}-help`"
+      class="text-xs text-base-content/70 mt-1"
+    >
       {{ helpText }}
     </p>
 
@@ -58,7 +60,16 @@ interface Props {
   maxlength?: number;
   showCharCount?: boolean;
   size?: 'xs' | 'sm' | 'md' | 'lg';
-  variant?: 'bordered' | 'ghost' | 'primary' | 'secondary' | 'accent' | 'info' | 'success' | 'warning' | 'error';
+  variant?:
+    | 'bordered'
+    | 'ghost'
+    | 'primary'
+    | 'secondary'
+    | 'accent'
+    | 'info'
+    | 'success'
+    | 'warning'
+    | 'error';
   ariaDescribedby?: string;
 }
 

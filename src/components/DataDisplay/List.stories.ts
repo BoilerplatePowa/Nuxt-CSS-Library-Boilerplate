@@ -289,14 +289,18 @@ export const Interactive: Story = {
     methods: {
       handleItemClick(item: any, index: number) {
         if (item.disabled) return;
-        
+
         if (this.selectedItems.has(item.id)) {
           this.selectedItems.delete(item.id);
         } else {
           this.selectedItems.add(item.id);
         }
-        
-        console.log('Item clicked:', { item: item.title, index, selected: this.selectedItems.has(item.id) });
+
+        console.log('Item clicked:', {
+          item: item.title,
+          index,
+          selected: this.selectedItems.has(item.id),
+        });
       },
     },
     template: `
@@ -414,9 +418,7 @@ export const ComplexLayout: Story = {
             meta: 'Due: Nov 30',
             badge: 'Low',
             disabled: true,
-            actions: [
-              { label: 'Edit', variant: 'ghost', size: 'xs', disabled: true },
-            ],
+            actions: [{ label: 'Edit', variant: 'ghost', size: 'xs', disabled: true }],
           },
         ],
       };

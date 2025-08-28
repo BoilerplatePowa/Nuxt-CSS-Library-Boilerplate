@@ -9,7 +9,7 @@ describe('Join', () => {
         default: '<button class="btn join-item">Test</button>',
       },
     });
-    
+
     expect(wrapper.classes()).toContain('join');
     expect(wrapper.find('.join-item').exists()).toBe(true);
   });

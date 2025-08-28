@@ -61,7 +61,7 @@ describe('Avatar', () => {
       const wrapper = mount(Avatar, {
         props: { size: size as any },
       });
-      
+
       const avatarDiv = wrapper.find('.avatar');
       expect(avatarDiv.exists()).toBe(true);
     });
@@ -72,7 +72,7 @@ describe('Avatar', () => {
       const wrapper = mount(Avatar, {
         props: { shape: shape as any },
       });
-      
+
       const avatarDiv = wrapper.find('.avatar');
       expect(avatarDiv.exists()).toBe(true);
     });
@@ -80,7 +80,7 @@ describe('Avatar', () => {
 
   it('shows presence indicators correctly', () => {
     const presenceStates = ['online', 'offline', 'away', 'busy'] as const;
-    
+
     presenceStates.forEach(presence => {
       const wrapper = mount(Avatar, {
         props: {
@@ -250,7 +250,7 @@ describe('Avatar', () => {
 
   it('applies fallback color classes correctly', () => {
     const colors = ['primary', 'secondary', 'accent', 'neutral'] as const;
-    
+
     colors.forEach(color => {
       const wrapper = mount(Avatar, {
         props: {

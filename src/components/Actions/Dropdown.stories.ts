@@ -61,7 +61,7 @@ export const Default: Story = {
     triggerText: 'Click me',
     variant: 'primary',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Dropdown },
     setup() {
       return { args };
@@ -78,7 +78,7 @@ export const Default: Story = {
 
 export const WithIcons: Story = {
   args: {},
-  render: (args) => ({
+  render: args => ({
     components: { Dropdown },
     setup() {
       return { args };
@@ -143,7 +143,7 @@ export const HoverMode: Story = {
   args: {
     hover: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Dropdown },
     setup() {
       return { args };
@@ -166,7 +166,7 @@ export const Disabled: Story = {
     disabled: true,
     triggerText: 'Disabled Dropdown',
   },
-  render: (args) => ({
+  render: args => ({
     components: { Dropdown },
     setup() {
       return { args };
@@ -190,7 +190,7 @@ export const WithItems: Story = {
       { label: 'Share', value: 'share' },
     ],
   },
-  render: (args) => ({
+  render: args => ({
     components: { Dropdown },
     setup() {
       const handleItemClick = (item: { label: string; value: string }, _event: Event) => {
@@ -207,7 +207,7 @@ export const WithItems: Story = {
 
 export const CustomTrigger: Story = {
   args: {},
-  render: (args) => ({
+  render: args => ({
     components: { Dropdown },
     setup() {
       return { args };

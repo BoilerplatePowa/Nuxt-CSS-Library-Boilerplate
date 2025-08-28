@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/vue3';
+import type { Meta, StoryObj } from '@storybook/vue3-vite';
 import { Form, Field } from 'vee-validate';
 import * as yup from 'yup';
 import Input from './Input.vue';
@@ -29,7 +29,20 @@ const meta: Meta<typeof Input> = {
     },
     type: {
       control: 'select',
-      options: ['text', 'email', 'password', 'url', 'tel', 'number', 'search', 'date', 'time', 'datetime-local', 'month', 'week'],
+      options: [
+        'text',
+        'email',
+        'password',
+        'url',
+        'tel',
+        'number',
+        'search',
+        'date',
+        'time',
+        'datetime-local',
+        'month',
+        'week',
+      ],
       description: 'Input type',
     },
     size: {
@@ -39,17 +52,50 @@ const meta: Meta<typeof Input> = {
     },
     variant: {
       control: 'select',
-      options: ['bordered', 'ghost', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error', 'neutral'],
+      options: [
+        'bordered',
+        'ghost',
+        'primary',
+        'secondary',
+        'accent',
+        'info',
+        'success',
+        'warning',
+        'error',
+        'neutral',
+      ],
       description: 'Input variant/style',
     },
     leftIcon: {
       control: 'select',
-      options: ['search', 'mail', 'phone', 'user', 'lock', 'eye', 'eye-off', 'calendar', 'map-pin', 'settings'],
+      options: [
+        'search',
+        'mail',
+        'phone',
+        'user',
+        'lock',
+        'eye',
+        'eye-off',
+        'calendar',
+        'map-pin',
+        'settings',
+      ],
       description: 'Left icon name',
     },
     rightIcon: {
       control: 'select',
-      options: ['search', 'mail', 'phone', 'user', 'lock', 'eye', 'eye-off', 'calendar', 'map-pin', 'settings'],
+      options: [
+        'search',
+        'mail',
+        'phone',
+        'user',
+        'lock',
+        'eye',
+        'eye-off',
+        'calendar',
+        'map-pin',
+        'settings',
+      ],
       description: 'Right icon name',
     },
     disabled: {
@@ -82,7 +128,17 @@ const meta: Meta<typeof Input> = {
     },
     maskType: {
       control: 'select',
-      options: ['phone', 'credit-card', 'date', 'time', 'currency', 'number', 'email', 'zip', 'ssn'],
+      options: [
+        'phone',
+        'credit-card',
+        'date',
+        'time',
+        'currency',
+        'number',
+        'email',
+        'zip',
+        'ssn',
+      ],
       description: 'Predefined mask type',
     },
   },
@@ -114,12 +170,15 @@ export const WithIcon: Story = {
 
 // Input with validation
 export const WithValidation: Story = {
-  render: (args) => ({
+  render: args => ({
     components: { Input, Form, Field },
     setup() {
       const schema = yup.object({
         email: yup.string().email('Please enter a valid email').required('Email is required'),
-        password: yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
+        password: yup
+          .string()
+          .min(8, 'Password must be at least 8 characters')
+          .required('Password is required'),
       });
 
       return { args, schema };
@@ -156,9 +215,17 @@ export const WithInlineRules: Story = {
   render: () => ({
     components: { Input },
     setup() {
-      const emailRules = yup.string().email('Please enter a valid email').required('Email is required');
-      const passwordRules = yup.string().min(8, 'Password must be at least 8 characters').required('Password is required');
-      const phoneRules = yup.string().matches(/^\+?[\d\s-()]+$/, 'Please enter a valid phone number');
+      const emailRules = yup
+        .string()
+        .email('Please enter a valid email')
+        .required('Email is required');
+      const passwordRules = yup
+        .string()
+        .min(8, 'Password must be at least 8 characters')
+        .required('Password is required');
+      const phoneRules = yup
+        .string()
+        .matches(/^\+?[\d\s-()]+$/, 'Please enter a valid phone number');
 
       return { emailRules, passwordRules, phoneRules };
     },
@@ -263,7 +330,10 @@ export const PasswordWithToggle: Story = {
     leftIcon: 'lock',
     required: true,
     helpText: 'Click the eye icon to toggle password visibility',
-    rules: yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
+    rules: yup
+      .string()
+      .min(8, 'Password must be at least 8 characters')
+      .required('Password is required'),
   },
 };
 

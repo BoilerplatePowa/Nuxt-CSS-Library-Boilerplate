@@ -15,7 +15,17 @@ const meta: Meta<typeof Textarea> = {
     },
     variant: {
       control: { type: 'select' },
-      options: ['bordered', 'ghost', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error'],
+      options: [
+        'bordered',
+        'ghost',
+        'primary',
+        'secondary',
+        'accent',
+        'info',
+        'success',
+        'warning',
+        'error',
+      ],
     },
     disabled: {
       control: { type: 'boolean' },
@@ -85,7 +95,7 @@ export const Readonly: Story = {
     label: 'Read Only',
     readonly: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Textarea },
     setup() {
       const value = ref('This content cannot be edited');
@@ -142,7 +152,7 @@ export const WithCharacterCount: Story = {
     maxlength: 200,
     showCharCount: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Textarea },
     setup() {
       const value = ref('This textarea shows character count');

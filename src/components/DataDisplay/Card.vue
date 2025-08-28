@@ -1,5 +1,5 @@
 <template>
-  <component 
+  <component
     :is="tag"
     ref="cardRef"
     :class="cardClasses"
@@ -29,7 +29,10 @@
     <!-- Content wrapper for side variant -->
     <div v-if="variant === 'side'" :class="contentWrapperClasses">
       <!-- Header section -->
-      <div v-if="title || subtitle || $slots.header || badge || $slots.badge" :class="headerClasses">
+      <div
+        v-if="title || subtitle || $slots.header || badge || $slots.badge"
+        :class="headerClasses"
+      >
         <slot name="header">
           <div class="card-title-wrapper">
             <div v-if="badge || $slots.badge" :class="badgeContainerClasses">
@@ -65,7 +68,10 @@
     <!-- Standard layout for non-side variants -->
     <template v-else>
       <!-- Header section -->
-      <div v-if="title || subtitle || $slots.header || badge || $slots.badge" :class="headerClasses">
+      <div
+        v-if="title || subtitle || $slots.header || badge || $slots.badge"
+        :class="headerClasses"
+      >
         <slot name="header">
           <div class="card-title-wrapper">
             <div v-if="badge || $slots.badge" :class="badgeContainerClasses">
@@ -167,7 +173,13 @@ const cardClasses = computed(() => {
   } else if (props.variant === 'side') {
     baseClasses.push('card-side');
   } else if (props.variant === 'outline') {
-    baseClasses.push('border-2', 'border-base-300', 'bg-transparent', 'hover:border-primary', 'hover:shadow-md');
+    baseClasses.push(
+      'border-2',
+      'border-base-300',
+      'bg-transparent',
+      'hover:border-primary',
+      'hover:shadow-md'
+    );
   }
 
   // Shadow
@@ -182,7 +194,14 @@ const cardClasses = computed(() => {
 
   // Interactive states
   if (props.interactive && !props.disabled) {
-    baseClasses.push('hover:shadow-lg', 'cursor-pointer', 'focus:outline-none', 'focus:ring-2', 'focus:ring-primary', 'focus:ring-offset-2');
+    baseClasses.push(
+      'hover:shadow-lg',
+      'cursor-pointer',
+      'focus:outline-none',
+      'focus:ring-2',
+      'focus:ring-primary',
+      'focus:ring-offset-2'
+    );
     if (isHovered.value) {
       baseClasses.push('transform', 'scale-[1.02]');
     }
@@ -238,12 +257,7 @@ const imageOverlayClasses = computed(() => [
   'text-white',
 ]);
 
-const contentWrapperClasses = computed(() => [
-  'card-content',
-  'flex-1',
-  'flex',
-  'flex-col',
-]);
+const contentWrapperClasses = computed(() => ['card-content', 'flex-1', 'flex', 'flex-col']);
 
 const headerClasses = computed(() => [
   'card-header',
@@ -263,56 +277,41 @@ const titleClasses = computed(() => {
   return classes;
 });
 
-const subtitleClasses = computed(() => [
-  'text-sm',
-  'opacity-70',
-  'mt-1',
-]);
+const subtitleClasses = computed(() => ['text-sm', 'opacity-70', 'mt-1']);
 
 const bodyClasses = computed(() => {
   const classes = ['card-body', 'px-4'];
-  
+
   // Adjust padding based on variant and presence of header/footer
   if (props.variant === 'compact') {
     classes.push('py-2');
   } else {
     classes.push('py-2');
   }
-  
+
   return classes;
 });
 
-const actionsClasses = computed(() => [
-  'card-actions',
-  'justify-end',
-  'gap-2',
-  'p-4',
-  'pt-2',
-]);
+const actionsClasses = computed(() => ['card-actions', 'justify-end', 'gap-2', 'p-4', 'pt-2']);
 
 const footerClasses = computed(() => {
   const classes = ['card-footer', 'p-4', 'pt-4'];
-  
+
   // Only add border for non-outline variants
   if (props.variant !== 'outline') {
     classes.push('border-t', 'border-base-300');
   } else {
     classes.push('border-t', 'border-base-200');
   }
-  
+
   return classes;
 });
 
-const badgeContainerClasses = computed(() => [
-  'flex',
-  'items-center',
-  'gap-2',
-  'mb-2',
-]);
+const badgeContainerClasses = computed(() => ['flex', 'items-center', 'gap-2', 'mb-2']);
 
 const badgeClasses = computed(() => {
   const classes = ['badge'];
-  
+
   if (props.badgeVariant === 'primary') {
     classes.push('badge-primary');
   } else if (props.badgeVariant === 'secondary') {
@@ -328,7 +327,7 @@ const badgeClasses = computed(() => {
   } else if (props.badgeVariant === 'info') {
     classes.push('badge-info');
   }
-  
+
   return classes;
 });
 
@@ -416,18 +415,18 @@ defineExpose({
   .card {
     @apply w-full;
   }
-  
+
   .card-side {
     @apply flex-col;
   }
 }
 
 /* Accessibility improvements */
-.card[role="button"] {
+.card[role='button'] {
   @apply cursor-pointer;
 }
 
-.card[aria-disabled="true"] {
+.card[aria-disabled='true'] {
   @apply pointer-events-none;
 }
 </style>

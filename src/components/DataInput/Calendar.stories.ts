@@ -9,7 +9,8 @@ const meta: Meta<typeof Calendar> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A comprehensive calendar component with date selection, range selection, time picker, and full accessibility support. Built with DaisyUI and Tailwind CSS. Uses Vue 3.4 defineModel() for optimal v-model handling.',
+        component:
+          'A comprehensive calendar component with date selection, range selection, time picker, and full accessibility support. Built with DaisyUI and Tailwind CSS. Uses Vue 3.4 defineModel() for optimal v-model handling.',
       },
     },
   },
@@ -81,15 +82,15 @@ export const Default: Story = {
     allowMonthSelect: true,
     allowYearSelect: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Calendar },
     setup() {
       const selectedDate = ref<Date | null>(null);
-      
+
       const handleSelect = (date: Date) => {
         console.log('Date selected:', date);
       };
-      
+
       return { args, selectedDate, handleSelect };
     },
     template: `
@@ -120,11 +121,11 @@ export const Inline: Story = {
     allowMonthSelect: true,
     allowYearSelect: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Calendar },
     setup() {
       const selectedDate = ref<Date | null>(null);
-      
+
       return { args, selectedDate };
     },
     template: `
@@ -150,11 +151,11 @@ export const DateRange: Story = {
     allowMonthSelect: true,
     allowYearSelect: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Calendar },
     setup() {
       const selectedRange = ref<Date[] | null>(null);
-      
+
       return { args, selectedRange };
     },
     template: `
@@ -184,11 +185,11 @@ export const WithTimePicker: Story = {
     allowMonthSelect: true,
     allowYearSelect: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Calendar },
     setup() {
       const selectedDateTime = ref<Date | null>(null);
-      
+
       return { args, selectedDateTime };
     },
     template: `
@@ -216,7 +217,7 @@ export const DifferentSizes: Story = {
         medium: null,
         large: null,
       });
-      
+
       return { dates };
     },
     template: `
@@ -267,7 +268,7 @@ export const Variants: Story = {
         bordered: null,
         filled: null,
       });
-      
+
       return { dates };
     },
     template: `
@@ -322,11 +323,11 @@ export const WithConstraints: Story = {
     allowMonthSelect: true,
     allowYearSelect: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Calendar },
     setup() {
       const selectedDate = ref<Date | null>(null);
-      
+
       return { args, selectedDate };
     },
     template: `
@@ -351,23 +352,23 @@ export const Accessibility: Story = {
     allowMonthSelect: true,
     allowYearSelect: true,
   },
-  render: (args) => ({
+  render: args => ({
     components: { Calendar },
     setup() {
       const selectedDate = ref<Date | null>(null);
-      
+
       const handleFocus = (event: FocusEvent) => {
         console.log('Calendar focused');
       };
-      
+
       const handleBlur = (event: FocusEvent) => {
         console.log('Calendar blurred');
       };
-      
+
       const handleClose = () => {
         console.log('Calendar closed');
       };
-      
+
       return { args, selectedDate, handleFocus, handleBlur, handleClose };
     },
     template: `
@@ -399,7 +400,7 @@ export const Localization: Story = {
         french: null,
         spanish: null,
       });
-      
+
       return { dates };
     },
     template: `
@@ -448,11 +449,11 @@ export const Vue34DefineModel: Story = {
       const date1 = ref<Date | null>(null);
       const date2 = ref<Date | null>(null);
       const date3 = ref<Date | null>(null);
-      
+
       const handleDateChange = (value: Date | null, label: string) => {
         console.log(`${label} changed to:`, value);
       };
-      
+
       return { date1, date2, date3, handleDateChange };
     },
     template: `
@@ -524,7 +525,7 @@ export const States: Story = {
         readonly: null,
         error: null,
       });
-      
+
       return { dates };
     },
     template: `

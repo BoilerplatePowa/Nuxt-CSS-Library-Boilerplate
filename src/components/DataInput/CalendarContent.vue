@@ -13,15 +13,11 @@
           :disabled="disabled"
           :aria-label="`Select month`"
         >
-          <option
-            v-for="(month, index) in monthNames"
-            :key="index"
-            :value="index"
-          >
+          <option v-for="(month, index) in monthNames" :key="index" :value="index">
             {{ month }}
           </option>
         </select>
-        
+
         <!-- Year Selector -->
         <select
           v-if="allowYearSelect"
@@ -31,16 +27,12 @@
           :disabled="disabled"
           :aria-label="`Select year`"
         >
-          <option
-            v-for="year in availableYears"
-            :key="year"
-            :value="year"
-          >
+          <option v-for="year in availableYears" :key="year" :value="year">
             {{ year }}
           </option>
         </select>
       </div>
-      
+
       <!-- Navigation Buttons -->
       <div class="flex items-center gap-1">
         <button
@@ -52,7 +44,7 @@
         >
           <ChevronLeftIcon class="w-4 h-4" />
         </button>
-        
+
         <button
           @click="nextMonth"
           :class="navButtonClasses"
@@ -66,7 +58,11 @@
     </div>
 
     <!-- Calendar Grid -->
-    <div class="calendar-grid" role="grid" :aria-label="`Calendar for ${currentMonthName} ${currentYear}`">
+    <div
+      class="calendar-grid"
+      role="grid"
+      :aria-label="`Calendar for ${currentMonthName} ${currentYear}`"
+    >
       <!-- Day Headers -->
       <div class="calendar-weekdays grid grid-cols-7 gap-1 mb-2">
         <div
@@ -79,7 +75,7 @@
           {{ day }}
         </div>
       </div>
-      
+
       <!-- Calendar Days -->
       <div class="calendar-days grid grid-cols-7 gap-1">
         <button
@@ -135,7 +131,7 @@
           <XIcon class="w-4 h-4 mr-1" />
           Clear
         </button>
-        
+
         <button
           @click="applySelection"
           :class="actionButtonClasses"
@@ -189,7 +185,7 @@ const props = withDefaults(defineProps<Props>(), {
 const model = defineModel<Date | Date[] | null>();
 
 const emit = defineEmits<{
-  'close': [];
+  close: [];
 }>();
 
 // Refs
@@ -200,33 +196,33 @@ const selectedTime = ref('12:00');
 // Computed
 const containerClasses = computed(() => {
   const baseClasses = ['calendar-content'];
-  
+
   // Size
   if (props.size === 'sm') {
     baseClasses.push('text-sm');
   } else if (props.size === 'lg') {
     baseClasses.push('text-lg');
   }
-  
+
   return baseClasses.join(' ');
 });
 
 const selectClasses = computed(() => {
   const baseClasses = ['select', 'select-bordered'];
-  
+
   // Size
   if (props.size === 'sm') {
     baseClasses.push('select-sm');
   } else if (props.size === 'lg') {
     baseClasses.push('select-lg');
   }
-  
+
   return baseClasses.join(' ');
 });
 
 const navButtonClasses = computed(() => {
   const baseClasses = ['btn', 'btn-ghost', 'btn-sm', 'p-1'];
-  
+
   return baseClasses.join(' ');
 });
 
@@ -236,20 +232,20 @@ const weekdayClasses = computed(() => {
 
 const timeInputClasses = computed(() => {
   const baseClasses = ['input', 'input-bordered', 'w-full'];
-  
+
   // Size
   if (props.size === 'sm') {
     baseClasses.push('input-sm');
   } else if (props.size === 'lg') {
     baseClasses.push('input-lg');
   }
-  
+
   return baseClasses.join(' ');
 });
 
 const actionButtonClasses = computed(() => {
   const baseClasses = ['btn', 'btn-sm'];
-  
+
   return baseClasses.join(' ');
 });
 
@@ -261,24 +257,24 @@ const currentMonthName = computed(() => {
 const weekDays = computed(() => {
   const formatter = new Intl.DateTimeFormat(props.locale, { weekday: 'short' });
   const days = [];
-  
+
   // Get the first day of the week for the locale
-  const firstDayOfWeek = new Intl.DateTimeFormat(props.locale, { weekday: 'short' }).format(new Date(2024, 0, 1));
+  const firstDayOfWeek = new Intl.DateTimeFormat(props.locale, { weekday: 'short' }).format(
+    new Date(2024, 0, 1)
+  );
   const startIndex = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].indexOf(firstDayOfWeek);
-  
+
   for (let i = 0; i < 7; i++) {
     const dayIndex = (startIndex + i) % 7;
     days.push(formatter.format(new Date(2024, 0, dayIndex + 1)));
   }
-  
+
   return days;
 });
 
 const monthNames = computed(() => {
   const formatter = new Intl.DateTimeFormat(props.locale, { month: 'long' });
-  return Array.from({ length: 12 }, (_, i) => 
-    formatter.format(new Date(2024, i, 1))
-  );
+  return Array.from({ length: 12 }, (_, i) => formatter.format(new Date(2024, i, 1)));
 });
 
 const availableYears = computed(() => {
@@ -289,24 +285,24 @@ const availableYears = computed(() => {
 const calendarDays = computed(() => {
   const days = [];
   const firstDay = new Date(currentYear.value, currentMonth.value, 1);
-  const lastDay = new Date(currentYear.value, currentMonth.value + 1, 0);
+  // const lastDay = new Date(currentYear.value, currentMonth.value + 1, 0);
   const startDate = new Date(firstDay);
   startDate.setDate(startDate.getDate() - firstDay.getDay());
-  
+
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  
+
   for (let i = 0; i < 42; i++) {
     const date = new Date(startDate);
     date.setDate(startDate.getDate() + i);
-    
+
     const dayNumber = date.getDate();
     const isCurrentMonth = date.getMonth() === currentMonth.value;
     const isToday = date.getTime() === today.getTime();
     const isSelected = isDateSelected(date);
     const isInRange = isDateInRange(date);
     const disabled = isDateDisabled(date);
-    
+
     days.push({
       key: `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`,
       date,
@@ -316,19 +312,19 @@ const calendarDays = computed(() => {
       isSelected,
       isInRange,
       disabled,
-      ariaLabel: `${date.toLocaleDateString(props.locale)}${isToday ? ' (Today)' : ''}${isSelected ? ' (Selected)' : ''}`
+      ariaLabel: `${date.toLocaleDateString(props.locale)}${isToday ? ' (Today)' : ''}${isSelected ? ' (Selected)' : ''}`,
     });
   }
-  
+
   return days;
 });
 
 const timeValue = computed(() => {
   if (!model.value) return selectedTime.value;
-  
+
   const date = Array.isArray(model.value) ? model.value[0] : model.value;
   if (!date) return selectedTime.value;
-  
+
   return `${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
 });
 
@@ -354,13 +350,13 @@ const isSelectionComplete = computed(() => {
 // Methods
 const isDateSelected = (date: Date): boolean => {
   if (!model.value) return false;
-  
+
   const dateTime = date.getTime();
-  
+
   if (Array.isArray(model.value)) {
     return model.value.some((d: Date) => d.getTime() === dateTime);
   }
-  
+
   return model.value.getTime() === dateTime;
 };
 
@@ -368,12 +364,12 @@ const isDateInRange = (date: Date): boolean => {
   if (!props.range || !Array.isArray(model.value) || model.value.length !== 2) {
     return false;
   }
-  
+
   const [start, end] = model.value;
   const dateTime = date.getTime();
   const startTime = start.getTime();
   const endTime = end.getTime();
-  
+
   return dateTime >= Math.min(startTime, endTime) && dateTime <= Math.max(startTime, endTime);
 };
 
@@ -382,11 +378,11 @@ const isDateDisabled = (date: Date): boolean => {
   if (props.minDate && date < new Date(props.minDate)) {
     return true;
   }
-  
+
   if (props.maxDate && date > new Date(props.maxDate)) {
     return true;
   }
-  
+
   // Check disabled dates
   if (props.disabledDates) {
     const dateString = date.toISOString().split('T')[0];
@@ -395,21 +391,21 @@ const isDateDisabled = (date: Date): boolean => {
       return dateString === disabledDateString;
     });
   }
-  
+
   return false;
 };
 
 const dayClasses = (day: any) => {
   const baseClasses = ['btn', 'btn-sm', 'h-8', 'w-8', 'p-0', 'text-xs'];
-  
+
   if (!day.isCurrentMonth) {
     baseClasses.push('opacity-40');
   }
-  
+
   if (day.isToday) {
     baseClasses.push('ring-2', 'ring-primary');
   }
-  
+
   if (day.isSelected) {
     baseClasses.push('btn-primary');
   } else if (day.isInRange) {
@@ -419,15 +415,15 @@ const dayClasses = (day: any) => {
   } else {
     baseClasses.push('btn-ghost');
   }
-  
+
   return baseClasses.join(' ');
 };
 
 const selectDate = (date: Date) => {
   if (props.disabled || isDateDisabled(date)) return;
-  
+
   let newValue: Date | Date[] | null;
-  
+
   if (props.range) {
     if (!Array.isArray(model.value) || model.value.length === 0) {
       newValue = [date];
@@ -444,7 +440,7 @@ const selectDate = (date: Date) => {
   } else {
     newValue = date;
   }
-  
+
   model.value = newValue;
 };
 
@@ -471,12 +467,12 @@ const handleYearChange = (event: Event) => {
 const handleTimeInput = (event: Event) => {
   const target = event.target as HTMLInputElement;
   selectedTime.value = target.value;
-  
+
   if (model.value) {
     const [hours, minutes] = target.value.split(':').map(Number);
     const newDate = new Date(Array.isArray(model.value) ? model.value[0] : model.value);
     newDate.setHours(hours, minutes);
-    
+
     if (props.range && Array.isArray(model.value)) {
       model.value = [newDate, model.value[1]];
     } else {
@@ -512,11 +508,15 @@ const applySelection = () => {
 };
 
 // Watchers
-watch(() => model.value, (newValue) => {
-  if (newValue) {
-    const date = Array.isArray(newValue) ? newValue[0] : newValue;
-    currentMonth.value = date.getMonth();
-    currentYear.value = date.getFullYear();
-  }
-}, { immediate: true });
+watch(
+  () => model.value,
+  newValue => {
+    if (newValue) {
+      const date = Array.isArray(newValue) ? newValue[0] : newValue;
+      currentMonth.value = date.getMonth();
+      currentYear.value = date.getFullYear();
+    }
+  },
+  { immediate: true }
+);
 </script>

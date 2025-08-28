@@ -11,7 +11,7 @@ const meta: Meta<typeof Modal> = {
     docs: {
       description: {
         component:
-          'A flexible modal component built on DaisyUI\'s native modal system. Uses the HTML dialog element with DaisyUI modal classes for consistent styling and behavior. Features Button and Icon components for the close button. Supports Vue 3.5+ `defineModel()` for two-way binding.',
+          "A flexible modal component built on DaisyUI's native modal system. Uses the HTML dialog element with DaisyUI modal classes for consistent styling and behavior. Features Button and Icon components for the close button. Supports Vue 3.5+ `defineModel()` for two-way binding.",
       },
     },
   },
@@ -73,7 +73,7 @@ export const Default: Story = {
         console.log('Opening modal');
         isOpen.value = true;
       };
-      
+
       return { args, isOpen, openModal };
     },
     template: `
@@ -114,7 +114,7 @@ export const DaisyUINative: Story = {
           modal.showModal();
         }
       };
-      
+
       return { showModal };
     },
     template: `
@@ -139,7 +139,8 @@ export const DaisyUINative: Story = {
   parameters: {
     docs: {
       description: {
-        story: 'This example shows the traditional DaisyUI modal pattern using the native HTML dialog element with showModal() method.',
+        story:
+          'This example shows the traditional DaisyUI modal pattern using the native HTML dialog element with showModal() method.',
       },
     },
   },
@@ -397,11 +398,11 @@ export const FormExample: Story = {
         email: '',
         message: '',
       });
-      
+
       const openModal = () => {
         isOpen.value = true;
       };
-      
+
       const submitForm = () => {
         console.log('Form submitted:', formData.value);
         isOpen.value = false;

@@ -25,7 +25,7 @@ export const Default: Story = {
   args: {
     title: 'My Application',
   },
-  render: (args) => ({
+  render: args => ({
     components: { WindowMockup },
     setup() {
       return { args };

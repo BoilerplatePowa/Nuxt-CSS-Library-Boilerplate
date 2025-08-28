@@ -8,7 +8,8 @@ const meta: Meta<typeof Kbd> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'Keyboard key representation component for displaying keyboard shortcuts and key combinations.',
+        component:
+          'Keyboard key representation component for displaying keyboard shortcuts and key combinations.',
       },
     },
   },

@@ -173,7 +173,7 @@ describe('Tabs', () => {
 
   it('has distinct styling for different variants', () => {
     const variants = ['bordered', 'lifted', 'boxed'] as const;
-    
+
     variants.forEach(variant => {
       const wrapper = mount(Tabs, {
         props: {

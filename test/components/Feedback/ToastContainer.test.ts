@@ -36,7 +36,10 @@ describe('ToastContainer', () => {
     const positions = [
       { position: 'top-left', classes: ['top-4', 'left-4'] },
       { position: 'top-right', classes: ['top-4', 'right-4'] },
-      { position: 'bottom-center', classes: ['bottom-4', 'left-1/2', 'transform', '-translate-x-1/2'] },
+      {
+        position: 'bottom-center',
+        classes: ['bottom-4', 'left-1/2', 'transform', '-translate-x-1/2'],
+      },
     ] as const;
 
     positions.forEach(({ position, classes }) => {
@@ -159,7 +162,7 @@ describe('ToastContainer', () => {
     });
 
     const toastElements = wrapper.findAllComponents({ name: 'Toast' });
-    
+
     // First toast (oldest) should have highest z-index
     expect(toastElements[0].attributes('style')).toContain('z-index: 5');
     // Second toast should have lower z-index

@@ -1,7 +1,7 @@
 <template>
   <ul :class="listClasses">
-    <li 
-      v-for="(item, index) in items" 
+    <li
+      v-for="(item, index) in items"
       :key="getItemKey(item, index)"
       :class="getItemClasses(item)"
       @click="handleItemClick(item, index, $event)"
@@ -9,19 +9,15 @@
       <slot name="item" :item="item" :index="index">
         <!-- Default item rendering -->
         <div v-if="item.avatar || item.icon" :class="avatarClasses">
-          <img 
-            v-if="item.avatar" 
-            :src="item.avatar" 
+          <img
+            v-if="item.avatar"
+            :src="item.avatar"
             :alt="item.avatarAlt || ''"
             class="w-full h-full object-cover"
           />
-          <component 
-            v-else-if="item.icon" 
-            :is="item.icon"
-            class="w-6 h-6"
-          />
+          <component v-else-if="item.icon" :is="item.icon" class="w-6 h-6" />
         </div>
-        
+
         <div class="flex-1">
           <div class="flex justify-between items-start">
             <div class="flex items-center gap-2">
@@ -34,12 +30,12 @@
               {{ item.meta }}
             </div>
           </div>
-          
+
           <p v-if="item.subtitle" class="text-sm opacity-70 mt-1">{{ item.subtitle }}</p>
           <p v-if="item.description" class="text-sm mt-1">{{ item.description }}</p>
-          
+
           <div v-if="item.actions" class="flex gap-2 mt-2">
-            <button 
+            <button
               v-for="action in item.actions"
               :key="action.label"
               :class="getActionClasses(action)"
@@ -51,13 +47,26 @@
         </div>
       </slot>
     </li>
-    
+
     <!-- Empty state -->
-    <li v-if="items.length === 0 && showEmpty" class="list-item text-center justify-center py-8 opacity-60">
+    <li
+      v-if="items.length === 0 && showEmpty"
+      class="list-item text-center justify-center py-8 opacity-60"
+    >
       <slot name="empty">
         <div>
-          <svg class="w-12 h-12 mx-auto mb-4 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+          <svg
+            class="w-12 h-12 mx-auto mb-4 opacity-40"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"
+            />
           </svg>
           <p>No items found</p>
         </div>
@@ -142,7 +151,7 @@ const listClasses = computed(() => {
 
 const avatarClasses = computed(() => {
   const baseClasses = ['avatar', 'mr-3'];
-  
+
   if (props.size === 'sm') {
     baseClasses.push('w-8', 'h-8');
   } else if (props.size === 'lg') {
@@ -192,11 +201,15 @@ const getItemClasses = (item: ListItem) => {
 
 const getBadgeClasses = (badge: string) => {
   const baseClasses = ['badge', 'badge-sm'];
-  
+
   // Color based on badge text
   const lowerBadge = badge.toLowerCase();
-  
-  if (lowerBadge.includes('high') || lowerBadge.includes('urgent') || lowerBadge.includes('error')) {
+
+  if (
+    lowerBadge.includes('high') ||
+    lowerBadge.includes('urgent') ||
+    lowerBadge.includes('error')
+  ) {
     baseClasses.push('badge-error');
   } else if (lowerBadge.includes('medium') || lowerBadge.includes('warning')) {
     baseClasses.push('badge-warning');
@@ -207,7 +220,7 @@ const getBadgeClasses = (badge: string) => {
   } else {
     baseClasses.push('badge-primary');
   }
-  
+
   return baseClasses.join(' ');
 };
 
@@ -239,7 +252,7 @@ const getActionClasses = (action: ListAction) => {
 
 const handleItemClick = (item: ListItem, index: number, event: Event) => {
   if (item.disabled) return;
-  
+
   if (props.clickable || item.selectable || props.selectable) {
     emit('itemClick', item, index, event);
   }
@@ -247,11 +260,11 @@ const handleItemClick = (item: ListItem, index: number, event: Event) => {
 
 const handleActionClick = (action: ListAction, item: ListItem, index: number, event: Event) => {
   if (action.disabled) return;
-  
+
   if (action.handler) {
     action.handler();
   }
-  
+
   emit('actionClick', action, item, index, event);
 };
 </script>

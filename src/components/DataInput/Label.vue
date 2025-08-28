@@ -1,9 +1,5 @@
 <template>
-  <component 
-    :is="tag"
-    :class="labelClasses"
-    :for="htmlFor"
-  >
+  <component :is="tag" :class="labelClasses" :for="htmlFor">
     <slot name="start" />
     <span v-if="text" class="label-text">{{ text }}</span>
     <slot />

@@ -8,7 +8,8 @@ const meta: Meta<typeof Icon> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'A flexible icon component that wraps Lucide icons with consistent styling and props.',
+        component:
+          'A flexible icon component that wraps Lucide icons with consistent styling and props.',
       },
     },
   },
@@ -228,4 +229,3 @@ export const WithColors: Story = {
     `,
   }),
 };
-
