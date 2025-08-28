@@ -493,7 +493,7 @@ export const ComplexForm: Story = {
             name="bio"
             label="Bio"
             placeholder="Tell us about yourself..."
-            maxlength="200"
+            :maxlength="200"
             show-char-count
           />
           
