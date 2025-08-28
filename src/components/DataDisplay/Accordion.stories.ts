@@ -231,7 +231,7 @@ export const MultipleAccordions: Story = {
               {
                 value: 'faq-1',
                 title: 'How do I reset my password?',
-                content: 'Click on the "Forgot Password" link on the login page and follow the instructions sent to your email.'
+                content: 'Click on the &quot;Forgot Password&quot; link on the login page and follow the instructions sent to your email.'
               },
               {
                 value: 'faq-2',
