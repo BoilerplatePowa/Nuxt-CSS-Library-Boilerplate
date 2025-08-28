@@ -55,13 +55,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { computed, watch } from 'vue';
 
 // Generate unique ID for each drawer instance
 const generateDrawerId = () => `drawer-${Math.random().toString(36).substr(2, 9)}`;
 
 interface Props {
-  modelValue?: boolean;
   position?: 'left' | 'right' | 'top' | 'bottom';
   width?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
   backdrop?: boolean;
@@ -71,7 +70,6 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  modelValue: false,
   position: 'left',
   width: 'md',
   backdrop: true,
@@ -80,26 +78,18 @@ const props = withDefaults(defineProps<Props>(), {
   id: undefined,
 });
 
+// Use defineModel for v-model support (Vue 3.4+)
+const isOpen = defineModel<boolean>({ default: false });
+
 const emit = defineEmits<{
-  'update:modelValue': [value: boolean];
   open: [];
   close: [];
 }>();
 
 const drawerId = props.id || generateDrawerId();
-const isOpen = ref(props.modelValue);
 
-// Watch for external model value changes
-watch(
-  () => props.modelValue,
-  (newValue) => {
-    isOpen.value = newValue;
-  }
-);
-
-// Watch internal state changes
+// Watch internal state changes to emit events
 watch(isOpen, (newValue) => {
-  emit('update:modelValue', newValue);
   if (newValue) {
     emit('open');
   } else {
