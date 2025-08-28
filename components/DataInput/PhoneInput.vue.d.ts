@@ -15,7 +15,7 @@ interface PhoneInputProps {
     ariaDescribedby?: string;
     rules?: any;
     showValidation?: boolean;
-    countries?: CountryCode[];
+    countriesCodes?: CountryCode[];
     showExampleNumber?: boolean;
 }
 type __VLS_Props = PhoneInputProps;
@@ -54,7 +54,7 @@ declare const _default: import('vue').DefineComponent<__VLS_PublicProps, {}, {},
     rules: any;
     defaultCountry: CountryCode;
     showValidation: boolean;
-    countries: CountryCode[];
+    countriesCodes: CountryCode[];
     showExampleNumber: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
     inputRef: HTMLInputElement;
