@@ -16,78 +16,164 @@ const meta: Meta<typeof Avatar> = {
   tags: ['autodocs'],
   argTypes: {
     src: {
+      type: 'string',
       control: { type: 'text' },
       description: 'Image source URL',
+      table: {
+        type: { summary: 'string' },
+      },
     },
     alt: {
+      type: 'string',
       control: { type: 'text' },
       description: 'Alt text for image',
+      table: {
+        type: { summary: 'string' },
+      },
     },
     name: {
+      type: 'string',
       control: { type: 'text' },
       description: 'User name for generating initials',
+      table: {
+        type: { summary: 'string' },
+      },
     },
     placeholder: {
+      type: 'string',
       control: { type: 'text' },
       description: 'Placeholder text (shown when no image)',
+      table: {
+        type: { summary: 'string' },
+      },
     },
     initials: {
+      type: 'string',
       control: { type: 'text' },
       description: 'Custom initials to display',
+      table: {
+        type: { summary: 'string' },
+      },
     },
     size: {
+      type: 'string',
       control: { type: 'select' },
       options: ['xs', 'sm', 'md', 'lg', 'xl', '2xl'],
       description: 'Avatar size',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'md' },
+      },
     },
     shape: {
+      type: 'string',
       control: { type: 'select' },
       options: ['circle', 'square', 'rounded'],
       description: 'Avatar shape',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'circle' },
+      },
     },
     presence: {
+      type: 'string',
       control: { type: 'select' },
       options: ['online', 'offline', 'away', 'busy'],
       description: 'Presence status',
+      table: {
+        type: { summary: 'string' },
+      },
     },
     showPresence: {
+      type: 'boolean',
       control: { type: 'boolean' },
       description: 'Show presence indicator',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
     },
     ring: {
+      type: 'boolean',
       control: { type: 'boolean' },
       description: 'Show ring around avatar',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
     },
     ringColor: {
+      type: 'string',
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error'],
+      options: ['bordered', 'ghost', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error', 'neutral'],
       description: 'Ring color',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'primary' },
+      },
     },
     badge: {
+      type: 'string',
       control: { type: 'text' },
       description: 'Badge text to display',
+      table: {
+        type: { summary: 'string' },
+      },
     },
     badgeVariant: {
+      type: 'string',
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'accent', 'neutral', 'success', 'warning', 'error'],
+      options: ['bordered', 'ghost', 'primary', 'secondary', 'accent', 'info', 'success', 'warning', 'error', 'neutral'],
       description: 'Badge variant',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'primary' },
+      },
     },
     count: {
+      type: 'number',
       control: { type: 'number' },
       description: 'Count number to display as badge',
+      table: {
+        type: { summary: 'number' },
+      },
     },
     loading: {
+      type: 'boolean',
       control: { type: 'boolean' },
       description: 'Show loading state',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'false' },
+      },
     },
     lazy: {
+      type: 'boolean',
       control: { type: 'boolean' },
       description: 'Enable lazy loading for image',
+      table: {
+        type: { summary: 'boolean' },
+        defaultValue: { summary: 'true' },
+      },
     },
     fallbackColor: {
+      type: 'string',
       control: { type: 'select' },
       options: ['primary', 'secondary', 'accent', 'neutral', 'random'],
-      description: 'Background color for placeholder',
+      description: 'Background color for placeholder (random generates color from name)',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'neutral' },
+      },
+    },
+    fallbackIcon: {
+      type: 'string',
+      control: { type: 'text' },
+      description: 'Icon to show when no image, name, or placeholder is provided',
+      table: {
+        type: { summary: 'string' },
+        defaultValue: { summary: 'user' },
+      },
     },
   },
 };
