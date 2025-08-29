@@ -46,9 +46,9 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
     variant: "default" | "zebra" | "compact" | "bordered";
     loading: boolean;
     data: Record<string, any>[];
-    showHeader: boolean;
     selectable: boolean;
     hoverable: boolean;
+    showHeader: boolean;
     emptyText: string;
     rowKey: string;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;

@@ -47,8 +47,8 @@ declare const _default: import('vue').DefineComponent<__VLS_PublicProps, {}, {},
     ariaDescribedby: string;
     label: string;
     placeholder: string;
-    helpText: string;
     readonly: boolean;
+    helpText: string;
     maxlength: number;
     showCharCount: boolean;
     rules: any;

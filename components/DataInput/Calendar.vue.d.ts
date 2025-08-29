@@ -44,13 +44,13 @@ declare const _default: import('vue').DefineComponent<__VLS_PublicProps, {}, {},
     variant: "default" | "bordered" | "filled";
     disabled: boolean;
     placeholder: string;
-    readonly: boolean;
     locale: string;
     showTime: boolean;
     timeStep: number;
     allowMonthSelect: boolean;
     allowYearSelect: boolean;
     yearRange: [number, number];
+    readonly: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {
     calendarRef: HTMLDivElement;
     inputRef: HTMLInputElement;

@@ -37,12 +37,12 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, 
 }>, {
     size: "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
     loading: boolean;
-    badgeVariant: Variant;
-    lazy: boolean;
     shape: "circle" | "square" | "rounded";
     showPresence: boolean;
     ring: boolean;
     ringColor: Variant;
+    badgeVariant: Variant;
+    lazy: boolean;
     fallbackColor: "primary" | "secondary" | "accent" | "neutral" | "random";
     fallbackIcon: IconName;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;

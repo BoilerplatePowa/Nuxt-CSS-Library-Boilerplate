@@ -32,8 +32,8 @@ declare const _default: import('vue').DefineComponent<__VLS_PublicProps, {}, {},
     variant: Variant;
     disabled: boolean;
     indeterminate: boolean;
+    validateOnValueUpdate: boolean;
     validateOnBlur: boolean;
     validateOnChange: boolean;
-    validateOnValueUpdate: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 export default _default;

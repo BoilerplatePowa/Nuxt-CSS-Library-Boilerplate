@@ -35,10 +35,10 @@ declare const _default: import('vue').DefineComponent<Props, {}, {}, {}, {}, imp
 }>, {
     mode: "unified" | "split";
     size: "sm" | "md" | "lg";
+    actions: DiffAction[];
     showHeader: boolean;
     showStats: boolean;
     showLineNumbers: boolean;
     highlightWords: boolean;
-    actions: DiffAction[];
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;
 export default _default;

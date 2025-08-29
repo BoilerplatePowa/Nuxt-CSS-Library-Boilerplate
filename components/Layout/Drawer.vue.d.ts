@@ -28,17 +28,17 @@ declare function __VLS_template(): {
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<__VLS_PublicProps, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     close: () => any;
-    "update:modelValue": (value: boolean) => any;
     open: () => any;
+    "update:modelValue": (value: boolean) => any;
 }, string, import('vue').PublicProps, Readonly<__VLS_PublicProps> & Readonly<{
     onClose?: (() => any) | undefined;
-    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
     onOpen?: (() => any) | undefined;
+    "onUpdate:modelValue"?: ((value: boolean) => any) | undefined;
 }>, {
     id: string;
     width: "sm" | "md" | "lg" | "xl" | "full";
-    persistent: boolean;
     position: "left" | "right" | "top" | "bottom";
+    persistent: boolean;
     backdrop: boolean;
     showCloseButton: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;

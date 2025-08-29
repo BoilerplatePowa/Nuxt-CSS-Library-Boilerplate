@@ -54,11 +54,11 @@ declare const _default: import('vue').DefineComponent<__VLS_PublicProps, {
     variant: "default" | "bordered" | "ghost" | "filled";
     disabled: boolean;
     readonly: boolean;
+    validateOnBlur: boolean;
+    showSummary: boolean;
     showCharCount: boolean;
     rules: ValidationRule[];
-    validateOnBlur: boolean;
     validateOnInput: boolean;
-    showSummary: boolean;
     rows: number;
     showValidationIcon: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;

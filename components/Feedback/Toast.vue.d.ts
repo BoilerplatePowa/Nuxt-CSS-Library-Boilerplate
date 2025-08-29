@@ -53,11 +53,11 @@ declare const _default: __VLS_WithTemplateSlots<import('vue').DefineComponent<{
     fixed: boolean;
     type: "success" | "error" | "warning" | "info";
     autoFocus: boolean;
+    position: "top-right" | "top-left" | "bottom-right" | "bottom-left" | "top-center" | "bottom-center";
     closable: boolean;
     persistent: boolean;
-    duration: number;
-    position: "top-right" | "top-left" | "bottom-right" | "bottom-left" | "top-center" | "bottom-center";
     showProgress: boolean;
+    duration: number;
     pauseOnHover: boolean;
     announceToScreenReader: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {

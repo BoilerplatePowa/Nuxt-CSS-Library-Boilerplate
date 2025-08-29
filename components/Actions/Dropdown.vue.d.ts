@@ -40,21 +40,21 @@ declare const __VLS_component: import('vue').DefineComponent<Props, {
     focus: () => void | undefined;
 }, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
     close: () => any;
-    open: () => any;
     "item-click": (item: DropdownItem, event: Event) => any;
+    open: () => any;
     "update:open": (value: boolean) => any;
 }, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
     onClose?: (() => any) | undefined;
-    onOpen?: (() => any) | undefined;
     "onItem-click"?: ((item: DropdownItem, event: Event) => any) | undefined;
+    onOpen?: (() => any) | undefined;
     "onUpdate:open"?: ((value: boolean) => any) | undefined;
 }>, {
     size: "xs" | "sm" | "md" | "lg";
     variant: "primary" | "secondary" | "accent" | "ghost" | "outline";
     disabled: boolean;
     autoFocus: boolean;
-    position: "bottom" | "top" | "left" | "right";
     items: DropdownItem[];
+    position: "bottom" | "top" | "left" | "right";
     align: "start" | "end";
     hover: boolean;
     forceOpen: boolean;

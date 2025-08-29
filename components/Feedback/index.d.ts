@@ -7,5 +7,3 @@ export { default as Toast } from './Toast.vue';
 export { default as ToastContainer } from './ToastContainer.vue';
 export { default as Tooltip } from './Tooltip.vue';
 export { useToast } from './useToast';
-export type { ToastOptions } from './useToast';
-export type { ToastItem } from './ToastContainer.vue';

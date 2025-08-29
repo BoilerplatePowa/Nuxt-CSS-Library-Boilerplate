@@ -37,10 +37,10 @@ declare const __VLS_component: import('vue').DefineComponent<StatusBoxProps, {},
 }>, {
     size: "sm" | "md" | "lg";
     variant: "success" | "error" | "warning" | "info" | "pending" | "neutral";
-    visible: boolean;
     actions: StatusAction[];
     showIndicator: boolean;
     dismissible: boolean;
+    visible: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, any>;
 declare const _default: __VLS_WithTemplateSlots<typeof __VLS_component, __VLS_TemplateResult["slots"]>;
 export default _default;

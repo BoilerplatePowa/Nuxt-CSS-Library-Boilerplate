@@ -60,7 +60,6 @@ declare const __VLS_component: import('vue').DefineComponent<__VLS_PublicProps, 
     "onWizard-cancel"?: (() => any) | undefined;
 }>, {
     ariaLabel: string;
-    showProgress: boolean;
     stepData: Record<string, any>;
     showSteps: boolean;
     stepsVariant: "default" | "vertical";
@@ -69,6 +68,7 @@ declare const __VLS_component: import('vue').DefineComponent<__VLS_PublicProps, 
     nextButtonText: string;
     previousButtonText: string;
     submitButtonText: string;
+    showProgress: boolean;
     showSummary: boolean;
     validateOnStepChange: boolean;
 }, {}, {}, {}, string, import('vue').ComponentProvideOptions, false, {}, HTMLDivElement>;

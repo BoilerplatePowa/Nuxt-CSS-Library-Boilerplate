@@ -44,11 +44,11 @@ declare function __VLS_template(): {
 };
 type __VLS_TemplateResult = ReturnType<typeof __VLS_template>;
 declare const __VLS_component: import('vue').DefineComponent<Props, {}, {}, {}, {}, import('vue').ComponentOptionsMixin, import('vue').ComponentOptionsMixin, {
-    actionClick: (action: ListAction, item: ListItem, index: number, event: Event) => any;
     itemClick: (item: ListItem, index: number, event: Event) => any;
+    actionClick: (action: ListAction, item: ListItem, index: number, event: Event) => any;
 }, string, import('vue').PublicProps, Readonly<Props> & Readonly<{
-    onActionClick?: ((action: ListAction, item: ListItem, index: number, event: Event) => any) | undefined;
     onItemClick?: ((item: ListItem, index: number, event: Event) => any) | undefined;
+    onActionClick?: ((action: ListAction, item: ListItem, index: number, event: Event) => any) | undefined;
 }>, {
     size: "sm" | "md" | "lg";
     variant: "default" | "bordered" | "hover" | "zebra";
