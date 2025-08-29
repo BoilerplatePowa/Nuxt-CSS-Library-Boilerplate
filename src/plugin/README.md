@@ -1,6 +1,6 @@
-# Nuxt Design System Plugin
+# Nuxt Design System Module
 
-A comprehensive Nuxt 4 plugin for the BoilerplatePowa Design System that automatically registers all components, composables, and styles.
+A comprehensive Nuxt 4 module for the BoilerplatePowa Design System that automatically registers all components, composables, and styles.
 
 ## Features
 
@@ -22,7 +22,7 @@ The plugin is automatically included when you install the design system package.
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['~/src/plugin/index.ts'],
+  modules: ['@boilerplatepowa/nuxt-design-system'],
   
   designSystem: {
     prefix: 'Bp',
@@ -38,7 +38,7 @@ export default defineNuxtConfig({
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['~/src/plugin/index.ts'],
+  modules: ['@boilerplatepowa/nuxt-design-system'],
   
   designSystem: {
     // Custom prefix for all components
@@ -185,8 +185,8 @@ You can also import components manually for better tree-shaking:
 
 ```vue
 <script setup>
-import { Button, Card } from '~/components/Actions';
-import { Alert, Progress } from '~/components/Feedback';
+import { Button, Card } from '@boilerplatepowa/nuxt-design-system';
+import { Alert, Progress } from '@boilerplatepowa/nuxt-design-system';
 </script>
 
 <template>
@@ -233,10 +233,12 @@ To reduce bundle size, you can load only the components you need:
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
+  modules: ['@boilerplatepowa/nuxt-design-system'],
   designSystem: {
     components: ['Button', 'Card', 'Input'], // Only these components will be loaded
   },
 });
+```
 ```
 
 ### Manual Imports for Tree-shaking
@@ -246,6 +248,7 @@ For even better tree-shaking, use manual imports instead of global registration:
 ```typescript
 // nuxt.config.ts
 export default defineNuxtConfig({
+  modules: ['@boilerplatepowa/nuxt-design-system'],
   designSystem: {
     components: false, // Disable global registration
   },
@@ -256,8 +259,7 @@ Then import components manually:
 
 ```vue
 <script setup>
-import { Button } from '~/components/Actions';
-import { Card } from '~/components/DataDisplay';
+import { Button, Card } from '@boilerplatepowa/nuxt-design-system';
 </script>
 ```
 

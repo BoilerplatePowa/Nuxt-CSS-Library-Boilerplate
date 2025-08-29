@@ -1,4 +1,4 @@
-// DaisyUI Data Input Category
+// DataInput category exports
 export { default as Calendar } from './Calendar.vue';
 export { default as Checkbox } from './Checkbox.vue';
 export { default as Fieldset } from './Fieldset.vue';
@@ -15,3 +15,5 @@ export { default as Select } from './Select.vue';
 export { default as Textarea } from './Textarea.vue';
 export { default as Toggle } from './Toggle.vue';
 export { default as Validator } from './Validator.vue';
+
+

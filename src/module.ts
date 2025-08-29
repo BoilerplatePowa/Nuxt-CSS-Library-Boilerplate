@@ -33,7 +33,7 @@ const CSS_FILES = [
   'timeline.css',
 ] as const;
 
-const module = defineNuxtModule<ModuleOptions>({
+export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: '@boilerplatepowa/nuxt-design-system',
     configKey: 'designSystem',
@@ -103,5 +103,3 @@ const module = defineNuxtModule<ModuleOptions>({
 
 // Export types and constants for external use
 export { COMPONENT_CATEGORIES, CSS_FILES };
-
-export default module;

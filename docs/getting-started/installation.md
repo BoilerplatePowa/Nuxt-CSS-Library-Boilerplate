@@ -1,16 +1,6 @@
 # Installation Guide
 
-This guide will help you install and set up the **@boilerplatepowa/nuxt-design-system** in your Nuxt 4 project.
-
-## Prerequisites
-
-Before installing the design system, ensure you have:
-
-- **Node.js 22.12.0+** (required)
-- **npm 10+**
-- **Nuxt 4** project
-
-## Package Installation
+## Quick Start
 
 ### 1. Install the Package
 
@@ -18,167 +8,152 @@ Before installing the design system, ensure you have:
 npm install @boilerplatepowa/nuxt-design-system
 ```
 
-### 2. GitHub Packages Authentication
-
-This package is published on GitHub Packages. You need to authenticate:
-
-#### Option A: Create a GitHub Token
-
-1. **Create a GitHub token**:
-   - Go to GitHub → Settings → Developer settings → Personal access tokens
-   - Create a token with `read:packages` permissions
-
-2. **Configure npm**:
-
-   ```bash
-   npm login --registry=https://npm.pkg.github.com
-   # Use your GitHub username and token as password
-   ```
-
-#### Option B: Create a .npmrc File
-
-Create a `.npmrc` file in your project root:
-
-```bash
-@boilerplatepowa:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${PACKAGE_TOKEN}
-```
-
-Then set your token as an environment variable:
-
-```bash
-export PACKAGE_TOKEN=your_github_token_here
-```
-
-## Nuxt Configuration
-
-### 1. Add the Module
-
-In your `nuxt.config.ts`:
+### 2. Add to Nuxt Configuration
 
 ```typescript
+// nuxt.config.ts
 export default defineNuxtConfig({
   modules: ['@boilerplatepowa/nuxt-design-system'],
-  
-  // Design System configuration
   designSystem: {
-    prefix: 'Bp', // Component prefix (optional)
-    components: true, // Auto-register components
-    css: true, // Include global CSS
+    prefix: 'Bp',
+    components: true,
+    css: true,
+    composables: true,
   },
-  
-  // Compatible with Nuxt 4
-  compatibilityDate: '2024-11-01',
 });
 ```
 
-### 2. Configuration Options
+### 3. Use Components
+
+```vue
+<template>
+  <BpButton variant="primary">Hello Design System!</BpButton>
+  <BpCard title="Welcome">Your components are ready!</BpCard>
+</template>
+```
+
+## Configuration Options
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `prefix` | `string` | `'Bp'` | Component prefix for global registration |
-| `components` | `boolean` | `true` | Auto-register all components globally |
-| `css` | `boolean` | `true` | Include design system CSS |
+| `prefix` | `string` | `'Bp'` | Prefix for auto-imported components |
+| `components` | `boolean \| string[]` | `true` | Enable/disable component auto-imports or specify components to load |
+| `css` | `boolean` | `true` | Enable/disable CSS auto-loading |
+| `composables` | `boolean` | `true` | Enable/disable composable auto-imports |
 
-## TailwindCSS Configuration
+## Advanced Configuration
 
-The design system automatically configures TailwindCSS 4 with DaisyUI. You can extend the configuration:
+### Selective Component Loading
 
-```javascript
-// tailwind.config.js
-module.exports = {
-  content: [
-    './components/**/*.{vue,js,ts,jsx,tsx}',
-    './layouts/**/*.vue',
-    './pages/**/*.vue',
-    './plugins/**/*.{js,ts}',
-    './app.vue',
-  ],
-  theme: {
-    extend: {
-      // Your custom extensions
-    },
+```typescript
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@boilerplatepowa/nuxt-design-system'],
+  designSystem: {
+    prefix: 'Bp',
+    components: ['Button', 'Card', 'Input', 'Alert'], // Only load these components
+    css: true,
+    composables: true,
   },
-  plugins: [require('daisyui')],
-  daisyui: {
-    themes: [
-      // Design system themes are automatically added
-    ],
-  },
-};
+});
 ```
 
-## PostCSS Configuration
+### Custom Prefix
 
-For TailwindCSS 4 compatibility, ensure your `postcss.config.cjs` uses:
-
-```javascript
-module.exports = {
-  plugins: {
-    '@tailwindcss/postcss': {},
-    autoprefixer: {},
+```typescript
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@boilerplatepowa/nuxt-design-system'],
+  designSystem: {
+    prefix: 'MyDS', // Custom prefix
+    components: true,
+    css: true,
   },
-};
+});
 ```
-
-## Verification
-
-### 1. Check Installation
-
-After installation, you should be able to use components:
 
 ```vue
 <template>
-  <div>
-    <BpButton variant="primary">Hello Design System!</BpButton>
-    <BpCard title="Welcome">Your components are ready!</BpCard>
-  </div>
+  <MyDSButton variant="primary">Custom Button</MyDSButton>
+  <MyDSCard title="Custom Card">Content</MyDSCard>
 </template>
 ```
 
-### 2. Verify Auto-Imports
+### Disable Auto-imports
 
-Components should be automatically available without manual imports:
+```typescript
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@boilerplatepowa/nuxt-design-system'],
+  designSystem: {
+    components: false, // Disable auto-imports
+    css: true,
+    composables: false, // Disable composable auto-imports
+  },
+});
+```
+
+## Manual Imports
+
+If you prefer manual imports for better tree-shaking:
 
 ```vue
 <template>
-  <!-- These should work without imports -->
-  <BpButton>Button</BpButton>
-  <BpInput v-model="value" label="Input" />
-  <BpAlert variant="success">Success!</BpAlert>
+  <Button variant="primary">Manual Import</Button>
+  <Card title="Manual Card">Content</Card>
 </template>
+
+<script setup>
+import { Button, Card } from '@boilerplatepowa/nuxt-design-system';
+</script>
 ```
+
+## Category-based Imports
+
+Import components by category for better organization:
+
+```vue
+<script setup>
+import { Button, Modal } from '@boilerplatepowa/nuxt-design-system/components/Actions';
+import { Card, Avatar } from '@boilerplatepowa/nuxt-design-system/components/DataDisplay';
+import { Alert, Progress } from '@boilerplatepowa/nuxt-design-system/components/Feedback';
+</script>
+```
+
+## Available Categories
+
+- **Actions**: `@boilerplatepowa/nuxt-design-system/components/Actions`
+- **DataDisplay**: `@boilerplatepowa/nuxt-design-system/components/DataDisplay`
+- **DataInput**: `@boilerplatepowa/nuxt-design-system/components/DataInput`
+- **Feedback**: `@boilerplatepowa/nuxt-design-system/components/Feedback`
+- **Icons**: `@boilerplatepowa/nuxt-design-system/components/Icons`
+- **Layout**: `@boilerplatepowa/nuxt-design-system/components/Layout`
+- **Mockup**: `@boilerplatepowa/nuxt-design-system/components/Mockup`
+- **Navigation**: `@boilerplatepowa/nuxt-design-system/components/Navigation`
+
+## Requirements
+
+- **Nuxt**: ^4.0.0
+- **Vue**: ^3.5.0
+- **Node.js**: >=22.12.0
+- **npm**: >=10.0.0
 
 ## Troubleshooting
 
-### Common Issues
+### Components Not Loading
 
-1. **Authentication Error**
-   ```
-   npm ERR! 401 Unauthorized
-   ```
-   - Ensure your GitHub token has `read:packages` permission
-   - Verify your `.npmrc` configuration
+1. Check that the module is properly configured in `nuxt.config.ts`
+2. Verify the prefix is not conflicting with other components
+3. Ensure the module is listed in the `modules` array
 
-2. **Component Not Found**
-   ```
-   [Vue warn]: Unknown custom element: <BpButton>
-   ```
-   - Check that the module is properly added to `nuxt.config.ts`
-   - Verify the component prefix matches your configuration
+### CSS Not Loading
 
-3. **Styling Issues**
-   - Ensure TailwindCSS and DaisyUI are properly configured
-   - Check that PostCSS configuration is correct
+1. Check that `css: true` is set in the configuration
+2. Verify CSS file paths exist in the assets directory
+3. Check for any CSS conflicts with other modules
 
-### Getting Help
+### TypeScript Errors
 
-- 📖 [Live Storybook Documentation](https://boilerplatepowa.github.io/Nuxt-CSS-Library-Boilerplate/)
-- 🐛 [GitHub Issues](https://github.com/boilerplatepowa/nuxt-design-system/issues)
-- 💬 [Discussions](https://github.com/boilerplatepowa/nuxt-design-system/discussions)
-
-## Next Steps
-
-- [Configuration Guide](configuration.md) - Advanced configuration options
-- [Usage Guide](usage.md) - How to use components
-- [Themes Guide](themes.md) - Customizing themes
+1. Ensure TypeScript is properly configured
+2. Check that component types are being generated
+3. Verify import paths are correct

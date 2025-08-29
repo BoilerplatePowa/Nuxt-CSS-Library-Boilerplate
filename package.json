@@ -12,9 +12,50 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./tailwind": {
-      "import": "./dist/tailwind.js",
-      "require": "./dist/tailwind.cjs"
+    "./module": {
+      "types": "./dist/module.d.ts",
+      "import": "./dist/module.js",
+      "require": "./dist/module.cjs"
+    },
+    "./components/Actions": {
+      "types": "./dist/components/Actions/index.d.ts",
+      "import": "./dist/components/Actions/index.js",
+      "require": "./dist/components/Actions/index.cjs"
+    },
+    "./components/DataDisplay": {
+      "types": "./dist/components/DataDisplay/index.d.ts",
+      "import": "./dist/components/DataDisplay/index.js",
+      "require": "./dist/components/DataDisplay/index.cjs"
+    },
+    "./components/DataInput": {
+      "types": "./dist/components/DataInput/index.d.ts",
+      "import": "./dist/components/DataInput/index.js",
+      "require": "./dist/components/DataInput/index.cjs"
+    },
+    "./components/Feedback": {
+      "types": "./dist/components/Feedback/index.d.ts",
+      "import": "./dist/components/Feedback/index.js",
+      "require": "./dist/components/Feedback/index.cjs"
+    },
+    "./components/Icons": {
+      "types": "./dist/components/Icons/index.d.ts",
+      "import": "./dist/components/Icons/index.js",
+      "require": "./dist/components/Icons/index.cjs"
+    },
+    "./components/Layout": {
+      "types": "./dist/components/Layout/index.d.ts",
+      "import": "./dist/components/Layout/index.js",
+      "require": "./dist/components/Layout/index.cjs"
+    },
+    "./components/Mockup": {
+      "types": "./dist/components/Mockup/index.d.ts",
+      "import": "./dist/components/Mockup/index.js",
+      "require": "./dist/components/Mockup/index.cjs"
+    },
+    "./components/Navigation": {
+      "types": "./dist/components/Navigation/index.d.ts",
+      "import": "./dist/components/Navigation/index.js",
+      "require": "./dist/components/Navigation/index.cjs"
     }
   },
   "files": [

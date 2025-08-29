@@ -9,7 +9,7 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
 
   modules: [
-    '~/src/plugin/index.ts',
+    '~/src/module.ts',
   ],
 
   // Design System configuration

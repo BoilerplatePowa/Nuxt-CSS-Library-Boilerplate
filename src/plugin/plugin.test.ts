@@ -11,8 +11,8 @@ vi.mock('@nuxt/kit', () => ({
 
 describe('Design System Plugin', () => {
   it('should define a Nuxt module with correct meta', async () => {
-    // Import the plugin to trigger module definition
-    await import('./index.ts');
+    // Import the module to trigger module definition
+    await import('../module.ts');
     
     expect(defineNuxtModule).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -34,8 +34,8 @@ describe('Design System Plugin', () => {
   });
 
   it('should have correct default configuration', async () => {
-    // Import the plugin to trigger module definition
-    await import('./index.ts');
+    // Import the module to trigger module definition
+    await import('../module.ts');
     
     // Check that defineNuxtModule was called with correct defaults
     expect(defineNuxtModule).toHaveBeenCalledWith(
@@ -51,8 +51,8 @@ describe('Design System Plugin', () => {
   });
 
   it('should support all component categories', async () => {
-    // Import the plugin to trigger module definition
-    await import('./index.ts');
+    // Import the module to trigger module definition
+    await import('../module.ts');
     
     // This test ensures the plugin knows about all component categories
     const expectedCategories = [

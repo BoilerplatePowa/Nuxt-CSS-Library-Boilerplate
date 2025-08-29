@@ -25,6 +25,17 @@ export default defineNuxtConfig({
 </template>
 ```
 
+### Alternative: Manual Imports
+
+```typescript
+// Import specific components for better tree-shaking
+import { Button, Card, Input } from '@boilerplatepowa/nuxt-design-system';
+
+// Or import by category
+import { Button, Modal } from '@boilerplatepowa/nuxt-design-system/components/Actions';
+import { Alert, Progress } from '@boilerplatepowa/nuxt-design-system/components/Feedback';
+```
+
 ## 📚 Documentation
 
 📖 **[Complete Documentation](docs/README.md)** - Comprehensive guides and examples
@@ -55,7 +66,7 @@ export default defineNuxtConfig({
 - 🔧 **E2E Testing** with Cypress
 - ✨ **Automatic Linting & Formatting** (ESLint 9, Prettier, Stylelint)
 - 🌙 **Custom Themes** (Light/Dark modes)
-- 🔌 **Nuxt 4 Plugin** ready to use
+- 🔌 **Nuxt 4 Module** ready to use
 
 ## 📊 Component Coverage Status
 
@@ -115,6 +126,7 @@ npm run build-storybook    # Build Storybook
 import { Button, Modal, Dropdown } from '@boilerplatepowa/nuxt-design-system/components/Actions';
 import { Alert, Progress, Toast } from '@boilerplatepowa/nuxt-design-system/components/Feedback';
 import { Input, Select, Checkbox } from '@boilerplatepowa/nuxt-design-system/components/DataInput';
+import { Card, Avatar, Table } from '@boilerplatepowa/nuxt-design-system/components/DataDisplay';
 ```
 
 ### Global Imports

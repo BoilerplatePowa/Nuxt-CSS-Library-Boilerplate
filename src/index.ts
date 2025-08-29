@@ -1,129 +1,104 @@
-// Export Nuxt plugin
-export { default } from './plugin/index.js';
+// Main module export
+export { default } from './module';
 
-// Export components from their respective directories
+// Export types and interfaces
+export type { ModuleOptions } from './module';
+export { COMPONENT_CATEGORIES, CSS_FILES } from './module';
+
+// Export individual components for manual imports
 export { default as Button } from './components/Actions/Button.vue';
-export { default as Card } from './components/DataDisplay/Card.vue';
-export { default as Input } from './components/DataInput/Input.vue';
+export { default as Dropdown } from './components/Actions/Dropdown.vue';
 export { default as Modal } from './components/Actions/Modal.vue';
+export { default as Swap } from './components/Actions/Swap.vue';
+export { default as ThemeController } from './components/Actions/ThemeController.vue';
+
+// DataDisplay components
+export { default as Accordion } from './components/DataDisplay/Accordion.vue';
+export { default as Avatar } from './components/DataDisplay/Avatar.vue';
+export { default as Badge } from './components/DataDisplay/Badge.vue';
+export { default as Card } from './components/DataDisplay/Card.vue';
+export { default as Carousel } from './components/DataDisplay/Carousel.vue';
+export { default as ChatBubble } from './components/DataDisplay/ChatBubble.vue';
+export { default as Collapse } from './components/DataDisplay/Collapse.vue';
+export { default as Countdown } from './components/DataDisplay/Countdown.vue';
+export { default as Kbd } from './components/DataDisplay/Kbd.vue';
+export { default as List } from './components/DataDisplay/List.vue';
+export { default as Stat } from './components/DataDisplay/Stat.vue';
+export { default as Status } from './components/DataDisplay/Status.vue';
+export { default as StatusBox } from './components/DataDisplay/StatusBox.vue';
+export { default as Table } from './components/DataDisplay/Table.vue';
+export { default as Tabs } from './components/DataDisplay/Tabs.vue';
+export { default as TextDiff } from './components/DataDisplay/TextDiff.vue';
+export { default as Timeline } from './components/DataDisplay/Timeline.vue';
+
+// DataInput components
+export { default as Calendar } from './components/DataInput/Calendar.vue';
+export { default as Checkbox } from './components/DataInput/Checkbox.vue';
+export { default as Fieldset } from './components/DataInput/Fieldset.vue';
+export { default as FileInput } from './components/DataInput/FileInput.vue';
+export { default as Filter } from './components/DataInput/Filter.vue';
+export { default as FormWizard } from './components/DataInput/FormWizard.vue';
+export { default as Input } from './components/DataInput/Input.vue';
+export { default as Label } from './components/DataInput/Label.vue';
+export { default as PhoneInput } from './components/DataInput/PhoneInput.vue';
+export { default as Radio } from './components/DataInput/Radio.vue';
+export { default as Range } from './components/DataInput/Range.vue';
+export { default as Rating } from './components/DataInput/Rating.vue';
+export { default as Select } from './components/DataInput/Select.vue';
+export { default as Textarea } from './components/DataInput/Textarea.vue';
+export { default as Toggle } from './components/DataInput/Toggle.vue';
+export { default as Validator } from './components/DataInput/Validator.vue';
+
+// Feedback components
+export { default as Alert } from './components/Feedback/Alert.vue';
+export { default as Loading } from './components/Feedback/Loading.vue';
+export { default as Progress } from './components/Feedback/Progress.vue';
+export { default as RadialProgress } from './components/Feedback/RadialProgress.vue';
+export { default as Skeleton } from './components/Feedback/Skeleton.vue';
 export { default as Toast } from './components/Feedback/Toast.vue';
+export { default as ToastContainer } from './components/Feedback/ToastContainer.vue';
+export { default as Tooltip } from './components/Feedback/Tooltip.vue';
 
-// Export types
-export type { ModuleOptions } from './plugin/index.js';
+// Icons components
+export { default as Icon } from './components/Icons/Icon.vue';
 
-// Export Tailwind configurations
-export { tailwindConfig, daisyuiConfig, extendTailwindConfig } from './tailwind.js';
+// Layout components
+export { default as Divider } from './components/Layout/Divider.vue';
+export { default as Drawer } from './components/Layout/Drawer.vue';
+export { default as Footer } from './components/Layout/Footer.vue';
+export { default as Hero } from './components/Layout/Hero.vue';
+export { default as Indicator } from './components/Layout/Indicator.vue';
+export { default as Join } from './components/Layout/Join.vue';
+export { default as Mask } from './components/Layout/Mask.vue';
+export { default as Stack } from './components/Layout/Stack.vue';
 
-// Export Tailwind tokens (for compatibility)
-export const tailwindTokens = {
-  colors: {
-    primary: {
-      50: '#eff6ff',
-      100: '#dbeafe',
-      200: '#bfdbfe',
-      300: '#93c5fd',
-      400: '#60a5fa',
-      500: '#3b82f6',
-      600: '#2563eb',
-      700: '#1d4ed8',
-      800: '#1e40af',
-      900: '#1e3a8a',
-      950: '#172554',
-    },
-    secondary: {
-      50: '#f8fafc',
-      100: '#f1f5f9',
-      200: '#e2e8f0',
-      300: '#cbd5e1',
-      400: '#94a3b8',
-      500: '#64748b',
-      600: '#475569',
-      700: '#334155',
-      800: '#1e293b',
-      900: '#0f172a',
-      950: '#020617',
-    },
-    accent: {
-      50: '#fdf4ff',
-      100: '#fae8ff',
-      200: '#f5d0fe',
-      300: '#f0abfc',
-      400: '#e879f9',
-      500: '#d946ef',
-      600: '#c026d3',
-      700: '#a21caf',
-      800: '#86198f',
-      900: '#701a75',
-      950: '#4a044e',
-    },
-  },
-  spacing: {
-    xs: '0.25rem',
-    sm: '0.5rem',
-    md: '1rem',
-    lg: '1.5rem',
-    xl: '2rem',
-    '2xl': '3rem',
-    '3xl': '4rem',
-  },
-  borderRadius: {
-    sm: '0.25rem',
-    md: '0.375rem',
-    lg: '0.5rem',
-    xl: '0.75rem',
-    '2xl': '1rem',
-    '4xl': '2rem',
-  },
-  fontFamily: {
-    sans: ['Inter', 'system-ui', 'sans-serif'],
-    mono: ['JetBrains Mono', 'monospace'],
-  },
-};
+// Mockup components
+export { default as BrowserMockup } from './components/Mockup/BrowserMockup.vue';
+export { default as CodeMockup } from './components/Mockup/CodeMockup.vue';
+export { default as PhoneMockup } from './components/Mockup/PhoneMockup.vue';
+export { default as WindowMockup } from './components/Mockup/WindowMockup.vue';
 
-// Export DaisyUI themes
-export const daisyuiThemes = {
-  'boilerplate-light': {
-    primary: '#3b82f6',
-    'primary-focus': '#2563eb',
-    'primary-content': '#ffffff',
-    secondary: '#64748b',
-    'secondary-focus': '#475569',
-    'secondary-content': '#ffffff',
-    accent: '#d946ef',
-    'accent-focus': '#c026d3',
-    'accent-content': '#ffffff',
-    neutral: '#1e293b',
-    'neutral-focus': '#0f172a',
-    'neutral-content': '#ffffff',
-    'base-100': '#ffffff',
-    'base-200': '#f8fafc',
-    'base-300': '#f1f5f9',
-    'base-content': '#1e293b',
-    info: '#0ea5e9',
-    success: '#10b981',
-    warning: '#f59e0b',
-    error: '#ef4444',
-  },
-  'boilerplate-dark': {
-    primary: '#60a5fa',
-    'primary-focus': '#3b82f6',
-    'primary-content': '#0f172a',
-    secondary: '#94a3b8',
-    'secondary-focus': '#64748b',
-    'secondary-content': '#0f172a',
-    accent: '#e879f9',
-    'accent-focus': '#d946ef',
-    'accent-content': '#0f172a',
-    neutral: '#e2e8f0',
-    'neutral-focus': '#cbd5e1',
-    'neutral-content': '#0f172a',
-    'base-100': '#0f172a',
-    'base-200': '#1e293b',
-    'base-300': '#334155',
-    'base-content': '#f8fafc',
-    info: '#38bdf8',
-    success: '#34d399',
-    warning: '#fbbf24',
-    error: '#f87171',
-  },
-};
+// Navigation components
+export { default as Breadcrumbs } from './components/Navigation/Breadcrumbs.vue';
+export { default as Dock } from './components/Navigation/Dock.vue';
+export { default as Link } from './components/Navigation/Link.vue';
+export { default as Menu } from './components/Navigation/Menu.vue';
+export { default as Navbar } from './components/Navigation/Navbar.vue';
+export { default as Pagination } from './components/Navigation/Pagination.vue';
+export { default as Steps } from './components/Navigation/Steps.vue';
+
+// Export composables
+export { useToast } from './components/Feedback/useToast';
+
+// Export shared types
+export * from './shared/types';
+
+// Category-based exports
+export * from './components/Actions';
+export * from './components/DataDisplay';
+export * from './components/DataInput';
+export * from './components/Feedback';
+export * from './components/Icons';
+export * from './components/Layout';
+export * from './components/Mockup';
+export * from './components/Navigation';
